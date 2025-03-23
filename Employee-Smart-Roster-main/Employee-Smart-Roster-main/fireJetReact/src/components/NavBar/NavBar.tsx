@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { LuLogOut, CgProfile } from "../../../public/Icons.js";
 import LogoutController from '../../controller/User/LogoutController';
 import appLogo from "../../../public/assets/Logo.svg";
-import "./Navbar.css"; 
+import "./NavBar.css"; 
 import "../../../public/styles/common.css";
 
 const { LogUserOut } = LogoutController;
