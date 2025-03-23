@@ -1,0 +1,55 @@
+div{
+    width: 100%;
+    justify-content: space-between;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    max-height: fit-content;
+    justify-content: space-between;
+    align-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--primary-background);
+    color: var(--light-color-text);
+    max-height: fit-content;
+  }
+  
+  .front {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+    max-width: fit-content;
+  }
+
+  .nav-link {
+    width: 50px;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 5px;
+    justify-self: end;
+
+  }
+
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .logout-button {
+    padding: 5px;
+  }
+  
+  .logout-button:hover {
+    background-color: var(--main-page-background);
+    color: black;
+    border-radius: 5px;
+  }

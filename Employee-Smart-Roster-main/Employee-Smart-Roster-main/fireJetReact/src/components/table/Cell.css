@@ -1,0 +1,8 @@
+.table-cell {
+    padding: 10px;
+    border-bottom: 1px;
+    border-bottom-style: outset;
+    border-bottom-color: var(--primary-background);
+    height: auto;
+    background-color: white;
+}

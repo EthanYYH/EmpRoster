@@ -1,0 +1,75 @@
+.UserDetail {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--hover-background);
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+    gap: 20px;
+    height: fit-content;
+    justify-content: start;
+}
+
+.user-name {
+    width: 100%;
+}
+
+.bo-data-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.uen, .acc-status {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.user-sub-status, .user-acc-status {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    height: fit-content;
+}
+
+.user-detail-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    .user-detail-data {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        max-width: 500px;
+        height: fit-content;
+    }
+}
+
+.title {
+    width: auto;
+    height: fit-content;
+    font-weight: bold;
+}
+
+.main-data {
+    width: auto;
+    height: fit-content;
+}
+
+
+/* Mobile (all screens below 768px) */
+@media only screen and (max-width: 768px) {
+    .UserDetail {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .acc-status, .user-detail-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

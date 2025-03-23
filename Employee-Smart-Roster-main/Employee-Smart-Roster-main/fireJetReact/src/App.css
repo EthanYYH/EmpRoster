@@ -1,0 +1,121 @@
+.App {
+  background-color: var(--main-page-background);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter;
+  font-size: var(--text-size);
+  color: #1F2937;
+  overflow: auto;
+}
+
+.App-content {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  overflow: auto;
+  justify-content: start;
+  align-content: start;
+}
+
+.App-header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-content: start;
+  justify-content: space-between;
+  height: fit-content;
+  padding-bottom: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: var(--primary-background);
+}
+
+.App-side-menu {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  background-color: var(--side-menu-background);
+  opacity: var(--side-menu-transparency);
+  color: var(--light-color-text);
+  padding: 10px;
+  height: auto;
+  justify-content: start;
+}
+
+.App-secondary-text {
+  font-size: var(--secondary-text);
+  color: var(--primary-text);
+}
+
+.App-light-text {
+  color: var(--light-color-text);
+}
+
+.App-purple-text {
+  color: var(--purple-color-text);
+}
+
+h1 {
+  font-weight: 800;
+  font-size: var(--text-h1);
+  color: var(--h1);
+}
+
+h2 {
+  font-weight: 600;
+  font-size: var(--text-h2);
+  color: var(--h2);
+}
+
+h3 {
+  font-weight: bold;
+  font-size: var(--text-h3);
+  color: var(--h3);
+}
+
+.App-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--popup-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Mobile (all screens below 768px) */
+@media only screen and (max-width: 768px) {
+  .App{
+    font-size: var(--text-size-m);
+  }
+
+  .App-secondary-text {
+    font-size: var(--secondary-text-m);
+  }
+
+  h1 {
+    font-size: var(--text-h1-m);
+  }  
+
+  h2 {
+    font-size: var(--text-h2-m);
+  }
+
+  h3 {
+    font-size: var(--text-h3-m);
+  }
+
+  .App-side-menu {
+    display: none;
+  }
+}
+
+.App-link {
+  color: #61dafb;
+}

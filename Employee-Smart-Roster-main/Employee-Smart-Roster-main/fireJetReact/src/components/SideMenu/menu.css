@@ -1,0 +1,47 @@
+.main {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.main:hover {
+    font-weight: 900;
+    font-style: oblique;
+}
+
+.sub-menu {
+    margin-left: 10px;
+    margin-bottom: 5px;
+    gap: 5px;
+    min-height: fit-content;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    font-size: var(--secondary-text);
+}
+
+.sub-link {
+    min-height: fit-content;
+    width: max-content;
+}
+
+.sub-link-hover:hover {
+    text-decoration: underline;
+}
+
+/* SASide */
+.user, .issues, .landing {
+    display: none;
+}
+
+/* BOSide */
+.company, .employee {
+    display: none;
+}
+
+
+/* Mobile (all screens below 768px) */
+@media only screen and (max-width: 768px) {
+    
+}

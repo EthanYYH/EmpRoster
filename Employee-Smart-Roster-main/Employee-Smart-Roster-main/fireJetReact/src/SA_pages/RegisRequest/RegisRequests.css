@@ -1,0 +1,102 @@
+.RegisRequests {
+    display: flex;
+    flex-direction: row;
+
+    .content {
+        padding: 10px;
+    }
+}
+
+.desktop-table-header {
+    display: flex;
+    flex-direction: column;
+
+    .header-reg-id {
+        width: 150px;
+    }
+
+    .header-uen {
+        width: 150px;
+    }
+
+    .header-company-name {
+        width: 100%;
+    }
+
+    .header-gap-regs-req-page {
+        width: 40px;
+    }
+}
+
+.table-body {
+    display: flex;
+    flex-direction: row;
+
+    .body-reg-id {
+        width: 150px;
+    }
+
+    .body-uen {
+        width: 150px;
+    }
+
+    .body-company-name {
+        width: 100%;
+    }
+}
+
+.request-detail-detail-table {
+    color: var(--primary-background);
+    font-size: 30px;
+    padding: 5px;
+    background-color: white;
+    border-bottom-color: var(--primary-background);
+    border-bottom-width: 1px;
+    border-bottom-style: outset;
+    height: auto;
+}
+
+.request-detail-detail-table:hover {
+    background-color: var(--primary-background);
+    color: var(--light-color-text);
+}
+
+.filter-group-search-regisID {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px;
+
+    .filter-title {
+        color: var(--purple-color-text);
+        font-weight: bold;
+    }
+}
+
+.registration-request-m {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: fit-content;
+}
+
+/* Desktop (1024px+) */
+@media only screen and (min-width: 1024px) {
+    .registration-request-m {
+        display: none;
+    }
+}
+
+/* Tablet (769px-1023px) */
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+    .table {
+        display: none;
+    }
+}
+
+/* Mobile (all screens below 768px) */
+@media only screen and (max-width: 768px) {
+    .table {
+        display: none;
+    }
+}
