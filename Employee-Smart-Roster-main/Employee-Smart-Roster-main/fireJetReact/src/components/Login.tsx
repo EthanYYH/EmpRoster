@@ -37,35 +37,36 @@ export default function Login({ className = "" }: LoginProps) {
     if(Object.values(validationErrors).every(error => error === "")) {
       try{
           const response = await SubmitLogin(values);
-          if(response.success){
-            // console.log(response)
-            login(response.user); // Update AuthContext to mark user as logged in
-            // Retrieve and parse user from localStorage
-            const userString = localStorage.getItem("user");
-            const isLoggedIn = localStorage.getItem("isLoggedIn");
-
-            if (userString && isLoggedIn){
-              const user = JSON.parse(userString);
-              console.log(user);
-              if(user.role === "System Admin")
+          if(response.ok){
+            const data = await response.json();
+            console.log(data);
+            if (data.responseCode === 200){
+              console.log('Login successful:', data);
+              if(data.role === "System Admin")
                 navigate('/admin-dashboard');
-
-              if(user.role === "Business Owner")
+  
+              if(data.role === "Business Owner")
                 navigate('/business-dashboard');
               
-              if(user.role === "Employee")
+              if(data.role === "Employee")
                 navigate('/employee-dashboard');
             }
+            
+            // Handle success, like storing a token or redirecting the user
+          } else {
+            throw new Error('Login failed');
           }
-      } catch(err){
+        } catch (err) {
           if(axios.isAxiosError(err)) {
-              alert(err.response?.data?.error || "Login failed. Please try again.");
-          } 
-          // Handle non-Axios errors
-          alert("An unexpected error occurred. Please try again.");
+            alert(err.response?.data?.error || "Login failed. Please try again.");
+        } 
+        // Handle non-Axios errors
+        alert("An unexpected error occurred. Please try again.");
+        }
       }
     }
-  }
+
+  
 
   return (
     <div className={"login-login"}>

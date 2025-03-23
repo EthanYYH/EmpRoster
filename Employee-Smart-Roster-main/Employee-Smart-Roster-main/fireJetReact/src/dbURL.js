@@ -1,1 +1,1 @@
-export let API_URL = 'http://localhost:8000'
+export let API_URL = 'https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/account'
