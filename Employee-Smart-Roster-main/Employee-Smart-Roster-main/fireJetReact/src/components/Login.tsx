@@ -39,9 +39,10 @@ export default function Login({ className = "" }: LoginProps) {
     //if(Object.values(validationErrors).every(error => error === "")) {
       if(true) {
       try{
+        
           const response = await SubmitLogin(values);
-          console.log("submitlogin");
-          console.log(values);
+          console.log("response");
+          console.log(response);
           if(response.ok){
             const data = await response.json();
             console.log(data);
