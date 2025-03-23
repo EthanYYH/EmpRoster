@@ -31,15 +31,12 @@ function ValidateLoginValues (values){
 
 export const SubmitLogin = async (values) => {
     try {
-        //const response = await axios.post(`${API_URL} `, values);
-        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/account/login', {
-            method: 'post',
-            body: JSON.stringify(body),
-            headers: {'Content-Type': 'application/json'},
-          });
-        console.log(response)
-        console.log("fuck")
-        return response;   // Return backend response
+        if (response.ok) {
+            const data = await response.json();  // Parse JSON response here
+            return data;  // Return the parsed data
+        } else {
+            throw new Error(`Login failed with status ${response.status}`);
+        }
     } catch (error) {
         console.error("Login error:", error);
         throw error;

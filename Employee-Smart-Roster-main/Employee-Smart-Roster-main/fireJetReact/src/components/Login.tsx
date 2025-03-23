@@ -29,48 +29,35 @@ export default function Login({ className = "" }: LoginProps) {
     }))
   }
 
-  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const validationErrors = ValidateLoginValues(values);
-    setErrors(validationErrors);
-    console.log("values");
-    console.log(values);
-    
-    //if(Object.values(validationErrors).every(error => error === "")) {
-      if(true) {
-      try{
-        
-          const response = await SubmitLogin(values);
-          console.log("response");
-          console.log(response);
-          if(response.ok){
-            const data = await response.json();
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      const validationErrors = ValidateLoginValues(values);
+      setErrors(validationErrors);
+      console.log("values");
+      console.log(values);
+      
+      //if(Object.values(validationErrors).every(error => error === "")) {
+        if(true) {
+        try{
+          
+            const data = await SubmitLogin(values);
+            console.log("response");
             console.log(data);
-            if (data.responseCode === 200){
+            if (data.responseCode === 200) {
               console.log('Login successful:', data);
-              if(data.role === "System Admin")
-                navigate('/admin-dashboard');
-  
-              if(data.role === "Business Owner")
-                navigate('/business-dashboard');
-              
-              if(data.role === "Employee")
-                navigate('/employee-dashboard');
-            }
-            
-            // Handle success, like storing a token or redirecting the user
+              if (data.role === "System Admin") navigate('/admin-dashboard');
+              if (data.role === "Business Owner") navigate('/business-dashboard');
+              if (data.role === "Employee") navigate('/employee-dashboard');
           } else {
-            throw new Error('Login failed');
+              throw new Error('Login failed');
           }
-        } catch (err) {
-          if(axios.isAxiosError(err)) {
-            alert(err.response?.data?.error || "Login failed. Please try again.");
-        } 
-        // Handle non-Axios errors
-        alert("An unexpected error occurred. Please try again.");
+          } catch (err) {
+            console.error("Error during login:", err); 
+          // Handle non-Axios errors
+          alert("An unexpected error occurred. Please try again.");
+          }
         }
       }
-    }
 
   
 
