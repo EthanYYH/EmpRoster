@@ -45,7 +45,9 @@ export default function Login({ className = "" }: LoginProps) {
             console.log(data);
             if (data.responseCode === 200) {
               console.log('Login successful:', data);
+              login(data);
               if (data.role === "System Admin") {
+                
                 navigate('/admin-dashboard');
               }
               else if (data.role === "Business Owner") {
