@@ -1,5 +1,5 @@
-import Header from '../../components/Table/Header';
-import Cell from '../../components/Table/Cell';
+import Header from '../../components/table/Header';
+import Cell from '../../components/table/Cell';
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { BiSolidUserDetail } from "../../../public/Icons.js";
