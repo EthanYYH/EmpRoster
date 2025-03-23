@@ -45,9 +45,15 @@ export default function Login({ className = "" }: LoginProps) {
             console.log(data);
             if (data.responseCode === 200) {
               console.log('Login successful:', data);
-              if (data.role === "System Admin") navigate('/admin-dashboard');
-              if (data.role === "Business Owner") navigate('/business-dashboard');
-              if (data.role === "Employee") navigate('/employee-dashboard');
+              if (data.role === "System Admin") {
+                navigate('/admin-dashboard');
+              }
+              else if (data.role === "Business Owner") {
+                navigate('/business-dashboard');
+              }
+              else if (data.role === "Employee") {
+                navigate('/employee-dashboard');
+              } 
           } else {
               throw new Error('Login failed');
           }
