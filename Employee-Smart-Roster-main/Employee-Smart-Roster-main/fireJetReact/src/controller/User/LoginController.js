@@ -31,7 +31,7 @@ function ValidateLoginValues (values){
 
 export const SubmitLogin = async (values) => {
     try {
-        const response = await axios.post(`${API_URL}/login`, values);
+        const response = await axios.post(`${API_URL}`, values);
         console.log(response)
         return response.data;   // Return backend response
     } catch (error) {
