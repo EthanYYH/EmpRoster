@@ -32,15 +32,11 @@ function ValidateLoginValues (values){
 export const SubmitLogin = async (values) => {
     try {
         //const response = await axios.post(`${API_URL} `, values);
-        const response = await axios.post(
-            `${API_URL}`,
-            body, // No need for JSON.stringify with Axios
-            {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            }
-          );
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/account/login', {
+            method: 'post',
+            body: JSON.stringify(body),
+            headers: {'Content-Type': 'application/json'},
+          });
         console.log(response)
         console.log("fuck")
         return response.data;   // Return backend response
