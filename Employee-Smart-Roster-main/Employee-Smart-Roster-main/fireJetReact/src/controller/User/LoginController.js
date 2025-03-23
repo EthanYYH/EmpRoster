@@ -31,6 +31,11 @@ function ValidateLoginValues (values){
 
 export const SubmitLogin = async (values) => {
     try {
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/account/login', {
+            method: 'POST',
+            body: JSON.stringify(values),
+            headers: { 'Content-Type': 'application/json' },
+        });
         if (response.ok) {
             const data = await response.json();  // Parse JSON response here
             return data;  // Return the parsed data
