@@ -24,8 +24,8 @@ import "../public/styles/common.css";
 
 function App() {
   
-   const { user } = useAuth();
-   console.log(user);
+   //const { user } = useAuth();
+   //console.log(user);
 
   return (
     <AuthProvider>
