@@ -3,7 +3,7 @@ import { AuthProvider, useAuth } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import Login from "./components/Login";  // Import Login component
 import Navbar from "./components/NavBar/NavBar";
-import GuestLanding from './pages/Landing/landing'
+import GuestLanding from './pages/Landing/LandingPage'
 
 // Pages for System Admin
 import SADash from "./pages/Dashboard/SADash";
@@ -134,11 +134,11 @@ function App() {
               <Route
                 path="/landing-page"
                 element={
-                  <ProtectedRoute>
+                  // <ProtectedRoute>
                     <div className="App-content">
                       <GuestLanding />
                     </div>
-                  </ProtectedRoute>
+                  // </ProtectedRoute>
                 }
               />
 

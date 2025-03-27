@@ -1,0 +1,206 @@
+.icons{
+  padding-left: 10px;
+}
+
+.common-5,
+.app-name-background,
+.app-name-background-1 {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  z-index: 0;
+}
+
+.common-2,
+.app-name-nav-bar-system-admin,
+.app-name-t-title {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.common-3,
+.app-name-t-navigation-pill-title-ttitle-ttitle-ttitle,
+.app-name-state-default,
+.app-name-register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.common-4,
+.app-name-app-name,
+.app-name-t-subtitle {
+  display: flex;
+  flex-direction: column;
+}
+
+.common-1,
+.app-name-app-name,
+.app-name-title {
+  color: black;
+  text-align: center;
+}
+
+.app-name-app-name {
+  align-items: center;
+  padding-bottom: 32px;
+  position: relative;
+  width: 100%;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  line-height: normal;
+  gap: 8px;
+}
+
+.app-name-background {
+  background-image: url(/assets/background.png);
+  background-position: center;
+  background-size: cover;
+}
+
+.app-name-background-1 {
+  background-image: rgba(255, 255, 255, 0.8);
+}
+
+.app-name-header {
+  border-style: solid;
+  border-color: gainsboro;
+  border-bottom-width: 1px;
+  background-color: white;
+  align-self: stretch;
+  z-index: 1;
+}
+
+.app-name-nav-bar-system-admin {
+  overflow: clip;
+  flex-wrap: wrap;
+  font-size: 13px;
+  gap: 16px;
+}
+
+.app-name-t-image-9tnavigation-pill-title-ttitle-ttitle-ttitle {
+  align-items: center;
+  flex-grow: 1;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  display: flex;
+  text-align: center;
+  gap: 15px;
+}
+
+.app-name-image {
+  background-image: url(/assets/image.png);
+  background-size: 102% 105%;
+  background-position: -4.08px 0px;
+  background-repeat: no-repeat;
+  max-width: 100%;
+  max-height: 100%;
+  width: 196px;
+  height: 41px;
+}
+
+.app-name-t-navigation-pill-title-ttitle-ttitle-ttitle {
+  line-height: 1;
+  text-align: left;
+  gap: 16px;
+}
+
+.app-name-title {
+  background-color: whitesmoke;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.app-name-title-2 {
+  padding-left: 8px;
+}
+
+.app-name-title-3 {
+  padding-left: 8px;
+}
+
+.app-name-title-4 {
+  padding-left: 8px;
+}
+
+.app-name-register-button {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  overflow: clip;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.app-name-state-default {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: #000000e5;
+  padding-bottom: 14px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 14px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  text-align: center;
+}
+
+.app-name-register {
+  color: white;
+  text-align: center;
+}
+
+.app-name-t-title {
+  align-self: stretch;
+  padding-top: 24px;
+  z-index: 2;
+}
+
+.app-name-title-5 {
+  flex-grow: 1;
+  font-size: 72px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.app-name-subtitle {
+  z-index: 3;
+  font-size: 32px;
+}
+
+.app-name-t-subtitle {
+  align-self: stretch;
+  padding-top: 24px;
+  justify-content: center;
+  z-index: 4;
+}
+
+.app-name-subtitle-1 {
+  font-size: 15px;
+  text-align: center;
+}
+
+.app-name-para-1 {
+  text-align: center;
+}
+
+.app-name-para-2 {
+  text-align: center;
+}
+@media (min-width: 1261px) {
+  .app-name-nav-bar-system-admin {
+    flex-wrap: nowrap;
+  }
+  .app-name-t-image-9tnavigation-pill-title-ttitle-ttitle-ttitle {
+    flex-wrap: nowrap;
+  }
+}
