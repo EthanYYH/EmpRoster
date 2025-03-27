@@ -5,9 +5,9 @@
     border-style: solid;
     border-color: blueviolet;
     border-width: 1px;
-    border-radius: 5px;
+    border-radius: 15px;
     padding: 20px 46px;
-    width: 100%;
+    width: fit-content;
     font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     line-height: normal;
     text-align: center;
@@ -15,7 +15,7 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
-    max-height: 50px;
+    max-height: 30px;
   }
   
   .primary-button-primary-button:hover {

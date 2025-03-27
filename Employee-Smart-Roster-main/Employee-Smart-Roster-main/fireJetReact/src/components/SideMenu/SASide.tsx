@@ -47,7 +47,7 @@ const SASide = () => {
             </div>
             <div className="sub-menu user">
                 <Link to="/reg-list" className="sub-link-hover">
-                  View All Business Registration Request
+                  Registration Requests List
                 </Link>
             </div>
 
