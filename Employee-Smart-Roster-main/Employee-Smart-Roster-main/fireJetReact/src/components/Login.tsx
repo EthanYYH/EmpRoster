@@ -70,12 +70,12 @@ export default function Login({ className = "" }: LoginProps) {
   
 
   return (
-    <div className={"login-login"}>
+    <div className="login">
       <div className="login-welcome-to-emproster">
-        <span>
+        {/* <span> */}
           <p className="login-para">Welcome to</p>
           <p className="login-para-1">EmpRoster</p>
-        </span>
+        {/* </span> */}
       </div>
 
       <form action='' onSubmit={handleLogin}>

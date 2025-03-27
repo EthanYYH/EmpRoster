@@ -14,13 +14,13 @@ const { GetUsers } = UserController;
 const UserList = ({currentUser = ""}: UserListProps) => {
     const navigate = useNavigate();
     // console.log(currentUser);
-    const [selectedSubsStatus, setSelectedSubsStatus] = useState('Subscribed');
-    const [selectedAccStatus, setSelectedAccStatus] = useState('Activated');
-    const [searchedInput, setSearchedInput] = useState('Subscribed');
+    const [ selectedSubsStatus, setSelectedSubsStatus ] = useState('Subscribed');
+    const [ selectedAccStatus, setSelectedAccStatus ] = useState('Activated');
+    const [ searchedInput, setSearchedInput ] = useState('Subscribed');
     const [ data, setData ] = useState<any[]>([]);
     const [ selectedUserDetail, setSelectedUserDetail ] = useState<string | null>(null);
     const [ selectedCompanyDetail, setSelectedCompanyDetail ] = useState<string | null>(null);
-    const [showDetail, setShowDetail] = useState(false);
+    const [ showDetail, setShowDetail ] = useState(false);
     const [ error, setError ] = useState("");
 
     function getUser() {

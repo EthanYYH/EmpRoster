@@ -83,10 +83,101 @@ h3 {
   right: 0;
   bottom: 0;
   background-color: var(--popup-background);
+  padding: 20px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+
+  .App-popup-content {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--hover-background);
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+    gap: 20px;
+    height: fit-content;
+    justify-content: start;
+  }
+}
+
+.App-desktop-responsive-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+}
+
+.App-desktop-table-icon {
+  color: var(--primary-background);
+  width: fit-content;
+  font-size: 30px;
+  padding: 5px;
+  background-color: white;
+  border-bottom-color: var(--primary-background);
+  border-bottom-width: 1px;
+  border-bottom-style: outset;
+  height: auto;
+}
+
+.App-table-icon:hover {
+  cursor: pointer;
+  background-color: var(--primary-background);
+  color: var(--light-color-text);
+}
+
+.App-mobile-table-icon {
+  background-color: none;
+  width: fit-content;
+  height: fit-content;
+  font-size: 30px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+/* Set input text field css */
+input[type=text]{
+  background-color: white;
+  border-width: 2px;
+  border-color: var(--purple-color-text);
+  border-radius: 8px;
+}
+
+select {
+  background-color: white;
+  height: 36.5px;
+  border-width: 2px;
+  border-color: var(--purple-color-text);
+  border-radius: 8px;
+}
+
+option {
+  color: var(--side-menu-background);
+}
+
+option:checked {
+  background-color: var(--primary-background);
+  color: var(--light-color-text);
+}
+
+/* Desktop (1024px+) */
+@media only screen and (min-width: 1024px) {
+  .App-mobile-responsive-table {
+    display: none;
+  }
+}
+
+/* Tablet (769px-1023px) */
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+  .App-desktop-responsive-table {
+    display: none;
+  }
 }
 
 /* Mobile (all screens below 768px) */
@@ -114,8 +205,8 @@ h3 {
   .App-side-menu {
     display: none;
   }
-}
 
-.App-link {
-  color: #61dafb;
+  .App-desktop-responsive-table {
+    display: none;
+  }
 }
