@@ -1,14 +1,14 @@
-import AppName from "./AppName_s1";
-import AppDescriptionDemo from "./AppDescriptionDemo_s2";
-import Feedback from "./Feedback"
-import SubscriptionPlans from "./SubscriptionPlans"
-import FAQFooter from "./FAQFooter"
+import Header from "./LandingComponents/Header";
+import AppDescriptionDemo from "./LandingComponents/AppDescriptionDemo_s2";
+import Feedback from "./LandingComponents/Feedback"
+import SubscriptionPlans from "./LandingComponents/SubscriptionPlans"
+import FAQFooter from "./LandingComponents/FAQFooter"
 import "./LandingPage.css"
 
 export default function LandingPage() {
     return (
       <div className="main-container">
-        <AppName />
+        <Header />
         <AppDescriptionDemo />
         <SubscriptionPlans/>
         <Feedback/>

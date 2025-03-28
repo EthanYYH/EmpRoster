@@ -1,4 +1,4 @@
-import TImage from "./TImage"
+import TImage from "../TImage"
 import "./Feedback.css";
 import feedbackIcon1 from './feedbackIcon1.png';
 import feedbackIcon2 from './feedbackIcon1.png';
