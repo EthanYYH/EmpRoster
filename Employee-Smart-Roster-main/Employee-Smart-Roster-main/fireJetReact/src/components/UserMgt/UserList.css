@@ -175,13 +175,7 @@
     cursor: pointer;
   }
 
-  
-
-  option:hover {
-    background-color: var(--primary-background);
-  }
-
-  /* Tablet (769px-1023px) */
+/* Tablet (769px-1023px) */
 @media only screen and (min-width: 769px) and (max-width: 1023px) {
     .desktop-table {
         display: none;

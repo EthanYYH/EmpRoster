@@ -15,11 +15,13 @@ form {
   border-bottom-color: var(--side-menu-background);
 }
 
-.login-login{
+.login{
   display: flex;
   flex-direction: column;
   padding: 15px;
   width: 100%;
+  gap: 30px;
+  justify-content: center;
 }
 
 input {
@@ -30,8 +32,6 @@ input {
   padding: 5px;
 }
 
-.common-2,
-.login-t-welcome-to-emproster,
 .login-welcome-to-emproster,
 .login-button {
   display: flex;
@@ -40,28 +40,10 @@ input {
   align-self: center;
 }
 
-.login-t-navbar-system-admin {
-  align-self: stretch;
-  height: 40px;
-}
-
-.login-nav-bar-system-admin {
-  row-gap: 12px;
-  margin-top: -5.5px;
-  background-color: midnightblue;
-  column-gap: 80px;
-  height: 45px;
-  padding-bottom: 7px;
-  padding-left: 15px;
-  padding-right: 10px;
-  padding-top: 7px;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
 .login-welcome-to-emproster {
-  flex-grow: 1;
-  height: 95px;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
   text-align: center;
   filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.25));
   color: black;

@@ -1,6 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider, useAuth } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
+import { AlertProvider } from "./components/PromptAlert/AlertContext";
+import Alert from "./components/PromptAlert/Alert";
+
+// Pages or Component for general use
 import Login from "./components/Login";  // Import Login component
 import Navbar from "./components/NavBar/NavBar";
 import GuestLanding from './pages/Landing/LandingPage'
@@ -28,6 +32,7 @@ function App() {
    //console.log(user);
 
   return (
+    <AlertProvider>
     <AuthProvider>
       <div className="App">
         <Router>
@@ -77,9 +82,9 @@ function App() {
               <Route
                 path="/reg-list"
                 element={
-                  <ProtectedRoute>
+                  // <ProtectedRoute>
                     <RegisRequests />
-                  </ProtectedRoute>
+                  // </ProtectedRoute>
                 }
               />
 
@@ -270,6 +275,8 @@ function App() {
         </Router>
       </div>
     </AuthProvider>
+    <Alert />
+    </AlertProvider>
   );
 }
 

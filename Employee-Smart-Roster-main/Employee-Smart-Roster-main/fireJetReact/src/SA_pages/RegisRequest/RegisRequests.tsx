@@ -1,131 +1,132 @@
-import Header from '../../components/table/Header';
-import Cell from '../../components/table/Cell';
-import { useState } from "react";
-import { BiSolidUserDetail } from "../../../public/Icons.js";
-import { useNavigate } from "react-router-dom";
+import RegisReq from "../../SA_components/Registration_Request/RegisReq.js";
+import { useState, useEffect } from "react";
 import RegisReqController from "../../controller/RegisReqController";
+import RegisReq_m from '../../SA_components/Registration_Request/RegisReq_m';
 import SASide from "../../components/SideMenu/SASide";
-import RegisReqDetail from "../../SA_components/Registration_Request/RegisReqDetail";
+import RegisReqTitle from '../../SA_components/Registration_Request/Title';
 
 import "./RegisRequests.css"
 import "../../../public/styles/common.css";
 
-// Access the function from the default export
-const { GetRegistrationRequestData } = RegisReqController;
+// Access the function from the RegisReqController default export
+const { getRegistrationRequest, 
+        setRegistrationRequest,
+        handleFilterRegsStatus, 
+        handleFilterRegsUEN,
+        handleFilterRegsBizName, } = RegisReqController;
+
+const RegStatus = ["Pending", "Approved", "Rejected"];
 
 const RegisRequests = () => {
-    const navigate = useNavigate();
-    const [selectedRequest, setSelectedRequest] = useState<string | null>(null);
-    const [searchedInput, setSearchedInput] = useState('Subscribed');
-    const [showDetail, setShowDetail] = useState(false);
+    const [ allRegisRequest, setAllRegisRequest ] = useState<any>([]);
+    const [ filteredRegisRequest, setFilteredRegisRequest ] = useState<any>([]);
+    const [ filterStatus, setFilterStatus ] = useState("Pending"); // Default display by pending
+    const [ filterUEN, setFilterUEN ] = useState("");   // Default empty
+    const [ filterBizName, setFilterBizName ] = useState("");   // Default empty
     
-    function getRegRequestData(){
-        return GetRegistrationRequestData();
-    }
-
-    const handleDetailClick = (request: any) => {
-        const data = JSON.stringify(request);
-        // Check for mobile screen (adjust breakpoint as needed)
-        const isMobile = window.innerWidth <= 768;
-        
-        if (isMobile) {
-          // Mobile: Navigate to detail in page
-          navigate('/regis-request-detail', { 
-            state: { regisRequest: data } 
-          });
-        } else {
-          // Desktop/Tablet: Show detail in popup
-          setSelectedRequest(data);
-          setShowDetail(true);
+    
+    const fetchData = async () => {
+        try {
+            const response = getRegistrationRequest();
+            setAllRegisRequest(Array.isArray(response) ? response : []);
+            // console.log(allRegisRequest)
+        } catch (error) {
+            console.error("Data fetch failed:", error);
+            setAllRegisRequest([]);
         }
-        // console.log(selectedRequest);
+    };
+    // Auto trigger when allregisrequest length change
+    useEffect(() => { fetchData(); }, [allRegisRequest.length]); 
+
+    const triggerFilterStatus = async () => {
+        // console.log("Filter status: ", filterStatus);
+        const filter = handleFilterRegsStatus(allRegisRequest, filterStatus);
+        // console.log(allRegisRequest)
+        setFilterBizName("");
+        setFilterUEN("");
+        setFilteredRegisRequest(filter);
+    }
+    // Auto trigger when filter status change
+    useEffect(() => { triggerFilterStatus(); }, [filterStatus, allRegisRequest])
+
+    const triggerFilter = async () => {
+        if (filterUEN !== "" && filterBizName === ""){
+            const filter = handleFilterRegsUEN(filteredRegisRequest, filterUEN);
+            setFilteredRegisRequest(filter)
+        }
+        if (filterUEN === "" && filterBizName === ""){
+            const filter = handleFilterRegsStatus(allRegisRequest, filterStatus);
+            setFilteredRegisRequest(filter)
+        }
+        if (filterUEN === "" && filterBizName !== ""){
+            const filter = handleFilterRegsBizName(filteredRegisRequest, filterBizName);
+            setFilteredRegisRequest(filter)
+        }
+    }
+    // Auto trigger when filter status change
+    useEffect(() => { triggerFilter(); }, [filterUEN, filterBizName])
+
+    // useEffect(() => {
+    //     console.log("Current filter status:", filterStatus);
+    //     console.log("Filtered results:", filteredRegisRequest);
+    // }, [filterStatus, filteredRegisRequest])
+  
+    const handleDataUpdate = (updatedData:any) => {
+        setRegistrationRequest(updatedData);
     };
 
-    const handleCloseDetail = () => {
-        setSelectedRequest("");
-        setShowDetail(false);
-        return false;
-    }
-  
     return (
         <div className="RegisRequests">
             <SASide />
             <div className="content">
-                <h1 className="header">
-                    View All Business Registration Request
-                </h1>
+                <RegisReqTitle />
                 
-                <div className="filter-group-search-regisID">
-                    <p className='filter-title'>Registration ID</p>
-                    <input type='text' 
-                        className='search-input'
-                        placeholder='Search Registration ID' 
-                        onChange={(e) => setSearchedInput(e.target.value)}
-                    />
+                <div className="reg-filter-group">
+                    <div className="filter-status filter-group-child">
+                        <p className='filter-title'>Search Status</p>
+                        <select 
+                            value={filterStatus}
+                            onChange={(e) => {
+                                // console.log("Target value: ", e.target.value)
+                                setFilterStatus(e.target.value);
+                            }}
+                        >
+                            {RegStatus.map(status => (
+                                <option key={status} value={status} className='dropdown-option'>
+                                    {status}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="filter-UEN filter-group-child">
+                        <p className='filter-title'>Search UEN</p>
+                        <input type='text' 
+                            placeholder='Search UEN' 
+                            onChange={(e) => {
+                                setFilterUEN(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <div className="filter-bizName filter-group-child">
+                    <p className='filter-title'>Search Business Name</p>
+                        <input type='text' 
+                            placeholder='Search Business Name' 
+                            onChange={(e) => {
+                                setFilterBizName(e.target.value);
+                            }}
+                        />
+                    </div>
                 </div>
 
                 {/* Desktop View */}
-                <div className="table">
-                    <div className="desktop-table-header">
-                        <Header className='header-reg-id' text='Reg. ID' />
-                        <Header className='header-uen' text='UEN' />
-                        <Header className='header-company-name' text='COMPANY NAME' />
-                        <Header className='header-gap-regs-req-page' text=''/>
-                    </div>
-                    {getRegRequestData().map((request, index) => (
-                    <div className='table-body' key={request.regsId}>
-                        <Cell className='body-reg-id' text={request.regsId} />
-                        <Cell className='body-uen' text={request.uen} />
-                        <Cell className='body-company-name' text={request.bizName} />
-                        <button 
-                            className="request-detail-detail-table" 
-                            onClick={() => handleDetailClick({request})}>
-                            <BiSolidUserDetail />
-                        </button>
-                    </div>
-                    ))}
-                </div>
+                <RegisReq 
+                    data={filteredRegisRequest}
+                    onDataUpdate={handleDataUpdate}/>
 
                 {/* Mobile View */}
-                <div className="registration-request-m">
-                    {getRegRequestData().map((request, index) => (
-                    <div key={request.regsId}>
-                        <div className="regis-req">
-                            <div className="regis-req-name">
-                                <h2>
-                                    {request.bizName}
-                                </h2>
-                                <button 
-                                    className="regis-req-detail" 
-                                    onClick={() => handleDetailClick({request})}>
-                                    <BiSolidUserDetail />
-                                </button>
-                            </div>
-                            <div className="regis-req-data">
-                                <div className="uen">
-                                    <p className="App-secondary-text uen-title">UEN</p>
-                                    <p>{request.uen}</p>
-                                </div>
-
-                                <div className="regis-id">
-                                    <p className="App-secondary-text rID-title">Reg. ID</p>
-                                    <p>{request.regsId}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-                </div>
-                
-
-                {showDetail && selectedRequest && (
-                    <div className="App-popup">
-                        <RegisReqDetail 
-                            regisRequest= {selectedRequest}
-                            onClose={(() => handleCloseDetail())}
-                        />
-                    </div>
-                )}
+                <RegisReq_m 
+                    data={filteredRegisRequest}
+                    onDataUpdate={handleDataUpdate}/>
             </div>
         </div>
     )

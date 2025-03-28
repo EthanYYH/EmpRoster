@@ -2,17 +2,21 @@ import "./SecondaryButton.css";
 import "../../../public/styles/common.css";
 
 export default function SecondaryButton({
-  className = "",
-  text = "Text"
+  text = "Text", onClick, disabled = false 
 }: SecondaryButtonProps) {
   return (
-    <div className={`${className} secondary-button-secondary-button`}>
-      <div className="secondary-button-text">{text}</div>
-    </div>
+    <button 
+      className="secondary-button"
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {text}
+    </button>
   );
 }
 
 interface SecondaryButtonProps {
-  className?: string;
   text?:string;
+  onClick?: () => void;
+  disabled?: boolean;
 }

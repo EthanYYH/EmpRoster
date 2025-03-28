@@ -1,3 +1,5 @@
+
+
 .registration-request {
     display: flex;
     flex-direction: column;
@@ -55,15 +57,16 @@
     gap: 10px;
 }
 
-.uen, .regis-id {
+.regis-uen, .regis-status,
+.regis-submitted-at {
     display: flex;
     flex-direction: row;
     justify-content: start;
     gap: 10px;
 }
 
-.uen-title, .rID-title{
-    width: 60px;
+.regis-m-title {
+    width: 120px;
     font-weight: bold;
 }
 
@@ -77,55 +80,6 @@ button:hover {
     background-color: none; 
 }
 
-.desktop-table-header {
+.set-visible {
     display: flex;
-    flex-direction: row;
-
-    .header-uen {
-        min-width: 130px;
-        max-width: 130px;
-    }
-
-    .header-company-name {
-        width: 1fr; /* takes remaining space */
-    }
-
-    .header-status {
-        min-width: 150px;
-        max-width: 150px;
-    }
-
-    .header-reg-date {
-        min-width: 200px;
-        max-width: 200px;
-    }
-
-    .header-gap-regs-req-page {
-        min-width: 40px;
-        max-width: 40px;
-    }
-}
-
-.table-body {
-    display: flex;
-    flex-direction: row;
-    
-    .body-uen {
-        min-width: 130px;
-        max-width: 130px;
-    }
-
-    .body-company-name {
-        width: 1fr; /* takes remaining space */
-    }
-
-    .body-status {
-        min-width: 150px;
-        max-width: 150px;
-    }
-
-    .body-reg-date {
-        min-width: 200px;
-        max-width: 200px;
-    }
 }

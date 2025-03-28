@@ -1,93 +1,76 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { BiSolidUserDetail } from "../../../public/Icons.js"
+import { BiSolidUserDetail } from "../../../public/Icons.js";
+import Header from "../../components/table/Header.js";
+import Cell from "../../components/table/Cell.js";
 import RegisReqController from "../../controller/RegisReqController.js";
 import RegisReqDetail from "./RegisReqDetail";
 import "./RegisReq.css";
 import "../../../public/styles/common.css";
 
 // Access the function from the default export
-const { GetRegistrationRequestData } = RegisReqController;
+const { handleSelectedDetail, handleCloseDetail } = RegisReqController;
 
-const RegisReq = () => {
-    const navigate = useNavigate();
+const RegisReq = ({data=[], onDataUpdate}: RegisReqProps) => {
     const [selectedRequest, setSelectedRequest] = useState<string | null>(null);
-    const [showDetail, setShowDetail] = useState(false);
     
-    function getRegRequestData(){
-        return GetRegistrationRequestData();
+    const handleUpdate = (updatedData:any) => {
+        // Update in local
+        const updatedItem = data.map((item:any) => 
+            item.registrationID === updatedData.registrationID
+            ? updatedData
+            : item
+        )
+
+        if (onDataUpdate)
+            onDataUpdate(updatedItem)
+
+        // Close detail view
+        setSelectedRequest(null)
     }
 
-    const handleDetailClick = (request: any) => {
-        const data = JSON.stringify(request);
-        // Check for mobile screen (adjust breakpoint as needed)
-        const isMobile = window.innerWidth <= 768;
-        
-        if (isMobile) {
-          // Mobile: Navigate to detail in page
-          navigate('/regis-request-detail', { 
-            state: { regisRequest: data } 
-          });
-        } else {
-          // Desktop/Tablet: Show detail in popup
-          setSelectedRequest(data);
-          setShowDetail(true);
-        }
-    };
-
-    const handleCloseDetail = () => {
-        setSelectedRequest("");
-        setShowDetail(false);
-        return false;
-    }
-  
     return (
-      <div className="registration-request">
-        <h1 className="header">
-          REGISTRATION LIST 
-          <div className="total">
-            {getRegRequestData().length}
-          </div>
-        </h1>
-        
-        <div className="content">
-            {getRegRequestData().map((request, index) => (
-            <div key={request.regsId}>
-                <div className="regis-req">
-                    <div className="regis-req-name">
-                        <h2>
-                            {request.bizName}
-                        </h2>
-                        <button className="regis-req-detail" onClick={() => handleDetailClick({request})}>
-                            <BiSolidUserDetail />
-                        </button>
-                    </div>
-                    <div className="regis-req-data">
-                        <div className="uen">
-                            <p className="App-secondary-text uen-title">UEN</p>
-                            <p>{request.uen}</p>
-                        </div>
-
-                        <div className="regis-id">
-                            <p className="App-secondary-text rID-title">Reg. ID</p>
-                            <p>{request.regsId}</p>
-                        </div>
-                    </div>
+        <div className="App-desktop-responsive-table">
+            <div className="desktop-table-header">
+                <Header className='header-uen' text='UEN' />
+                <Header className='header-company-name' text='COMPANY NAME' />
+                <Header className='header-status' text='STATUS' />
+                <Header className='header-reg-date' text='REGISTERED DATE' />
+                <Header className='header-gap-regs-req-page' text=''/>
+            </div>
+            {data.map((request:any) => (
+            <div className='table-body' key={request.registrationID}>
+                <Cell className='body-uen' text={request.UEN} />
+                <Cell className='body-company-name' text={request.bizName} />
+                <Cell className='body-status' text={request.status} />
+                <Cell className='body-reg-date' text={request.createdAt} />
+                <div 
+                    className="App-desktop-table-icon App-table-icon" 
+                    onClick={() => {
+                        setSelectedRequest(handleSelectedDetail(request))
+                    }}>
+                    <BiSolidUserDetail />
                 </div>
             </div>
             ))}
-        </div>
 
-        {showDetail && selectedRequest && (
-            <div className="App-popup">
-                <RegisReqDetail 
-                    regisRequest= {selectedRequest}
-                    onClose={(() => handleCloseDetail())}
-                />
-            </div>
-        )}
-      </div>
+            {selectedRequest && (
+                <div className="App-popup">
+                    <RegisReqDetail 
+                        regisRequest= {selectedRequest}
+                        onClose={(() => {
+                            setSelectedRequest(handleCloseDetail())
+                        })}
+                        onUpdate={handleUpdate}
+                    />
+                </div>
+            )}
+        </div>
     );
   };
+
+  interface RegisReqProps {
+    data?: any;
+    onDataUpdate?: (updatedData: any) => void
+}
   
   export default RegisReq;
