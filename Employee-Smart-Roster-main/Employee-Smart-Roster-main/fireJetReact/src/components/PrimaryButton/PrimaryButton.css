@@ -1,4 +1,4 @@
-.primary-button-primary-button {
+.primary-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,15 +16,18 @@
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
     max-height: 30px;
+    border-radius: 15px;
+    padding: 15px 20px;
+    max-height: fit-content;
   }
   
-  .primary-button-primary-button:hover {
+  .primary-button:hover {
     background-color: var(--hover-background);
     color: black;
   }
   
-  .primary-button-text {
-    border-radius: 15px;
-    padding: 15px 20px;
-    max-height: fit-content;
+  .primary-button:disabled {
+    background-color: var(--secondary-background);
+    border: none;
+    cursor: default;
   }

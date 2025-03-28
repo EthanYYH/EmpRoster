@@ -1,15 +1,22 @@
 import "./PrimaryButton.css";
 import "../../../public/styles/common.css";
 
-export default function PrimaryButton({ className = "", text = "Text" }: PrimaryButtonProps) {
+export default function PrimaryButton({ 
+  text = "Text", onClick, disabled = false 
+}: PrimaryButtonProps) {
   return (
-    <div className={`${className} primary-button-primary-button`}>
-      <div className="primary-button-text">{text}</div>
-    </div>
+      <button 
+        className="primary-button"
+        onClick={onClick}
+        disabled={disabled}
+      >
+        {text}
+      </button>
   );
 }
 
 interface PrimaryButtonProps {
-  className?: string;
   text?: string;
+  onClick?: () => void;
+  disabled?: boolean;
 }

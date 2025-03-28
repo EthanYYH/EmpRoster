@@ -1,37 +1,27 @@
-.secondary-button-secondary-button {
-    border-style: solid;
-    border-color: var(--side-menu-background);
-    align-items: flex-start;
-    flex-direction: column;
-    padding: 10px;
-    display: flex;
-    width: fit-content;
-    height: fit-content;
-    font-size: 12px;
-    line-height: normal;
-    text-align: center;
-    font-weight: 600;
-    gap: 30px;
-    max-height: fit-content;
-    background-color: none;
-  }
-  
-  .secondary-button-text {
-    color: var(--purple-color-text);
-    text-align: center;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    width: fit-content;
-    height: fit-content;
-  }
+.secondary-button {
+  border-style: solid;
+  border-color: var(--side-menu-background);
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 10px;
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  font-size: var(--text-size);
+  line-height: normal;
+  text-align: center;
+  font-weight: 600;
+  gap: 30px;
+  max-height: fit-content;
+  background-color: none;
+  color: var(--h2);
+}
 
-  .secondary-button-text:hover {
-    color: var(--error);
-    background-color: none;
-  }
+.secondary-button:hover {
+  color: var(--error);
+  background-color: none;
+}
+
+.secondary-button:disabled {
+  color: var(--secondary-background);
+}

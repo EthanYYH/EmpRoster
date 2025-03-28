@@ -1,7 +1,7 @@
 :root {
     /* Colors style */
     --primary-background: #2B0F57;
-    --secondary-background: #D9D9D9;
+    --secondary-background: #F2F2F2;
     --popup-background: #2C2C2C;
     --hover-background: #F0E9FB;
     --main-page-background: #F3ECFE;
@@ -20,9 +20,14 @@
     --h3: #6A25DA;
 
     /* Prompt color style */
+    --success-background: #f6ffed;
     --success: #3D9575;
+    --error-background: #fff2f0;
     --error: #EF4444;
-    --warning: #F8BC54;
+    --warning-background: #fef5e7;
+    --warning: #f59f0a;
+    --info-background: #e6f7ff;
+    --info: #0077e6;
 
     /* Font size style */
     --text-size: 16px;

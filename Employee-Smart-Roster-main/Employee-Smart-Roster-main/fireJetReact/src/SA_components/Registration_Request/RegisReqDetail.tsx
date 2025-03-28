@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { IoClose, FaFilePdf } from '../../../public/Icons.js';
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton/SecondaryButton";
+import { useAlert } from '../../components/PromptAlert/AlertContext';
 import './RegisReqDetail.css'
 import '../../../public/styles/common.css'
 
@@ -10,7 +11,7 @@ const sampleBizFile = "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wml
 
 const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) => {
     // console.log(regisRequest);
-
+    const { showAlert } = useAlert();
     const [ isReject, setIsReject ] = useState(false);
     const [ reasonReject, setReasonReject ] = useState("");
 
@@ -29,11 +30,28 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
             updatedData.reasonOfReject = reasonReject
         }
 
+        // This part onward is to replace await JSON in parent 
+        // (add try catch)
         if(onUpdate)
             onUpdate(updatedData)
 
+        if(statusChanged === "Rejected")
+            showAlert(
+                updatedData.bizName,
+                updatedData.UEN,
+                "Rejected Registration Successfully",
+                { type: 'success' }
+            );
+        else
+            showAlert(
+                updatedData.bizName,
+                updatedData.UEN,
+                "Approved Registration Successfully",
+                { type: 'info' }
+            );
+
         if(onClose)
-            onClose();
+            onClose()
     }
 
     const handleCancelReject = () => {
@@ -44,7 +62,7 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
     // Display reject popup
     if (isReject) return (
         <div className="App-popup">
-            <div className='App-popup-content reg-rejection-popup'>
+            <div className='App-popup-prompt-content reg-rejection-popup'>
                 <div>
                     <p className='reject-text-title'>Confirm to Reject the Registration Request for:</p>
                     <p className="highlight-regis-rejection-text">{regisRequest.UEN}</p>
@@ -56,13 +74,16 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
                     }}
                     required
                 />
-                <div className="regis-reject-btn-grp">
-                    <button onClick={() => handleStatusChange("Rejected")}>
-                        <PrimaryButton text='Confirm'/>
-                    </button>
-                    <button onClick={() => handleCancelReject()}>
-                        <SecondaryButton text='Cancel'/>
-                    </button>
+                <div className="btns-grp">
+                    <PrimaryButton 
+                        text='Confirm'
+                        onClick={() => handleStatusChange("Rejected")}
+                        disabled = {!reasonReject}
+                    />
+                    <SecondaryButton 
+                        text='Cancel'
+                        onClick={() => handleCancelReject()}
+                    />
                 </div>
             </div>
         </div>
@@ -103,12 +124,14 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
             </div>
 
             <div className="btns-grp">
-                <button onClick={() => handleStatusChange("Approved")}>
-                    <PrimaryButton text="Approve"/>
-                </button>
-                <button onClick={() => setIsReject(true)}>
-                    <SecondaryButton text="Reject"/>
-                </button>
+                <PrimaryButton 
+                    text="Approve"
+                    onClick={() => handleStatusChange("Approved")}
+                />
+                <SecondaryButton 
+                    text="Reject"
+                    onClick={() => setIsReject(true)}
+                />
             </div>
         </div>
     );
