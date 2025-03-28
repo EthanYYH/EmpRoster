@@ -102,6 +102,19 @@ h3 {
     height: fit-content;
     justify-content: start;
   }
+
+  .App-popup-prompt-content {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary-background);
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+    gap: 20px;
+    height: fit-content;
+    justify-content: start;
+  }
 }
 
 .App-desktop-responsive-table {

@@ -65,9 +65,3 @@
     color: var(--error);
     font-weight: bold;
 }
-
-.reg-rejection-popup .regis-reject-btn-grp {
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-}
