@@ -3,6 +3,7 @@ import AppDescriptionDemo from "./AppDescriptionDemo_s2";
 import Feedback from "./Feedback"
 import SubscriptionPlans from "./SubscriptionPlans"
 import FAQFooter from "./FAQFooter"
+import "./LandingPage.css"
 
 export default function LandingPage() {
     return (
@@ -12,7 +13,6 @@ export default function LandingPage() {
         <SubscriptionPlans/>
         <Feedback/>
         <FAQFooter/>
-        
       </div>
     );
   }

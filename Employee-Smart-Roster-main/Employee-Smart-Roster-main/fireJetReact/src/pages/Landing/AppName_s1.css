@@ -1,4 +1,20 @@
-.icons{
+.navBarButtons {
+  li {
+    float: right;
+    /* padding-top: 10px; */
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  float:right;
+  /* border-bottom: 1px solid gainsboro; */
+}
+
+.logo {
+  float: left;
+  height: 50px;
+}
+
+.icons {
   padding-left: 10px;
 }
 
@@ -6,10 +22,10 @@
 .app-name-background,
 .app-name-background-1 {
   position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 0;
 }
 
@@ -61,102 +77,34 @@
 }
 
 .app-name-background-1 {
-  background-image: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .app-name-header {
-  border-style: solid;
-  border-color: gainsboro;
-  border-bottom-width: 1px;
+  border-bottom: 1px solid gainsboro;
   background-color: white;
   align-self: stretch;
   z-index: 1;
-}
-
-.app-name-nav-bar-system-admin {
-  overflow: clip;
-  flex-wrap: wrap;
-  font-size: 13px;
-  gap: 16px;
-}
-
-.app-name-t-image-9tnavigation-pill-title-ttitle-ttitle-ttitle {
-  align-items: center;
-  flex-grow: 1;
-  justify-content: space-between;
-  flex-wrap: wrap;
   display: flex;
-  text-align: center;
-  gap: 15px;
+  align-items: center;
+  padding: 10px 20px;
 }
 
-.app-name-image {
-  background-image: url(/assets/image.png);
-  background-size: 102% 105%;
-  background-position: -4.08px 0px;
-  background-repeat: no-repeat;
-  max-width: 100%;
-  max-height: 100%;
-  width: 196px;
-  height: 41px;
+.navBarButtons ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
 }
 
-.app-name-t-navigation-pill-title-ttitle-ttitle-ttitle {
-  line-height: 1;
-  text-align: left;
-  gap: 16px;
+.navBarButtons li {
+  display: inline;
 }
 
-.app-name-title {
-  background-color: whitesmoke;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-
-.app-name-title-2 {
-  padding-left: 8px;
-}
-
-.app-name-title-3 {
-  padding-left: 8px;
-}
-
-.app-name-title-4 {
-  padding-left: 8px;
-}
-
-.app-name-register-button {
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  overflow: clip;
-  padding-bottom: 5px;
-  padding-right: 5px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.app-name-state-default {
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-  background-color: #000000e5;
-  padding-bottom: 14px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 14px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  text-align: center;
-}
-
-.app-name-register {
-  color: white;
-  text-align: center;
+.navBarButtons a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .app-name-t-title {
@@ -175,6 +123,7 @@
 .app-name-subtitle {
   z-index: 3;
   font-size: 32px;
+  text-align: center;
 }
 
 .app-name-t-subtitle {
@@ -182,20 +131,14 @@
   padding-top: 24px;
   justify-content: center;
   z-index: 4;
-}
-
-.app-name-subtitle-1 {
-  font-size: 15px;
   text-align: center;
 }
 
-.app-name-para-1 {
-  text-align: center;
-}
-
+.app-name-para-1,
 .app-name-para-2 {
   text-align: center;
 }
+
 @media (min-width: 1261px) {
   .app-name-nav-bar-system-admin {
     flex-wrap: nowrap;
