@@ -1,61 +1,51 @@
-.faq-footer-faq-footer {
-  border-style: solid;
-  border-color: gainsboro;
-  border-top-width: 1px;
+.faq-footer {
+  border-top: 1px solid gainsboro;
   background-color: white;
-  padding-bottom: 8px;
-  padding-left: 32px;
-  padding-right: 32px;
-  padding-top: 8px;
+  padding: 8px 32px;
   display: flex;
   width: 100%;
   line-height: normal;
 }
 
-.faq-footer-t-image-tfrequently-asked-questions-1can-emproster-be-customized-for-different-business-needs-yes-emproster-is-flexible-and-can-be-tailored-to-suit-different-industries-shift-structures-and-employee-roles-ensuring-it-meets-your-specific-workforce-management-requirements-2is-emproster-accessible-on-mobile-devices-yes-emproster-is-fully-responsive-and-can-be-accessed-on-any-mobile-device-allowing-managers-and-employees-to-view-schedules-make-updates-and-track-attendance-on-the-go {
+.faq-container {
   display: flex;
   justify-content: center;
-  padding-right: 31px;
   padding-top: 23px;
+  padding-right: 31px;
   flex-grow: 1;
   gap: 16px;
 }
 
-.faq-footer-image {
+.faq-icon {
   object-fit: cover;
   object-position: center;
   width: 72px;
   height: 72px;
 }
 
-.faq-footer-t-frequently-asked-questions-1can-emproster-be-customized-for-different-business-needs-yes-emproster-is-flexible-and-can-be-tailored-to-suit-different-industries-shift-structures-and-employee-roles-ensuring-it-meets-your-specific-workforce-management-requirements-2is-emproster-accessible-on-mobile-devices-yes-emproster-is-fully-responsive-and-can-be-accessed-on-any-mobile-device-allowing-managers-and-employees-to-view-schedules-make-updates-and-track-attendance-on-the-go {
-  align-items: flex-start;
+.faq-content {
+  display: flex;
   flex-direction: column;
   flex-grow: 1;
-  display: flex;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   color: black;
   line-height: 1.4;
-  gap: 47px;
+  gap: 10px;
 }
 
-.faq-footer-frequently-asked-questions {
+.faq-title {
   font-weight: 700;
   text-decoration: underline;
 }
 
-.faq-footer-can-emproster-be-customized-for-different-business-needs-yes-emproster-is-flexible-and-can-be-tailored-to-suit-different-industries-shift-structures-and-employee-roles-ensuring-it-meets-your-specific-workforce-management-requirements-2is-emproster-accessible-on-mobile-devices-yes-emproster-is-fully-responsive-and-can-be-accessed-on-any-mobile-device-allowing-managers-and-employees-to-view-schedules-make-updates-and-track-attendance-on-the-go {
+.faq-text {
   align-self: stretch;
 }
 
-.faq-footer-para {
+.faq-question {
   text-decoration: underline;
 }
 
-.faq-footer-spacer {
+.faq-spacer {
   height: 22px;
-}
-
-.faq-footer-para-2 {
-  text-decoration: underline;
 }

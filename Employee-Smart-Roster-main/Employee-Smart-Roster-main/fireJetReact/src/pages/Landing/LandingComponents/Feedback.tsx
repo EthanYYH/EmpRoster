@@ -1,8 +1,8 @@
 import TImage from "../TImage"
 import "./Feedback.css";
 import feedbackIcon1 from './feedbackIcon1.png';
-import feedbackIcon2 from './feedbackIcon1.png';
-import feedbackIcon3 from './feedbackIcon1.png';
+import feedbackIcon2 from './feedbackIcon2.png';
+import feedbackIcon3 from './feedbackIcon3.png';
   
   export default function Feedback({
     className= "",

@@ -1,171 +1,63 @@
-.common-5,
-.subscription-plans-t-image-13subscription-plans,
-.subscription-plans-ttt-starter-plan-for-small-teams-up-to-10users-ttbusiness-plan-for-growing-teams-up-to-50users-tbusiness-plan-for-growing-teams-up-to-50users {
+/* General container styling */
+.subscription-plans-container {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: white;
+  padding: 20px;
+  font-family: Inter, sans-serif;
+  width: 100%;
+  padding-left: 50px;
+}
+
+/* Header styling with floating title */
+.subscription-plans-header {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 10px;
+  /* margin-bottom: 20px; */
 }
 
-.common-6,
-.subscription-plans-subscription-plans,
-.subscription-plans-t-starter-plan-for-small-teams-up-to-10users {
-  display: flex;
-  flex-direction: column;
-}
-
-.common-2,
-.subscription-plans-up-to-10users,
-.subscription-plans-up-to-50users,
-.subscription-plans-up-to-50users-1 {
-  color: gray;
-  font-size: 12px;
-}
-
-.common-3,
-.subscription-plans-subscription-plans-1,
-.subscription-plans-starter-plan-for-small-teams {
-  color: black;
-  font-weight: 600;
-}
-
-.common-4,
-.subscription-plans-business-plan-for-growing-teams,
-.subscription-plans-business-plan-for-growing-teams-1 {
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.common-1,
-.subscription-plans-business-plan-for-growing-teams,
-.subscription-plans-business-plan-for-growing-teams-1 {
-  display: flex;
-  color: black;
-}
-
-table{
-  float:left;
-  text-align: left;;
-}
-
-.subscription-plans-subscription-plans {
-  /* margin-top: 100px; */
-  border-style: solid;
-  border-color: #0000007f;
-  border-top-width: 1px;
-  border-bottom-width: 1px;
-  border-left-width: 1px;
-  border-right-width: 1px;
-  background-color: white;
-  padding-bottom: 38px;
-  padding-left: 63px;
-  padding-right: 51px;
-  padding-top: 12px;
-  width: 100%;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  line-height: normal;
-  gap: 4px;
-}
-
-.subscription-plans-t-image-13subscription-plans {
-  gap: 8px;
-}
-
-.subscription-plans-image {
-  object-fit: cover;
-  object-position: center;
+.subscription-icon {
   width: 70px;
   height: 67px;
+  object-fit: cover;
 }
 
-.subscription-plans-subscription-plans-1 {
-  width: 232px;
+/* Floating title next to the logo */
+.subscription-title {
   font-size: 24px;
-  line-height: 1.2;
+  font-weight: 600;
   text-decoration: underline;
+  margin: 0;
+  flex-grow: 1; /* Make title occupy remaining space */
+  text-align: left; /* Align left */
 }
 
-.subscription-plans-ttt-starter-plan-for-small-teams-up-to-10users-ttbusiness-plan-for-growing-teams-up-to-50users-tbusiness-plan-for-growing-teams-up-to-50users {
-  row-gap: 27px;
-  column-gap: 64px;
+/* Table styling without background color but with borders */
+.subscription-table-container {
+  display: flex;
   justify-content: center;
 }
 
-.subscription-plans-t-starter-plan-for-small-teams-up-to-10users {
-  margin-bottom: 5px;
-  width: 315px;
-  gap: 8px;
+.subscription-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.subscription-plans-starter-plan-for-small-teams {
-  font-size: 20px;
-  line-height: 1.2;
+.subscription-table th,
+.subscription-table td {
+  padding: 12px;
+  border: 0.5px solid #dddddd; /* Added border to each column */
+  text-align: left;
 }
 
-.subscription-plans-text {
-  font-style: italic;
-}
-
-.subscription-plans-up-to-10users {
-  line-height: 1.4;
-}
-
-.subscription-plans-tt-business-plan-for-growing-teams-up-to-50users-tbusiness-plan-for-growing-teams-up-to-50users {
-  align-items: flex-end;
-  align-self: stretch;
-  padding-right: 343px;
-  padding-top: 7px;
-  position: relative;
-  display: flex;
-}
-
-.subscription-plans-t-business-plan-for-growing-teams-up-to-50users {
-  flex-grow: 1;
-  max-width: 442px;
-  z-index: 1;
-}
-
-.subscription-plans-business-plan-for-growing-teams {
-  width: 414px;
-  align-items: flex-start;
-  line-height: 1.2;
-}
-
-.subscription-plans-text-1 {
-  font-style: italic;
-}
-
-.subscription-plans-up-to-50users {
-  line-height: 1.4;
-}
-
-.subscription-plans-t-business-plan-for-growing-teams-up-to-50users-1 {
-  width: 414px;
-  height: 61px;
-  max-width: 414px;
-  z-index: 2;
-  right: 0px;
-  top: 0px;
-  position: absolute;
-}
-
-.subscription-plans-business-plan-for-growing-teams-1 {
-  align-items: flex-start;
-  line-height: 1.2;
-}
-
-.subscription-plans-text-2 {
-  font-style: italic;
-}
-
-.subscription-plans-up-to-50users-1 {
-  width: 337px;
-  line-height: 1.4;
-}
-@media (min-width: 1270px) {
-  .subscription-plans-t-image-13subscription-plans {
-    flex-wrap: nowrap;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .subscription-table-container {
+    overflow-x: auto;
   }
-  .subscription-plans-ttt-starter-plan-for-small-teams-up-to-10users-ttbusiness-plan-for-growing-teams-up-to-50users-tbusiness-plan-for-growing-teams-up-to-50users {
-    flex-wrap: nowrap;
+
+  .subscription-table th,
+  .subscription-table td {
+    padding: 8px;
   }
 }
