@@ -18,6 +18,8 @@ import UserDetail from "./components/UserMgt/UserDetail";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
+import CreateEmployee from "./components/UserMgt/CreateEmployee";
+
 
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
@@ -45,9 +47,9 @@ function App() {
               <Route
                 path="/users-menagement"
                 element={
-                  <ProtectedRoute>
+                  // <ProtectedRoute>
                     <UserMgts />
-                  </ProtectedRoute>
+                  // </ProtectedRoute>
                 }
               />
 
@@ -57,6 +59,15 @@ function App() {
                   <ProtectedRoute>
                     <UserDetail />
                   </ProtectedRoute>
+                }
+              />
+
+            <Route
+                path="/create-employee"
+                element={
+                  // <ProtectedRoute>
+                    <CreateEmployee />
+                  // </ProtectedRoute>
                 }
               />
 

@@ -1,0 +1,99 @@
+
+/* Common Background Styling */
+.video-overlay,
+.video-overlay-secondary {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  background-color: white;
+}
+
+/* General Layout */
+.app-description-container {
+  padding: 24px 250px;
+  /* margin-left: 100px; */
+  display: flex;
+  width: 100%;
+  background-color: white;
+  padding-bottom: 100px;
+}
+
+.app-description-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 5px;
+  flex-grow: 1;
+  padding-right: 77px;
+  background-color: white;
+}
+
+/* Text Section */
+.app-description-text {
+  width: 484px;
+  height: 375px;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* Video Section */
+.app-description-video {
+  align-items: center;
+  flex-direction: column;
+  padding: 23px 18px;
+  position: relative;
+}
+
+
+
+.video-overlay-secondary {
+  background-image: url(/assets/background-1.png);
+  opacity: 0.2;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.video-thumbnail {
+  object-fit: cover;
+  object-position: center;
+  width: 550px;
+  height: 296px;
+  z-index: 1;
+}
+
+/* Table and Icon Styles */
+table {
+  width: 100%;
+}
+
+.icon {
+  height: 50px;
+  float: right;
+}
+
+.icon-container {
+  float: right;
+}
+
+/* Typography */
+.section-title {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Spacers */
+.spacer {
+  height: 13px;
+}
+
+/* Responsive Styling */
+@media (min-width: 1270px) {
+  .app-description-content {
+    flex-wrap: nowrap;
+  }
+}

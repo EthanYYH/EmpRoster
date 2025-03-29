@@ -21,13 +21,29 @@
 }
 
 .logo {
-  height: 50px;
+  align-items: left;
+  height: auto; /* Maintain aspect ratio */
+  width: 50px; /* Adjust width to a reasonable size */
+  max-width: 100%; /* Prevent overflow */
+  max-height: 50px; /* Ensure it doesn’t get too large */
+  object-fit: contain; /* Keeps the image proportions without cropping */
+}
+
+
+.logo2 {
+  padding-left: 10px;
+  align-items: left;
+  height: auto; /* Maintain aspect ratio */
+  width: 200px; /* Adjust width to a reasonable size */
+  max-width: 150%; /* Prevent overflow */
+  max-height: 50px; /* Ensure it doesn’t get too large */
+  object-fit: contain; /* Keeps the image proportions without cropping */
 }
 
 .header-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   padding-bottom: 32px;
   position: relative;
   width: 100%;
@@ -35,6 +51,7 @@
   line-height: normal;
   gap: 8px;
   text-align: center;
+  background-color: white;
 }
 
 .background-overlay {
@@ -64,10 +81,10 @@
   background-color: white;
   z-index: 1;
   display: flex;
-  align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
   width: 100%;
+  float: left;
 }
 
 .title-section {
