@@ -16,3 +16,7 @@ export default function LandingPage() {
       </div>
     );
   }
+
+
+  // refer to /Users/hongweiteo/Documents/GitHub/testEmployeeSmartRoster/Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/src/SA_components/Registration_Request/RegisReqDetail.tsx
+  

@@ -18,7 +18,7 @@ import UserDetail from "./components/UserMgt/UserDetail";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
-import CreateEmployee from "./components/UserMgt/CreateEmployee";
+import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee";
 
 
 // Import side menu
