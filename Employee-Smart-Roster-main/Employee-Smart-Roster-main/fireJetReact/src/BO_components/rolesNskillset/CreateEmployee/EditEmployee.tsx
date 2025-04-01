@@ -4,7 +4,8 @@ import SubmitButton from "../../../components/PrimaryButton/PrimaryButton";
 import { useAlert } from "../../../components/PromptAlert/AlertContext";
 import profile from "./Profile.png";
 
-// https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/employee/add
+//https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/employee/update
+
 // Define types for PopupTable props
 interface PopupTableProps {
   onClose: () => void;
@@ -24,13 +25,19 @@ interface PopupTableProps {
   buttonText: string;
 }
 
-const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleInputChange, handleSubmit, buttonText }) => {
+const PopupTable: React.FC<PopupTableProps> = ({
+  onClose,
+  employeeData,
+  handleInputChange,
+  handleSubmit,
+  buttonText,
+}) => {
   return (
     <div className="popup-overlay">
       <div className="popup-container">
         <button className="popup-close-button" onClick={onClose}>X</button>
         <div className="popup-header">
-          <div className="title">Create Account</div>
+          <div className="title">Update Employee Details</div>
         </div>
 
         <table className="createEmployeeTable">
@@ -83,11 +90,11 @@ const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleIn
                   value={employeeData.skillset}
                   onChange={handleInputChange}
                 >
-                  <option value="JavaScript">JavaScript</option>
-                  <option value="Python">Python</option>
-                  <option value="Java">Java</option>
-                  <option value="C#">C#</option>
-                  <option value="Ruby">Ruby</option>
+                  {/* Replace with your actual skillset options */}
+                  <option value="Frontend">Frontend</option>
+                  <option value="Backend">Backend</option>
+                  <option value="Fullstack">Fullstack</option>
+                  <option value="DevOps">DevOps</option>
                 </select>
               </td>
             </tr>
@@ -111,10 +118,11 @@ const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleIn
                   value={employeeData.role}
                   onChange={handleInputChange}
                 >
-                  <option value="Developer">Developer</option>
+                  {/* Replace with your actual role options */}
+                  <option value="Admin">Admin</option>
                   <option value="Manager">Manager</option>
-                  <option value="Designer">Designer</option>
-                  <option value="QA">QA</option>
+                  <option value="Employee">Employee</option>
+                  <option value="Intern">Intern</option>
                 </select>
               </td>
             </tr>
@@ -161,20 +169,20 @@ const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleIn
   );
 };
 
-export default function CreateEmployee() {
+export default function EditEmployee() {
   const [employeeData, setEmployeeData] = useState({
     name: "",
     profilePhoto: null,
     wage: "",
     address: "",
-    skillset: "JavaScript", // default picklist value
+    skillset: "",
     email: "",
-    role: "Developer", // default picklist value
+    role: "",
     workingHours: "",
     status: "Subscribed",
   });
 
-  const [isCreatePopupOpen, setIsCreatePopupOpen] = useState(false);
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const { showAlert } = useAlert();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -185,38 +193,38 @@ export default function CreateEmployee() {
     }));
   };
 
-  const handleCreate = () => {
-    console.log("New Employee Data:", employeeData);
+  const handleEdit = () => {
+    console.log("Employee Data Edited:", employeeData);
     showAlert(
-      `Employee Created: ${employeeData.name}`,
-      "A new employee account has been successfully created.",
-      "Employee Created",
+      `Account Edited for ${employeeData.name}`,
+      "The employee account has been successfully edited.",
+      "Account Edited",
       { type: "success" }
     );
-    setIsCreatePopupOpen(false);
+    setIsEditPopupOpen(false);
   };
 
-  const handleOpenCreatePopup = () => {
-    setIsCreatePopupOpen(true);
+  const handleOpenEditPopup = () => {
+    setIsEditPopupOpen(true);
   };
 
-  const handleCloseCreatePopup = () => {
-    setIsCreatePopupOpen(false);
+  const handleCloseEditPopup = () => {
+    setIsEditPopupOpen(false);
   };
 
   return (
     <div>
       <div className="buttonContainer">
-        <SubmitButton onClick={handleOpenCreatePopup} text="Create Employee" />
+        <SubmitButton onClick={handleOpenEditPopup} text="Edit Details" />
       </div>
 
-      {isCreatePopupOpen && (
+      {isEditPopupOpen && (
         <PopupTable
-          onClose={handleCloseCreatePopup}
+          onClose={handleCloseEditPopup}
           employeeData={employeeData}
           handleInputChange={handleInputChange}
-          handleSubmit={handleCreate}
-          buttonText="Create"
+          handleSubmit={handleEdit}
+          buttonText="Submit"
         />
       )}
     </div>

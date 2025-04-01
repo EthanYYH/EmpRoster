@@ -4,6 +4,13 @@
     padding: 5vh 10vh;
 }
 
+.popup-container
+{
+    background-color: white;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 .title{
     color:black;
     text-align: center;
@@ -98,30 +105,56 @@
     100% { opacity: 0; transform: translateY(-10px); }
 }
 
-/* Mobile (screens below 768px) */
 @media only screen and (max-width: 768px) {
-    .main-container {
-        margin-left: 0;
-        padding: 5vh;
-    }
-
     .createEmployeeTable {
-        font-size: 14px;
+      width: 100%;
+      display: block;
+      border-collapse: collapse;
     }
-
-    .createEmployeeTable th,
+  
     .createEmployeeTable td {
-        padding: 10px;
+      display: block; /* Stack each label + input on mobile */
+      width: 100%;    /* Take full width of container */
+      padding: 8px;
+      box-sizing: border-box;
     }
-
+  
+    .createEmployeeTable th {
+      display: none; /* Hide headers for mobile (optional) */
+    }
+  
+    .createEmployeeTable label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block; /* Ensure label appears above input */
+      font-size: 14px;
+    }
+  
+    .createEmployeeTable input,
+    .createEmployeeTable select {
+      width: 100%; /* Ensure inputs take up the full width of their container */
+      padding: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+  
+    /* Adjust the button container to center it on mobile */
+    .buttonContainer {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      padding-top: 10px;
+    }
+  
+    /* Add space between the buttons */
     .buttonContainer button {
-        width: 100%;
+      width: auto;
+      padding: 10px 20px;
     }
-
-    .success-popup {
-        top: 15%;
-        padding: 10px;
-        font-size: 14px;
-        min-width: 200px;
+  
+    /* Optionally add a space between input rows */
+    .createEmployeeTable tr {
+      margin-bottom: 15px;
     }
-}
+  }
+  
