@@ -47,7 +47,7 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
                 updatedData.bizName,
                 updatedData.UEN,
                 "Approved Registration Successfully",
-                { type: 'info' }
+                { type: 'success' }
             );
 
         if(onClose)
@@ -64,8 +64,8 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
         <div className="App-popup">
             <div className='App-popup-prompt-content reg-rejection-popup'>
                 <div>
-                    <p className='reject-text-title'>Confirm to Reject the Registration Request for:</p>
-                    <p className="highlight-regis-rejection-text">{regisRequest.UEN}</p>
+                    <p className='App-prompt-confirmation-title'>Confirm to Reject the Registration Request for:</p>
+                    <p className="App-prompt-confirmation-title-highlighted-text">{regisRequest.UEN}</p>
                 </div>
                 <input type='text' 
                     placeholder='Reason of Rejection' 

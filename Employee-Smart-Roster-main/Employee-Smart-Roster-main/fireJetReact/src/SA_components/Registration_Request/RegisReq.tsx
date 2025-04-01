@@ -11,8 +11,14 @@ import "../../../public/styles/common.css";
 const { handleSelectedDetail, handleCloseDetail } = RegisReqController;
 
 const RegisReq = ({data=[], onDataUpdate}: RegisReqProps) => {
-    const [selectedRequest, setSelectedRequest] = useState<string | null>(null);
+    const [ selectedRequest, setSelectedRequest ] = useState<string | null>(null);
+    const [ showDetail, setShowDetail ] = useState(false)
     
+    const triggerSelectedDetail = (request:any) => {
+        setSelectedRequest(handleSelectedDetail(request))
+        setShowDetail(true)
+    }
+
     const handleUpdate = (updatedData:any) => {
         // Update in local
         const updatedItem = data.map((item:any) => 
@@ -35,7 +41,7 @@ const RegisReq = ({data=[], onDataUpdate}: RegisReqProps) => {
                 <Header className='header-company-name' text='COMPANY NAME' />
                 <Header className='header-status' text='STATUS' />
                 <Header className='header-reg-date' text='REGISTERED DATE' />
-                <Header className='header-gap-regs-req-page' text=''/>
+                <Header className='App-header-icon-gap' text=''/>
             </div>
             {data.map((request:any) => (
             <div className='table-body' key={request.registrationID}>
@@ -44,16 +50,16 @@ const RegisReq = ({data=[], onDataUpdate}: RegisReqProps) => {
                 <Cell className='body-status' text={request.status} />
                 <Cell className='body-reg-date' text={request.createdAt} />
                 <div 
-                    className="App-desktop-table-icon App-table-icon" 
+                    className="App-desktop-table-icon" 
                     onClick={() => {
-                        setSelectedRequest(handleSelectedDetail(request))
+                        triggerSelectedDetail(request)
                     }}>
                     <BiSolidUserDetail />
                 </div>
             </div>
             ))}
 
-            {selectedRequest && (
+            {showDetail && selectedRequest && (
                 <div className="App-popup">
                     <RegisReqDetail 
                         regisRequest= {selectedRequest}

@@ -1,19 +1,34 @@
-function GetCompanyData (){
+function getCompanies (){
     const data = [
         {
-            company: "GOOGLE VENTURES PTE. LTD.",
-            uen: "202017097M",
-            subsStatus: "Subscribed",
+            cID: 1,
+            UEN: "202017097M",
+            bizName: "GOOGLE VENTURES PTE. LTD.",
+            contactNo: "+65 6666 1111",
+            bizFilePath: "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8",
+            address: "#01-01 Clementi S111111",
+            createdAt: "2025-3-25 12:00:08",
+            lastUpdate: "",
         },
         {
-            company: "GOOGLE CARS",
-            uen: "53137217X",
-            subsStatus: "Subscribed",
+            cID: 2,
+            UEN: "53137217X",
+            bizName: "GOOGLE CARS",
+            contactNo: "+65 6666 1112",
+            bizFilePath: "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8",
+            address: "#02-02 Clementi S111122",
+            createdAt: "2025-3-25 12:00:08",
+            lastUpdate: "",
         },
         {
-            company: "GOOGLE CLOUD",
-            uen: "53342345K",
-            subsStatus: "Subscribed",
+            cID: 3,
+            UEN: "53342345K",
+            bizName: "GOOGLE CLOUD",
+            contactNo: "+65 6666 1113",
+            bizFilePath: "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8",
+            address: "#03-03 Clementi S111133",
+            createdAt: "2025-3-25 12:00:08",
+            lastUpdate: "",
         }
     ]
     return data;
@@ -71,8 +86,13 @@ function GetCompanySkillsets (){
     return data;
 }
 
+const handleSelectedDetail = (selectedCompany) => {
+    return selectedCompany;
+}
+
 export default {
-    GetCompanyData,
+    getCompanies,
     GetCompanyRoles,
     GetCompanySkillsets,
+    handleSelectedDetail,
 }

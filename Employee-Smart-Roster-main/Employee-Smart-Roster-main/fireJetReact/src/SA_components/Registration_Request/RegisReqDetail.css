@@ -40,6 +40,7 @@
 
 .icons:hover {
     color: var(--error);
+    cursor: pointer;
 }
 
 /* Mobile (all screens below 768px) */
@@ -54,14 +55,4 @@
         align-items: center;
         gap: 0px;
     }
-}
-
-.reg-rejection-popup .reject-text-title{
-    font-size: var(--text-h2-m);
-}
-
-.reg-rejection-popup .highlight-regis-rejection-text{
-    font-size: var(--text-h2-m);
-    color: var(--error);
-    font-weight: bold;
 }
