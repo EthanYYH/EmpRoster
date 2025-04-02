@@ -18,6 +18,14 @@ import UserDetail from "./components/UserMgt/UserDetail";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
+import BODashboard from "./BO_pages/Dashboard/Dashboard";
+import BOViewProfile from "./BO_pages/ViewProfile/ViewProfile";
+import BOUpdateBOProfile from "./BO_pages/ViewProfile/BOUpdateBOProfile";
+import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
+import BOUpdateCompanyProfile from "./BO_pages/CompanyProfile/UpdateProfile";
+import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
+
+
 
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
@@ -152,25 +160,46 @@ function App() {
                 path="/business-dashboard"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <BOSide />
-                      <h1>Business Owner Dasboard</h1>
-                    </div>
+                    <BODashboard />
                   </ProtectedRoute>
                 }
               />
+
+              <Route
+                path="/view-bo-detail"
+                element={
+                  <ProtectedRoute>
+                    <BOViewProfile />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/update-bo-detail"
+                element={
+                  <ProtectedRoute>
+                    <BOUpdateBOProfile />
+                  </ProtectedRoute>
+                }
+              />    
               
               <Route
                 path="/company-detail"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <BOSide />
-                      <h1>My Company</h1>
-                    </div>
+                    <BOCompanyProfile />
                   </ProtectedRoute>
                 }
               />
+
+              <Route
+                path="/update-company-detail"
+                element={
+                  <ProtectedRoute>
+                    <BOUpdateCompanyProfile />
+                  </ProtectedRoute>
+                }
+              />    
 
               <Route
                 path="/roles-skills-menagement"
@@ -221,10 +250,7 @@ function App() {
                 path="/mc-management"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <BOSide />
-                      <h1>MC Management</h1>
-                    </div>
+                    <BOLeaveManagement />
                   </ProtectedRoute>
                 }
               />

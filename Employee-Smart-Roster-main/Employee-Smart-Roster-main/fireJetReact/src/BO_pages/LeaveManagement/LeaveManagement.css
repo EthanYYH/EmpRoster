@@ -1,0 +1,33 @@
+/* Parent container for the rows */
+.table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  /* Each row is a flex container of cells */
+  .table-row {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  /* .table-header or .table-cell can share the row space evenly */
+  .table-header,
+  .table-cell {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  /* You can style headers differently if you want */
+  .table-header {
+    background-color: #2B0F57;
+    color: white;
+    font-weight: bold;
+  }
+
+  .action-buttons{
+    padding: 5px;
+    display: flex;
+  }
+  
