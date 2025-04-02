@@ -92,7 +92,7 @@ const RegisRequests = () => {
                             }}
                         >
                             {RegStatus.map(status => (
-                                <option key={status} value={status} className='dropdown-option'>
+                                <option key={status} value={status}>
                                     {status}
                                 </option>
                             ))}

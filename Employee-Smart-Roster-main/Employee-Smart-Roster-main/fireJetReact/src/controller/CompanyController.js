@@ -90,9 +90,23 @@ const handleSelectedDetail = (selectedCompany) => {
     return selectedCompany;
 }
 
+const handleFilterUENBizName = (companies, filterString) => {
+    const filteredData = companies.filter((company) => {
+        const search = filterString.trim().toLowerCase();
+        if (!search) return true;
+
+        const uenMatch = company.UEN.toLowerCase().includes(search);
+        const bizNameMatch = company.bizName.toLowerCase().includes(search);
+
+        return uenMatch || bizNameMatch;
+    })
+    return filteredData
+}
+
 export default {
     getCompanies,
     GetCompanyRoles,
     GetCompanySkillsets,
     handleSelectedDetail,
+    handleFilterUENBizName,
 }

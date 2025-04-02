@@ -18,4 +18,8 @@ button:hover {
 
 .set-visible {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: fit-content;
+    padding: 10px;
 }

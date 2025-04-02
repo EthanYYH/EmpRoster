@@ -42,6 +42,11 @@ const BOUserList_m = ({ companies = [], onUpdate }: BOListMobileProps) => {
         setShowDetail(false);
     }
 
+    if (companies.length === 0) return (
+        <div className="App-mobile-responsive-table">
+            <b>No Data Loaded...</b>
+        </div>
+    )
     return (
         <>
         <div className="App-mobile-responsive-table">

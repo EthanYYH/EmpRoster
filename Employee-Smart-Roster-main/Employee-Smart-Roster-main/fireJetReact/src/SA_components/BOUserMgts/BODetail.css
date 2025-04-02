@@ -46,6 +46,10 @@
     flex-direction: row;
     justify-content: space-between;
     gap: 20px;
+    border-top-style: outset;
+    border-top-width: 2px;
+    border-top-color: var(--popup-background);
+    padding-top: 10px;
 
     .subs-info-data {
         display: flex;
@@ -63,8 +67,8 @@
 @media only screen and (max-width: 768px) {
     .subs-info {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
-        gap: 5px;
+        gap: 10px;
     }
 }

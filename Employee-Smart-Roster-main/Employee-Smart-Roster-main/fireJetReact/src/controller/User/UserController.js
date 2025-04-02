@@ -162,8 +162,20 @@ function setUser(updatedData){
     console.log(updatedData)
 }
 
-const handleCloseDetail = () => {
-    return null
+function handleUserAccStatusFilter(companies, accStatus) {
+    const filteredData = companies.filter((company) => {
+        const dataAccStatus = company.owner[0].isSuspended
+        // If accStatus is 'Activated'
+        if (accStatus === 'Activated'){
+            const IS_SUSPENDED = false  // The account is not suspended
+            return dataAccStatus === IS_SUSPENDED  
+        }
+        else {
+            const IS_SUSPENDED = true  // The account is suspended
+            return dataAccStatus === IS_SUSPENDED  
+        }
+    })
+    return filteredData;
 }
 
 export default {
@@ -171,5 +183,5 @@ export default {
     handleFilterRole,
     getUserOwnesCompany,
     setUser,
-    handleCloseDetail,
+    handleUserAccStatusFilter,
 }

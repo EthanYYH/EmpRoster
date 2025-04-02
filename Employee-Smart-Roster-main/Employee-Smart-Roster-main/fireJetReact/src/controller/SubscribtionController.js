@@ -83,9 +83,20 @@ function getSortedSubsTransactions (subsTrans){
     return latestSubsTrans;
 }
 
+function handleFilterSubsStatus (companies, status) {
+    // console.log(companies)
+    const filteredData = companies.filter((company) => {
+        const DEFAULT_STATUS = 'Unsubscribed';
+        const latestStatus = company.transactions?.[0]?.subsStatus || DEFAULT_STATUS;
+        return status === '' || latestStatus === status;
+    })
+    return filteredData;
+}
+
 export default {
     getSubscriptions,
     getSubscriptionTransactions,
     getSubsTransForACompany,
     getSortedSubsTransactions,
+    handleFilterSubsStatus,
 }

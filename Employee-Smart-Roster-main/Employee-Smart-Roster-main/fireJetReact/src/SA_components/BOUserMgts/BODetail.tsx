@@ -93,9 +93,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             <div className="content">
                 <div className="company-info">
                     <h3>{company.bizName}</h3>
-                    <p className="title">
-                        {company.UEN}
-                    </p>
+                    <p className="title">{company.UEN}</p>
                     <p className="main-data">{company.address}</p>
 
                     <div className="company-info-detail-contact">
@@ -117,13 +115,11 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     <div className="bo-status-data">
                         <div className="bo-info-data">
                             <p className="title">Account Status: </p>
-                            <p className="main-data">
-                                {company.owner[0]?.isSuspended === true ? (
-                                    <p>Suspended</p>
-                                ):(
-                                    <p>Activated</p>
-                                )}
-                            </p>
+                            {company.owner[0]?.isSuspended === true ? (
+                                <p className="main-data">Suspended</p>
+                            ):(
+                                <p className="main-data">Activated</p>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -134,6 +130,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                             {company.transactions[0]?.subsStatus || 'Unsubscribed'}
                         </p>
                     </div>
+                    {company.transactions.length > 0 ? (
                     <div className="subs-info-data">
                         <p className="title">Subscription Period: </p>
                         <p className="main-data">
@@ -142,6 +139,10 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                             {company.transactions[0].endDate}
                         </p>
                     </div>
+                    ):(
+                        <></>
+                    )}
+                    
                 </div>
             </div>
             <div className="suspend-btn">

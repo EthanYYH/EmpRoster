@@ -44,6 +44,12 @@ const BOUserList_t = ({ companies = [], onUpdate }: BOListTableProps) => {
         setShowDetail(false);
     }
 
+    if (companies.length === 0) return (
+        <div className="App-desktop-responsive-table">
+            <b>No Data Loaded...</b>
+        </div>
+    )
+
     return (
         <>
         <div className="App-desktop-responsive-table bo-user-list">
