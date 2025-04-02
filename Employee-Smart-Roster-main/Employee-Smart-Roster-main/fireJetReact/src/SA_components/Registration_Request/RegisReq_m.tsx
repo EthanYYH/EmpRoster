@@ -12,7 +12,13 @@ const { handleSelectedDetail, handleCloseDetail} = RegisReqController;
 const RegisReq_m = ({data=[], onDataUpdate}: RegisReqProps) => {
     const location = useLocation()
     const [ selectedRequest, setSelectedRequest ] = useState<any>([]);
+    const [ showDetail, setShowDetail ] = useState(false)
     const isOnAdminDash = location.pathname.includes('admin-dashboard');
+
+    const triggerSelectedDetail = (request:any) => {
+        setSelectedRequest(handleSelectedDetail(request))
+        setShowDetail(true)
+    }
 
     const handleUpdate = (updatedData:any) => {
         // Update in local
@@ -31,42 +37,46 @@ const RegisReq_m = ({data=[], onDataUpdate}: RegisReqProps) => {
 
     return(
         <div className={`${isOnAdminDash ? 'set-visible' : 'App-mobile-responsive-table'}`}>
-            <div className="content">
             {data.map((request:any) => (
             <div key={request.registrationID}>
-                <div className="regis-req">
-                    <div className="regis-req-name">
+                <div className="App-mobile-responsive-table-card">
+                    <div className="App-mobile-responsive-table-card-title">
                         <h2>
                             {request.bizName}
                         </h2>
-                        <div className="App-mobile-table-icon App-table-icon" 
+                        <div className="App-mobile-table-icon" 
                             onClick={() => {
-                                setSelectedRequest(handleSelectedDetail(request))
+                                triggerSelectedDetail(request)
                             }}>
                             <BiSolidUserDetail />
                         </div>
                     </div>
-                    <div className="regis-req-data">
-                        <div className="regis-uen">
-                            <p className="regis-m-title">UEN</p>
+                    <div className="App-mobile-responsive-table-card-data">
+                        <div className="App-mobile-responsive-table-card-data-detail uen">
+                            <p className="App-mobile-responsive-table-card-data-title">
+                                UEN
+                            </p>
                             <p>{request.UEN}</p>
                         </div>
 
-                        <div className="regis-status">
-                            <p className="regis-m-title">Status</p>
+                        <div className="App-mobile-responsive-table-card-data-detail status">
+                            <p className="App-mobile-responsive-table-card-data-title">
+                                Status
+                            </p>
                             <p>{request.status}</p>
                         </div>
 
-                        <div className="regis-submitted-at">
-                            <p className="regis-m-title">Registered On</p>
+                        <div className="App-mobile-responsive-table-card-data-detail registered">
+                            <p className="App-mobile-responsive-table-card-data-title">
+                                Registered On
+                            </p>
                             <p>{request.createdAt}</p>
                         </div>
                     </div>
                 </div>
             </div>
             ))} 
-            </div>
-            {selectedRequest && (
+            {showDetail && selectedRequest && (
                 <div className="App-popup">
                 <RegisReqDetail 
                     regisRequest= {selectedRequest}

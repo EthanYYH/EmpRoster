@@ -49,7 +49,10 @@ export default function Login() {
               navigate('/admin-dashboard');
             }
             else if (data.role === "Business Owner") {
-              navigate('/business-dashboard');
+              if(data.lastOnline === '') // If first time login
+                navigate('/roles-skills-menagement')
+              else
+                navigate('/business-dashboard');
             }
             else if (data.role === "Employee") {
               navigate('/employee-dashboard');

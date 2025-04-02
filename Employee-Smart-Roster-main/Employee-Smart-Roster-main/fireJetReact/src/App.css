@@ -114,13 +114,67 @@ h3 {
     gap: 20px;
     height: fit-content;
     justify-content: start;
+
+    .App-prompt-confirmation-title {
+      font-size: var(--text-h2-m);
+    }
+
+    .App-prompt-confirmation-title-highlighted-text {
+      font-size: var(--text-h2-m);
+      color: var(--error);
+      font-weight: bold;
+    }
   }
 }
 
+.App-link {
+  color: #61dafb;
+}
+
+/* Set input text field css */
+input[type=text]{
+  background-color: white;
+  border-width: 2px;
+  border-color: var(--purple-color-text);
+  border-radius: 8px;
+  width: 100%;
+  height: 36.5px;
+}
+
+select {
+  background-color: white;
+  height: 36.5px;
+  border-width: 2px;
+  border-color: var(--purple-color-text);
+  border-radius: 8px;
+  width: 100%;
+}
+
+option {
+  color: var(--side-menu-background);
+}
+
+option:checked {
+  background-color: var(--primary-background);
+  color: var(--light-color-text);
+}
+
+/* Desktop Table Setup */
 .App-desktop-responsive-table {
   display: flex;
   flex-direction: column;
   gap: 0px;
+}
+
+.App-desktop-table-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+}
+
+.App-header-icon-gap {
+  min-width: 40px;
+  max-width: 40px;
 }
 
 .App-desktop-table-icon {
@@ -135,48 +189,104 @@ h3 {
   height: auto;
 }
 
-.App-table-icon:hover {
+.App-desktop-table-icon:hover {
   cursor: pointer;
   background-color: var(--primary-background);
   color: var(--light-color-text);
 }
 
 .App-mobile-table-icon {
-  background-color: none;
+  color: var(--primary-background);
   width: fit-content;
-  height: fit-content;
+  font-size: 30px;
+  padding: 5px;
+  height: auto;
+  background-color: none;
   font-size: 30px;
   padding: 5px;
   border-radius: 10px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-/* Set input text field css */
-input[type=text]{
-  background-color: white;
-  border-width: 2px;
-  border-color: var(--purple-color-text);
-  border-radius: 8px;
-}
-
-select {
-  background-color: white;
-  height: 36.5px;
-  border-width: 2px;
-  border-color: var(--purple-color-text);
-  border-radius: 8px;
-}
-
-option {
-  color: var(--side-menu-background);
-}
-
-option:checked {
+/* Mobile Table Setup */
+.App-mobile-table-icon:hover {
+  cursor: pointer;
   background-color: var(--primary-background);
   color: var(--light-color-text);
+}
+
+
+.App-mobile-responsive-table {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: fit-content;
+  padding: 10px;
+}
+
+.App-mobile-responsive-table-card {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: var(--primary-background);
+  border-radius: 10px;
+  gap: 5px;
+  background-color: var(--light-color-text);
+  height: fit-content;
+
+  .App-mobile-responsive-table-card-title {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 5px;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: var(--primary-background);
+    height: fit-content;
+    align-items: center;
+  }
+  
+  .App-mobile-responsive-table-card-data {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    gap: 10px;
+
+    .App-mobile-responsive-table-card-data-detail {
+      display: flex;
+      flex-direction: row;
+      justify-content: start;
+      gap: 10px;
+
+      .App-mobile-responsive-table-card-data-title {
+        width: 120px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.App-filter-search-component {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+  width: 100%;
+  height: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
+  gap: 10px;
+
+  .App-filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .App-filter-title {
+        color: var(--purple-color-text);
+        font-weight: bold;
+    }
+  }
 }
 
 /* Desktop (1024px+) */
@@ -190,6 +300,10 @@ option:checked {
 @media only screen and (min-width: 769px) and (max-width: 1023px) {
   .App-desktop-responsive-table {
     display: none;
+  }
+
+  .App-mobile-responsive-table-card {
+    display: flex;
   }
 }
 
@@ -221,5 +335,16 @@ option:checked {
 
   .App-desktop-responsive-table {
     display: none;
+  }
+
+  .App-mobile-responsive-table-card {
+    display: flex;
+  }
+
+  .App-filter-search-component {
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }

@@ -1,31 +1,63 @@
-import Header from '../../components/table/Header';
-import Cell from '../../components/table/Cell';
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { BiSolidUserDetail } from "../../../public/Icons.js";
-import UserDetail from './UserDetail';
+import { useAlert } from '../../components/PromptAlert/AlertContext';
 import UserController from '../../controller/User/UserController';
+import UserDetail from './UserDetail';
+import BOUserList from '../../SA_components/BOUserMgts/UserList';
 import './UserList.css';
 import '../../../public/styles/common.css';
 
-// Access the function from the default export
-const { GetUsers } = UserController;
+// Access the function from UserController
+const { handleFilterRole, } = UserController;
+const UserType = ['Business Owner', 'System Admin', 'Employee']
 
-const UserList = ({currentUser = ""}: UserListProps) => {
+const UserList = ({users = [], currentUser = [], onDataUpdate}: UserListProps) => {
     const navigate = useNavigate();
-    // console.log(currentUser);
     const [ selectedSubsStatus, setSelectedSubsStatus ] = useState('Subscribed');
     const [ selectedAccStatus, setSelectedAccStatus ] = useState('Activated');
     const [ searchedInput, setSearchedInput ] = useState('Subscribed');
-    const [ data, setData ] = useState<any[]>([]);
     const [ selectedUserDetail, setSelectedUserDetail ] = useState<string | null>(null);
     const [ selectedCompanyDetail, setSelectedCompanyDetail ] = useState<string | null>(null);
+    // Use the following
+    // console.log(users)
+    // console.log("currentUser", currentUser);
+    const { showAlert } = useAlert();
+    const [ businessOwners, setBusinessOwners ] = useState<any>([]);
+    const [ employee, setEmployee ] = useState<any>([]);
     const [ showDetail, setShowDetail ] = useState(false);
     const [ error, setError ] = useState("");
 
-    function getUser() {
-        return GetUsers();
+    const handleDefaultDisplay = async () => {
+        // console.log("handleDefaultDisplay")
+        try{
+            // If current user role is 'System Admin'
+            if(currentUser?.role === UserType[1]){
+                const filter = handleFilterRole(users, UserType[0]); // Filter Business Owner
+                setBusinessOwners(Array.isArray(filter) ? filter : []);
+            }
+            // If current user role is 'Business Owner'
+            if(currentUser?.role === UserType[0]){
+                const filter = handleFilterRole(users, UserType[2]); // Filter Employee
+                setEmployee(Array.isArray(filter) ? filter : []);
+            }
+        } catch (error) {
+            setError(`${error}`)
+            setEmployee([]);
+            setBusinessOwners([]);
+        }
+
+        if(error)
+            showAlert(
+                "handleDefaultDisplay in UserList",
+                "Fetch data error",
+                error,
+                { type: 'error' }
+            )
     }
+    // Auto trigger when businessOwners / employee length changed
+    useEffect(() => { handleDefaultDisplay(); }, [businessOwners.length])
+    // useEffect(() => { console.log(businessOwners); }, [businessOwners.length])
 
     const handleDetailClick = (request: any) => {
         const data = JSON.stringify(request);
@@ -53,39 +85,6 @@ const UserList = ({currentUser = ""}: UserListProps) => {
         return false;
     }
 
-    const displayUser = () => {
-        // console.log(GetUsers())
-        const allData = getUser();
-
-        try{
-            if(currentUser?.role === 'System Admin')
-                filterDisplay(allData, 'Business Owner');
-            else 
-                filterDisplay(allData, 'Employee');
-
-        } catch(err) {
-            setError( err instanceof Error 
-                ? err.message 
-                : typeof err === 'string' 
-                    ? err 
-                    : 'An unknown error occurred');
-            
-        }
-    }
-
-    function filterDisplay (allData: any, filterby: String) {
-        // console.log(allData)
-        const filteredData = allData.filter((e:any) => {
-            // console.log(e)
-            return e.role === filterby
-        })
-        setData(filteredData);
-        // console.log(data);
-    }
-
-    // Call function displayUser() when component loaded
-    useEffect(() => {displayUser();}, [])
-
     return (
         <div id='loadUser' className='UserList'>
             <div className="filter-search">
@@ -97,11 +96,10 @@ const UserList = ({currentUser = ""}: UserListProps) => {
                             <select 
                                 value={selectedSubsStatus}
                                 onChange={(e) => setSelectedSubsStatus(e.target.value)}
-                                className="status-dropdown"
                             >
-                            <option value="Subscribed" className='dropdown-option'>Subscribed</option>
-                            <option value="Unsubscribed" className='dropdown-option'>Unsubscribed</option>
-                            <option value="Cancelled Subs" className='dropdown-option'>Cancelled Subs</option>
+                            <option value="Subscribed">Subscribed</option>
+                            <option value="Unsubscribed">Unsubscribed</option>
+                            <option value="Cancelled Subs">Cancelled Subs</option>
                             </select>
                         </div>
                     </div>
@@ -112,7 +110,6 @@ const UserList = ({currentUser = ""}: UserListProps) => {
                             <select 
                                 value={selectedAccStatus}
                                 onChange={(e) => setSelectedAccStatus(e.target.value)}
-                                className="status-dropdown"
                             >
                                 <option value="Activated" className='dropdown-option'>Activated</option>
                                 <option value="Suspended" className='dropdown-option'>Suspended</option>
@@ -131,34 +128,16 @@ const UserList = ({currentUser = ""}: UserListProps) => {
                 </div>
             </div>
             {/* Desktop Table Header */}
-            <div className="desktop-table">
-                <div className="desktop-table-header">
-                    <Header className='header-uen' text='UEN' />
-                    <Header className='header-company-name' text='COMPANY NAME' />
-                    <Header className='header-subs-status' text='Subscription Status' />
-                    <Header className='header-gap' text=''/>
-                </div>
-                {data.map((user, index) => (
-                <div key={user.id}>
-                    {/* Desktop View */}
-                    <div className="user-detail">
-                        <Cell className='body-uen' text={user.uen} />
-                        <Cell className='body-company-name' text={user.company} />
-                        <Cell className='body-subs-status' text={user.subsStatus} />
-                        <button 
-                            className="user-detail-detail-table" 
-                            onClick={() => handleDetailClick({user})}>
-                            <BiSolidUserDetail />
-                        </button>
-                    </div>
-                </div>
-                ))}
-            </div>
+            {currentUser?.role === 'System Admin' && (
+            <BOUserList 
+                boUsers={businessOwners} 
+                onDataUpdate={onDataUpdate} 
+            />)}
             
-            {data.map((user, index) => (
-            <div key={user.id}>
+            {/* {data.map((user, index) => (
+            <div key={user.id}> */}
                 {/* Tablet and Mobile */}
-                <div className="user-detail-mobile">
+                {/* <div className="user-detail-mobile">
                     <div className="user-detail-name">
                         <h2>
                             {user.name}
@@ -195,9 +174,9 @@ const UserList = ({currentUser = ""}: UserListProps) => {
                     </div>
                 </div>
             </div>
-            ))}
+            ))} */}
 
-            {showDetail && selectedUserDetail && (
+            {/* {showDetail && selectedUserDetail && (
                 <div className="App-popup">
                     <UserDetail 
                         userDetail = {selectedUserDetail}
@@ -205,13 +184,15 @@ const UserList = ({currentUser = ""}: UserListProps) => {
                         onClose={(() => handleCloseDetail())}
                     />
                 </div>
-            )}
+            )} */}
         </div>
     );
 }
 
 interface UserListProps {
+    users?: any;
     currentUser?: any;
+    onDataUpdate?: (updatedData: any) => void;
 }
 
 export default UserList;
