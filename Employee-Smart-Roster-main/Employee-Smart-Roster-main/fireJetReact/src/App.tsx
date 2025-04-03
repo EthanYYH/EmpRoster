@@ -7,7 +7,7 @@ import Alert from "./components/PromptAlert/Alert";
 // Pages or Component for general use
 import Login from "./components/Login";  // Import Login component
 import Navbar from "./components/NavBar/NavBar";
-import GuestLanding from './pages/Landing/landing'
+import GuestLanding from './pages/Landing/LandingPage'
 
 // Pages for System Admin
 import SADash from "./pages/Dashboard/SADash";
@@ -18,6 +18,10 @@ import UserDetail from "./components/UserMgt/UserDetail";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
+import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployeeOLD"
+import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
+import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
+
 
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
@@ -45,9 +49,9 @@ function App() {
               <Route
                 path="/users-menagement"
                 element={
-                  <ProtectedRoute>
+                  // <ProtectedRoute>
                     <UserMgts />
-                  </ProtectedRoute>
+                  // </ProtectedRoute>
                 }
               />
 
@@ -57,6 +61,33 @@ function App() {
                   <ProtectedRoute>
                     <UserDetail />
                   </ProtectedRoute>
+                }
+              />
+
+            <Route
+                path="/create-employee"
+                element={
+                  // <ProtectedRoute>
+                    <CreateEmployee />
+                  // </ProtectedRoute>
+                }
+              />
+
+<Route
+                path="/edit-employee"
+                element={
+                  // <ProtectedRoute>
+                    <EditEmployee />
+                  // </ProtectedRoute>
+                }
+              />
+
+<Route
+                path="/test123"
+                element={
+                  // <ProtectedRoute>
+                    <Test123 />
+                  // </ProtectedRoute>
                 }
               />
 
@@ -139,11 +170,11 @@ function App() {
               <Route
                 path="/landing-page"
                 element={
-                  <ProtectedRoute>
+                  // <ProtectedRoute>
                     <div className="App-content">
                       <GuestLanding />
                     </div>
-                  </ProtectedRoute>
+                  // </ProtectedRoute>
                 }
               />
 
