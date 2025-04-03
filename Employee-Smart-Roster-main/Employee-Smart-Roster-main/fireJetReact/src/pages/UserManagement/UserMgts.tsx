@@ -107,7 +107,8 @@ const UserMgts = () => {
             {user?.role === 'Business Owner' && (
                 <div className="side-menu">
                     Business Owner Side Menu Here
-                </div>)} 
+                </div>
+            )} 
         </div>
     );
     
