@@ -59,7 +59,11 @@ const BOSide = () => {
                 </Link>
             </div>
 
-            <div className="main">MY EMPLOYEE</div>
+            <div className="main">
+              <Link to="/users-menagement" className="sub-link-hover">
+                MY EMPLOYEE
+              </Link>
+            </div>
             <div className="sub-menu employee">
                 <Link to="/attendance-records-management" className="sub-link-hover">
                     Attendance Records
