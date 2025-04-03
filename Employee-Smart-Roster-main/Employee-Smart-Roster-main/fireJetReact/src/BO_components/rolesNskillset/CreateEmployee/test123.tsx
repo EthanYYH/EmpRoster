@@ -13,7 +13,8 @@ import EditEmployee from "./EditEmployee";
 export default function test123() {
 
   return (
-    <div className="main-container">
+    <div>
+      hi
       <Nav />
       <SideMenu />
       <CreateEmployee/>

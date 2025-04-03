@@ -70,7 +70,7 @@ export default function Header({ className = "" }: HeaderProps) {
       </header> */}
 
       <main className="title-section">
-        <h1 className="title">EmpRoster</h1>
+        <h1 className="LandingTitle">EmpRoster</h1>
       </main>
       <div className="subtitle">Simplify Employee Scheduling and Timesheets</div>
       <div className="description">

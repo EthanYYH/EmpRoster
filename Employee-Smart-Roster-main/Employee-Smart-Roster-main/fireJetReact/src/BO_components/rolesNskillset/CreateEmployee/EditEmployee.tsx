@@ -218,6 +218,10 @@ export default function EditEmployee() {
         <SubmitButton onClick={handleOpenEditPopup} text="Edit Details" />
       </div>
 
+{/* use <div className="App-popup">, css from App.css 
+
+*/}
+
       {isEditPopupOpen && (
         <PopupTable
           onClose={handleCloseEditPopup}
@@ -227,6 +231,9 @@ export default function EditEmployee() {
           buttonText="Submit"
         />
       )}
+
+<div className="App-popup">
+</div>
     </div>
   );
 }
