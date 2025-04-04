@@ -1,14 +1,10 @@
 import { useState } from "react";
-import Nav from "../../../components/NavBar/NavBar";
-import SideMenu from "../../../components/SideMenu/BOSide";
-import "../../../../public/styles/common.css";
-import "./CreateEmployee.css";
+import "./employeeForm.css";
 import SubmitButton from "../../../components/PrimaryButton/PrimaryButton";
 import { useAlert } from "../../../components/PromptAlert/AlertContext";
-import EditEmployee from "./EditEmployee";
-import profile from "./Profile.png"
-    
-    
+import profile from "./Profile.png";
+
+//https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/employee/update
 
 // Define types for PopupTable props
 interface PopupTableProps {
@@ -29,28 +25,26 @@ interface PopupTableProps {
   buttonText: string;
 }
 
-const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleInputChange, handleSubmit, buttonText }) => {
+const PopupTable: React.FC<PopupTableProps> = ({
+  onClose,
+  employeeData,
+  handleInputChange,
+  handleSubmit,
+  buttonText,
+}) => {
   return (
     <div className="popup-overlay">
       <div className="popup-container">
         <button className="popup-close-button" onClick={onClose}>X</button>
         <div className="popup-header">
-          <div className="LandingTitle">{buttonText}</div>
+          <div className="title">Update Employee Details</div>
         </div>
 
         <table className="createEmployeeTable">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>            <div className="buttonContainer">
-                <img src={profile} className="logo2" alt="Logo" />
-                </div></th>
-              <th>Wage</th>
-            </tr>
-          </thead>
           <tbody>
             <tr>
               <td>
+                <label>Name</label>
                 <input
                   type="text"
                   name="name"
@@ -60,15 +54,12 @@ const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleIn
                 />
               </td>
               <td>
-                {/* <input
-                  type="file"
-                  name="profilePhoto"
-                  className="input-field"
-                  accept="image/*"
-                /> */}
-    
+                <div className="buttonContainer">
+                  <img src={profile} className="logo2" alt="Profile" />
+                </div>
               </td>
               <td>
+                <label>Wage</label>
                 <input
                   type="text"
                   name="wage"
@@ -81,12 +72,8 @@ const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleIn
             </tr>
 
             <tr>
-              <th>Address</th>
-              <th></th>
-              <th>Skillset</th>
-            </tr>
-            <tr>
               <td>
+                <label>Address</label>
                 <input
                   type="text"
                   name="address"
@@ -97,23 +84,24 @@ const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleIn
               </td>
               <td></td>
               <td>
-                <input
-                  type="text"
+                <label>Skillset</label>
+                <select
                   name="skillset"
-                  placeholder="Skillset"
                   value={employeeData.skillset}
                   onChange={handleInputChange}
-                />
+                >
+                  {/* Replace with your actual skillset options */}
+                  <option value="Frontend">Frontend</option>
+                  <option value="Backend">Backend</option>
+                  <option value="Fullstack">Fullstack</option>
+                  <option value="DevOps">DevOps</option>
+                </select>
               </td>
             </tr>
 
             <tr>
-              <th>Email</th>
-              <th></th>
-              <th>Role</th>
-            </tr>
-            <tr>
               <td>
+                <label>Email</label>
                 <input
                   type="text"
                   name="email"
@@ -124,23 +112,24 @@ const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleIn
               </td>
               <td></td>
               <td>
-                <input
-                  type="text"
+                <label>Role</label>
+                <select
                   name="role"
-                  placeholder="Role"
                   value={employeeData.role}
                   onChange={handleInputChange}
-                />
+                >
+                  {/* Replace with your actual role options */}
+                  <option value="Admin">Admin</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Employee">Employee</option>
+                  <option value="Intern">Intern</option>
+                </select>
               </td>
             </tr>
 
             <tr>
-              <th>Working Hours</th>
-              <th></th>
-              <th>Status</th>
-            </tr>
-            <tr>
               <td>
+                <label>Working Hours</label>
                 <input
                   type="text"
                   name="workingHours"
@@ -151,6 +140,7 @@ const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleIn
               </td>
               <td></td>
               <td>
+                <label>Status</label>
                 <select
                   name="status"
                   value={employeeData.status}
@@ -179,7 +169,7 @@ const PopupTable: React.FC<PopupTableProps> = ({ onClose, employeeData, handleIn
   );
 };
 
-export default function CreateEmployee() {
+export default function EditEmployee() {
   const [employeeData, setEmployeeData] = useState({
     name: "",
     profilePhoto: null,
@@ -192,29 +182,15 @@ export default function CreateEmployee() {
     status: "Subscribed",
   });
 
-  const [isCreatePopupOpen, setIsCreatePopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const { showAlert } = useAlert();
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setEmployeeData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
-
-  const handleCreate = () => {
-    console.log("Employee Data Created:", employeeData);
-    showAlert(
-      `Account Created for ${employeeData.name}`,
-      "The employee account has been created successfully.",
-      "Account Created",
-      { type: "success" }
-    );
-    setIsCreatePopupOpen(false);
   };
 
   const handleEdit = () => {
@@ -228,20 +204,8 @@ export default function CreateEmployee() {
     setIsEditPopupOpen(false);
   };
 
-  const handleOpenCreatePopup = () => {
-    // Ensure only one popup is open at a time
-    setIsCreatePopupOpen(true);
-    setIsEditPopupOpen(false); // Close the Edit popup if it was open
-  };
-
   const handleOpenEditPopup = () => {
-    // Ensure only one popup is open at a time
     setIsEditPopupOpen(true);
-    setIsCreatePopupOpen(false); // Close the Create popup if it was open
-  };
-
-  const handleCloseCreatePopup = () => {
-    setIsCreatePopupOpen(false);
   };
 
   const handleCloseEditPopup = () => {
@@ -249,28 +213,14 @@ export default function CreateEmployee() {
   };
 
   return (
-    <div className="main-container">
-      <Nav />
-      <SideMenu />
-      <EditEmployee/>
-      <div className="logo">EmpRoster</div>
-
-      <div className="buttonContainer">
-        <SubmitButton onClick={handleOpenCreatePopup} text="Create Account" />
-      </div>
+    <div>
       <div className="buttonContainer">
         <SubmitButton onClick={handleOpenEditPopup} text="Edit Details" />
       </div>
 
-      {isCreatePopupOpen && (
-        <PopupTable
-          onClose={handleCloseCreatePopup}
-          employeeData={employeeData}
-          handleInputChange={handleInputChange}
-          handleSubmit={handleCreate}
-          buttonText="Create Account"
-        />
-      )}
+{/* use <div className="App-popup">, css from App.css 
+
+*/}
 
       {isEditPopupOpen && (
         <PopupTable
@@ -278,9 +228,12 @@ export default function CreateEmployee() {
           employeeData={employeeData}
           handleInputChange={handleInputChange}
           handleSubmit={handleEdit}
-          buttonText="Edit Details"
+          buttonText="Submit"
         />
       )}
+
+<div className="App-popup">
+</div>
     </div>
   );
 }

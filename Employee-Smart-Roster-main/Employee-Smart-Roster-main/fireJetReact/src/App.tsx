@@ -18,9 +18,9 @@ import UserDetail from "./components/UserMgt/UserDetail";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
-import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployeeOLD"
+import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
-import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
+import Test123 from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 
 
 // Import side menu
@@ -72,8 +72,7 @@ function App() {
                   // </ProtectedRoute>
                 }
               />
-
-<Route
+            <Route
                 path="/edit-employee"
                 element={
                   // <ProtectedRoute>

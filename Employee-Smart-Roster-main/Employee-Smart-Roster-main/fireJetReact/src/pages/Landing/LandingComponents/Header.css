@@ -92,7 +92,7 @@
   z-index: 2;
 }
 
-.title {
+.LandingTitle {
   font-size: 72px;
   font-weight: 700;
 }
@@ -115,5 +115,10 @@
 @media (min-width: 1261px) {
   .nav-menu {
     flex-wrap: nowrap;
+  }
+
+  .LandingTitle{
+    font-size: xx-small;
+    color:blue;
   }
 }

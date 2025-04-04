@@ -4,6 +4,8 @@ import RegisReqController from "../../controller/RegisReqController";
 import RegisReq_m from '../../SA_components/Registration_Request/RegisReq_m';
 import SASide from "../../components/SideMenu/SASide";
 import RegisReqTitle from '../../SA_components/Registration_Request/Title';
+import CreateAccount from "../../BO_components/rolesNskillset/CreateEmployee/CreateEmployee.js"
+import EditAccount from "../../BO_components/rolesNskillset/CreateEmployee/EditEmployee.js"
 
 import "./RegisRequests.css"
 import "../../../public/styles/common.css";
@@ -77,8 +79,10 @@ const RegisRequests = () => {
 
     return (
         <div className="RegisRequests">
-            <SASide />
+            {/* <SASide /> */}
             <div className="content">
+                <CreateAccount/>
+                <EditAccount/>
                 <RegisReqTitle />
                 
                 <div className="reg-filter-group">
