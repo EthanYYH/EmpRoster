@@ -1,73 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { FaInfoCircle } from '../../../public/Icons.js'
 import Header from './Header';
-import OtpInput from './OtpInput';
+import PwRule from './PwRule';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
-import SecondaryButton from '../../components/SecondaryButton/SecondaryButton';
-// import ResetPwController from '../../controller/User/ResetPwController.js';
 
 import './style.css'
 import '../../../public/styles/common.css'
 
-// import function needed from ResetPwController
-// const { sendOTP, } = ResetPwController;
-
 const ResetPassword: React.FC = () => {
-    const { token } = useParams();
+    const token = useParams(); // SubString the token to URL link for token
     const [ newPassword, setNewPassword ] = useState<string>('');
     const [ confirmNewPw, setConfirmNewPw ] = useState<string>('');
-    // const [ otp, setOtp ] = useState<string>('');
-    // const [ resendOtpTimer, setResendOtpTimer ] = useState(120);
-    // const [ disableResendOtp, setDisableResendOtp ] = useState(true);
+    const [ showPwRule, setShowPwRule ] = useState(false);
 
-    // const triggerOtpChange = (value: string) => {
-    //     setOtp(value)
-    // }
+    function triggerDisplayPwRule() {
+        setShowPwRule(true);
+    }
 
-    // Count down function for resend otp
-    // Auto trigger when the disableResendOtp || resendOtpTimer changed
-    // useEffect(() => {
-    //     let timer: NodeJS.Timeout;
-
-    //     if (disableResendOtp && resendOtpTimer >= 0) {
-    //         timer = setInterval(() => {
-    //             setResendOtpTimer(prev => {
-    //                 // If prev time is 0
-    //                 if(prev === 0){
-    //                     setDisableResendOtp(false); // Enable Resend Email button
-    //                     clearInterval(timer);
-    //                     return 0;
-    //                 }
-    //                 return prev - 1
-    //             })
-    //         }, 1000)
-    //     }
-    //     // console.log(resendOtpTimer)
-    //     return () => clearInterval(timer) // Clean Up
-    // }, [disableResendOtp, resendOtpTimer])
+    function triggerInvisiblePwRule() {
+        setShowPwRule(false);
+    }
 
     return (
         <div className="reset-pw">
             <Header />
             <form action="">
-                {/* Request User Input OTP */}
-                {/* <div className='forms-input OTP-form-input'>
-                    <strong>
-                        OTP Sent to Your Email <span style={{ color: 'red' }}>*</span>
-                    </strong>
-                    <div className="fields">
-                        <OtpInput 
-                            value={otp} 
-                            valueLength={6} 
-                            onChange={triggerOtpChange} />
-                    </div>
-                </div> */}
                 
                 {/* Request User Input New Password */}
                 <div className='forms-input'>
-                    <strong>
-                        New Password <span style={{ color: 'red' }}>*</span>
-                    </strong>
+                    <div className="reset-pw-information">
+                        <strong>
+                            New Password 
+                            <span style={{ color: 'red' }}>*</span>
+                        </strong>
+                        <div className="reset-pw-info-tooltip-icon">
+                            <FaInfoCircle 
+                                className='reset-pw-rule-info-icon'
+                            />
+                            <span className='reset-pw-rule-tooltext'>
+                                <PwRule />
+                            </span>
+                        </div>
+                        
+                        {showPwRule && (
+                            <div className="pw-rule-tooltip-box">
+                                Test password rule
+                                <PwRule />
+                            </div>
+                        )}
+                    </div>
+                    
                     <div className="fields">
                         <input type='password' 
                             name='password'
@@ -103,20 +86,7 @@ const ResetPassword: React.FC = () => {
                     <PrimaryButton 
                         text='Reset Password'
                         // onClick={() => }
-                        />
-                    {/* <div className="reset-pw-resend-otp">
-                        <span>Didn't receive code? </span>
-                        {disableResendOtp ? (
-                            <span>
-                                &nbsp;Resend in {resendOtpTimer}s
-                            </span>
-                        ):(
-                            <SecondaryButton 
-                                text='Resend OTP'
-                                // onClick={}    
-                            />
-                        )}
-                    </div> */}
+                    />
                 </div>
                 
                 

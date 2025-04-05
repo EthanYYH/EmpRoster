@@ -5,7 +5,6 @@ import Header from "./Header";
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton.js";
 import SecondaryButton from "../../components/SecondaryButton/SecondaryButton.js";
 import LoginController from '../../controller/User/LoginController.js';
-import ReqResetEmail from './ReqResetEmail';
 import "./style.css";
 import "../../../public/styles/common.css";
 

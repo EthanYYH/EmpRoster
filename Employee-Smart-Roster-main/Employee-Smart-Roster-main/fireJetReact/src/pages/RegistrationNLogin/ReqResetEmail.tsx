@@ -62,8 +62,6 @@ export default function ReqResetEmail() {
                 { type: 'error' }
             )
         }
-        
-
     }
 
     function triggerLogIn () {

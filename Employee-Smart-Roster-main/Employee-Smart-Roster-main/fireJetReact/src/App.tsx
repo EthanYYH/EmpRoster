@@ -25,7 +25,6 @@ import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/Create
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
 import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
 
-
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
 import BOSide from "./components/SideMenu/BOSide";
@@ -35,8 +34,8 @@ import "../public/styles/common.css";
 
 function App() {
   
-   //const { user } = useAuth();
-   //console.log(user);
+  //const { user } = useAuth();
+  //console.log(user);
 
   return (
     <AlertProvider>
@@ -72,7 +71,7 @@ function App() {
                 }
               />
 
-            <Route
+              <Route
                 path="/create-employee"
                 element={
                   // <ProtectedRoute>
@@ -81,7 +80,7 @@ function App() {
                 }
               />
 
-<Route
+              <Route
                 path="/edit-employee"
                 element={
                   // <ProtectedRoute>
@@ -90,7 +89,7 @@ function App() {
                 }
               />
 
-<Route
+              <Route
                 path="/test123"
                 element={
                   // <ProtectedRoute>

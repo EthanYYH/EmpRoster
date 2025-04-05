@@ -97,6 +97,14 @@ form, .form {
   border-bottom-style: outset;
 }
 
+.reset-pw-information {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: start;
+  align-items: center;
+}
+
 .reset-pw-btn {
   display: flex;
   flex-direction: column;
