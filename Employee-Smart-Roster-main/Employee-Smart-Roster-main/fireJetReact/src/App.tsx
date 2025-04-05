@@ -20,7 +20,11 @@ import UserDetail from "./components/UserMgt/UserDetail";
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
-import Test123 from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
+import Test123 from "./BO_components/rolesNskillset/CreateEmployee/testJSON"
+import ViewEmployeeList from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeList"
+import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
+
+
 
 
 // Import side menu
@@ -86,6 +90,26 @@ function App() {
                 element={
                   // <ProtectedRoute>
                     <Test123 />
+                  // </ProtectedRoute>
+                }
+              />
+
+
+
+<Route
+                path="/view-employee-list"
+                element={
+                  // <ProtectedRoute>
+                    <ViewEmployeeList />
+                  // </ProtectedRoute>
+                }
+              />
+
+<Route
+                path="/view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <ViewEmployeeDetail />
                   // </ProtectedRoute>
                 }
               />
