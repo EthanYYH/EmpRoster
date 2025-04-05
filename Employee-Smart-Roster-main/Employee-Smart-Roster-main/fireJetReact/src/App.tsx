@@ -5,7 +5,10 @@ import { AlertProvider } from "./components/PromptAlert/AlertContext";
 import Alert from "./components/PromptAlert/Alert";
 
 // Pages or Component for general use
-import Login from "./components/Login";  // Import Login component
+import Login from "./pages/RegistrationNLogin/Login";  // Import Login component
+import Register from "./pages/RegistrationNLogin/Registration";
+import ResetPassword from "./pages/RegistrationNLogin/ResetPW";
+import ReqResetEmail from "./pages/RegistrationNLogin/ReqResetEmail";
 import Navbar from "./components/NavBar/NavBar";
 import GuestLanding from './pages/Landing/LandingPage'
 
@@ -44,14 +47,19 @@ function App() {
           <div className="App-content" >
             <Routes>
               {/* Route for General pages */}
-              <Route path="/" element={<Login />} />
-
+              <Route path="/" element={<GuestLanding />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/request-reset-pw-email" element={<ReqResetEmail />} />
+              <Route path="/reset-pw" element={<ResetPassword />} />
+              {/* <Route path="/reset-pw/:token" element={<ResetPassword />} /> */}
+              
               <Route
                 path="/users-menagement"
                 element={
-                  // <ProtectedRoute>
+                  <ProtectedRoute>
                     <UserMgts />
-                  // </ProtectedRoute>
+                  </ProtectedRoute>
                 }
               />
 

@@ -1,0 +1,111 @@
+form, .form {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  align-self: center;
+  background-color: white;
+  padding: 23px;
+  justify-content: center;
+  justify-items: center;
+  gap: 15px;
+  border-width: 1px;
+  border-radius: 10px;
+  border-right-width: 3px;
+  border-bottom-width: 3px;
+  border-style: outset;
+  border-right-color: var(--side-menu-background);
+  border-bottom-color: var(--side-menu-background);
+}
+
+.login, .register, .reset-pw, .request-input-email-for-reset{
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  width: 100%;
+  gap: 30px;
+  justify-content: center;
+}
+
+.welcome-to-emproster {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  text-align: center;
+  filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.25));
+  color: black;
+  line-height: 1.2;
+}
+
+.para {
+  text-align: center;
+}
+
+.para-1 {
+  font-size: 55px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--primary-background);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+
+  .error-message{
+    color: var(--error);
+  }
+}
+
+.forms-input {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Login.tsx, Registration.tsx */
+.login-button-group, .register-btns-grp {
+  display: flex;
+  flex-direction: column;
+  padding-top: 16px;
+  align-items: center;
+}
+
+.login-reset-pw {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  align-items: center;
+  justify-content: end;
+  height: 30px;
+}
+
+.login-create-acc, .register-log-in {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Register.tsx */
+
+
+/* ResetPW.tsx */
+.OTP-form-input {
+  padding-bottom: 20px;
+  border-bottom-width: 1.5px;
+  border-bottom-color: var(--popup-background);
+  border-bottom-style: outset;
+}
+
+.reset-pw-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .reset-pw-resend-otp {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+}

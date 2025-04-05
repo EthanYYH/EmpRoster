@@ -8,6 +8,7 @@
     "@headlessui/react": "^2.0.0",
     "@syncfusion/ej2-react-dropdowns": "^28.2.11",
     "axios": "^1.8.4",
+    "fetch": "^1.1.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^18.2.0",

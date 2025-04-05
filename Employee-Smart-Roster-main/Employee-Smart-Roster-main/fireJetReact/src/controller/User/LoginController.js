@@ -1,6 +1,3 @@
-import axios from "axios"
-import { API_URL } from "../../dbURL";
-
 function ValidateLoginValues (values){
     let error = {}
     const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s]+$/
