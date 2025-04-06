@@ -29,40 +29,28 @@ function getSubscriptions (){
 }
 
 // return subscription transactions for each company
-function getSubscriptionTransactions () {
-    const data = [
-        {
-            subsTransID: 1,
-            startDate: "2025-03-23",
-            endDate: "2025-04-23",
-            subsStatus: "Subscribed",
-            reasonOfCancel: '',
-            createdAt: "2025-03-23T17:34:09",
-            subscripts: 1,
-            subscriptedBy: 2,
-        },
-        {
-            subsTransID: 2,
-            startDate: "2025-03-26",
-            endDate: "2025-04-26",
-            subsStatus: "Subscribed",
-            reasonOfCancel: '',
-            createdAt: "2025-03-26T17:34:09",
-            subscripts: 2,
-            subscriptedBy: 2,
-        },
-        {
-            subsTransID: 3,
-            startDate: "2025-02-22",
-            endDate: "2025-03-22",
-            subsStatus: "Unsubscribed",
-            reasonOfCancel: '',
-            createdAt: "2025-02-22T17:34:09",
-            subscripts: 1,
-            subscriptedBy: 1,
-        },
-    ]
-    return data;
+async function getSubscriptionTransactions () {
+    const body = {
+
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/company/subscription/view', {
+            method: 'GET',
+            body: JSON.stringify(),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(response.ok) {
+            const data = await response.json();
+            console.log(data);
+            return data;
+        } else {
+            throw new Error(`Failed to fetch Subscription Transactions: ${response.status}`)
+        }
+    } catch(error) {
+        console.log("Failed to load Subscription Transactions: \n", error);
+        throw error
+    }
 }
 
 function getSubsTransForACompany (allData, companyID) {

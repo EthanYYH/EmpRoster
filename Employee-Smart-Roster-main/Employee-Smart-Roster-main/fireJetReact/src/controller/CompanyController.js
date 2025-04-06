@@ -37,6 +37,37 @@ function getCompanies (){
     return data;
 }
 
+async function getCompany (uid){
+    const body = {
+        UID: uid,
+    }
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/profile', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    //     const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/profile', {
+    //         method: 'POST',
+    //         body: JSON.stringify(body),
+    //         headers: { 'Content-Type': 'application/json' }
+    //     })
+    //         const data = await response.json();
+    //         console.log(data);
+    //         return data;
+    // } catch (error) {
+    //     console.log(`Failed to fetch ${uid}'s company information:\n`, error)
+    //     throw error
+    // }
+}
+
 function GetCompanyRoles (){
     const data = [
         {
@@ -108,6 +139,7 @@ const handleFilterUENBizName = (companies, filterString) => {
 
 export default {
     getCompanies,
+    getCompany,
     GetCompanyRoles,
     GetCompanySkillsets,
     handleSelectedDetail,

@@ -138,6 +138,51 @@ function getUsers (){
     return data;
 }
 
+async function getBOUsers () {
+    const body = {
+
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/businessowner/list/view', {
+            method: 'GET',
+            body: JSON.stringify(),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(response.ok) {
+            const data = await response.json();
+            // console.log(data);
+            return data;
+        } else {
+            throw new Error(`Failed to fetch Business Owner Users: ${response.status}`)
+        }
+    } catch(error) {
+        console.log("Failed to load BO Users: \n", error);
+        throw error
+    }
+}
+
+async function getReportedIssue () {
+    const body = {
+        UID: 6,
+        reasonOfSuspend: "WM - Try Access Testing" 
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/user/suspend', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await response.json();
+        console.log(data)
+        return data;
+    } catch(error) {
+        console.log("Failed to load BO Users: \n", error);
+        throw error
+    }
+}
+
 function handleFilterRole (allData, role) {
     const filteredData = allData.filter((data) => {
         const roleMatch = role === "" || 
@@ -184,4 +229,6 @@ export default {
     getUserOwnesCompany,
     setUser,
     handleUserAccStatusFilter,
+    getBOUsers,
+    getReportedIssue,
 }

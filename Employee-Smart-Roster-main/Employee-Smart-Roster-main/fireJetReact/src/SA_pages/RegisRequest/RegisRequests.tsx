@@ -128,6 +128,7 @@ const RegisRequests = () => {
                     data={filteredRegisRequest}
                     onDataUpdate={handleDataUpdate}/>
             </div>
+            
         </div>
     )
 }
