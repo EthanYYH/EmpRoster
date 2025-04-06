@@ -14,7 +14,7 @@ const Navbar = () => {
     const { isLoggedIn, logout, user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation()
-    const isOnLanding = location.pathname.includes('');
+    const isOnLanding = location.pathname.includes('home');
     const isOnLogin = location.pathname.includes('login');
     const isOnRegister = location.pathname.includes('register');
     const isOnReqResetEmail = location.pathname.includes('request-reset-pw-email');

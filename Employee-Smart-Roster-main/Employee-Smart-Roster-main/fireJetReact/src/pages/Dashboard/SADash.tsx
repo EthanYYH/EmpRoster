@@ -48,14 +48,16 @@ export default function SADash() {
     return(
         <div className="App-content">
             <SASide />
-            <div className="dashboard-content">
-                <div className="virtual-data">
-                    <RatingChart />
-                    {/* <SubscriptionBar /> */}
-                </div>
-                <div className="regis-request-section">
-                    <RegisReqTitle noOfPendingRequest={filteredRegisRequest.length} />
-                    <RegisReq_m data={filteredRegisRequest}/>
+            <div className="content">
+                <div className="dashboard-content">
+                    <div className="virtual-data">
+                        <RatingChart />
+                        {/* <SubscriptionBar /> */}
+                    </div>
+                    <div className="regis-request-section">
+                        <RegisReqTitle noOfPendingRequest={filteredRegisRequest.length} />
+                        <RegisReq_m data={filteredRegisRequest}/>
+                    </div>
                 </div>
             </div>
         </div>

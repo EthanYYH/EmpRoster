@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import PrimaryButton from "./components/PrimaryButton/PrimaryButton";
@@ -49,7 +49,8 @@ function App() {
           <div className="App-content" >
             <Routes>
               {/* Route for General pages */}
-              <Route path="/" element={<GuestLanding />} />
+              <Route path="/home" element={<GuestLanding />} />
+              <Route path="/" element={<Navigate to="/home" replace />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/request-reset-pw-email" element={<ReqResetEmail />} />
@@ -126,7 +127,9 @@ function App() {
                   <ProtectedRoute>
                     <div className="App-content">
                       <SASide />
-                      <h1>ISSUES LOG</h1>
+                      <div className="content">
+                        <h1>ISSUES LOG</h1>
+                      </div>
                     </div>
                   </ProtectedRoute>
                 }
@@ -138,7 +141,9 @@ function App() {
                   <ProtectedRoute>
                     <div className="App-content">
                       <SASide />
-                      <h1>Demo Video Management</h1>
+                      <div className="content">
+                        <h1>Demo Video Management</h1>
+                      </div>
                     </div>
                   </ProtectedRoute>
                 }
@@ -150,7 +155,9 @@ function App() {
                   <ProtectedRoute>
                     <div className="App-content">
                       <SASide />
-                      <h1>Review & Rating</h1>
+                      <div className="content">
+                        <h1>Review & Rating</h1>
+                      </div>
                     </div>
                   </ProtectedRoute>
                 }
@@ -162,7 +169,9 @@ function App() {
                   <ProtectedRoute>
                     <div className="App-content">
                       <SASide />
-                      <h1>FAQ Management</h1>
+                      <div className="content">
+                        <h1>FAQ Management</h1>
+                      </div>
                     </div>
                   </ProtectedRoute>
                 }

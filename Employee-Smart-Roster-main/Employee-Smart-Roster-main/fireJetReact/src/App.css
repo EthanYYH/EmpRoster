@@ -20,6 +20,10 @@
   align-content: start;
   
   .content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: fit-content;
     margin-left: 200px; /* Gap for side menu */
   }
 }
@@ -37,22 +41,11 @@
   border-bottom-color: var(--primary-background);
 }
 
-.App-side-menuOLD {
-  display: flex;
-  flex-direction: column;
-  max-width: 200px;
-  background-color: var(--side-menu-background);
-  opacity: var(--side-menu-transparency);
-  color: var(--light-color-text);
-  padding: 10px;
-  height: auto;
-  justify-content: start;
-}
-
 .App-side-menu {
   position: fixed; /* Fix the sidebar in place */
   top: 0;
   left: 0;
+  margin-top: 65px; /* Set gap base on navbar */
   width: 200px; /* Set a fixed width */
   height: 100%; /* Full height of the viewport */
   background-color: var(--side-menu-background);

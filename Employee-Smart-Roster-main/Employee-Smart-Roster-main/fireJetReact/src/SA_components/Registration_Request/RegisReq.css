@@ -5,13 +5,6 @@
     height: fit-content;
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    height: fit-content;
-}
-
 .regis-req {
     display: flex;
     flex-direction: column;
