@@ -9,12 +9,10 @@ import './UserList.css';
 import '../../../public/styles/common.css';
 
 // import functions needed from UserController
-const { getUserOwnesCompany,
-        setUser,
+const { setUser,
         handleUserAccStatusFilter, } = UserController;
 // import functions needed from CompanyController
-const { getCompanies,
-        getCompany,
+const { getCompany,
         handleFilterUENBizName, } = CompanyController;
 // import functions needed from SubscribtionController
 const { getSubscriptionTransactions, 
@@ -117,12 +115,15 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
     ])
 
     const handleDataUpdate = (updatedData:any) => {
-        const updatedItem = boUsers.map((data:any) => 
-            data.UID === updatedData.owner[0]?.UID
-            ? updatedData.owner[0]
+        const updatedItem = allCompanies.map((data:any) => 
+            data.owner?.UID === updatedData.owner?.UID
+            ? { ...data, 
+                owner: updatedData.owner
+              }
             : data
         )
-        setUser(updatedItem)
+        console.log(updatedItem)
+        setAllCompanies(updatedItem) // Update data locally
     }
 
     return (
