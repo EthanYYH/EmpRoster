@@ -14,6 +14,7 @@ const { getUserOwnesCompany,
         handleUserAccStatusFilter, } = UserController;
 // import functions needed from CompanyController
 const { getCompanies,
+        getCompany,
         handleFilterUENBizName, } = CompanyController;
 // import functions needed from SubscribtionController
 const { getSubscriptionTransactions, 
@@ -34,26 +35,44 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
     const [ companies, setCompanies ] = useState<any>([]);  // Data to Display
 
     const fetchCompaniesData = async() => {
+        if(!boUsers) return; // If no boUsers return nothing
         try{
-            const companies = getCompanies();
-            // setCompanies(Array.isArray(companies) ? companies : []);
-            const transactions = getSubscriptionTransactions();
-            // console.log(transactions);
-
-            const fullCompaniesData = companies.map(company => {
-                // Get all transactions for current company
-                const transactionsForACompany = getSubsTransForACompany(transactions, company.cID);
-                // Get latest transactions for current company
-                const sortedTransactions = getSortedSubsTransactions(transactionsForACompany);
-                // console.log(latestTransaction)
-                const userOwnesThisCompany = getUserOwnesCompany(boUsers, company.cID)
-                return {
-                    ...company, // All data for current company
-                    transactions: sortedTransactions, // return latest transaction
-                    owner: userOwnesThisCompany, // return owner 
+            const companyOwnes = boUsers.map(async (user: any) => {
+                try {
+                    const company = await getCompany(user.UID);
+                    return {
+                        ...company,
+                        owner: user,
+                    }
+                } catch(error) {
+                    showAlert(
+                        `Error fetching company`,
+                        `UID: ${user.UID}: `,
+                        {error}.toString(),
+                        { type: 'error' }
+                    )
+                    return null;
                 }
             })
-            setAllCompanies(Array.isArray(fullCompaniesData) ? fullCompaniesData : []);
+            // const companies = getCompanies();
+            // // setCompanies(Array.isArray(companies) ? companies : []);
+            // const transactions = getSubscriptionTransactions();
+            // // console.log(transactions);
+
+            // const fullCompaniesData = companies.map(company => {
+            //     // Get all transactions for current company
+            //     const transactionsForACompany = getSubsTransForACompany(transactions, company.cID);
+            //     // Get latest transactions for current company
+            //     const sortedTransactions = getSortedSubsTransactions(transactionsForACompany);
+            //     // console.log(latestTransaction)
+            //     const userOwnesThisCompany = getUserOwnesCompany(boUsers, company.cID)
+            //     return {
+            //         ...company, // All data for current company
+            //         transactions: sortedTransactions, // return latest transaction
+            //         owner: userOwnesThisCompany, // return owner 
+            //     }
+            // })
+            // setAllCompanies(Array.isArray(fullCompaniesData) ? fullCompaniesData : []);
             
         } catch(error) {
             setCompanies([]);
@@ -66,7 +85,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
         }
     }
     // Auto trigger when companies length change
-    useEffect(() => { fetchCompaniesData(); }, [companies.length]);
+    useEffect(() => { fetchCompaniesData(); }, [boUsers]);
     // useEffect(() => {console.log(companies)})   // Debug to check the latest json Object
     
     const triggerFilterSubsStatus = async () => {

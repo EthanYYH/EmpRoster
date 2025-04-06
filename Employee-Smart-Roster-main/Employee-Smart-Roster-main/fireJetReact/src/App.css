@@ -33,7 +33,7 @@
   border-bottom-color: var(--primary-background);
 }
 
-.App-side-menu {
+.App-side-menuOLD {
   display: flex;
   flex-direction: column;
   max-width: 200px;
@@ -44,6 +44,30 @@
   height: auto;
   justify-content: start;
 }
+
+.App-side-menu {
+  /* position: fixed; Fix the sidebar in place */
+  top: 0;
+  left: 0;
+  width: 200px; /* Set a fixed width */
+  height: 100vh; /* Full height of the viewport */
+  background-color: var(--side-menu-background);
+  opacity: var(--side-menu-transparency);
+  color: var(--light-color-text);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto; /* Enable scrolling if content overflows */
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+/* Add margin to main content so it's not hidden behind the sidebar */
+.main-content {
+  margin-left: 200px; /* Same width as the sidebar */
+  padding: 20px;
+}
+
 
 .App-secondary-text {
   font-size: var(--secondary-text);
@@ -132,13 +156,18 @@ h3 {
 }
 
 /* Set input text field css */
-input[type=text]{
+input[type=text], 
+input[type=email],
+input[type=password]{
   background-color: white;
+  border-style: outset;
   border-width: 2px;
   border-color: var(--purple-color-text);
   border-radius: 8px;
   width: 100%;
   height: 36.5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 select {
@@ -195,6 +224,7 @@ option:checked {
   color: var(--light-color-text);
 }
 
+/* Mobile Table Setup */
 .App-mobile-table-icon {
   color: var(--primary-background);
   width: fit-content;
@@ -207,7 +237,6 @@ option:checked {
   border-radius: 10px;
 }
 
-/* Mobile Table Setup */
 .App-mobile-table-icon:hover {
   cursor: pointer;
   background-color: var(--primary-background);

@@ -10,7 +10,7 @@ import './UserMgts.css'
 import "../../../public/styles/common.css"
 
 // Import functions needed from UserController
-const { getUsers, handleFilterRole } = UserController
+const { getUsers, getBOUsers, handleFilterRole } = UserController
 const UserType = ['Business Owner', 'System Admin', 'Employee']
 
 const UserMgts = () => {
@@ -76,15 +76,25 @@ const UserMgts = () => {
             )
     }
 
-    // Update user to display when allUsers or user role changes
+    const fetchBoUsersData = async () => {
+        try{
+            const data = await getBOUsers();
+            const boList = data.BOList || [];
+            console.log(boList)
+            setBizOwners(Array.isArray(boList) ? boList : []);
+        } catch(error) {
+            showAlert(
+                "filterBizOwner",
+                "Fetch data error",
+                `${error}`,
+                { type: 'error' }
+            )
+        }
+    }
     useEffect(() => {
-        if(user?.role === UserType[1])
-            filterBizOwner();
-        else if(user?.role == UserType[0])
-            filterEmployee();
-        else 
-            return
-    }, [allUsers, user?.role])
+        fetchBoUsersData();
+    }, [bizOwners.length, user?.role === UserType[1]])
+    // useEffect(() => {console.log(bizOwners)},[bizOwners])
 
     return (
         <div className='user-management'>

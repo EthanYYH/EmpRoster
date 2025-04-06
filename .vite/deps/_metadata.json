@@ -1,0 +1,94 @@
+{
+  "hash": "e73aaa64",
+  "configHash": "1f8adf6c",
+  "lockfileHash": "e3b0c442",
+  "browserHash": "c7f0816b",
+  "optimized": {
+    "axios": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "5e9a3b43",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "afb853a0",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "7ade30d4",
+      "needsInterop": true
+    },
+    "react-external-link": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/react-external-link/dist/index.js",
+      "file": "react-external-link.js",
+      "fileHash": "1126b80a",
+      "needsInterop": false
+    },
+    "react-icons/bi": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/react-icons/bi/index.mjs",
+      "file": "react-icons_bi.js",
+      "fileHash": "d59c4c15",
+      "needsInterop": false
+    },
+    "react-icons/cg": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/react-icons/cg/index.mjs",
+      "file": "react-icons_cg.js",
+      "fileHash": "5a65fb1a",
+      "needsInterop": false
+    },
+    "react-icons/fa": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/react-icons/fa/index.mjs",
+      "file": "react-icons_fa.js",
+      "fileHash": "8d55d895",
+      "needsInterop": false
+    },
+    "react-icons/io": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/react-icons/io/index.mjs",
+      "file": "react-icons_io.js",
+      "fileHash": "47e4b8a7",
+      "needsInterop": false
+    },
+    "react-icons/io5": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/react-icons/io5/index.mjs",
+      "file": "react-icons_io5.js",
+      "fileHash": "da44b99f",
+      "needsInterop": false
+    },
+    "react-icons/lu": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/react-icons/lu/index.mjs",
+      "file": "react-icons_lu.js",
+      "fileHash": "c9acbb6c",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "20566517",
+      "needsInterop": false
+    },
+    "recharts": {
+      "src": "../../Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/node_modules/recharts/es6/index.js",
+      "file": "recharts.js",
+      "fileHash": "3aa1164c",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-I77EGHU6": {
+      "file": "chunk-I77EGHU6.js"
+    },
+    "chunk-7WWNNN74": {
+      "file": "chunk-7WWNNN74.js"
+    },
+    "chunk-TBXE5IYZ": {
+      "file": "chunk-TBXE5IYZ.js"
+    },
+    "chunk-G3PMV62Z": {
+      "file": "chunk-G3PMV62Z.js"
+    }
+  }
+}
