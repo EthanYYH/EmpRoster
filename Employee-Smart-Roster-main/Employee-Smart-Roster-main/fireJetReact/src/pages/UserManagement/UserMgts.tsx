@@ -41,23 +41,6 @@ const UserMgts = () => {
     // Auto trigger when allUsers length change
     useEffect(() => { fetchUsersData(); }, [allUsers.length])
     // useEffect(() => { console.log(allUsers); }, [allUsers.length])
-    
-    const filterBizOwner = async () => {
-        try {
-            const filter = handleFilterRole(allUsers, UserType[0]); // Filter Business Owner
-            setBizOwners(Array.isArray(filter) ? filter : []);
-        } catch (error) {
-            setError(`${error}`)
-            setBizOwners([])
-        }
-        if(error)
-            showAlert(
-                "filterBizOwner",
-                "Fetch data error",
-                error,
-                { type: 'error' }
-            )
-    }
 
     const filterEmployee = async () => {
         try {
