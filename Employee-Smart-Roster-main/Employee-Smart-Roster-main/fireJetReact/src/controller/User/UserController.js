@@ -162,6 +162,27 @@ async function getBOUsers () {
     }
 }
 
+async function getReportedIssue () {
+    const body = {
+        UID: 6,
+        reasonOfSuspend: "WM - Try Access Testing" 
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/user/suspend', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await response.json();
+        console.log(data)
+        return data;
+    } catch(error) {
+        console.log("Failed to load BO Users: \n", error);
+        throw error
+    }
+}
+
 function handleFilterRole (allData, role) {
     const filteredData = allData.filter((data) => {
         const roleMatch = role === "" || 
@@ -209,4 +230,5 @@ export default {
     setUser,
     handleUserAccStatusFilter,
     getBOUsers,
+    getReportedIssue,
 }

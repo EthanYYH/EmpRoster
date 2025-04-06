@@ -11,7 +11,8 @@ import '../../../public/styles/common.css';
 // import functions needed from UserController
 const { getUserOwnesCompany,
         setUser,
-        handleUserAccStatusFilter, } = UserController;
+        handleUserAccStatusFilter,
+        getReportedIssue, } = UserController;
 // import functions needed from CompanyController
 const { getCompanies,
         getCompany,
@@ -36,6 +37,9 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
 
     const fetchCompaniesData = async() => {
         if(!boUsers) return; // If no boUsers return nothing
+        const test = await getReportedIssue()
+        console.log(test)
+        
         try{
             const companyOwnes = boUsers.map(async (user: any) => {
                 try {
