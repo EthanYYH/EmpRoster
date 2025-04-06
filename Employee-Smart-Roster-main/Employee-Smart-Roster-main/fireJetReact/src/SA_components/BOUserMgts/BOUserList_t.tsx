@@ -61,7 +61,7 @@ const BOUserList_t = ({ companies = [], onUpdate }: BOListTableProps) => {
                 <Header className='App-header-icon-gap' text='' />
             </div>
             {companies.map((company:any) => (
-            <div className="App-desktop-table-row bo-user-table-row" key={company.cID}>
+            <div className="App-desktop-table-row bo-user-table-row" key={company.UEN}>
                 <Cell className='bo-user-table-row-uen' text={company.UEN} />
                 <Cell className='bo-user-table-row-company-name' text={company.bizName} />
                 <Cell className='bo-user-table-row-subs-status' text={company.transactions[0]?.subsStatus || 'Unsubscribed'} />

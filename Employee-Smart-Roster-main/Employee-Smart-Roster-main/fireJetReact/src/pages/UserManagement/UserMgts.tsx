@@ -63,7 +63,7 @@ const UserMgts = () => {
         try{
             const data = await getBOUsers();
             const boList = data.BOList || [];
-            console.log(boList)
+            // console.log(boList)
             setBizOwners(Array.isArray(boList) ? boList : []);
         } catch(error) {
             showAlert(

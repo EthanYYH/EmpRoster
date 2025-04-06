@@ -1,6 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
+import PrimaryButton from "./components/PrimaryButton/PrimaryButton";
 import { AlertProvider } from "./components/PromptAlert/AlertContext";
 import Alert from "./components/PromptAlert/Alert";
 
@@ -16,8 +17,8 @@ import GuestLanding from './pages/Landing/LandingPage'
 import SADash from "./pages/Dashboard/SADash";
 import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import UserMgts from "./pages/UserManagement/UserMgts";
-import RegisReqDetail from "./SA_components/Registration_Request/RegisReqDetail"
 import UserDetail from "./components/UserMgt/UserDetail";
+import PreviewLanding from "./SA_pages/PreviewLanding";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
@@ -33,7 +34,7 @@ import "./App.css";
 import "../public/styles/common.css";
 
 function App() {
-  
+
   //const { user } = useAuth();
   //console.log(user);
 
@@ -42,6 +43,8 @@ function App() {
     <AuthProvider>
       <div className="App">
         <Router>
+          {/* Display navigation bar only when 
+              user is not in the following page */}
           <Navbar />
           <div className="App-content" >
             <Routes>
@@ -109,16 +112,7 @@ function App() {
               />
 
               <Route
-                path="/regis-request-detail"
-                element={
-                  <ProtectedRoute>
-                    <RegisReqDetail />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/reg-list"
+                path="/registration-req-management"
                 element={
                   <ProtectedRoute>
                     <RegisRequests />
@@ -127,7 +121,7 @@ function App() {
               />
 
               <Route
-                path="/issues-log"
+                path="/issues-management"
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
@@ -151,19 +145,19 @@ function App() {
               />
 
               <Route
-                path="/review-rating-management"
+                path="/review-rating"
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
                       <SASide />
-                      <h1>Review & Rating Management</h1>
+                      <h1>Review & Rating</h1>
                     </div>
                   </ProtectedRoute>
                 }
               />
 
               <Route
-                path="/faq-management"
+                path="/faqs-management"
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
@@ -175,13 +169,11 @@ function App() {
               />
 
               <Route
-                path="/landing-page"
+                path="/preview-landing-page"
                 element={
-                  // <ProtectedRoute>
-                    <div className="App-content">
-                      <GuestLanding />
-                    </div>
-                  // </ProtectedRoute>
+                  <ProtectedRoute>
+                    <PreviewLanding />
+                  </ProtectedRoute>
                 }
               />
 

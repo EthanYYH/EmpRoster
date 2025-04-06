@@ -8,7 +8,3 @@ export function formateDateTime (isoString){
         dateStyle: 'long'
     }).format(new Date(isoString), 'dd/MM/yyyy hh:mm tt')
 }
-
-// export default {
-//     formateDateTime,
-// }
