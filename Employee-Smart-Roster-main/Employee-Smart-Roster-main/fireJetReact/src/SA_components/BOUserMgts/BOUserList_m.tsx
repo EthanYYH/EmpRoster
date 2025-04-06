@@ -44,7 +44,7 @@ const BOUserList_m = ({ companies = [], onUpdate }: BOListMobileProps) => {
 
     if (companies.length === 0) return (
         <div className="App-mobile-responsive-table">
-            <b>No Data Loaded...</b>
+            <b>No Data Match with Filter...</b>
         </div>
     )
     return (

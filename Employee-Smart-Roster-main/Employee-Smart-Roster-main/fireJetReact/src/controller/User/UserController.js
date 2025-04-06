@@ -149,37 +149,17 @@ async function getBOUsers () {
             body: JSON.stringify(),
             headers: { 'Content-Type': 'application/json' }
         });
-        if(response.ok) {
-            const data = await response.json();
-            // console.log(data);
-            return data;
-        } else {
-            throw new Error(`Failed to fetch Business Owner Users: ${response.status}`)
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
         }
-    } catch(error) {
-        console.log("Failed to load BO Users: \n", error);
-        throw error
-    }
-}
-
-async function getReportedIssue () {
-    const body = {
-        UID: 6,
-        reasonOfSuspend: "WM - Try Access Testing" 
-    };
-
-    try{
-        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/user/suspend', {
-            method: 'PATCH',
-            body: JSON.stringify(body),
-            headers: { 'Content-Type': 'application/json' }
-        });
         const data = await response.json();
-        console.log(data)
-        return data;
+        // console.log(data);
+
+        return await data;
     } catch(error) {
-        console.log("Failed to load BO Users: \n", error);
-        throw error
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to fetch company data: ${error.message}`);
     }
 }
 
@@ -212,11 +192,11 @@ function handleUserAccStatusFilter(companies, accStatus) {
         const dataAccStatus = company.owner[0].isSuspended
         // If accStatus is 'Activated'
         if (accStatus === 'Activated'){
-            const IS_SUSPENDED = false  // The account is not suspended
+            const IS_SUSPENDED = 0  // The account is not suspended
             return dataAccStatus === IS_SUSPENDED  
         }
         else {
-            const IS_SUSPENDED = true  // The account is suspended
+            const IS_SUSPENDED = 1  // The account is suspended
             return dataAccStatus === IS_SUSPENDED  
         }
     })
@@ -230,5 +210,4 @@ export default {
     setUser,
     handleUserAccStatusFilter,
     getBOUsers,
-    getReportedIssue,
 }
