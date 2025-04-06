@@ -49,7 +49,7 @@ async function getCompany (uid){
             throw new Error(errorData.message || `HTTP error status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         return await data;
     } catch (error) {

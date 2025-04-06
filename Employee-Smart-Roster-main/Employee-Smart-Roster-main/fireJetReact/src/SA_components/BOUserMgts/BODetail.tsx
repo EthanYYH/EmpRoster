@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { IoClose, GiRotaryPhone } from '../../../public/Icons.js'
 import { useAlert } from '../../components/PromptAlert/AlertContext.js'
 import { formateDateTime } from '../../controller/Variables.js'
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton.js'
@@ -8,6 +7,13 @@ import UserController from '../../controller/User/UserController.js'
 import '../../components/UserMgt/UserDetail.css'
 import './BODetail.css'
 import '../../../public/styles/common.css'
+import { IoClose, 
+         GiRotaryPhone, 
+         MdContactPhone, 
+         FaFilePdf,
+         MdOutlineMailOutline,
+         FaCircle,
+         MdOutlineLocationOn, } from '../../../public/Icons.js'
 
 const { handleSuspendUser,
         handleUsuspendUser, } = UserController
@@ -99,7 +105,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     }} 
                     required 
                 />
-                <div className="btns-grp">
+                <div className="suspend-btn ">
                     <PrimaryButton 
                         text='Confirm'
                         onClick={() => triggerSuspendUser()}
@@ -124,12 +130,23 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             </div>
             <div className="content">
                 <div className="company-info">
-                    <h3>{company.bizName}</h3>
+                    <div className="bo-detail-company-info-header">
+                        <h3>{company.bizName}</h3>
+                        <FaFilePdf 
+                            className='icons'
+                            // onClick={() => }
+                        />
+                    </div>
+                    
                     <p className="Bo-detail-title">{company.UEN}</p>
-                    <p className="main-data">{company.address}</p>
+                    
+                    <div className="company-info-detail-contact">
+                        <MdOutlineLocationOn className='bo-detail-icon'/>
+                        <p>{company.address}</p>
+                    </div>
 
                     <div className="company-info-detail-contact">
-                        <GiRotaryPhone className='phone-icon'/>
+                        <GiRotaryPhone className='bo-detail-icon'/>
                         <p>{company.contactNo}</p>
                     </div>
                 </div>
@@ -137,22 +154,29 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     <h3>Business Owner Information</h3>
                     
                     <div className='bo-info-data'>
-                        <p className="Bo-detail-title">Email:&nbsp;</p>
+                        <p className="Bo-detail-title">
+                            <MdOutlineMailOutline className='bo-detail-icon'/>
+                        </p>
                         <p className="main-data">{company.owner.email}</p>
                     </div>
                     <div className='bo-info-data'>
-                        <p className="Bo-detail-title">Contact:&nbsp;</p>
+                        <p className="Bo-detail-title">
+                            <MdContactPhone className='bo-detail-icon'/>
+                        </p>
                         <p className="main-data">{company.owner.hpNo}</p>
                     </div>
-                    <div className="bo-status-data">
-                        <div className="bo-info-data">
-                            <p className="Bo-detail-title">Account Status: </p>
-                            {company.owner?.isSuspended === 1 ? (
+                    <div className="bo-info-data">
+                        {company.owner?.isSuspended === 1 ? (
+                            <>
+                                <FaCircle className='bo-detail-icon Bo-detail-title bo-suspended'/>
                                 <p className="main-data">Suspended</p>
-                            ):(
+                            </>
+                        ):(
+                            <>
+                                <FaCircle className='bo-detail-icon Bo-detail-title bo-activated'/>
                                 <p className="main-data">Activated</p>
-                            )}
-                        </div>
+                            </>
+                        )}
                     </div>
                 </div>
                 <div className="subs-info">

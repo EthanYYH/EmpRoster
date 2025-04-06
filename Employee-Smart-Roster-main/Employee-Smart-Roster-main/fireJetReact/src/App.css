@@ -18,6 +18,10 @@
   overflow: auto;
   justify-content: start;
   align-content: start;
+  
+  .content {
+    margin-left: 200px; /* Gap for side menu */
+  }
 }
 
 .App-header {
@@ -46,11 +50,11 @@
 }
 
 .App-side-menu {
-  /* position: fixed; Fix the sidebar in place */
+  position: fixed; /* Fix the sidebar in place */
   top: 0;
   left: 0;
   width: 200px; /* Set a fixed width */
-  height: 100vh; /* Full height of the viewport */
+  height: 100%; /* Full height of the viewport */
   background-color: var(--side-menu-background);
   opacity: var(--side-menu-transparency);
   color: var(--light-color-text);
@@ -58,7 +62,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  overflow-y: auto; /* Enable scrolling if content overflows */
+  overflow-y: hidden; /* Enable scrolling if content overflows */
   z-index: 1000; /* Ensure it's above other elements */
 }
 
@@ -338,8 +342,12 @@ option:checked {
 
 /* Mobile (all screens below 768px) */
 @media only screen and (max-width: 768px) {
-  .App{
+  .App {
     font-size: var(--text-size-m);
+  }
+
+  .App-content .content {
+    margin-left: 0px;
   }
 
   .App-secondary-text {
@@ -360,6 +368,7 @@ option:checked {
 
   .App-side-menu {
     display: none;
+    opacity: 100%;
   }
 
   .App-desktop-responsive-table {

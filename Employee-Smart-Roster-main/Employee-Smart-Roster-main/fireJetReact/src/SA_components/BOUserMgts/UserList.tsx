@@ -71,7 +71,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
                 
             })
             const fullCompaniesData = await Promise.all(fullCompaniesDataPromises)
-            console.log(`Full company data: \n`, fullCompaniesData)
+            // console.log(`Full company data: \n`, fullCompaniesData)
             setAllCompanies(Array.isArray(fullCompaniesData) ? fullCompaniesData : [])
             
         } catch(error) {
@@ -122,7 +122,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
               }
             : data
         )
-        console.log(updatedItem)
+        // console.log(updatedItem)
         setAllCompanies(updatedItem) // Update data locally
     }
 

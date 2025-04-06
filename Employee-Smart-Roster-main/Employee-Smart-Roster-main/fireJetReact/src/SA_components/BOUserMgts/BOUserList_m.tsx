@@ -52,7 +52,7 @@ const BOUserList_m = ({ companies = [], onUpdate }: BOListMobileProps) => {
         <div className="App-mobile-responsive-table">
         {companies.map((company:any) => (
         <div 
-            key={company.cID}
+            key={company.UEN}
             className='App-mobile-responsive-table-card'
         >
             <div className="App-mobile-responsive-table-card-title">
