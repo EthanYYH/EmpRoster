@@ -43,14 +43,26 @@ async function getCompany (uid){
             method: 'POST',
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' }
-        })
-            const data = await response.json();
-            console.log(data);
-            return data;
+        });
+
+        const data = await response.json();
+        console.log(data);
+        return data;
     } catch (error) {
-        console.log(`Failed to fetch ${uid}'s company information:\n`, error)
-        throw error
+        console.error('Error:', error);
     }
+    //     const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/profile', {
+    //         method: 'POST',
+    //         body: JSON.stringify(body),
+    //         headers: { 'Content-Type': 'application/json' }
+    //     })
+    //         const data = await response.json();
+    //         console.log(data);
+    //         return data;
+    // } catch (error) {
+    //     console.log(`Failed to fetch ${uid}'s company information:\n`, error)
+    //     throw error
+    // }
 }
 
 function GetCompanyRoles (){
