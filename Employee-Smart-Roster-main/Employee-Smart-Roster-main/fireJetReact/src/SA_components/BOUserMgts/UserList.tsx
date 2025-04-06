@@ -38,7 +38,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
     const fetchCompaniesData = async() => {
         if(!boUsers) return; // If no boUsers return nothing
         const test = await getReportedIssue()
-        console.log(test)
+        // console.log(test)
         
         try{
             const companyOwnes = boUsers.map(async (user: any) => {
