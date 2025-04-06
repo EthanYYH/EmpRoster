@@ -37,7 +37,7 @@ const PopupTable: React.FC<PopupTableProps> = ({
       <div className="popup-container">
         <button className="popup-close-button" onClick={onClose}>X</button>
         <div className="popup-header">
-          <div className="title">Update Employee Details</div>
+          <div className=".edit-emp-title">Update Employee Details</div>
         </div>
 
         <table className="createEmployeeTable">

@@ -125,7 +125,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             <div className="content">
                 <div className="company-info">
                     <h3>{company.bizName}</h3>
-                    <p className="title">{company.UEN}</p>
+                    <p className="Bo-detail-title">{company.UEN}</p>
                     <p className="main-data">{company.address}</p>
 
                     <div className="company-info-detail-contact">
@@ -137,16 +137,16 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     <h3>Business Owner Information</h3>
                     
                     <div className='bo-info-data'>
-                        <p className="title">Email:&nbsp;</p>
+                        <p className="Bo-detail-title">Email:&nbsp;</p>
                         <p className="main-data">{company.owner.email}</p>
                     </div>
                     <div className='bo-info-data'>
-                        <p className="title">Contact:&nbsp;</p>
+                        <p className="Bo-detail-title">Contact:&nbsp;</p>
                         <p className="main-data">{company.owner.hpNo}</p>
                     </div>
                     <div className="bo-status-data">
                         <div className="bo-info-data">
-                            <p className="title">Account Status: </p>
+                            <p className="Bo-detail-title">Account Status: </p>
                             {company.owner?.isSuspended === 1 ? (
                                 <p className="main-data">Suspended</p>
                             ):(
@@ -157,14 +157,14 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                 </div>
                 <div className="subs-info">
                     <div className="subs-info-data">
-                        <p className="title">Subscription Status: </p>
+                        <p className="Bo-detail-title">Subscription Status: </p>
                         <p className="main-data">
                             {company.transactions[0]?.subsStatus || 'Unsubscribed'}
                         </p>
                     </div>
                     {company.transactions.length > 0 ? (
                     <div className="subs-info-data">
-                        <p className="title">Subscription Period: </p>
+                        <p className="Bo-detail-title">Subscription Period: </p>
                         <p className="main-data">
                             {formateDateTime(company.transactions[0].startDate)}
                             &nbsp;to&nbsp;
