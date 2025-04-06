@@ -5,7 +5,10 @@ import { AlertProvider } from "./components/PromptAlert/AlertContext";
 import Alert from "./components/PromptAlert/Alert";
 
 // Pages or Component for general use
-import Login from "./components/Login";  // Import Login component
+import Login from "./pages/RegistrationNLogin/Login";  // Import Login component
+import Register from "./pages/RegistrationNLogin/Registration";
+import ResetPassword from "./pages/RegistrationNLogin/ResetPW";
+import ReqResetEmail from "./pages/RegistrationNLogin/ReqResetEmail";
 import Navbar from "./components/NavBar/NavBar";
 import GuestLanding from './pages/Landing/LandingPage'
 
@@ -20,11 +23,7 @@ import UserDetail from "./components/UserMgt/UserDetail";
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
-import Test123 from "./BO_components/rolesNskillset/CreateEmployee/testJSON"
-import ViewEmployeeList from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeList"
-import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
-
-
+import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
 
 
 // Import side menu
@@ -36,8 +35,8 @@ import "../public/styles/common.css";
 
 function App() {
   
-   //const { user } = useAuth();
-   //console.log(user);
+  //const { user } = useAuth();
+  //console.log(user);
 
   return (
     <AlertProvider>
@@ -48,14 +47,19 @@ function App() {
           <div className="App-content" >
             <Routes>
               {/* Route for General pages */}
-              <Route path="/" element={<Login />} />
-
+              <Route path="/" element={<GuestLanding />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/request-reset-pw-email" element={<ReqResetEmail />} />
+              <Route path="/reset-pw" element={<ResetPassword />} />
+              {/* <Route path="/reset-pw/:token" element={<ResetPassword />} /> */}
+              
               <Route
                 path="/users-menagement"
                 element={
-                  // <ProtectedRoute>
+                  <ProtectedRoute>
                     <UserMgts />
-                  // </ProtectedRoute>
+                  </ProtectedRoute>
                 }
               />
 
@@ -68,7 +72,7 @@ function App() {
                 }
               />
 
-            <Route
+              <Route
                 path="/create-employee"
                 element={
                   // <ProtectedRoute>
@@ -76,7 +80,8 @@ function App() {
                   // </ProtectedRoute>
                 }
               />
-            <Route
+
+<Route
                 path="/edit-employee"
                 element={
                   // <ProtectedRoute>
@@ -85,7 +90,7 @@ function App() {
                 }
               />
 
-<Route
+              <Route
                 path="/test123"
                 element={
                   // <ProtectedRoute>
@@ -136,9 +141,9 @@ function App() {
               <Route
                 path="/reg-list"
                 element={
-                  // <ProtectedRoute>
+                  <ProtectedRoute>
                     <RegisRequests />
-                  // </ProtectedRoute>
+                  </ProtectedRoute>
                 }
               />
 

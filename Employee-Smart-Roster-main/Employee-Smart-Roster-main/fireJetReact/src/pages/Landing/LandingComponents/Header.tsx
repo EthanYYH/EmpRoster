@@ -33,9 +33,9 @@ export default function Header({ className = "" }: HeaderProps) {
                 Home
               </a>
             </li>
-            <li><a href="#register">Register</a></li>
+            <li><a onClick={() => navigate("/register")}>Register</a></li>
             <li>
-              <a onClick={() => navigate("/")} style={{ cursor: "pointer" }}>Login</a>
+              <a onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>Login</a>
             </li>
           </ul>
         </nav>

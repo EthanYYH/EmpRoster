@@ -1,22 +1,68 @@
-function GetCompanyData (){
+function getCompanies (){
     const data = [
         {
-            company: "GOOGLE VENTURES PTE. LTD.",
-            uen: "202017097M",
-            subsStatus: "Subscribed",
+            cID: 1,
+            UEN: "202017097M",
+            bizName: "GOOGLE VENTURES PTE. LTD.",
+            contactNo: "+65 6666 1111",
+            bizFilePath: "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8",
+            address: "#01-01 Clementi S111111",
+            createdAt: "2025-3-25 12:00:08",
+            lastUpdate: "",
         },
         {
-            company: "GOOGLE CARS",
-            uen: "53137217X",
-            subsStatus: "Subscribed",
+            cID: 2,
+            UEN: "53137217X",
+            bizName: "GOOGLE CARS",
+            contactNo: "+65 6666 1112",
+            bizFilePath: "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8",
+            address: "#02-02 Clementi S111122",
+            createdAt: "2025-3-25 12:00:08",
+            lastUpdate: "",
         },
         {
-            company: "GOOGLE CLOUD",
-            uen: "53342345K",
-            subsStatus: "Subscribed",
+            cID: 3,
+            UEN: "53342345K",
+            bizName: "GOOGLE CLOUD",
+            contactNo: "+65 6666 1113",
+            bizFilePath: "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8",
+            address: "#03-03 Clementi S111133",
+            createdAt: "2025-3-25 12:00:08",
+            lastUpdate: "",
         }
     ]
     return data;
+}
+
+async function getCompany (uid){
+    const body = {
+        UID: uid,
+    }
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/profile', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        const data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    //     const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/profile', {
+    //         method: 'POST',
+    //         body: JSON.stringify(body),
+    //         headers: { 'Content-Type': 'application/json' }
+    //     })
+    //         const data = await response.json();
+    //         console.log(data);
+    //         return data;
+    // } catch (error) {
+    //     console.log(`Failed to fetch ${uid}'s company information:\n`, error)
+    //     throw error
+    // }
 }
 
 function GetCompanyRoles (){
@@ -71,8 +117,28 @@ function GetCompanySkillsets (){
     return data;
 }
 
+const handleSelectedDetail = (selectedCompany) => {
+    return selectedCompany;
+}
+
+const handleFilterUENBizName = (companies, filterString) => {
+    const filteredData = companies.filter((company) => {
+        const search = filterString.trim().toLowerCase();
+        if (!search) return true;
+
+        const uenMatch = company.UEN.toLowerCase().includes(search);
+        const bizNameMatch = company.bizName.toLowerCase().includes(search);
+
+        return uenMatch || bizNameMatch;
+    })
+    return filteredData
+}
+
 export default {
-    GetCompanyData,
+    getCompanies,
+    getCompany,
     GetCompanyRoles,
     GetCompanySkillsets,
+    handleSelectedDetail,
+    handleFilterUENBizName,
 }

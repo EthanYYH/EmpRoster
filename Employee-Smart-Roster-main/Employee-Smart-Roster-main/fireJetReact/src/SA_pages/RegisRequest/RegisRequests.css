@@ -7,24 +7,6 @@
     }
 }
 
-.reg-filter-group {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    justify-content: space-between;
-}
-
-.filter-group-child {
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-}
-
-.filter-title {
-    color: var(--purple-color-text);
-    font-weight: bold;
-}
-
 .registration-request-m {
     display: flex;
     flex-direction: column;
@@ -34,11 +16,7 @@
 
 /* Tablet (769px-1023px) */
 @media only screen and (min-width: 769px) and (max-width: 1023px) {
-    .reg-filter-group {
-        gap: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
-    }
+    
 }
 
 /* Mobile (all screens below 768px) */

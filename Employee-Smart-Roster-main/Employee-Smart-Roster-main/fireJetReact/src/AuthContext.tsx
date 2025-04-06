@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 interface User {
   email: string;
   role: string;
-  last_login?: string; // Optional based on your needs
+  lastOnline?: string; // Optional based on your needs
 }
 
 interface AuthContextType {

@@ -37,7 +37,7 @@ const RegisRequests = () => {
             setAllRegisRequest([]);
         }
     };
-    // Auto trigger when allregisrequest length change
+    // Auto trigger when allRegisRequest length change
     useEffect(() => { fetchData(); }, [allRegisRequest.length]); 
 
     const triggerFilterStatus = async () => {
@@ -85,9 +85,9 @@ const RegisRequests = () => {
                 <EditAccount/>
                 <RegisReqTitle />
                 
-                <div className="reg-filter-group">
-                    <div className="filter-status filter-group-child">
-                        <p className='filter-title'>Search Status</p>
+                <div className="App-filter-search-component">
+                    <div className="App-filter-container">
+                        <p className='App-filter-title'>Search Status</p>
                         <select 
                             value={filterStatus}
                             onChange={(e) => {
@@ -96,14 +96,14 @@ const RegisRequests = () => {
                             }}
                         >
                             {RegStatus.map(status => (
-                                <option key={status} value={status} className='dropdown-option'>
+                                <option key={status} value={status}>
                                     {status}
                                 </option>
                             ))}
                         </select>
                     </div>
-                    <div className="filter-UEN filter-group-child">
-                        <p className='filter-title'>Search UEN</p>
+                    <div className="App-filter-container">
+                        <p className='App-filter-title'>Search UEN</p>
                         <input type='text' 
                             placeholder='Search UEN' 
                             onChange={(e) => {
@@ -111,8 +111,8 @@ const RegisRequests = () => {
                             }}
                         />
                     </div>
-                    <div className="filter-bizName filter-group-child">
-                    <p className='filter-title'>Search Business Name</p>
+                    <div className="App-filter-container">
+                    <p className='App-filter-title'>Search Business Name</p>
                         <input type='text' 
                             placeholder='Search Business Name' 
                             onChange={(e) => {
