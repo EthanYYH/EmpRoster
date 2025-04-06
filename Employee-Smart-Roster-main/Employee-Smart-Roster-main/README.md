@@ -13,6 +13,7 @@ FYP 2025-S1-12
     npm install react-router-dom@6
     npm install node-fetch@2
     ```
+3. Replace package.json and package-lock.json
 
 # LAUCH
 Frontend
