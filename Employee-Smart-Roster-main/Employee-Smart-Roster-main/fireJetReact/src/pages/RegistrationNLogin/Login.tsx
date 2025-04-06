@@ -109,9 +109,9 @@ export default function Login() {
                 placeholder='Enter Password' 
                 onChange={handleInput}
             />
-            {errors.password && <span className='error-message'>
+            {/* {errors.password && <span className='error-message'>
               {errors.password}
-            </span>}
+            </span>} */}
           </div>
           <div className="login-reset-pw">
             <span>Forgot password?</span>

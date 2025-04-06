@@ -1,20 +1,24 @@
 import { useState } from 'react'
 import { IoClose, GiRotaryPhone } from '../../../public/Icons.js'
 import { useAlert } from '../../components/PromptAlert/AlertContext.js'
+import { formateDateTime } from '../../controller/Variables.js'
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton.js'
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton'
+import UserController from '../../controller/User/UserController.js'
 import '../../components/UserMgt/UserDetail.css'
 import './BODetail.css'
 import '../../../public/styles/common.css'
+
+const { handleSuspendUser,
+        handleUsuspendUser, } = UserController
 
 const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
     // console.log(company)
     const { showAlert } = useAlert()
     const [ suspend, setSuspend ] = useState(false);
     const [ reasonSuspend, setReasonSuspend ] = useState("");
-    const [ error, setError ] = useState("");
 
-    const handleSuspendUser = () => {
+    const triggerSuspendUser = async () => {
         try {
             // Set updated data as old data
             const updatedData = {
@@ -22,8 +26,10 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                 lastUpdate: new Date().toISOString(),   // Add last update date time
             }
 
-            updatedData.owner[0].isSuspended = true
-            updatedData.owner[0].reasonOfSuspend = reasonSuspend
+            updatedData.owner.isSuspended = 1
+            updatedData.owner.reasonOfSuspend = reasonSuspend
+
+            await handleSuspendUser(updatedData.owner.UID, reasonSuspend);
 
             if(onUpdate)
                 onUpdate(updatedData)
@@ -32,19 +38,45 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                 onClose()
 
         } catch (error) {
-            setError(`${error}`)
-        }
-
-        if(error)
             showAlert(
                 'BODetail: suspend user fail',
                 '',
-                error,
+                {error}.toString(),
                 { type: 'error' }
             )
+        }
     }
 
-    const handleCancelSuspend = () => {
+    const triggerUnsuspendUser = async () => {
+        try {
+            // Set updated data as old data
+            const updatedData = {
+                ...company,
+                lastUpdate: new Date().toISOString(),   // Add last update date time
+            }
+
+            updatedData.owner.isSuspended = 0
+            updatedData.owner.reasonOfSuspend = ""
+
+            await handleUsuspendUser(updatedData.owner.UID);
+
+            if(onUpdate)
+                onUpdate(updatedData)
+
+            if(onClose)
+                onClose()
+
+        } catch (error) {
+            showAlert(
+                'BODetail: unSuspend user fail',
+                '',
+                {error}.toString(),
+                { type: 'error' }
+            )
+        }
+    }
+
+    const triggerCancelSuspend = () => {
         setReasonSuspend("")
         setSuspend(false)
     }
@@ -57,7 +89,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                         Confirm to Suspend {company.UEN}'s Owner: 
                     </p>
                     <p className='App-prompt-confirmation-title-highlighted-text'>
-                        {company.owner[0].fullName}
+                        {company.owner.fullName}
                     </p>
                 </div>
                 <input type="text"
@@ -70,12 +102,12 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                 <div className="btns-grp">
                     <PrimaryButton 
                         text='Confirm'
-                        onClick={() => handleSuspendUser()}
+                        onClick={() => triggerSuspendUser()}
                         disabled = {!reasonSuspend}
                     />
                     <SecondaryButton 
                         text='Cancel'
-                        onClick={() => handleCancelSuspend()}
+                        onClick={() => triggerCancelSuspend()}
                     />
                 </div>
             </div>
@@ -85,7 +117,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
     return (
         <div className='App-popup-content'>
             <div className="App-header">
-                <h1>{company.owner[0].fullName}</h1>
+                <h1>{company.owner.fullName}</h1>
                 <button className="icons" onClick={onClose}>
                     <IoClose />
                 </button>
@@ -106,16 +138,16 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     
                     <div className='bo-info-data'>
                         <p className="title">Email:&nbsp;</p>
-                        <p className="main-data">{company.owner[0].email}</p>
+                        <p className="main-data">{company.owner.email}</p>
                     </div>
                     <div className='bo-info-data'>
                         <p className="title">Contact:&nbsp;</p>
-                        <p className="main-data">{company.owner[0].hpNo}</p>
+                        <p className="main-data">{company.owner.hpNo}</p>
                     </div>
                     <div className="bo-status-data">
                         <div className="bo-info-data">
                             <p className="title">Account Status: </p>
-                            {company.owner[0]?.isSuspended === true ? (
+                            {company.owner?.isSuspended === 1 ? (
                                 <p className="main-data">Suspended</p>
                             ):(
                                 <p className="main-data">Activated</p>
@@ -134,9 +166,9 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     <div className="subs-info-data">
                         <p className="title">Subscription Period: </p>
                         <p className="main-data">
-                            {company.transactions[0].startDate}
+                            {formateDateTime(company.transactions[0].startDate)}
                             &nbsp;to&nbsp;
-                            {company.transactions[0].endDate}
+                            {formateDateTime(company.transactions[0].endDate)}
                         </p>
                     </div>
                     ):(
@@ -146,10 +178,17 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                 </div>
             </div>
             <div className="suspend-btn">
-                <SecondaryButton 
-                    text='Suspend'
-                    onClick={() => setSuspend(true)}
-                />
+                {company.owner?.isSuspended === 1 ? (
+                    <PrimaryButton 
+                        text='Activate User'
+                        onClick={() => triggerUnsuspendUser()}
+                    />
+                ):(
+                    <SecondaryButton 
+                        text='Suspend'
+                        onClick={() => setSuspend(true)}
+                    />
+                )}
             </div>
         </div>
     )

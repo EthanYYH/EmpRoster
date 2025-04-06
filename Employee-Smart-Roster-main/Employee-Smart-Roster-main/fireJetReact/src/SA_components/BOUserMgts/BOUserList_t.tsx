@@ -12,6 +12,7 @@ import '../../../public/styles/common.css'
 const { handleSelectedDetail } = CompanyController;
 
 const BOUserList_t = ({ companies = [], onUpdate }: BOListTableProps) => {
+    // console.log(companies)
     const { showAlert } = useAlert();
     const [ selectedCompany, setSelectedCompany ] = useState<any>([]);
     const [ showDetail, setShowDetail ] = useState(false);
@@ -46,7 +47,7 @@ const BOUserList_t = ({ companies = [], onUpdate }: BOListTableProps) => {
 
     if (companies.length === 0) return (
         <div className="App-desktop-responsive-table">
-            <b>No Data Loaded...</b>
+            <b>No Data Match with Filter...</b>
         </div>
     )
 
