@@ -1,13 +1,10 @@
 import { useState } from "react"
 import { useLocation } from "react-router-dom"
 import { BiSolidUserDetail } from "../../../public/Icons.js"
+import { formatDateTime, NO_DATA_MATCHED } from "../../controller/Variables.js"
 import RegisReqDetail from "./RegisReqDetail.js"
-import RegisReqController from "../../controller/RegisReqController.js"
 import './RegisReq_m.css'
 import '../../../public/styles/common.css'
-
-// Access the function from the RegisReqController default export 
-const { handleSelectedDetail, handleCloseDetail} = RegisReqController;
 
 const RegisReq_m = ({data=[], onDataUpdate}: RegisReqProps) => {
     const location = useLocation()
@@ -16,24 +13,20 @@ const RegisReq_m = ({data=[], onDataUpdate}: RegisReqProps) => {
     const isOnAdminDash = location.pathname.includes('admin-dashboard');
 
     const triggerSelectedDetail = (request:any) => {
-        setSelectedRequest(handleSelectedDetail(request))
+        setSelectedRequest(request)
         setShowDetail(true)
     }
 
-    const handleUpdate = (updatedData:any) => {
-        // Update in local
-        const updatedItem = data.map((item:any) => 
-            item.registrationID === updatedData.registrationID
-            ? updatedData
-            : item
-        )
-
-        if (onDataUpdate)
-            onDataUpdate(updatedItem)
-
-        // Close detail view
+    const triggerCloseDetail = () => {
+        setShowDetail(false)
         setSelectedRequest(null)
     }
+
+    if(data.length === 0) return (
+        <div className="App-mobile-responsive-table">
+            <b>{NO_DATA_MATCHED}</b>
+        </div>
+    )
 
     return(
         <div className={`${isOnAdminDash ? 'set-visible' : 'App-mobile-responsive-table'}`}>
@@ -70,7 +63,7 @@ const RegisReq_m = ({data=[], onDataUpdate}: RegisReqProps) => {
                             <p className="App-mobile-responsive-table-card-data-title">
                                 Registered On
                             </p>
-                            <p>{request.createdAt}</p>
+                            <p>{formatDateTime(request.createdAt)}</p>
                         </div>
                     </div>
                 </div>
@@ -80,10 +73,8 @@ const RegisReq_m = ({data=[], onDataUpdate}: RegisReqProps) => {
                 <div className="App-popup">
                 <RegisReqDetail 
                     regisRequest= {selectedRequest}
-                    onClose={(() => {
-                        setSelectedRequest(handleCloseDetail())
-                    })}
-                    onUpdate={handleUpdate}
+                    onClose={() => { triggerCloseDetail() }}
+                    onUpdate={onDataUpdate}
                 />
             </div>
             )}

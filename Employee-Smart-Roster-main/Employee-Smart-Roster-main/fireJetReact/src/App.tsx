@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
-import PrimaryButton from "./components/PrimaryButton/PrimaryButton";
 import { AlertProvider } from "./components/PromptAlert/AlertContext";
 import Alert from "./components/PromptAlert/Alert";
 

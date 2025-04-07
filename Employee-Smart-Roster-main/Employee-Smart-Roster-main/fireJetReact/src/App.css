@@ -59,13 +59,6 @@
   z-index: 1000; /* Ensure it's above other elements */
 }
 
-/* Add margin to main content so it's not hidden behind the sidebar */
-.main-content {
-  margin-left: 200px; /* Same width as the sidebar */
-  padding: 20px;
-}
-
-
 .App-secondary-text {
   font-size: var(--secondary-text);
   color: var(--primary-text);
@@ -122,6 +115,24 @@ h3 {
     gap: 20px;
     height: fit-content;
     justify-content: start;
+
+    .App-popup-main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: fit-content;
+
+      .title {
+        width: auto;
+        height: fit-content;
+        font-weight: bold;
+      }
+
+      .main-data {
+        width: auto;
+        height: fit-content;
+      }
+    }
   }
 
   .App-popup-prompt-content {

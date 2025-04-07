@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { useAlert } from '../../components/PromptAlert/AlertContext.js'
-import { formateDateTime } from '../../controller/Variables.js'
+import { useAlert } from '../../components/PromptAlert/AlertContext'
+import { formatDateTime } from '../../controller/Variables.js'
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton.js'
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton'
 import UserController from '../../controller/User/UserController.js'
@@ -43,6 +43,14 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             if(onClose)
                 onClose()
 
+            // Prompt user on user action output
+            showAlert(
+                'Suspend user account successfully',
+                `${updatedData.owner.UID}: ${updatedData.owner.fullName}`,
+                "Suspended",
+                { type: 'success' }
+            );
+
         } catch (error) {
             showAlert(
                 'BODetail: suspend user fail',
@@ -66,11 +74,20 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
 
             await handleUsuspendUser(updatedData.owner.UID);
 
+            // Update updatedData locally from parent page
             if(onUpdate)
                 onUpdate(updatedData)
 
             if(onClose)
                 onClose()
+
+            // Prompt user on user action output
+            showAlert(
+                'Activate user account successfully',
+                `${updatedData.owner.UID}: ${updatedData.owner.fullName}`,
+                "Activated",
+                { type: 'success' }
+            );
 
         } catch (error) {
             showAlert(
@@ -128,7 +145,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     <IoClose />
                 </button>
             </div>
-            <div className="content">
+            <div className="App-popup-main-content">
                 <div className="company-info">
                     <div className="bo-detail-company-info-header">
                         <h3>{company.bizName}</h3>
@@ -154,13 +171,13 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     <h3>Business Owner Information</h3>
                     
                     <div className='bo-info-data'>
-                        <p className="Bo-detail-title">
+                        <p className="title">
                             <MdOutlineMailOutline className='bo-detail-icon'/>
                         </p>
                         <p className="main-data">{company.owner.email}</p>
                     </div>
                     <div className='bo-info-data'>
-                        <p className="Bo-detail-title">
+                        <p className="title">
                             <MdContactPhone className='bo-detail-icon'/>
                         </p>
                         <p className="main-data">{company.owner.hpNo}</p>
@@ -168,12 +185,12 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     <div className="bo-info-data">
                         {company.owner?.isSuspended === 1 ? (
                             <>
-                                <FaCircle className='bo-detail-icon Bo-detail-title bo-suspended'/>
+                                <FaCircle className='bo-detail-icon title bo-suspended'/>
                                 <p className="main-data">Suspended</p>
                             </>
                         ):(
                             <>
-                                <FaCircle className='bo-detail-icon Bo-detail-title bo-activated'/>
+                                <FaCircle className='bo-detail-icon title bo-activated'/>
                                 <p className="main-data">Activated</p>
                             </>
                         )}
@@ -181,18 +198,18 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                 </div>
                 <div className="subs-info">
                     <div className="subs-info-data">
-                        <p className="Bo-detail-title">Subscription Status: </p>
+                        <p className="title">Subscription Status: </p>
                         <p className="main-data">
                             {company.transactions[0]?.subsStatus || 'Unsubscribed'}
                         </p>
                     </div>
                     {company.transactions.length > 0 ? (
                     <div className="subs-info-data">
-                        <p className="Bo-detail-title">Subscription Period: </p>
+                        <p className="title">Subscription Period: </p>
                         <p className="main-data">
-                            {formateDateTime(company.transactions[0].startDate)}
+                            {formatDateTime(company.transactions[0].startDate)}
                             &nbsp;to&nbsp;
-                            {formateDateTime(company.transactions[0].endDate)}
+                            {formatDateTime(company.transactions[0].endDate)}
                         </p>
                     </div>
                     ):(

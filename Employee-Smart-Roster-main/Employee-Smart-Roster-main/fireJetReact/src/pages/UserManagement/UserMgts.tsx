@@ -67,7 +67,7 @@ const UserMgts = () => {
             setBizOwners(Array.isArray(boList) ? boList : []);
         } catch(error) {
             showAlert(
-                "filterBizOwner",
+                "fetchBoUsersData",
                 "Fetch data error",
                 `${error}`,
                 { type: 'error' }
@@ -87,7 +87,7 @@ const UserMgts = () => {
                 <div className="App-content">
                     <SASide />
                     <div className="content">
-                        <h1>View All Business Owners</h1>
+                        <h1>Business Owner Management</h1>
                         {bizOwners.length === 0 ? (
                             <div>Loading business owners...</div>
                         ) : (
