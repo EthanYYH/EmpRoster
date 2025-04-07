@@ -1,14 +1,3 @@
-.Bo-detail-title {
-    width: auto;
-    height: fit-content;
-    font-weight: bold;
-}
-
-.main-data {
-    width: auto;
-    height: fit-content;
-}
-
 .company-info {
     display: flex;
     flex-direction: column;

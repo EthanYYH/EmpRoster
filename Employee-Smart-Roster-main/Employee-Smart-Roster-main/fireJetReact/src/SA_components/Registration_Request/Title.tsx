@@ -16,7 +16,7 @@ const RegisReqTitle = ({noOfPendingRequest = 0}: RegisReqTitleProps) => {
             
             )}
             {!isOnAdminDash && (
-                <h1>Registration Requests List</h1>
+                <h1>Registration Request Management</h1>
             )}
         </div>
     )

@@ -88,7 +88,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
     useEffect(() => { fetchCompaniesData(); }, [boUsers]);
     // useEffect(() => {console.log(allCompanies)})   // Debug to check the latest json Object
     
-    const triggerFilterSubsStatus = async () => {
+    const triggerFilterBOData = async () => {
         // console.log("Data received in filter subscription status:\n", allCompanies)
         try {
             // Fiter with Subscribing Status
@@ -100,14 +100,15 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
             setCompanies(filtered);
         } catch (error) {
             showAlert(
-                "Filter Subscription / Account Status Error", 
+                "triggerFilterBOData", 
                 "Failed to apply filter", 
                 {error}.toString(), 
-                { type: 'error' });
+                { type: 'error' }
+            );
         }
     }
     // Auto trigger when filter subscription status, account status, and all companies data change
-    useEffect(() => { triggerFilterSubsStatus(); }, [
+    useEffect(() => { triggerFilterBOData(); }, [
         filterSubsStatus, 
         filterAccStatus, 
         filterUENOBizName, 
