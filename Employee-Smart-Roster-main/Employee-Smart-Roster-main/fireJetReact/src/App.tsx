@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import { AlertProvider } from "./components/PromptAlert/AlertContext";
@@ -16,8 +16,8 @@ import GuestLanding from './pages/Landing/LandingPage'
 import SADash from "./pages/Dashboard/SADash";
 import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import UserMgts from "./pages/UserManagement/UserMgts";
-import RegisReqDetail from "./SA_components/Registration_Request/RegisReqDetail"
 import UserDetail from "./components/UserMgt/UserDetail";
+import PreviewLanding from "./SA_pages/PreviewLanding";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
@@ -41,7 +41,7 @@ import "./App.css";
 import "../public/styles/common.css";
 
 function App() {
-  
+
   //const { user } = useAuth();
   //console.log(user);
 
@@ -50,11 +50,14 @@ function App() {
     <AuthProvider>
       <div className="App">
         <Router>
+          {/* Display navigation bar only when 
+              user is not in the following page */}
           <Navbar />
           <div className="App-content" >
             <Routes>
               {/* Route for General pages */}
-              <Route path="/" element={<GuestLanding />} />
+              <Route path="/home" element={<GuestLanding />} />
+              <Route path="/" element={<Navigate to="/home" replace />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/request-reset-pw-email" element={<ReqResetEmail />} />
@@ -117,16 +120,7 @@ function App() {
               />
 
               <Route
-                path="/regis-request-detail"
-                element={
-                  <ProtectedRoute>
-                    <RegisReqDetail />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/reg-list"
+                path="/registration-req-management"
                 element={
                   <ProtectedRoute>
                     <RegisRequests />
@@ -135,12 +129,14 @@ function App() {
               />
 
               <Route
-                path="/issues-log"
+                path="/issues-management"
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
                       <SASide />
-                      <h1>ISSUES LOG</h1>
+                      <div className="content">
+                        <h1>ISSUES LOG</h1>
+                      </div>
                     </div>
                   </ProtectedRoute>
                 }
@@ -152,44 +148,48 @@ function App() {
                   <ProtectedRoute>
                     <div className="App-content">
                       <SASide />
-                      <h1>Demo Video Management</h1>
+                      <div className="content">
+                        <h1>Demo Video Management</h1>
+                      </div>
                     </div>
                   </ProtectedRoute>
                 }
               />
 
               <Route
-                path="/review-rating-management"
+                path="/review-rating"
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
                       <SASide />
-                      <h1>Review & Rating Management</h1>
+                      <div className="content">
+                        <h1>Review & Rating</h1>
+                      </div>
                     </div>
                   </ProtectedRoute>
                 }
               />
 
               <Route
-                path="/faq-management"
+                path="/faqs-management"
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
                       <SASide />
-                      <h1>FAQ Management</h1>
+                      <div className="content">
+                        <h1>FAQ Management</h1>
+                      </div>
                     </div>
                   </ProtectedRoute>
                 }
               />
 
               <Route
-                path="/landing-page"
+                path="/preview-landing-page"
                 element={
-                  // <ProtectedRoute>
-                    <div className="App-content">
-                      <GuestLanding />
-                    </div>
-                  // </ProtectedRoute>
+                  <ProtectedRoute>
+                    <PreviewLanding />
+                  </ProtectedRoute>
                 }
               />
 

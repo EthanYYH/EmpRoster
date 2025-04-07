@@ -1,38 +1,33 @@
 import { useState } from "react";
 import { BiSolidUserDetail } from "../../../public/Icons.js";
+import { formatDateTime } from "../../controller/Variables.js"
 import Header from "../../components/table/Header.js";
 import Cell from "../../components/table/Cell.js";
-import RegisReqController from "../../controller/RegisReqController.js";
 import RegisReqDetail from "./RegisReqDetail";
 import "./RegisReq.css";
 import "../../../public/styles/common.css";
 
 // Access the function from the default export
-const { handleSelectedDetail, handleCloseDetail } = RegisReqController;
 
 const RegisReq = ({data=[], onDataUpdate}: RegisReqProps) => {
     const [ selectedRequest, setSelectedRequest ] = useState<string | null>(null);
     const [ showDetail, setShowDetail ] = useState(false)
     
     const triggerSelectedDetail = (request:any) => {
-        setSelectedRequest(handleSelectedDetail(request))
+        setSelectedRequest(request)
         setShowDetail(true)
     }
 
-    const handleUpdate = (updatedData:any) => {
-        // Update in local
-        const updatedItem = data.map((item:any) => 
-            item.registrationID === updatedData.registrationID
-            ? updatedData
-            : item
-        )
-
-        if (onDataUpdate)
-            onDataUpdate(updatedItem)
-
-        // Close detail view
+    const triggerCloseDetail = () => {
+        setShowDetail(false)
         setSelectedRequest(null)
     }
+
+    if(data.length === 0) return (
+        <div className="App-desktop-responsive-table">
+            <b>No Data Match with Filter...</b>
+        </div>
+    )
 
     return (
         <div className="App-desktop-responsive-table">
@@ -48,7 +43,7 @@ const RegisReq = ({data=[], onDataUpdate}: RegisReqProps) => {
                 <Cell className='body-uen' text={request.UEN} />
                 <Cell className='body-company-name' text={request.bizName} />
                 <Cell className='body-status' text={request.status} />
-                <Cell className='body-reg-date' text={request.createdAt} />
+                <Cell className='body-reg-date' text={formatDateTime(request.createdAt)} />
                 <div 
                     className="App-desktop-table-icon" 
                     onClick={() => {
@@ -63,10 +58,8 @@ const RegisReq = ({data=[], onDataUpdate}: RegisReqProps) => {
                 <div className="App-popup">
                     <RegisReqDetail 
                         regisRequest= {selectedRequest}
-                        onClose={(() => {
-                            setSelectedRequest(handleCloseDetail())
-                        })}
-                        onUpdate={handleUpdate}
+                        onClose={() => { triggerCloseDetail() }}
+                        onUpdate={onDataUpdate}
                     />
                 </div>
             )}

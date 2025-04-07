@@ -1,4 +1,4 @@
-import { EMAIL_PATTERN, PW_PATTERN } from "./Variables.js"
+import { EMAIL_PATTERN, PW_PATTERN } from "../Variables.js"
 
 function ValidateLoginValues (values){
     let error = {}

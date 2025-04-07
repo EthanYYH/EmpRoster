@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
 import { BiSolidUserDetail } from '../../../public/Icons.js';
+import { NO_DATA_MATCHED } from "../../controller/Variables.js"
 import BODetail from './BODetail';
 import CompanyController from '../../controller/CompanyController';
 
@@ -44,7 +45,7 @@ const BOUserList_m = ({ companies = [], onUpdate }: BOListMobileProps) => {
 
     if (companies.length === 0) return (
         <div className="App-mobile-responsive-table">
-            <b>No Data Loaded...</b>
+            <b>{NO_DATA_MATCHED}</b>
         </div>
     )
     return (
@@ -52,7 +53,7 @@ const BOUserList_m = ({ companies = [], onUpdate }: BOListMobileProps) => {
         <div className="App-mobile-responsive-table">
         {companies.map((company:any) => (
         <div 
-            key={company.cID}
+            key={company.UEN}
             className='App-mobile-responsive-table-card'
         >
             <div className="App-mobile-responsive-table-card-title">
