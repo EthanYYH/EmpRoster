@@ -88,6 +88,20 @@ form, .form {
 
 /* Register.tsx */
 
+.registration-form-content {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+
+  .registration-form-company,
+  .registration-form-user-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 15px;
+    width: 300px;
+  }
+}
 
 /* ResetPW.tsx */
 .OTP-form-input {

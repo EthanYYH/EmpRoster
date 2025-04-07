@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FaInfoCircle } from '../../../public/Icons.js'
+import PasswordController from '../../controller/User/PasswordController.js';
 import Header from './Header';
 import PwRule from './PwRule';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
@@ -8,11 +9,19 @@ import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 import './style.css'
 import '../../../public/styles/common.css'
 
+const { handleResetPassword, 
+        validateConfirmNewPassword,
+        validateNewPassword, } = PasswordController
+
 const ResetPassword: React.FC = () => {
     const token = useParams(); // SubString the token to URL link for token
     const [ newPassword, setNewPassword ] = useState<string>('');
     const [ confirmNewPw, setConfirmNewPw ] = useState<string>('');
     const [ showPwRule, setShowPwRule ] = useState(false);
+    const [ errors, setErrors ] = useState<{ 
+        password?: string; 
+        confirm_password?:string;
+    }>({})
 
     function triggerDisplayPwRule() {
         setShowPwRule(true);
@@ -20,6 +29,18 @@ const ResetPassword: React.FC = () => {
 
     function triggerInvisiblePwRule() {
         setShowPwRule(false);
+    }
+
+    const triggerPwValidation = async(value:string) => {
+        setNewPassword(value);
+        const error = validateNewPassword(newPassword);
+        errors.password = error;
+    }
+
+    const triggerConfirmPwValidation = async(value:string) => {
+        setConfirmNewPw(value);
+        const error = validateConfirmNewPassword(newPassword, confirmNewPw)
+        errors.confirm_password = error;
     }
 
     return (
@@ -38,14 +59,10 @@ const ResetPassword: React.FC = () => {
                             <FaInfoCircle 
                                 className='reset-pw-rule-info-icon'
                             />
-                            <span className='reset-pw-rule-tooltext'>
-                                <PwRule />
-                            </span>
                         </div>
                         
                         {showPwRule && (
-                            <div className="pw-rule-tooltip-box">
-                                Test password rule
+                            <div className="pw-rule-content">
                                 <PwRule />
                             </div>
                         )}
@@ -55,12 +72,14 @@ const ResetPassword: React.FC = () => {
                         <input type='password' 
                             name='password'
                             placeholder='Enter New Password' 
-                            onChange={(e) => setNewPassword(e.target.value)}
+                            onChange={(e) => triggerPwValidation(e.target.value)}
                             required
                         />
-                        {/* {errors.password && <span className='error-message'>
-                            {errors.password}
-                        </span>} */}
+                        {errors.password && 
+                            <span className='error-message'>
+                                {errors.password}
+                            </span>
+                        }
                     </div>
                 </div>
 
@@ -73,12 +92,14 @@ const ResetPassword: React.FC = () => {
                         <input type='password' 
                             name='password'
                             placeholder='Enter Confirm New Password' 
-                            onChange={(e) => setConfirmNewPw(e.target.value)}
+                            onChange={(e) => triggerConfirmPwValidation(e.target.value)}
                             required
                         />
-                        {/* {errors.password && <span className='error-message'>
-                            {errors.password}
-                        </span>} */}
+                        {errors.confirm_password && 
+                            <span className='error-message'>
+                                {errors.confirm_password}
+                            </span>
+                        }
                     </div>
                 </div>
 

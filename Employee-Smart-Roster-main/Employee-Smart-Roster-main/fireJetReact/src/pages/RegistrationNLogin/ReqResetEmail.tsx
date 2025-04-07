@@ -8,7 +8,8 @@ import PasswordController from '../../controller/User/PasswordController.js';
 
 import './style.css'
 
-const { validateEmail, handleSendResetPwURL, } = PasswordController;
+const { validateEmail, 
+        checkIfEmailRegistered, } = PasswordController;
 
 export default function ReqResetEmail() {
     const navigate = useNavigate();
@@ -63,6 +64,29 @@ export default function ReqResetEmail() {
             )
         }
     }
+    
+    const triggerRecoverPwWithoutURL = async() => {
+        try{
+            const isRegistered = await checkIfEmailRegistered(email);
+
+            if(isRegistered)
+                navigate('/reset-pw');
+            else
+                showAlert(
+                    'Invalid Email Input',
+                    `${email}`,
+                    'Not registered',
+                    {type:'error'}
+                )
+        } catch(error) {
+            showAlert(
+                'triggerRecoverPwWithoutURL',
+                `${email}`,
+                'Failed to validate email',
+                {type:'error'}
+            )
+        }
+    }
 
     function triggerLogIn () {
         navigate('/login');
@@ -71,7 +95,7 @@ export default function ReqResetEmail() {
     return(
         <div className="request-input-email-for-reset">
             <Header />
-            <div className='form'>
+            <form action='' onSubmit={triggerRecoverPwWithoutURL}>
                 <div className='forms-input'>
                     <strong>
                         Email <span style={{ color: 'red' }}>*</span>
@@ -92,17 +116,22 @@ export default function ReqResetEmail() {
                 <div className="register-btns-grp">
                     <PrimaryButton 
                         text='Recover Password'
-                        onClick={triggerRecoverPw} 
+                        type='submit'
+                        disabled={
+                            !email ||
+                            error !== ""
+                        }
                     />
                     <div className="register-log-in">
                         <span>Go back to</span>
                         <SecondaryButton 
                             text="Sign In"
                             onClick={triggerLogIn}
+                            type='button'
                         />
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }

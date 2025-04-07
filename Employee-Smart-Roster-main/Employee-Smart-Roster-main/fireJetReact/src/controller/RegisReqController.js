@@ -1,3 +1,7 @@
+async function createRegistrationRequest() {
+    
+}
+
 async function getRegistrationRequests (){
     const body = {
 
@@ -73,6 +77,7 @@ function handleFilterRegReqUENBizName(allRegisReq, filterString){
 }
 
 export default {
+    createRegistrationRequest,
     getRegistrationRequests,
     setRegistrationRequest, 
     handleFilterRegsStatus,
