@@ -116,23 +116,23 @@ const LeaveManagement: React.FC = () => {
       <BOSide />
       <div className="content leave-management">
         <h1>Leave Management</h1>
-        <div className="table">
+        <div className="App-desktop-responsive-table">
           {/* Table Header Row */}
-          <div className="table-row table-header-row">
-            <Header text="Employee Name" />
-            <Header text="Date Taken" />
-            <Header text="Duration" />
-            <Header text="Proof" />
-            <Header text="Status" />
-            <Header text="Action" />
+          <div className="desktop-lm-table-header">
+            <Header className="header-lm-fullname" text="Employee Name" />
+            <Header className="header-lm-date-taken" text="Date Taken" />
+            <Header className="header-lm-duration" text="Duration" />
+            <Header className="header-lm-proof" text="Proof" />
+            <Header className="header-lm-status" text="Status" />
+            <Header className="header-lm-action" text="Action" />
           </div>
           {/* Table Data Rows */}
           {mcRequests.map((req) => (
-            <div className="table-row" key={req.id}>
-              <Cell text={req.employeeName} />
-              <Cell text={req.dateTaken} />
-              <Cell text={req.duration} />
-              <Cell
+            <div className="lm-table-body" key={req.id}>
+              <Cell className="body-lm-fullname" text={req.employeeName} />
+              <Cell className="body-lm-date-taken" text={req.dateTaken} />
+              <Cell className="body-lm-duration" text={req.duration} />
+              <Cell className="body-lm-proof"
                 text={
                   <ProofCell
                     proof={req.proof}
@@ -140,8 +140,8 @@ const LeaveManagement: React.FC = () => {
                   />
                 }
               />
-              <Cell text={req.status} />
-              <Cell
+              <Cell className="body-lm-status" text={req.status} />
+              <Cell className="body-lm-action"
                 text={
                   req.status === "Pending" ? (
                     <div className="action-buttons">

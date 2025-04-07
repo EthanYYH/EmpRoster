@@ -60,7 +60,7 @@ const BOSide = () => {
             </div>
 
             <div className="main">
-              <Link to="/users-menagement" className="sub-link-hover">
+              <Link to="" className="sub-link-hover">
                 MY EMPLOYEE
               </Link>
             </div>
@@ -69,10 +69,10 @@ const BOSide = () => {
                     Attendance Records
                 </Link>
                 <Link to="/mc-management" className="sub-link-hover">
-                    MC Management
-                </Link>
-                <Link to="/leave-management" className="sub-link-hover">
                     Leave Management
+                </Link>
+                <Link to="/users-menagement" className="sub-link-hover">
+                    Employee Management
                 </Link>
             </div>
 

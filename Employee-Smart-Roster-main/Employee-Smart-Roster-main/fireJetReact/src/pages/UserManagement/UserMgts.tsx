@@ -2,126 +2,127 @@ import { useAuth } from '../../AuthContext';
 import { useEffect, useState } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
 import UserController from '../../controller/User/UserController';
-import SASide from '../../components/SideMenu/SASide';
-import UserList from '../../components/UserMgt/UserList';
-import BOUserList from '../../SA_components/BOUserMgts/UserList';
+import BOSide from '../../components/SideMenu/BOSide';
+// Import the updated list components that use UserDetail for detailed info
+import BOUserList_t from '../../BO_components/EmployeeMgnts/BOUserList_t';
+import BOUserList_m from '../../BO_components/EmployeeMgnts/BOUserList_m';
 
-import './UserMgts.css'
-import "../../../public/styles/common.css"
+import './UserMgts.css';
+import "../../../public/styles/common.css";
 
-// Import functions needed from UserController
-const { getUsers, getBOUsers, handleFilterRole } = UserController
-const UserType = ['Business Owner', 'System Admin', 'Employee']
+// Import functions from UserController
+const { getUsers, handleFilterRole } = UserController;
+
+// ADJUSTABLE: Modify available user types for filtering as needed
+const AvailableUserTypes = ['Business Owner', 'Employee'];
 
 const UserMgts = () => {
-    const { showAlert } = useAlert()
-    const { user } = useAuth();
-    const [ allUsers, setAllUsers ] = useState<any>([]);
-    const [ bizOwners, setBizOwners ] = useState<any>([]);
-    const [ employee, setEmployee ] = useState<any>([]);
-    const [ error, setError ] = useState("")
+  const { showAlert } = useAlert();
+  const { user } = useAuth();
 
-    const fetchUsersData = async () => {
-        try {
-            const response = getUsers();
-            setAllUsers(Array.isArray(response) ? response : []);
-        } catch (err) {
-            setError(`${err}`);
-            setAllUsers([]);
-        }
+  // State to hold all users and the filtered list
+  const [allUsers, setAllUsers] = useState<any>([]);
+  const [filteredUsers, setFilteredUsers] = useState<any>([]);
+  
+  // ADJUSTABLE: Default filter values
+  const [filterUserType, setFilterUserType] = useState("Business Owner");
+  const [filterName, setFilterName] = useState("");
+  const [error, setError] = useState("");
 
-        if(error)
-            showAlert(
-                "UserMgts page",
-                '',
-                error,
-                { type: 'error' }
-            )
+  // Fetch user data from the controller
+  const fetchUsersData = async () => {
+    try {
+      const response = getUsers();
+      setAllUsers(Array.isArray(response) ? response : []);
+    } catch (err) {
+      setError(`${err}`);
+      setAllUsers([]);
+      showAlert("UserMgts page", '', `${err}`, { type: 'error' });
     }
-    // Auto trigger when allUsers length change
-    useEffect(() => { fetchUsersData(); }, [allUsers.length])
-    // useEffect(() => { console.log(allUsers); }, [allUsers.length])
-    
-    const filterBizOwner = async () => {
-        try {
-            const filter = handleFilterRole(allUsers, UserType[0]); // Filter Business Owner
-            setBizOwners(Array.isArray(filter) ? filter : []);
-        } catch (error) {
-            setError(`${error}`)
-            setBizOwners([])
-        }
-        if(error)
-            showAlert(
-                "filterBizOwner",
-                "Fetch data error",
-                error,
-                { type: 'error' }
-            )
+  };
+
+  // Fetch users when component mounts
+  useEffect(() => {
+    fetchUsersData();
+  }, []);
+
+  // ADJUSTABLE: Update filtering logic as needed
+  const triggerFilterUsers = () => {
+    try {
+      let filtered = handleFilterRole(allUsers, filterUserType);
+      if (filterName.trim() !== "") {
+        filtered = filtered.filter((u: any) =>
+          u.fullName.toLowerCase().includes(filterName.toLowerCase())
+        );
+      }
+      setFilteredUsers(filtered);
+    } catch (err) {
+      setError(`${err}`);
+      setFilteredUsers([]);
+      showAlert("Filtering Users", "Filter error", `${err}`, { type: 'error' });
     }
+  };
 
-    const filterEmployee = async () => {
-        try {
-            const filter = handleFilterRole(allUsers, UserType[2]); // Filter Business Owner
-            setBizOwners(Array.isArray(filter) ? filter : []);
-        } catch (error) {
-            setError(`${error}`)
-            setEmployee([])
-        }
-        if(error)
-            showAlert(
-                "filterEmployee",
-                "Fetch data error",
-                error,
-                { type: 'error' }
-            )
-    }
+  // Re-run filtering when source data or filter values change
+  useEffect(() => {
+    triggerFilterUsers();
+  }, [allUsers, filterUserType, filterName]);
 
-    const fetchBoUsersData = async () => {
-        try{
-            const data = await getBOUsers();
-            const boList = data.BOList || [];
-            console.log(boList)
-            setBizOwners(Array.isArray(boList) ? boList : []);
-        } catch(error) {
-            showAlert(
-                "filterBizOwner",
-                "Fetch data error",
-                `${error}`,
-                { type: 'error' }
-            )
-        }
-    }
-    useEffect(() => {
-        fetchBoUsersData();
-    }, [bizOwners.length, user?.role === UserType[1]])
-    // useEffect(() => {console.log(bizOwners)},[bizOwners])
-
-    return (
-        <div className='user-management'>
-            
-            {/* Display side menu base on user role */}
-            {user?.role === 'System Admin' && (
-                <div className="App-content">
-                    <SASide />
-                    <div className="content">
-                        <h1>View All Business Owners</h1>
-                        {bizOwners.length === 0 ? (
-                            <div>Loading business owners...</div>
-                        ) : (
-                            <BOUserList boUsers={bizOwners} />
-                        )}
-                    </div>
-                </div>
-            )}
-
-            {user?.role === 'Business Owner' && (
-                <div className="side-menu">
-                    Business Owner Side Menu Here
-                </div>
-            )} 
-        </div>
+  // *** FIX: Add an onUpdate callback to update the parent's state ***
+  const handleUserUpdate = (updatedUser: any) => {
+    setAllUsers((prevUsers: any[]) =>
+      prevUsers.map(user =>
+        user.UID === updatedUser.UID ? updatedUser : user
+      )
     );
-    
-}
+  };
+
+  return (
+    <div className="UserMgts">
+      <BOSide />
+      <div className="content">
+        <h1>User Management</h1>
+        <div className="App-filter-search-component">
+          <div className="App-filter-container">
+            <p className="App-filter-title">User Type</p>
+            <select
+              value={filterUserType}
+              onChange={(e) => setFilterUserType(e.target.value)}
+            >
+              {AvailableUserTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="App-filter-container">
+            <p className="App-filter-title">Search Name</p>
+            <input
+              type="text"
+              placeholder="Search by name"
+              onChange={(e) => setFilterName(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {filteredUsers.length === 0 ? (
+          <div>Loading users...</div>
+        ) : (
+          <>
+            {/* Pass the onUpdate callback so that when a user is updated (e.g., suspended),
+                the parent's state is updated */}
+            <div className="desktop-view">
+              <BOUserList_t users={filteredUsers} onUpdate={handleUserUpdate} />
+            </div>
+            <div className="mobile-view">
+              <BOUserList_m users={filteredUsers} onUpdate={handleUserUpdate} />
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default UserMgts;
