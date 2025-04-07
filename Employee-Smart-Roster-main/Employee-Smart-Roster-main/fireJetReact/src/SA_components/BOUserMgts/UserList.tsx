@@ -9,8 +9,7 @@ import './UserList.css';
 import '../../../public/styles/common.css';
 
 // import functions needed from UserController
-const { setUser,
-        handleUserAccStatusFilter, } = UserController;
+const { handleUserAccStatusFilter, } = UserController;
 // import functions needed from CompanyController
 const { getCompany,
         handleFilterUENBizName, } = CompanyController;

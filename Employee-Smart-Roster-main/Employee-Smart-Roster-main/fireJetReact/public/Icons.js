@@ -11,6 +11,7 @@ import { GiRotaryPhone } from "react-icons/gi";
 import { MdContactPhone, 
          MdOutlineMailOutline,
          MdOutlineLocationOn } from "react-icons/md";
+import { RiUserReceived2Fill } from "react-icons/ri";
 
 export {
     LuLogOut,   // Logout icon
@@ -27,4 +28,5 @@ export {
     MdOutlineMailOutline,   // Email icon
     FaCircle,  // Filled Circle icon
     MdOutlineLocationOn, // Location icon
+    RiUserReceived2Fill, // Receive from user icon
 };

@@ -158,12 +158,12 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     <p className="Bo-detail-title">{company.UEN}</p>
                     
                     <div className="company-info-detail-contact">
-                        <MdOutlineLocationOn className='bo-detail-icon'/>
+                        <MdOutlineLocationOn className='App-popup-content-icon'/>
                         <p>{company.address}</p>
                     </div>
 
                     <div className="company-info-detail-contact">
-                        <GiRotaryPhone className='bo-detail-icon'/>
+                        <GiRotaryPhone className='App-popup-content-icon'/>
                         <p>{company.contactNo}</p>
                     </div>
                 </div>
@@ -172,25 +172,25 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     
                     <div className='bo-info-data'>
                         <p className="title">
-                            <MdOutlineMailOutline className='bo-detail-icon'/>
+                            <MdOutlineMailOutline className='App-popup-content-icon'/>
                         </p>
                         <p className="main-data">{company.owner.email}</p>
                     </div>
                     <div className='bo-info-data'>
                         <p className="title">
-                            <MdContactPhone className='bo-detail-icon'/>
+                            <MdContactPhone className='App-popup-content-icon'/>
                         </p>
                         <p className="main-data">{company.owner.hpNo}</p>
                     </div>
                     <div className="bo-info-data">
                         {company.owner?.isSuspended === 1 ? (
                             <>
-                                <FaCircle className='bo-detail-icon title bo-suspended'/>
+                                <FaCircle className='App-popup-content-icon title bo-suspended'/>
                                 <p className="main-data">Suspended</p>
                             </>
                         ):(
                             <>
-                                <FaCircle className='bo-detail-icon title bo-activated'/>
+                                <FaCircle className='App-popup-content-icon title bo-activated'/>
                                 <p className="main-data">Activated</p>
                             </>
                         )}

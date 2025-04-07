@@ -9,7 +9,7 @@ import "../../../public/styles/common.css";
 
 // Access the function from the default export
 
-const RegisReq = ({data=[], onDataUpdate}: RegisReqProps) => {
+const RegisReq = ({data=[], onUpdate}: RegisReqProps) => {
     const [ selectedRequest, setSelectedRequest ] = useState<string | null>(null);
     const [ showDetail, setShowDetail ] = useState(false)
     
@@ -59,7 +59,7 @@ const RegisReq = ({data=[], onDataUpdate}: RegisReqProps) => {
                     <RegisReqDetail 
                         regisRequest= {selectedRequest}
                         onClose={() => { triggerCloseDetail() }}
-                        onUpdate={onDataUpdate}
+                        onUpdate={onUpdate}
                     />
                 </div>
             )}
@@ -69,7 +69,7 @@ const RegisReq = ({data=[], onDataUpdate}: RegisReqProps) => {
 
   interface RegisReqProps {
     data?: any;
-    onDataUpdate?: (updatedData: any) => void
+    onUpdate?: (updatedData: any) => void
 }
   
   export default RegisReq;

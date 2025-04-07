@@ -119,7 +119,7 @@ h3 {
     .App-popup-main-content {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
       height: fit-content;
 
       .title {
@@ -131,6 +131,11 @@ h3 {
       .main-data {
         width: auto;
         height: fit-content;
+      }
+
+      .App-popup-content-icon {
+        font-size: 20px;
+        color: var(--primary-background);
       }
     }
   }
@@ -194,6 +199,11 @@ option {
 option:checked {
   background-color: var(--primary-background);
   color: var(--light-color-text);
+}
+
+.icons {
+  font-size: 30px;
+  color: var(--side-menu-background);
 }
 
 /* Desktop Table Setup */
@@ -356,6 +366,14 @@ option:checked {
 
   .App-secondary-text {
     font-size: var(--secondary-text-m);
+  }
+
+  .App-popup-content  {
+    .App-popup-main-content {
+      .App-popup-content-icon {
+        font-size: 15px;
+      }
+    }
   }
 
   h1 {

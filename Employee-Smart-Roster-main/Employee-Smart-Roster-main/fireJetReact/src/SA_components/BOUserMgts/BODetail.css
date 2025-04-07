@@ -25,11 +25,11 @@
 }
 
 .bo-suspended {
-    color: var(--error);
+    color: var(--error) !important;
 }
 
 .bo-activated {
-    color: var(--success);
+    color: var(--success) !important;
 }
 
 .bo-info {
@@ -75,8 +75,4 @@
         justify-content: space-between;
         gap: 10px;
     }
-
-    .bo-detail-icon{
-        font-size: 16px;
-    }    
 }
