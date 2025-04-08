@@ -80,11 +80,11 @@ const UserMgts = () => {
     // useEffect(() => {console.log(bizOwners)},[bizOwners])
 
     return (
-        <div className='user-management'>
+        <div className='App-content'>
             
             {/* Display side menu base on user role */}
             {user?.role === 'System Admin' && (
-                <div className="App-content">
+                <>
                     <SASide />
                     <div className="content">
                         <h1>Business Owner Management</h1>
@@ -94,7 +94,7 @@ const UserMgts = () => {
                             <BOUserList boUsers={bizOwners} />
                         )}
                     </div>
-                </div>
+                </>
             )}
 
             {user?.role === 'Business Owner' && (

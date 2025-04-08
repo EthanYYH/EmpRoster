@@ -81,7 +81,7 @@ const RegisRequests = () => {
     };
 
     return (
-        <div className="RegisRequests">
+        <div className="App-content">
             <SASide />
             <div className="content">
                 <RegisReqTitle />
@@ -124,7 +124,6 @@ const RegisRequests = () => {
                     data={filteredRegisRequest}
                     onUpdate={handleDataUpdate}/>
             </div>
-            
         </div>
     )
 }

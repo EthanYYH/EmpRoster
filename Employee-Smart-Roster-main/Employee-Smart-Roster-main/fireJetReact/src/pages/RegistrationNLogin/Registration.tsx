@@ -125,10 +125,9 @@ const Register = () => {
     }
 
     return (
-        <div className="App-content form-content">
+        <div className="registration-form">
             <Header />
             <form
-                className='registration-form'
                 action="" 
                 // onSubmit={triggerRegistration}
             >
