@@ -1,0 +1,86 @@
+/* Main container for the view */
+.viewRatingContainer {
+    display: flex;
+    flex-direction: row;
+    
+  }
+  
+  /* Styling for content area */
+  .ratingContent {
+    flex: 1;
+    /* margin-left: 2rem; */
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title */
+  .ratingContent h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  /* Table Styles */
+  .ratingTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .ratingTable th,
+  .ratingTable td {
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    text-align: left;
+  }
+  
+  .ratingTable th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .ratingTable td {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Responsive Design for small screens */
+  @media (max-width: 768px) {
+    .viewRatingContainer {
+      flex-direction: column;
+      padding: 0.5rem;
+    }
+  
+    .ratingContent {
+      margin-left: 0;
+      padding: 1rem;
+    }
+  
+    .ratingTable {
+      width: 100%;
+      font-size: 0.9rem;
+    }
+  
+    .ratingTable th,
+    .ratingTable td {
+      padding: 0.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .ratingContent h2 {
+      font-size: 1.5rem;
+    }
+  
+    .ratingTable {
+      font-size: 0.85rem;
+    }
+  
+    .ratingTable th,
+    .ratingTable td {
+      padding: 0.25rem;
+    }
+  }
+  

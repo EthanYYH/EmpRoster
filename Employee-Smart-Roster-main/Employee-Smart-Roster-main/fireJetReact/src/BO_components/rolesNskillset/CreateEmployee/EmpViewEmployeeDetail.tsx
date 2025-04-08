@@ -5,9 +5,9 @@ import SideMenu from "../../../components/SideMenu/BOSide";
 import EditButton from "../../../components/PrimaryButton/PrimaryButton"; 
 import SubmitButton from "../../../components/SecondaryButton/SecondaryButton";
 import { useAlert } from "../../../components/PromptAlert/AlertContext"; 
-import "./ViewEmployeeDetail.css";
+import "./EmpViewEmployeeDetail.css";
 
-const ViewEmployeeDetail = () => {
+const EmpViewEmployeeDetail = () => {
   const [editMode, setEditMode] = useState(false);
   const [employee, setEmployee] = useState({
     user_id: 4,
@@ -77,12 +77,12 @@ const ViewEmployeeDetail = () => {
         <table className="employeeDetailTable">
           <tbody>
             {Object.entries(employee).map(([key, value]) => {
-              if (key === "user_id") return null; // We don't show user_id
+              if (key === "user_id") return null; // hide user_id
               return (
                 <tr key={key}>
                   <th>{headerMap[key] || key}</th>
                   <td>
-                    {editMode ? (
+                    {editMode && (key === "email" || key === "hpNo") ? (
                       <input
                         type="text"
                         value={value}
@@ -110,4 +110,4 @@ const ViewEmployeeDetail = () => {
   );
 };
 
-export default ViewEmployeeDetail;
+export default EmpViewEmployeeDetail;

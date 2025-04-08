@@ -15,15 +15,19 @@ import GuestLanding from './pages/Landing/LandingPage'
 // Pages for System Admin
 import SADash from "./pages/Dashboard/SADash";
 import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
+
 import UserMgts from "./pages/UserManagement/UserMgts";
 import RegisReqDetail from "./SA_components/Registration_Request/RegisReqDetail"
 import UserDetail from "./components/UserMgt/UserDetail";
+import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
-import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
+// import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
+import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
+import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
 
 
 // Import side menu
@@ -90,25 +94,7 @@ function App() {
                 }
               />
 
-              <Route
-                path="/test123"
-                element={
-                  // <ProtectedRoute>
-                    <Test123 />
-                  // </ProtectedRoute>
-                }
-              />
 
-
-
-<Route
-                path="/view-employee-list"
-                element={
-                  // <ProtectedRoute>
-                    <ViewEmployeeList />
-                  // </ProtectedRoute>
-                }
-              />
 
 <Route
                 path="/view-employee-detail"
@@ -118,6 +104,20 @@ function App() {
                   // </ProtectedRoute>
                 }
               />
+
+<Route
+                path="/emp-view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <EmpViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+              />
+
+
+
+
+
 
               {/* Route for System Admin pages */}
               <Route
@@ -135,6 +135,14 @@ function App() {
                   <ProtectedRoute>
                     <RegisReqDetail />
                   </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/view-rating"
+                element={
+                  
+                    <ViewRating />
+                  
                 }
               />
 

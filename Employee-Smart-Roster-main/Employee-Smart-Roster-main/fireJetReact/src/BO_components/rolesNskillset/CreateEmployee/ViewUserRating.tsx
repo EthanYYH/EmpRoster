@@ -2,8 +2,7 @@ import { useState } from "react";
 import "../../../../public/styles/common.css";
 import Nav from "../../../components/NavBar/NavBar";
 import SideMenu from "../../../components/SideMenu/BOSide";
-import EditButton from "../../../components/PrimaryButton/PrimaryButton"; 
-import SubmitButton from "../../../components/SecondaryButton/SecondaryButton";
+import SubmitButton from "../../../components/PrimaryButton/PrimaryButton"; 
 import { useAlert } from "../../../components/PromptAlert/AlertContext"; 
 import "./ViewEmployeeDetail.css";
 
@@ -33,22 +32,21 @@ const ViewEmployeeDetail = () => {
     setEmployee((prev) => ({ ...prev, [field]: value }));
   };
 
-  const { showAlert } = useAlert();
-
-  const handleEditClick = () => {
-    setEditMode(true);
+  const toggleEdit = () => {
+    if (editMode) {
+      // If we're confirming the edit, show the alert
+      showAlert(
+        `Employee details for ${employee.name} have been updated`, // Title
+        "The employee information has been successfully updated.", // Message
+        "Update Success", // Alert type
+        { type: "success" } // Type of alert (success)
+      );
+    }
+    setEditMode(!editMode);
+    // You may want to save the data to the API here as well
   };
 
-  const handleSubmitClick = () => {
-    showAlert(
-      `Employee details for ${employee.name} have been updated`,
-      "The employee information has been successfully updated.",
-      "Update Success",
-      { type: "success" }
-    );
-    setEditMode(false);
-  };
-
+  // Mapping for better header titles
   const headerMap: { [key: string]: string } = {
     name: "Name",
     email: "Email",
@@ -67,6 +65,9 @@ const ViewEmployeeDetail = () => {
     daysOfWork: "Days of Work",
     activeOrInactive: "Status",
   };
+
+  // Use the showAlert function from useAlert
+  const { showAlert } = useAlert();
 
   return (
     <div className="viewProfileContainer">
@@ -97,14 +98,9 @@ const ViewEmployeeDetail = () => {
             })}
           </tbody>
         </table>
-
-        <div className="buttonRow">
-          {!editMode ? (
-            <EditButton onClick={handleEditClick} text="Edit" />
-          ) : (
-            <SubmitButton onClick={handleSubmitClick} text="Confirm" />
-          )}
-        </div>
+        <button className="editBtn" onClick={toggleEdit}>
+          {editMode ? "Confirm" : "Edit"}
+        </button>
       </div>
     </div>
   );
