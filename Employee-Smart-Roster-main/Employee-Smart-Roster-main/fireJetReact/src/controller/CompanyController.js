@@ -114,7 +114,7 @@ const handleSelectedDetail = (selectedCompany) => {
     return selectedCompany;
 }
 
-const handleFilterUENBizName = (companies, filterString) => {
+function handleFilterUENBizName(companies, filterString){
     const filteredData = companies.filter((company) => {
         const search = filterString.trim().toLowerCase();
         if (!search) return true;

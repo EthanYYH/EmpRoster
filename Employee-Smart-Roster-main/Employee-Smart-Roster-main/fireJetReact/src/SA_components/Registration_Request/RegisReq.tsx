@@ -18,7 +18,7 @@ const RegisReq = ({data=[], onUpdate}: RegisReqProps) => {
         setShowDetail(true)
     }
 
-    const triggerCloseDetail = () => {
+    function triggerCloseDetail(){
         setShowDetail(false)
         setSelectedRequest(null)
     }

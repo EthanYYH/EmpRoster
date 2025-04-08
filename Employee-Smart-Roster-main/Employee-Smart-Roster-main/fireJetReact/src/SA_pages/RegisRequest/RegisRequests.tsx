@@ -106,7 +106,7 @@ const RegisRequests = () => {
                     <div className="App-filter-container">
                         <p className='App-filter-title'>UEN/Company Name</p>
                         <input type='text' 
-                            placeholder='Search UEN' 
+                            placeholder='Search UEN / Company Name' 
                             onChange={(e) => {
                                 setFilterUENOBizName(e.target.value);
                             }}

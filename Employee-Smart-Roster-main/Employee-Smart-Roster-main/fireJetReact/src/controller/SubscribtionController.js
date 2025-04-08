@@ -54,9 +54,9 @@ async function getSubscriptionTransactions () {
     }
 }
 
-function getSubsTransForACompany (allData, uen) {
-    // console.log(`getSubsTransForACompany received data: \n`, allData)
-    const filteredData = allData.filter((data) => {
+function getSubsTransForACompany (allSubsTrans, uen) {
+    // console.log(`getSubsTransForACompany received data: \n`, allSubsTrans)
+    const filteredData = allSubsTrans.filter((data) => {
         const companyMatch = uen === '' ||
             data.UEN === uen
         return companyMatch
@@ -66,11 +66,11 @@ function getSubsTransForACompany (allData, uen) {
 
 function getSortedSubsTransactions (subsTrans){
     // Sort by startDate in descending order (newest first)
-    const latestSubsTrans = subsTrans.sort((a, b) => {
+    const sortedSubsTrans = subsTrans.sort((a, b) => {
         return new Date(b.startDate) - new Date(a.startDate)
     })
 
-    return latestSubsTrans;
+    return sortedSubsTrans;
 }
 
 function handleFilterSubsStatus (companies, status) {

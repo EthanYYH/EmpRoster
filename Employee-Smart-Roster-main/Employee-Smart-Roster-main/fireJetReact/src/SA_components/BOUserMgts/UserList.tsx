@@ -158,7 +158,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
                 </select>
             </div>
             <div className="App-filter-container uen-company-name">
-                <p className='App-filter-title'>UEN/Comapany Name</p>
+                <p className='App-filter-title'>UEN/Company Name</p>
                 <input type='text' 
                     className='search-input'
                     placeholder='Search UEN / Company Name' 

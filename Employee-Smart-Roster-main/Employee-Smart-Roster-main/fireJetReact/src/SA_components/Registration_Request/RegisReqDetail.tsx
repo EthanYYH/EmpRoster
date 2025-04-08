@@ -83,7 +83,7 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
     //     setRegistrationRequest(regisRequest.registrationID, 'Pending', '')
     // })
 
-    const triggerCancelReject = () => {
+    function triggerCancelReject(){
         setReasonReject("")
         setIsReject(false)
     }
