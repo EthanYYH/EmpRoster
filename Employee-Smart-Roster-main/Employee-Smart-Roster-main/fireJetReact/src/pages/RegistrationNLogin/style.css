@@ -56,16 +56,6 @@ form {
   }
 }
 
-.App-content .App-content {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  /* align-self: center; */
-  padding: 20px;
-  overflow-x: hidden;
-}
-
 .forms-input {
   display: flex;
   flex-direction: column;
@@ -122,6 +112,18 @@ form {
 }
 
 /* Register.tsx */
+.registration-form {
+  flex: 1 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-self: center;
+  padding: 20px;
+  overflow: auto; /* Enable scrolling for content */
+  overflow-x: hidden;
+  justify-content: start;
+}
+
 .registration-form-content {
   display: flex;
   flex-direction: row;

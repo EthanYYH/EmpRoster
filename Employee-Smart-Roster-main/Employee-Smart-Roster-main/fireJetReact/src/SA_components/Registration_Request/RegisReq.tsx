@@ -31,7 +31,7 @@ const RegisReq = ({data=[], onUpdate}: RegisReqProps) => {
 
     return (
         <div className="App-desktop-responsive-table">
-            <div className="desktop-table-header">
+            <div className="App-desktop-table-row desktop-table-header">
                 <Header className='header-uen' text='UEN' />
                 <Header className='header-company-name' text='COMPANY NAME' />
                 <Header className='header-status' text='STATUS' />
@@ -39,7 +39,7 @@ const RegisReq = ({data=[], onUpdate}: RegisReqProps) => {
                 <Header className='App-header-icon-gap' text=''/>
             </div>
             {data.map((request:any) => (
-            <div className='table-body' key={request.registrationID}>
+            <div className='App-desktop-table-row regis-req-row' key={request.registrationID}>
                 <Cell className='body-uen' text={request.UEN} />
                 <Cell className='body-company-name' text={request.bizName} />
                 <Cell className='body-status' text={request.status} />

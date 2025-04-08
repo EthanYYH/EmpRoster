@@ -62,7 +62,7 @@ const ResetPassword: React.FC = () => {
     }
 
     return (
-        <div className="App-content App-content">
+        <div className="App-form-content">
             <Header />
             <form 
                 action=""

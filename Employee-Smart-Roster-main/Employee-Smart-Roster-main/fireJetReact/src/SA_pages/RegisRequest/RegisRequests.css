@@ -1,17 +1,8 @@
-.RegisRequests {
-    display: flex;
-    flex-direction: row;
-
-    .content {
-        padding: 10px;
-    }
-}
-
-.registration-request-m {
+.regis-req-main-content {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    height: fit-content;
+    gap: 10px;
+    width: 100%;
 }
 
 /* Tablet (769px-1023px) */
