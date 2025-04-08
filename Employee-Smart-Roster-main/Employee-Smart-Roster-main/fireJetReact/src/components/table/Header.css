@@ -1,8 +1,8 @@
 .table-header {
     padding: 10px;
-    border-bottom: 3px;
     border-bottom-style: outset;
-    border-bottom-color: var(--primary-background);
+    border-bottom-width: 3px;
+    border-bottom-color: var(--popup-background);
     background-color: #2B0F57;
     height: auto;
     opacity: 30%;

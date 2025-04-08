@@ -315,7 +315,7 @@ option:checked {
   border-color: var(--primary-background);
   border-radius: 10px;
   gap: 5px;
-  background-color: var(--main-page-background);
+  background-color: white;
   height: fit-content;
 
   .App-mobile-responsive-table-card-title {

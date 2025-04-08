@@ -39,7 +39,7 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
             // console.log("Updated Registration Request: \n", updatedData)
 
             // Trigger api with updated data
-            await setRegistrationRequest(
+            const response = await setRegistrationRequest(
                 updatedData.registrationID, 
                 updatedData.status, 
                 updatedData.reasonOfReject
@@ -57,14 +57,14 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
                 showAlert(
                     updatedData.bizName,
                     updatedData.UEN,
-                    "Rejected Registration Successfully",
+                    `${response.message}`,
                     { type: 'success' }
                 );
             else
                 showAlert(
                     updatedData.bizName,
                     updatedData.UEN,
-                    "Approved Registration Successfully",
+                    `${response.message}`,
                     { type: 'success' }
                 );
 
