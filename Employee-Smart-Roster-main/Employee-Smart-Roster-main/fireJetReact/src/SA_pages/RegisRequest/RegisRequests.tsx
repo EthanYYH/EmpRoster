@@ -11,7 +11,6 @@ import "../../../public/styles/common.css";
 
 // Access the function from the RegisReqController default export
 const { getRegistrationRequests, 
-        setRegistrationRequest,
         handleFilterRegsStatus, 
         handleFilterRegReqUENBizName, } = RegisReqController;
 
@@ -57,7 +56,7 @@ const RegisRequests = () => {
             showAlert(
                 "triggerFilterRegReq", 
                 "Failed to apply filter", 
-                {error}.toString(), 
+                error instanceof Error ? error.message : String(error), 
                 { type: 'error' }
             );
         }
@@ -70,12 +69,15 @@ const RegisRequests = () => {
     ])
   
     const handleDataUpdate = (updatedData:any) => {
-        const updatedItem = allRegisRequest.map((request: any) => {
+        // console.log("Updated Registration Request: \n", updatedData)
+
+        const updatedItem = allRegisRequest.map((request: any) => 
             request.registrationID === updatedData.registrationID
-            ? { updatedData }
+            ? updatedData
             : request
-        })
+        )
         setAllRegisRequest(updatedItem); // Update data locally
+        // console.log("Updated State: \n", updatedItem)
     };
 
     return (
@@ -115,12 +117,12 @@ const RegisRequests = () => {
                 {/* Desktop View */}
                 <RegisReq 
                     data={filteredRegisRequest}
-                    onDataUpdate={handleDataUpdate}/>
+                    onUpdate={handleDataUpdate}/>
 
                 {/* Mobile View */}
                 <RegisReq_m 
                     data={filteredRegisRequest}
-                    onDataUpdate={handleDataUpdate}/>
+                    onUpdate={handleDataUpdate}/>
             </div>
             
         </div>

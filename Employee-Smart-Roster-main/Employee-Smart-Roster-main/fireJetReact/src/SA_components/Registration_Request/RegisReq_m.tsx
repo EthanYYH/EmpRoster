@@ -6,7 +6,7 @@ import RegisReqDetail from "./RegisReqDetail.js"
 import './RegisReq_m.css'
 import '../../../public/styles/common.css'
 
-const RegisReq_m = ({data=[], onDataUpdate}: RegisReqProps) => {
+const RegisReq_m = ({data=[], onUpdate}: RegisReqProps) => {
     const location = useLocation()
     const [ selectedRequest, setSelectedRequest ] = useState<any>([]);
     const [ showDetail, setShowDetail ] = useState(false)
@@ -74,7 +74,7 @@ const RegisReq_m = ({data=[], onDataUpdate}: RegisReqProps) => {
                 <RegisReqDetail 
                     regisRequest= {selectedRequest}
                     onClose={() => { triggerCloseDetail() }}
-                    onUpdate={onDataUpdate}
+                    onUpdate={onUpdate}
                 />
             </div>
             )}
@@ -85,7 +85,7 @@ const RegisReq_m = ({data=[], onDataUpdate}: RegisReqProps) => {
 
 interface RegisReqProps {
     data?: any;
-    onDataUpdate?: (updatedData: any) => void
+    onUpdate?: (updatedData: any) => void
 }
 
 export default RegisReq_m;

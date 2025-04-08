@@ -1,6 +1,5 @@
 import {  useEffect, useState } from 'react';
 import { ExternalLink } from 'react-external-link';
-import { IoClose, FaFilePdf } from '../../../public/Icons.js';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
 import { formatDateTime } from '../../controller/Variables.js';
 import RegisReqController from '../../controller/RegisReqController.js';
@@ -8,6 +7,10 @@ import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton/SecondaryButton";
 import './RegisReqDetail.css'
 import '../../../public/styles/common.css'
+import { IoClose, 
+         FaFilePdf, 
+         RiUserReceived2Fill,
+         FaCircle } from '../../../public/Icons.js';
 
 const sampleBizFile = "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8";
 const REG_STATUS = ["Pending", "Approved", "Rejected"]
@@ -32,6 +35,8 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
             if(statusChanged === REG_STATUS[2]){
                 updatedData.reasonOfReject = reasonReject
             }
+
+            // console.log("Updated Registration Request: \n", updatedData)
 
             // Trigger api with updated data
             await setRegistrationRequest(
@@ -64,12 +69,18 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
                 );
 
         } catch(error) {
-
+            showAlert(
+                'triggerRejectionOrApproval',
+                '',
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            );
         }
     }
 
+    // Debugging section
     // useEffect(() => {
-    //     setRegistrationRequest()
+    //     setRegistrationRequest(regisRequest.registrationID, 'Pending', '')
     // })
 
     const triggerCancelReject = () => {
@@ -131,16 +142,39 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
 
                 <div className="detail-content">
                     <div className="regs-status">
-                        <p className="title">Status</p>
+                        {regisRequest?.status === REG_STATUS[0] && (
+                            <FaCircle  
+                                className='App-popup-content-icon pending'
+                            />
+                        )}
+                        {regisRequest?.status === REG_STATUS[1] && (
+                            <FaCircle  
+                                className='App-popup-content-icon approved'
+                            />
+                        )}
+                        {regisRequest?.status === REG_STATUS[2] && (
+                            <FaCircle  
+                                className='App-popup-content-icon rejected'
+                            />
+                        )}
                         <p className="main-data">{regisRequest.status}</p>
                     </div>
                     <div className="request-date">
-                        <p className="title">Request On</p>
+                        <RiUserReceived2Fill  
+                            className='App-popup-content-icon'
+                        />
                         <p className="main-data">
                             {formatDateTime(regisRequest.createdAt)}
                         </p>
                     </div>
                 </div>
+
+                {regisRequest?.status === REG_STATUS[2] && (
+                    <div className="data-content">
+                        <p className="title">Reason Of Reject:</p>
+                        <p className="main-data">{regisRequest.reasonOfReject}</p>
+                    </div>
+                )}
             </div>
 
             <div className="btns-grp">

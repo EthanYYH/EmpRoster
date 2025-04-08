@@ -1,3 +1,7 @@
+async function createRegistrationRequest() {
+    
+}
+
 async function getRegistrationRequests (){
     const body = {
 
@@ -23,16 +27,11 @@ async function getRegistrationRequests (){
     }
 }
 
-async function setRegistrationRequest(
-    registrationID, status, reasonOfReject
-){
+async function setRegistrationRequest(registrationID, status, reasonOfReject){
     const body = {
         registrationID: registrationID,
         status: status,
         reasonOfReject:reasonOfReject,
-        // registrationID: 6,
-        // status: 'Pending',
-        // reasonOfReject:'',
     };
 
     try{
@@ -78,6 +77,7 @@ function handleFilterRegReqUENBizName(allRegisReq, filterString){
 }
 
 export default {
+    createRegistrationRequest,
     getRegistrationRequests,
     setRegistrationRequest, 
     handleFilterRegsStatus,

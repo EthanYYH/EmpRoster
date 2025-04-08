@@ -36,29 +36,29 @@ export default function Login() {
     
     //if(Object.values(validationErrors).every(error => error === "")) {
     if(true) {
-    try{
-      
-        const data = await SubmitLogin(values);
-        console.log("Response: \n", data);
-        if (data.responseCode === 200) {
-          console.log('Login successful:', data);
-          login(data);
-          if (data.role === "System Admin") {
-            
-            navigate('/admin-dashboard');
-          }
-          else if (data.role === "Business Owner") {
-            if(data.lastOnline === null) // If first time login
-              navigate('/roles-skills-menagement')
-            else
-              navigate('/business-dashboard');
-          }
-          else if (data.role === "Employee") {
-            navigate('/employee-dashboard');
-          } 
-      } else {
-          throw new Error('Login failed');
-      }
+      try{
+        
+          const data = await SubmitLogin(values);
+          console.log("Response: \n", data);
+          if (data.responseCode === 200) {
+            console.log('Login successful:', data);
+            login(data);
+            if (data.role === "System Admin") {
+              
+              navigate('/admin-dashboard');
+            }
+            else if (data.role === "Business Owner") {
+              if(data.lastOnline === null) // If first time login
+                navigate('/roles-skills-menagement')
+              else
+                navigate('/business-dashboard');
+            }
+            else if (data.role === "Employee") {
+              navigate('/employee-dashboard');
+            } 
+        } else {
+            throw new Error('Login failed');
+        }
       } catch (err) {
         console.error("Error during login:", err); 
       // Handle non-Axios errors
@@ -76,7 +76,7 @@ export default function Login() {
   }
 
   return (
-    <div className="login">
+    <div className="App-content App-content">
       <Header />
 
       <form action='' onSubmit={handleLogin}>
@@ -117,21 +117,23 @@ export default function Login() {
             <span>Forgot password?</span>
             <SecondaryButton 
               text="Reset Password"
-              onClick={triggerForgotPassword}  
+              onClick={triggerForgotPassword}
+              type='button'
             />
           </div>
         </div>
         
         <div className="login-button-group">
             <PrimaryButton 
-              text="Sign In" 
-              onClick={() => handleLogin}
+              text="Sign In"
+              type='submit'
             />
             <div className="login-create-acc">
               <span>Do not have an account? </span>
               <SecondaryButton 
                 text="Sign Up"
                 onClick={triggerRegister}
+                type='button'
               />
           </div>
         </div>
