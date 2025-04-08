@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
+import { GoAlertFill, TiTick } from '../../../public/Icons.js'
 import Header from './Header';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton';
 import PasswordController from '../../controller/User/PasswordController.js';
+import UserController from '../../controller/User/UserController';
 
 import './style.css'
 
-const { validateEmail, 
-        checkIfEmailRegistered, } = PasswordController;
+const { checkIfEmailRegistered, } = PasswordController;
+const { validateEmail, } = UserController;
+
 
 export default function ReqResetEmail() {
     const navigate = useNavigate();
@@ -19,7 +22,7 @@ export default function ReqResetEmail() {
 
     const triggerValidateEmail = async(value: string) => {
         setEmail(value)
-        setError(validateEmail(email));
+        setError(validateEmail(value));
     }
 
     const triggerRecoverPw = async() => {
@@ -93,7 +96,7 @@ export default function ReqResetEmail() {
     }
 
     return(
-        <div className="request-input-email-for-reset">
+        <div className="App-content App-content">
             <Header />
             <form action='' onSubmit={triggerRecoverPwWithoutURL}>
                 <div className='forms-input'>
@@ -107,9 +110,18 @@ export default function ReqResetEmail() {
                             onChange={(e) => triggerValidateEmail(e.target.value)}
                             required
                         />
-                        {error && <span className='error-message'>
-                            {error}
-                        </span>}
+                        {error && (
+                            <span className='error-message'>
+                                <GoAlertFill />
+                                <span className='error-message-text'>{error}</span>
+                            </span>
+                        )}
+                        {!error && email && (
+                            <span className='valid-message'>
+                                <TiTick className='valid-icon'/>
+                                <span>Valid Email</span>
+                            </span>
+                        )}
                     </div>
                 </div>
 
@@ -119,7 +131,7 @@ export default function ReqResetEmail() {
                         type='submit'
                         disabled={
                             !email ||
-                            error !== ""
+                            !!error
                         }
                     />
                     <div className="register-log-in">

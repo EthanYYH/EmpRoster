@@ -76,7 +76,7 @@ export default function Login() {
   }
 
   return (
-    <div className="login">
+    <div className="App-content App-content">
       <Header />
 
       <form action='' onSubmit={handleLogin}>

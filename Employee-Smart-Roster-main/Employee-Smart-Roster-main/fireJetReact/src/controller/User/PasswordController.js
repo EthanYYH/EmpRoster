@@ -1,11 +1,5 @@
 import { EMAIL_PATTERN, PW_PATTERN } from "../Variables.js";
 
-function validateEmail(email) {
-    if(!EMAIL_PATTERN.test(email))
-        return "Invalid Email Format Found"
-    else
-        return ""
-}
 
 async function handleSendResetPwUR(email){
     // Trigger check user email and send url API here
@@ -74,16 +68,19 @@ function validateNewPassword(newPw) {
         return ""
 }
 
-function validateConfirmNewPassword(newPw, confirmeNewPw) {
+function validateConfirmNewPassword(newPw, confirmNewPw) {
+    // console.log(`
+    //     NEW PASSWORD: ${newPw}\n
+    //     CONFIRM NEW PASSWORD: ${confirmNewPw}
+    // `)
     // Confirm password value validation
-    if(confirmeNewPw !== newPw)
+    if(confirmNewPw !== newPw)
         return "Confirm password doesn't match with password"
     else
         return ""
 }
 
 export default {
-    validateEmail,
     handleSendResetPwUR,
     checkIfEmailRegistered,
     handleResetPassword,

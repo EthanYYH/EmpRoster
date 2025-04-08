@@ -5,13 +5,16 @@ import { IoClose, IoArrowBack } from "react-icons/io5";
 import { FaFilePdf, 
          FaInfoCircle, 
          FaPlusCircle,
-         FaCircle, } from "react-icons/fa";
+         FaCircle,
+         FaClipboardList, } from "react-icons/fa";
 import { IoIosAlert } from "react-icons/io";
 import { GiRotaryPhone } from "react-icons/gi";
 import { MdContactPhone, 
          MdOutlineMailOutline,
          MdOutlineLocationOn } from "react-icons/md";
 import { RiUserReceived2Fill } from "react-icons/ri";
+import { TiTick } from "react-icons/ti";
+import { GoAlertFill } from "react-icons/go";
 
 export {
     LuLogOut,   // Logout icon
@@ -29,4 +32,7 @@ export {
     FaCircle,  // Filled Circle icon
     MdOutlineLocationOn, // Location icon
     RiUserReceived2Fill, // Receive from user icon
+    FaClipboardList, // List icon
+    TiTick, // Correct Icon
+    GoAlertFill, // Triangle alert icon
 };
