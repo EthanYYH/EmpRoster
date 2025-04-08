@@ -7,7 +7,7 @@
         min-height: auto;
         height: 100%;
         gap: 20px;
-        width: fit-content;
+        width: auto;
     }
 
     .side-menu {
