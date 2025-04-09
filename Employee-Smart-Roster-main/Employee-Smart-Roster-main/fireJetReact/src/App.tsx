@@ -149,9 +149,9 @@ function App() {
               <Route
                 path="/reg-list"
                 element={
-                  <ProtectedRoute>
+                  // <ProtectedRoute>
                     <RegisRequests />
-                  </ProtectedRoute>
+                  // </ProtectedRoute>
                 }
               />
 

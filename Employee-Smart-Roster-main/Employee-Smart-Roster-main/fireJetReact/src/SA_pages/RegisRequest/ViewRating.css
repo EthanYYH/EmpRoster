@@ -9,7 +9,7 @@
   .ratingContent {
     flex: 1;
     /* margin-left: 2rem; */
-    background-color: #fff;
+    /* background-color: #fff; */
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -68,6 +68,25 @@
       padding: 0.5rem;
     }
   }
+
+  /* Filter input styles */
+.filterInput {
+    margin-top: 0.25rem;
+    width: 100%;
+    padding: 0.3rem;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+  }
+
+  .headerWithSort {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  
   
   @media (max-width: 480px) {
     .ratingContent h2 {
