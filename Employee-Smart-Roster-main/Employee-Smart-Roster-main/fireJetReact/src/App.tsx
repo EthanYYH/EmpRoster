@@ -18,6 +18,8 @@ import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import UserMgts from "./pages/UserManagement/UserMgts";
 import UserDetail from "./components/UserMgt/UserDetail";
 import PreviewLanding from "./SA_pages/PreviewLanding";
+import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
+
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
@@ -174,12 +176,7 @@ function App() {
                 path="/faqs-management"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <SASide />
-                      <div className="content">
-                        <h1>FAQ Management</h1>
-                      </div>
-                    </div>
+                    <FAQManagement />
                   </ProtectedRoute>
                 }
               />

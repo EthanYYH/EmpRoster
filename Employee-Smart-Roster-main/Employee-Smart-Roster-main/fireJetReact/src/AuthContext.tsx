@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 interface User {
+  UID(UID: any): any;
   email: string;
   role: string;
   lastOnline?: string; // Optional based on your needs

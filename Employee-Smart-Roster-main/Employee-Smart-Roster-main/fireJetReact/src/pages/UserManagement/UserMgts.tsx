@@ -3,53 +3,59 @@ import { useEffect, useState } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
 import UserController from '../../controller/User/UserController';
 import BOSide from '../../components/SideMenu/BOSide';
-// Import the updated list components that use UserDetail for detailed info
 import BOUserList_t from '../../BO_components/EmployeeMgnts/BOUserList_t';
 import BOUserList_m from '../../BO_components/EmployeeMgnts/BOUserList_m';
 
 import './UserMgts.css';
 import "../../../public/styles/common.css";
 
-// Import functions from UserController
-const { getUsers, handleFilterRole } = UserController;
-
-// ADJUSTABLE: Modify available user types for filtering as needed
 const AvailableUserTypes = ['Business Owner', 'Employee'];
 
 const UserMgts = () => {
   const { showAlert } = useAlert();
   const { user } = useAuth();
 
-  // State to hold all users and the filtered list
-  const [allUsers, setAllUsers] = useState<any>([]);
-  const [filteredUsers, setFilteredUsers] = useState<any>([]);
+  // Explicitly type state as an array of User objects.
+  const [allUsers, setAllUsers] = useState<any[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
   
-  // ADJUSTABLE: Default filter values
-  const [filterUserType, setFilterUserType] = useState("Business Owner");
+  const [filterUserType, setFilterUserType] = useState("Employee");
   const [filterName, setFilterName] = useState("");
   const [error, setError] = useState("");
 
-  // Fetch user data from the controller
+  // Fetch user data from the controller.
+  // If filterUserType is "Employee", call getEmployeeUsers API; otherwise, use the static getUsers.
   const fetchUsersData = async () => {
     try {
-      const response = getUsers();
+      let response;
+      if (filterUserType === "Employee") {
+        // Guard: Ensure that 'user' exists and has a UID; this UID acts as business_owner_id.
+        if (!user?.UID) return;
+        response = await UserController.getEmployeeUsers(user.UID);
+      } else {
+        response = await UserController.getUsers();
+      }
+      console.log("Fetched response:", response);
       setAllUsers(Array.isArray(response) ? response : []);
     } catch (err) {
+      console.error("Error in fetchUsersData:", err);
       setError(`${err}`);
       setAllUsers([]);
       showAlert("UserMgts page", '', `${err}`, { type: 'error' });
     }
   };
 
-  // Fetch users when component mounts
+  // Fetch users when the component mounts or when filterUserType changes and when user is defined.
   useEffect(() => {
-    fetchUsersData();
-  }, []);
+    if (user) {
+      fetchUsersData();
+    }
+  }, [filterUserType, user]);
 
-  // ADJUSTABLE: Update filtering logic as needed
+  // Update filtering logic (this filters based on fullName).
   const triggerFilterUsers = () => {
     try {
-      let filtered = handleFilterRole(allUsers, filterUserType);
+      let filtered = UserController.handleFilterRole(allUsers, filterUserType);
       if (filterName.trim() !== "") {
         filtered = filtered.filter((u: any) =>
           u.fullName.toLowerCase().includes(filterName.toLowerCase())
@@ -63,15 +69,15 @@ const UserMgts = () => {
     }
   };
 
-  // Re-run filtering when source data or filter values change
+  // Re-run filtering when source data or filter values change.
   useEffect(() => {
     triggerFilterUsers();
   }, [allUsers, filterUserType, filterName]);
 
-  // *** FIX: Add an onUpdate callback to update the parent's state ***
+  // Callback to update a single user in state after an update (e.g., suspension).
   const handleUserUpdate = (updatedUser: any) => {
     setAllUsers((prevUsers: any[]) =>
-      prevUsers.map(user =>
+      prevUsers.map((user) =>
         user.UID === updatedUser.UID ? updatedUser : user
       )
     );
@@ -110,8 +116,6 @@ const UserMgts = () => {
           <div>Loading users...</div>
         ) : (
           <>
-            {/* Pass the onUpdate callback so that when a user is updated (e.g., suspended),
-                the parent's state is updated */}
             <div className="desktop-view">
               <BOUserList_t users={filteredUsers} onUpdate={handleUserUpdate} />
             </div>

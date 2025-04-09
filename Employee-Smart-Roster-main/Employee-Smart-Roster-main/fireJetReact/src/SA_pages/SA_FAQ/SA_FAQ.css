@@ -1,0 +1,88 @@
+.faq-logo{
+    font-size: 50px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.desktop-faq-table-header {
+    display: flex;
+    flex-direction: row;
+  
+    .header-faq-question {
+        min-width: 800px;
+        max-width: 800px;
+    }
+  
+    .header-faq-answer {
+        min-width: 700px;
+        max-width: 700px; /* takes remaining space */
+    }
+
+    .header-faq-actions {
+        width: 1fr; /* takes remaining space */
+    }
+  
+}
+  
+
+.faq-table-body {
+    display: flex;
+    flex-direction: row;
+    
+    .body-faq-question {
+        min-width: 800px;
+        max-width: 800px;
+    }
+  
+    .body-faq-answer {
+        min-width: 700px;
+        max-width: 700px; /* takes remaining space */
+    }
+
+    .body-faq-actions {
+        width: 1fr; /* takes remaining space */
+    }
+  }
+
+
+  .faq-edit-detail-contents{
+    background-color:#F3ECFE;
+  }
+
+  .title-faq-edit-details-question{
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .title-faq-edit-details-answer{
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .title-faq-view-details{
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+  
+
+.faq-add-input {
+    border: 2px solid;       /* Default light grey border */
+    border-color: #8852E0;           /* Or whatever color you want */
+    padding: 4px;                 /* Optional: add some padding */
+    border-radius: 4px;           /* Optional: slightly rounded corners */
+    font-size: 15px;
+    width: 100%;                 /* Full width */
+    background-color: #fff; /* Light grey background */
+  }
+  
+.title-add-faq{
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.faq-add-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 8px;
+}
