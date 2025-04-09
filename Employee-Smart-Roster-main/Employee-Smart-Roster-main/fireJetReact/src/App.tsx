@@ -21,6 +21,7 @@ import PreviewLanding from "./SA_pages/PreviewLanding";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
+import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployeeOLD"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
 import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
@@ -28,6 +29,9 @@ import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
 import BOSide from "./components/SideMenu/BOSide";
+
+// Import for testing
+
 
 import "./App.css";
 import "../public/styles/common.css";
@@ -235,10 +239,7 @@ function App() {
                 path="/timeline-management"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <BOSide />
-                      <h1>Timeline Management</h1>
-                    </div>
+                    <BOTimelinesPage />
                   </ProtectedRoute>
                 }
               />
