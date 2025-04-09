@@ -6,7 +6,9 @@ import { FaFilePdf,
          FaInfoCircle, 
          FaPlusCircle,
          FaCircle,
-         FaClipboardList, } from "react-icons/fa";
+         FaClipboardList,
+         FaChevronCircleLeft,
+         FaChevronCircleRight } from "react-icons/fa";
 import { IoIosAlert } from "react-icons/io";
 import { GiRotaryPhone } from "react-icons/gi";
 import { MdContactPhone, 
@@ -35,4 +37,6 @@ export {
     FaClipboardList, // List icon
     TiTick, // Correct Icon
     GoAlertFill, // Triangle alert icon
+    FaChevronCircleLeft, // Go previous in circle icon
+    FaChevronCircleRight, // Go next in circle icon
 };
