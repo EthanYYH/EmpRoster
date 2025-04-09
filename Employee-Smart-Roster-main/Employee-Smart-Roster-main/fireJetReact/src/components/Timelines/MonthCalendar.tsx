@@ -15,7 +15,7 @@ interface ContinuousCalendarProps {
     onClick?: (_day:number, _month: number, _year: number) => void;
 }
 const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ tasks=[], onClick }) => {
-    // console.log(tasks)
+    console.log(tasks)
     const dayRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [ year, setYear ] = useState<number>(TODAY.getFullYear());
     const [ selectedMonth, setSelectedMonth ] = useState<number>(TODAY.getMonth());
@@ -44,7 +44,7 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ tasks=[], onClick })
             const dateKey = new Date(task.taskDate).toISOString().split('T')[0];
             if (!map.has(dateKey))
                 map.set(dateKey, []);
-            map.get(dateKey)?.push(task);
+            map.get(dateKey)!.push(task);
         });
         // console.log(map)
         return map
@@ -189,17 +189,19 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ tasks=[], onClick })
 
                             {/* Display task */}
                             <div className="tasks-container">
-                                {tasksForDay.map((task, index) => (   
-                                <div 
-                                    key={index} 
-                                    className={`task-entry
-                                                ${task.status === TASK_STATUS[1] ? 'in-progress' : ''}
-                                                ${task.status === TASK_STATUS[2] ? 'completed' : ''}`}
-                                    onClick={() => triggerSelectedTask(task)}
-                                >             
-                                    {task.title}
-                                </div>
-                                ))}
+                                {tasksForDay.length > 0 ? (
+                                    tasksForDay.map((task, index) => (   
+                                        <div 
+                                            key={index} 
+                                            className={`task-entry
+                                                        ${task.status === TASK_STATUS[1] ? 'in-progress' : ''}
+                                                        ${task.status === TASK_STATUS[2] ? 'completed' : ''}`}
+                                            onClick={() => triggerSelectedTask(task)}
+                                        >             
+                                            {task.title}
+                                        </div>
+                                    ))
+                                ): null}
                             </div>
                         </div>
                     );
@@ -207,7 +209,7 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ tasks=[], onClick })
             </div>
         ));
         return calendar;
-    }, [year]);
+    }, [year, selectedMonth, taskMap, tasks]);
 
     useEffect(() => {
         const calendarContainer = document.querySelector('.calendar-container');
