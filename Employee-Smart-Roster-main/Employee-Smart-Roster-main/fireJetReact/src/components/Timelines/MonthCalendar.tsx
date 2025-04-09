@@ -15,7 +15,7 @@ interface ContinuousCalendarProps {
     onClick?: (_day:number, _month: number, _year: number) => void;
 }
 const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ tasks=[], onClick }) => {
-    console.log(tasks)
+    // console.log(tasks)
     const dayRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [ year, setYear ] = useState<number>(TODAY.getFullYear());
     const [ selectedMonth, setSelectedMonth ] = useState<number>(TODAY.getMonth());
@@ -38,10 +38,10 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ tasks=[], onClick })
         if(!tasks) return map;
 
         tasks.forEach(task => {
-            // const taskDate = new Date(task.taskDate);
-            // // Subtract 2 hours (7200 seconds in milliseconds)
-            // taskDate.setHours(taskDate.getHours() - 2);
-            const dateKey = new Date(task.taskDate).toISOString().split('T')[0];
+            const taskDate = new Date(task.taskDate);
+            // Subtract 2 hours (7200 seconds in milliseconds)
+            taskDate.setHours(taskDate.getHours() - 2);
+            const dateKey = new Date(taskDate).toISOString().split('T')[0];
             if (!map.has(dateKey))
                 map.set(dateKey, []);
             map.get(dateKey)!.push(task);
@@ -121,7 +121,7 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ tasks=[], onClick })
     
         const daysInYear = (): { month: number; day: number }[] => {
             const daysInYear = [];
-            const startDayOfWeek = new Date(year, 0, ).getDay();
+            const startDayOfWeek = new Date(year, 0, 0).getDay();
         
             if (startDayOfWeek < 6) {
                 for (let i = 0; i < startDayOfWeek; i++) {
