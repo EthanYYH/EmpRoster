@@ -41,7 +41,7 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ tasks=[], onClick })
             // const taskDate = new Date(task.taskDate);
             // // Subtract 2 hours (7200 seconds in milliseconds)
             // taskDate.setHours(taskDate.getHours() - 2);
-            const dateKey = new Date(tasks.taskDate).toISOString().split('T')[0];
+            const dateKey = new Date(task.taskDate).toISOString().split('T')[0];
             if (!map.has(dateKey))
                 map.set(dateKey, []);
             map.get(dateKey)?.push(task);
