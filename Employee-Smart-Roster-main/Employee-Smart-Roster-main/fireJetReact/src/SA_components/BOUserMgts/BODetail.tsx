@@ -35,7 +35,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             updatedData.owner.isSuspended = 1
             updatedData.owner.reasonOfSuspend = reasonSuspend
 
-            await handleSuspendUser(updatedData.owner.UID, reasonSuspend);
+            const response = await handleSuspendUser(updatedData.owner.UID, reasonSuspend);
 
             if(onUpdate)
                 onUpdate(updatedData)
@@ -46,8 +46,8 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             // Prompt user on user action output
             showAlert(
                 'Suspend user account successfully',
-                `${updatedData.owner.UID}: ${updatedData.owner.fullName}`,
-                "Suspended",
+                `${updatedData.owner.fullName}`,
+                `${response.message}`,
                 { type: 'success' }
             );
 
@@ -72,7 +72,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             updatedData.owner.isSuspended = 0
             updatedData.owner.reasonOfSuspend = ""
 
-            await handleUsuspendUser(updatedData.owner.UID);
+            const response = await handleUsuspendUser(updatedData.owner.UID);
 
             // Update updatedData locally from parent page
             if(onUpdate)
@@ -84,8 +84,8 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             // Prompt user on user action output
             showAlert(
                 'Activate user account successfully',
-                `${updatedData.owner.UID}: ${updatedData.owner.fullName}`,
-                "Activated",
+                `${updatedData.owner.fullName}`,
+                `${response.message}`,
                 { type: 'success' }
             );
 
@@ -99,7 +99,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
         }
     }
 
-    const triggerCancelSuspend = () => {
+    function triggerCancelSuspend(){
         setReasonSuspend("")
         setSuspend(false)
     }
@@ -158,12 +158,12 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     <p className="Bo-detail-title">{company.UEN}</p>
                     
                     <div className="company-info-detail-contact">
-                        <MdOutlineLocationOn className='bo-detail-icon'/>
+                        <MdOutlineLocationOn className='App-popup-content-icon'/>
                         <p>{company.address}</p>
                     </div>
 
                     <div className="company-info-detail-contact">
-                        <GiRotaryPhone className='bo-detail-icon'/>
+                        <GiRotaryPhone className='App-popup-content-icon'/>
                         <p>{company.contactNo}</p>
                     </div>
                 </div>
@@ -172,30 +172,37 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     
                     <div className='bo-info-data'>
                         <p className="title">
-                            <MdOutlineMailOutline className='bo-detail-icon'/>
+                            <MdOutlineMailOutline className='App-popup-content-icon'/>
                         </p>
                         <p className="main-data">{company.owner.email}</p>
                     </div>
                     <div className='bo-info-data'>
                         <p className="title">
-                            <MdContactPhone className='bo-detail-icon'/>
+                            <MdContactPhone className='App-popup-content-icon'/>
                         </p>
                         <p className="main-data">{company.owner.hpNo}</p>
                     </div>
                     <div className="bo-info-data">
                         {company.owner?.isSuspended === 1 ? (
                             <>
-                                <FaCircle className='bo-detail-icon title bo-suspended'/>
+                                <FaCircle className='App-popup-content-icon title bo-suspended'/>
                                 <p className="main-data">Suspended</p>
                             </>
                         ):(
                             <>
-                                <FaCircle className='bo-detail-icon title bo-activated'/>
+                                <FaCircle className='App-popup-content-icon title bo-activated'/>
                                 <p className="main-data">Activated</p>
                             </>
                         )}
                     </div>
                 </div>
+                
+                {company.owner?.isSuspended === 1 && (
+                    <div className="data-content">
+                        <p className="title">Reason Of Reject:</p>
+                        <p className="main-data">{company.owner.reasonOfSuspend}</p>
+                    </div>
+                )}
                 <div className="subs-info">
                     <div className="subs-info-data">
                         <p className="title">Subscription Status: </p>
@@ -215,7 +222,6 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
                     ):(
                         <></>
                     )}
-                    
                 </div>
             </div>
             <div className="suspend-btn">

@@ -1,3 +1,5 @@
+import { EMAIL_PATTERN } from "../../controller/Variables";
+
 function getUsers (){
     const data = [
         {
@@ -136,6 +138,13 @@ function getUsers (){
         }, 
     ]
     return data;
+}
+
+function validateEmail(email) {
+    if(!EMAIL_PATTERN.test(email))
+        return "Invalid Email Format Found"
+    else
+        return ""
 }
 
 async function getBOUsers () {
@@ -298,6 +307,7 @@ async function getEmployeeUsers(business_owner_id) {
 
 export default {
     getUsers,
+    validateEmail,
     handleFilterRole,
     getUserOwnesCompany,
     setUser,

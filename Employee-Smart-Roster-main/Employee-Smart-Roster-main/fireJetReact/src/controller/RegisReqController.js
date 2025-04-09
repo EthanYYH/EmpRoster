@@ -1,3 +1,7 @@
+async function createRegistrationRequest() {
+    
+}
+
 async function getRegistrationRequests (){
     const body = {
 
@@ -23,16 +27,11 @@ async function getRegistrationRequests (){
     }
 }
 
-async function setRegistrationRequest(
-    registrationID, status, reasonOfReject
-){
+async function setRegistrationRequest(registrationID, status, reasonOfReject){
     const body = {
         registrationID: registrationID,
         status: status,
         reasonOfReject:reasonOfReject,
-        // registrationID: 6,
-        // status: 'Pending',
-        // reasonOfReject:'',
     };
 
     try{
@@ -46,7 +45,7 @@ async function setRegistrationRequest(
             throw new Error(errorData.message || `HTTP error status: ${response.status}`);
         }
         const data = await response.json();
-        // console.log(data);
+        console.log(data);
 
         return await data;
     } catch(error) {
@@ -65,8 +64,8 @@ function handleFilterRegsStatus(allRegisReq, filterStatus){
     return filteredData;
 }
 
-function handleFilterRegReqUENBizName(allRegisReq, filterString){
-    const filteredData = allRegisReq.filter((regisReq) => {
+function handleFilterRegReqUENBizName(allFilteredRegisReq, filterString){
+    const filteredData = allFilteredRegisReq.filter((regisReq) => {
         const search = filterString.trim().toLowerCase();
         if(!search) return true;
 
@@ -78,6 +77,7 @@ function handleFilterRegReqUENBizName(allRegisReq, filterString){
 }
 
 export default {
+    createRegistrationRequest,
     getRegistrationRequests,
     setRegistrationRequest, 
     handleFilterRegsStatus,

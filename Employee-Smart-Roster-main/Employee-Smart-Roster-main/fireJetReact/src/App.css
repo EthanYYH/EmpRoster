@@ -8,23 +8,35 @@
   font-family: Inter;
   font-size: var(--text-size);
   color: #1F2937;
-  overflow: auto;
 }
 
 .App-content {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  flex: 1;  /* Take up remaining space */
+  width: 100vw;
   overflow: auto;
+}
+
+.content, .App-form-content {
+  flex: 1 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  overflow: auto; /* Enable scrolling for content */
+  overflow-x: hidden;
   justify-content: start;
-  align-content: start;
-  
-  .content {
+}
+
+.App-form-content {
+  gap: 30px;
+  align-self: center;
+
+  form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    height: fit-content;
-    margin-left: 200px; /* Gap for side menu */
+    gap: 25px;
   }
 }
 
@@ -41,8 +53,8 @@
   border-bottom-color: var(--primary-background);
 }
 
-.App-side-menu {
-  position: fixed; /* Fix the sidebar in place */
+.App-side-menuOLD {
+  /* position: fixed; Fix the sidebar in place */
   top: 0;
   left: 0;
   margin-top: 65px; /* Set gap base on navbar */
@@ -57,6 +69,21 @@
   justify-content: flex-start;
   overflow-y: hidden; /* Enable scrolling if content overflows */
   z-index: 1000; /* Ensure it's above other elements */
+}
+
+.App-side-menu {
+  width: 200px;
+  background-color: var(--side-menu-background);
+  opacity: var(--side-menu-transparency);
+  color: var(--light-color-text);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto; /* Enable scrolling if content overflows */
+  z-index: 1000;
+  height: 100%; /* Make it take full height of parent */
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .App-secondary-text {
@@ -119,7 +146,7 @@ h3 {
     .App-popup-main-content {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
       height: fit-content;
 
       .title {
@@ -131,6 +158,11 @@ h3 {
       .main-data {
         width: auto;
         height: fit-content;
+      }
+
+      .App-popup-content-icon {
+        font-size: 20px;
+        color: var(--primary-background);
       }
     }
   }
@@ -166,7 +198,8 @@ h3 {
 /* Set input text field css */
 input[type=text], 
 input[type=email],
-input[type=password]{
+input[type=password],
+input[type=number]{
   background-color: white;
   border-style: outset;
   border-width: 2px;
@@ -176,6 +209,11 @@ input[type=password]{
   height: 36.5px;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+input[type=file] {
+  margin-top: 0.5px;
+  height: 36.5px;
 }
 
 select {
@@ -196,16 +234,23 @@ option:checked {
   color: var(--light-color-text);
 }
 
+.icons {
+  font-size: 30px;
+  color: var(--side-menu-background);
+}
+
 /* Desktop Table Setup */
 .App-desktop-responsive-table {
   display: flex;
   flex-direction: column;
   gap: 0px;
+  width: 100%;
 }
 
 .App-desktop-table-row {
   display: flex;
   flex-direction: row;
+  width: 100%;
   gap: 0px;
 }
 
@@ -263,13 +308,14 @@ option:checked {
 .App-mobile-responsive-table-card {
   display: flex;
   flex-direction: column;
+  width: 100;
   padding: 10px;
   border-style: solid;
   border-width: 3px;
   border-color: var(--primary-background);
   border-radius: 10px;
   gap: 5px;
-  background-color: var(--light-color-text);
+  background-color: white;
   height: fit-content;
 
   .App-mobile-responsive-table-card-title {
@@ -350,12 +396,16 @@ option:checked {
     font-size: var(--text-size-m);
   }
 
-  .App-content .content {
-    margin-left: 0px;
-  }
-
   .App-secondary-text {
     font-size: var(--secondary-text-m);
+  }
+
+  .App-popup-content  {
+    .App-popup-main-content {
+      .App-popup-content-icon {
+        font-size: 15px;
+      }
+    }
   }
 
   h1 {
