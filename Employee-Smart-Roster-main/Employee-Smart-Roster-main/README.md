@@ -5,6 +5,7 @@ FYP 2025-S1-12
 1. Delete package.json and package-lock.json
 2. Install the following:
     ```
+    npm install
     npm install --save-dev @types/react @types/react-dom
     npm install typescript@latest --save-dev
     npm install --save-dev @types/node
