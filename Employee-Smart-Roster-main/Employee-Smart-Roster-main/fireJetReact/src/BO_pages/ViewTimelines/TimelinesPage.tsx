@@ -20,7 +20,7 @@ const BOTimelinesPage = () => {
         try {
             let data = await getTimelines(user?.UID)
             data = data.sortedTimeline;
-            console.log(data)
+            // console.log(data)
 
             setAllTasks(Array.isArray(data) ? data : []);
 
