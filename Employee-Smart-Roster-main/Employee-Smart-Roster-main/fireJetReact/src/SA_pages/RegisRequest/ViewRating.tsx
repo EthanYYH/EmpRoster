@@ -4,6 +4,10 @@ import SASide from "../../components/SideMenu/SASide";
 import "./ViewRating.css";
 import "../../../public/styles/common.css";
 import ViewRatingController from "../../controller/ViewRatingController";
+import Header from "../../components/table/Header.js";
+import Cell from "../../components/table/Cell.js";
+import ShowFilterButton from "../../components/PrimaryButton/PrimaryButton"; // Import Show Filter button
+import HideFilterButton from "../../components/PrimaryButton/PrimaryButton"; // Import Hide Filter button
 
 type ReviewRating = {
   reviewID: number;
@@ -31,7 +35,6 @@ const ViewRating = () => {
       const result = await ViewRatingController();
       setRatingList(result);
     };
-
     fetchData();
   }, []);
 
@@ -50,7 +53,6 @@ const ViewRating = () => {
 
   const sortedList = [...ratingList].sort((a, b) => {
     if (!sortField) return 0;
-
     const aValue = a[sortField];
     const bValue = b[sortField];
 
@@ -82,17 +84,18 @@ const ViewRating = () => {
   return (
     <div className="viewRatingContainer">
       <SASide />
-      <div>
+      <div className="ratingContent">
         <h2>Ratings and Reviews</h2>
 
-        <button
-          className="filterToggleButton"
-          onClick={() => setShowFilters((prev) => !prev)}
-        >
-          {showFilters ? "Hide Filters" : "Show Filters"}
-        </button>
+        {/* Conditional Show/Hide Filter Buttons */}
+        {showFilters ? (
+          <HideFilterButton onClick={() => setShowFilters(false)} text="Hide Filters" />
+        ) : (
+          <ShowFilterButton onClick={() => setShowFilters(true)} text="Show Filters" />
+        )}
 
-        <table className="ratingTable">
+        {/* Desktop Table */}
+        <table className="ratingTable desktopOnly">
           <thead>
             <tr>
               {[
@@ -102,7 +105,7 @@ const ViewRating = () => {
                 { label: "Review", key: "review" },
                 { label: "Created On", key: "createdOn" },
               ].map(({ label, key }) => (
-                <th key={key as string} onClick={() => handleSort(key as keyof ReviewRating)}>
+                <th key={key} onClick={() => handleSort(key as keyof ReviewRating)}>
                   <div className="headerWithSort">
                     {label} {renderSortIcon(key as keyof ReviewRating)}
                   </div>
@@ -110,7 +113,9 @@ const ViewRating = () => {
                     <input
                       type="text"
                       value={filters[key as keyof typeof filters]}
-                      onChange={(e) => handleFilterChange(key as keyof typeof filters, e.target.value)}
+                      onChange={(e) =>
+                        handleFilterChange(key as keyof typeof filters, e.target.value)
+                      }
                       placeholder="Filter"
                       className="filterInput"
                     />
@@ -131,9 +136,23 @@ const ViewRating = () => {
             ))}
           </tbody>
         </table>
+
+        {/* Mobile Card View */}
+        <div className="mobileCards">
+          {filteredList.map((r) => (
+            <div className="mobileCard" key={r.reviewID}>
+              <p><strong>Review ID:</strong> {r.reviewID}</p>
+              <p><strong>User ID:</strong> {r.user_id}</p>
+              <p><strong>Rating:</strong> {r.rating}</p>
+              <p><strong>Review:</strong> {r.review}</p>
+              <p><strong>Created On:</strong> {new Date(r.createdOn).toLocaleString()}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
 export default ViewRating;
+  
