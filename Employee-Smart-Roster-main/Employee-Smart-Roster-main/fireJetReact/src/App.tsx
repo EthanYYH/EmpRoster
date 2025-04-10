@@ -96,14 +96,6 @@ function App() {
                 }
               />
 
-              <Route
-                path="/test123"
-                element={
-                  // <ProtectedRoute>
-                    <Test123 />
-                  // </ProtectedRoute>
-                }
-              />
 
               {/* Route for System Admin pages */}
               <Route
