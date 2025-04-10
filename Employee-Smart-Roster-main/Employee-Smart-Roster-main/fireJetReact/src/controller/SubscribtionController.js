@@ -40,35 +40,37 @@ async function getSubscriptionTransactions () {
             body: JSON.stringify(),
             headers: { 'Content-Type': 'application/json' }
         });
-        if(response.ok) {
-            const data = await response.json();
-            console.log(data);
-            return data;
-        } else {
-            throw new Error(`Failed to fetch Subscription Transactions: ${response.status}`)
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
         }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
     } catch(error) {
-        console.log("Failed to load Subscription Transactions: \n", error);
-        throw error
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to fetch company data: ${error.message}`);
     }
 }
 
-function getSubsTransForACompany (allData, companyID) {
-    const filteredData = allData.filter((data) => {
-        const companyMatch = companyID === '' ||
-            data.subscripts === companyID
+function getSubsTransForACompany (allSubsTrans, uen) {
+    // console.log(`getSubsTransForACompany received data: \n`, allSubsTrans)
+    const filteredData = allSubsTrans.filter((data) => {
+        const companyMatch = uen === '' ||
+            data.UEN === uen
         return companyMatch
     })
     return filteredData;
 }
 
 function getSortedSubsTransactions (subsTrans){
-    // Sort by createdAt in descending order (newest first)
-    const latestSubsTrans = subsTrans.sort((a, b) => {
-        return new Date(b.createdAt) - new Date(a.createdAt)
+    // Sort by startDate in descending order (newest first)
+    const sortedSubsTrans = subsTrans.sort((a, b) => {
+        return new Date(b.startDate) - new Date(a.startDate)
     })
 
-    return latestSubsTrans;
+    return sortedSubsTrans;
 }
 
 function handleFilterSubsStatus (companies, status) {

@@ -5,13 +5,6 @@
     height: fit-content;
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    height: fit-content;
-}
-
 .regis-req {
     display: flex;
     flex-direction: column;
@@ -101,10 +94,7 @@ button:hover {
     }
 }
 
-.table-body {
-    display: flex;
-    flex-direction: row;
-    
+.regis-req-row {
     .body-uen {
         min-width: 130px;
         max-width: 130px;

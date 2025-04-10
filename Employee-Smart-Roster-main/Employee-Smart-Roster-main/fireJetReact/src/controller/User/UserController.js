@@ -1,3 +1,5 @@
+import { EMAIL_PATTERN } from "../../controller/Variables";
+
 function getUsers (){
     const data = [
         {
@@ -138,6 +140,13 @@ function getUsers (){
     return data;
 }
 
+function validateEmail(email) {
+    if(!EMAIL_PATTERN.test(email))
+        return "Invalid Email Format Found"
+    else
+        return ""
+}
+
 async function getBOUsers () {
     const body = {
 
@@ -149,23 +158,24 @@ async function getBOUsers () {
             body: JSON.stringify(),
             headers: { 'Content-Type': 'application/json' }
         });
-        if(response.ok) {
-            const data = await response.json();
-            // console.log(data);
-            return data;
-        } else {
-            throw new Error(`Failed to fetch Business Owner Users: ${response.status}`)
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
         }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
     } catch(error) {
-        console.log("Failed to load BO Users: \n", error);
-        throw error
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to fetch company data: ${error.message}`);
     }
 }
 
-async function getReportedIssue () {
+async function handleSuspendUser (uid, reason) {
     const body = {
-        UID: 6,
-        reasonOfSuspend: "WM - Try Access Testing" 
+        UID: uid,
+        reasonOfSuspend: reason
     };
 
     try{
@@ -174,12 +184,42 @@ async function getReportedIssue () {
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' }
         });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
         const data = await response.json();
-        console.log(data)
-        return data;
+        // console.log(data);
+
+        return await data;
     } catch(error) {
-        console.log("Failed to load BO Users: \n", error);
-        throw error
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to suspend the user: ${error.message}`);
+    }
+}
+
+async function handleUsuspendUser (uid, ) {
+    const body = {
+        UID: uid,
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/user/unsuspend', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to suspend the user: ${error.message}`);
     }
 }
 
@@ -209,14 +249,14 @@ function setUser(updatedData){
 
 function handleUserAccStatusFilter(companies, accStatus) {
     const filteredData = companies.filter((company) => {
-        const dataAccStatus = company.owner[0].isSuspended
+        const dataAccStatus = company.owner.isSuspended
         // If accStatus is 'Activated'
         if (accStatus === 'Activated'){
-            const IS_SUSPENDED = false  // The account is not suspended
+            const IS_SUSPENDED = 0  // The account is not suspended
             return dataAccStatus === IS_SUSPENDED  
         }
         else {
-            const IS_SUSPENDED = true  // The account is suspended
+            const IS_SUSPENDED = 1  // The account is suspended
             return dataAccStatus === IS_SUSPENDED  
         }
     })
@@ -225,10 +265,12 @@ function handleUserAccStatusFilter(companies, accStatus) {
 
 export default {
     getUsers,
+    validateEmail,
     handleFilterRole,
     getUserOwnesCompany,
     setUser,
     handleUserAccStatusFilter,
     getBOUsers,
-    getReportedIssue,
+    handleSuspendUser,
+    handleUsuspendUser,
 }

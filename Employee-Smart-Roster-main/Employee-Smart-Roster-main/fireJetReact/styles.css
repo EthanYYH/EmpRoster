@@ -415,3 +415,14 @@ video {
 [hidden] {
   display: none;
 }
+
+
+/* Hide scrollbars globally but allow scroll */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Safari + Chrome */
+}

@@ -6,8 +6,8 @@
         flex-direction: row;
         min-height: auto;
         height: 100%;
-        padding: 10px;
         gap: 20px;
+        width: auto;
     }
 
     .side-menu {

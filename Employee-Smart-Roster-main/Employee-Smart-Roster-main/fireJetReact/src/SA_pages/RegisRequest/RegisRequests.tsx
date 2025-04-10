@@ -1,93 +1,94 @@
 import RegisReq from "../../SA_components/Registration_Request/RegisReq.js";
 import { useState, useEffect } from "react";
+import { useAlert } from "../../components/PromptAlert/AlertContext";
 import RegisReqController from "../../controller/RegisReqController";
 import RegisReq_m from '../../SA_components/Registration_Request/RegisReq_m';
 import SASide from "../../components/SideMenu/SASide";
 import RegisReqTitle from '../../SA_components/Registration_Request/Title';
-import CreateAccount from "../../BO_components/rolesNskillset/CreateEmployee/CreateEmployee.js"
-import EditAccount from "../../BO_components/rolesNskillset/CreateEmployee/EditEmployee.js"
 
 import "./RegisRequests.css"
 import "../../../public/styles/common.css";
 
 // Access the function from the RegisReqController default export
-const { getRegistrationRequest, 
-        setRegistrationRequest,
+const { getRegistrationRequests, 
         handleFilterRegsStatus, 
-        handleFilterRegsUEN,
-        handleFilterRegsBizName, } = RegisReqController;
+        handleFilterRegReqUENBizName, } = RegisReqController;
 
 const RegStatus = ["Pending", "Approved", "Rejected"];
 
 const RegisRequests = () => {
+    const { showAlert } = useAlert();
     const [ allRegisRequest, setAllRegisRequest ] = useState<any>([]);
+    const [ filterStatus, setFilterStatus ] = useState(RegStatus[0]); // Default display by pending
+    const [ filterUENOBizName, setFilterUENOBizName ] = useState('');   // Default empty
     const [ filteredRegisRequest, setFilteredRegisRequest ] = useState<any>([]);
-    const [ filterStatus, setFilterStatus ] = useState("Pending"); // Default display by pending
-    const [ filterUEN, setFilterUEN ] = useState("");   // Default empty
-    const [ filterBizName, setFilterBizName ] = useState("");   // Default empty
-    
-    
-    const fetchData = async () => {
+
+    const fetchRegisReqsData = async () => {
         try {
-            const response = getRegistrationRequest();
-            setAllRegisRequest(Array.isArray(response) ? response : []);
+            const data = await getRegistrationRequests();
+            const regReqList = data.RegistrationRequestList || [];
+            // console.log(regReqList)
+            setAllRegisRequest(Array.isArray(regReqList) ? regReqList : []);
             // console.log(allRegisRequest)
         } catch (error) {
-            console.error("Data fetch failed:", error);
-            setAllRegisRequest([]);
+            showAlert(
+                "fetchRegisReqsData",
+                "Fetch data error",
+                `${error}`,
+                { type: 'error' }
+            )
         }
     };
     // Auto trigger when allRegisRequest length change
-    useEffect(() => { fetchData(); }, [allRegisRequest.length]); 
+    useEffect(() => { 
+        fetchRegisReqsData();
+    }, [allRegisRequest.length]); 
 
-    const triggerFilterStatus = async () => {
-        // console.log("Filter status: ", filterStatus);
-        const filter = handleFilterRegsStatus(allRegisRequest, filterStatus);
-        // console.log(allRegisRequest)
-        setFilterBizName("");
-        setFilterUEN("");
-        setFilteredRegisRequest(filter);
-    }
-    // Auto trigger when filter status change
-    useEffect(() => { triggerFilterStatus(); }, [filterStatus, allRegisRequest])
-
-    const triggerFilter = async () => {
-        if (filterUEN !== "" && filterBizName === ""){
-            const filter = handleFilterRegsUEN(filteredRegisRequest, filterUEN);
-            setFilteredRegisRequest(filter)
-        }
-        if (filterUEN === "" && filterBizName === ""){
-            const filter = handleFilterRegsStatus(allRegisRequest, filterStatus);
-            setFilteredRegisRequest(filter)
-        }
-        if (filterUEN === "" && filterBizName !== ""){
-            const filter = handleFilterRegsBizName(filteredRegisRequest, filterBizName);
-            setFilteredRegisRequest(filter)
+    const triggerFilterRegReq = async () => {
+        try{
+            // Filter registration request status
+            let filtered = handleFilterRegsStatus(allRegisRequest, filterStatus);
+            // Filter UEN or BizName
+            filtered = handleFilterRegReqUENBizName(filtered, filterUENOBizName);
+            // console.log(filtered)
+            setFilteredRegisRequest(filtered);
+        }catch (error) {
+            showAlert(
+                "triggerFilterRegReq", 
+                "Failed to apply filter", 
+                error instanceof Error ? error.message : String(error), 
+                { type: 'error' }
+            );
         }
     }
     // Auto trigger when filter status change
-    useEffect(() => { triggerFilter(); }, [filterUEN, filterBizName])
-
-    // useEffect(() => {
-    //     console.log("Current filter status:", filterStatus);
-    //     console.log("Filtered results:", filteredRegisRequest);
-    // }, [filterStatus, filteredRegisRequest])
+    useEffect(() => { triggerFilterRegReq(); }, [
+        filterStatus, 
+        filterUENOBizName,
+        allRegisRequest
+    ])
   
     const handleDataUpdate = (updatedData:any) => {
-        setRegistrationRequest(updatedData);
+        // console.log("Updated Registration Request: \n", updatedData)
+
+        const updatedItem = allRegisRequest.map((request: any) => 
+            request.registrationID === updatedData.registrationID
+            ? updatedData
+            : request
+        )
+        setAllRegisRequest(updatedItem); // Update data locally
+        // console.log("Updated State: \n", updatedItem)
     };
 
     return (
-        <div className="RegisRequests">
-            {/* <SASide /> */}
+        <div className="App-content">
+            <SASide />
             <div className="content">
-                <CreateAccount/>
-                <EditAccount/>
                 <RegisReqTitle />
                 
                 <div className="App-filter-search-component">
                     <div className="App-filter-container">
-                        <p className='App-filter-title'>Search Status</p>
+                        <p className='App-filter-title'>Reg.Request Status</p>
                         <select 
                             value={filterStatus}
                             onChange={(e) => {
@@ -103,20 +104,11 @@ const RegisRequests = () => {
                         </select>
                     </div>
                     <div className="App-filter-container">
-                        <p className='App-filter-title'>Search UEN</p>
+                        <p className='App-filter-title'>UEN/Company Name</p>
                         <input type='text' 
-                            placeholder='Search UEN' 
+                            placeholder='Search UEN / Company Name' 
                             onChange={(e) => {
-                                setFilterUEN(e.target.value);
-                            }}
-                        />
-                    </div>
-                    <div className="App-filter-container">
-                    <p className='App-filter-title'>Search Business Name</p>
-                        <input type='text' 
-                            placeholder='Search Business Name' 
-                            onChange={(e) => {
-                                setFilterBizName(e.target.value);
+                                setFilterUENOBizName(e.target.value);
                             }}
                         />
                     </div>
@@ -125,14 +117,13 @@ const RegisRequests = () => {
                 {/* Desktop View */}
                 <RegisReq 
                     data={filteredRegisRequest}
-                    onDataUpdate={handleDataUpdate}/>
+                    onUpdate={handleDataUpdate}/>
 
                 {/* Mobile View */}
                 <RegisReq_m 
                     data={filteredRegisRequest}
-                    onDataUpdate={handleDataUpdate}/>
+                    onUpdate={handleDataUpdate}/>
             </div>
-            
         </div>
     )
 }

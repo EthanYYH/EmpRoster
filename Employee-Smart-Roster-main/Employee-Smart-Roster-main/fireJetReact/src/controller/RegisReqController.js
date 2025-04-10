@@ -1,114 +1,85 @@
-function getRegistrationRequest (){
-    const data = [
-        {
-            registrationID: 1,
-            email: "company1@example.com",
-            UEN: "202452226G",
-            bizName: "FUSIONTECH INNOVATIONS PTE. LTD.",
-            bizFileID: 1,
-            status: "Pending",
-            lastUpdate: "",
-            updateBy: "",
-            createdAt: "2025-3-25 12:00:08",
-            reasonOfReject: "",
-        },
-        {
-            registrationID: 2,
-            email: "company2@example.com",
-            UEN: "202345699N",
-            bizName: "#LAIPLAYLEOW PTE. LTD.",
-            bizFileID: 2,
-            status: "Pending",
-            lastUpdate: "",
-            updateBy: "",
-            createdAt: "2025-3-25 12:00:09",
-            reasonOfReject: "",
-        },
-        {
-            registrationID: 3,
-            email: "company3@example.com",
-            UEN: "53404282A",
-            bizName: "1 SHENG TOU YUAN",
-            bizFileID: 3,
-            status: "Pending",
-            lastUpdate: "",
-            updateBy: "",
-            createdAt: "2025-3-25 13:00:00",
-            reasonOfReject: "",
-        },
-        {
-            registrationID: 4,
-            email: "company4@example.com",
-            UEN: "202505640G",
-            bizName: "2 CONSTRUCTION PTE. LTD.",
-            bizFileID: 4,
-            status: "Approved",
-            lastUpdate: "",
-            updateBy: "",
-            createdAt: "2025-3-24 15:00:00",
-            reasonOfReject: "",
-        },
-        {
-            registrationID: 5,
-            email: "company5@example.com",
-            UEN: "2016136",
-            bizName: "hahahaha",
-            bizFileID: 5,
-            status: "Rejected",
-            lastUpdate: "",
-            updateBy: "",
-            createdAt: "2025-3-24 15:30:00",
-            reasonOfReject: "The UEN and Company name are not registered in ACRA",
-        },
-    ]
-    return data;
+async function createRegistrationRequest() {
+    
 }
 
-function setRegistrationRequest(updatedData){
-    console.log(updatedData)
+async function getRegistrationRequests (){
+    const body = {
+
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/registrationrequest/view', {
+            method: 'GET',
+            body: JSON.stringify(),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to fetch company data: ${error.message}`);
+    }
 }
 
-function handleFilterRegsStatus(allData, filterStatus){
-    const filteredData = allData.filter((data) => {
-        const statusMatch = filterStatus === "" || 
-            data.status === filterStatus
-        return statusMatch
+async function setRegistrationRequest(registrationID, status, reasonOfReject){
+    const body = {
+        registrationID: registrationID,
+        status: status,
+        reasonOfReject:reasonOfReject,
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/registrationrequest/changestatus', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to fetch company data: ${error.message}`);
+    }
+}
+
+function handleFilterRegsStatus(allRegisReq, filterStatus){
+    // console.log(allRegisReq)
+    const filteredData = allRegisReq.filter((regisReq) => {
+        const DEFAULT_STATUS = 'Pending';
+        const status = regisReq.status || DEFAULT_STATUS;
+        return status === '' || status === filterStatus;
     });
     return filteredData;
 }
 
-function handleFilterRegsUEN(allData, filterUEN){
-    const filteredData = allData.filter((data) => {
-        const uenMatch = filterUEN === "" || 
-            data.UEN.toUpperCase().includes(filterUEN.toUpperCase())
-        return uenMatch
-    });
+function handleFilterRegReqUENBizName(allFilteredRegisReq, filterString){
+    const filteredData = allFilteredRegisReq.filter((regisReq) => {
+        const search = filterString.trim().toLowerCase();
+        if(!search) return true;
+
+        const uenMatch = regisReq.UEN.toLowerCase().includes(search);
+        const bizNameMatch = regisReq.bizName.toLowerCase().includes(search);
+        return uenMatch || bizNameMatch;
+    })
     return filteredData;
-}
-
-function handleFilterRegsBizName(allData, filterBizName){
-    const filteredData = allData.filter((data) => {
-        const bizNameMatch = filterBizName === "" || 
-            data.bizName.toUpperCase().includes(filterBizName.toUpperCase())
-        return bizNameMatch
-    });
-    return filteredData;
-}
-
-const handleSelectedDetail = (seletedRequest) => {
-    return seletedRequest
-}
-
-const handleCloseDetail = () => {
-    return null
 }
 
 export default {
-    getRegistrationRequest,
+    createRegistrationRequest,
+    getRegistrationRequests,
     setRegistrationRequest, 
     handleFilterRegsStatus,
-    handleFilterRegsUEN,
-    handleFilterRegsBizName,
-    handleSelectedDetail,
-    handleCloseDetail,
+    handleFilterRegReqUENBizName,
 }

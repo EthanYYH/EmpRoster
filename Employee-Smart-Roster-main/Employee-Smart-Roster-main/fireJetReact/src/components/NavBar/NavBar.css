@@ -6,7 +6,7 @@ div{
 .navbar {
     display: flex;
     flex-direction: row;
-    max-height: fit-content;
+    height: 65px;
     justify-content: space-between;
     align-content: space-between;
     width: 100%;

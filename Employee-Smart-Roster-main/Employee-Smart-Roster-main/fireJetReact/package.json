@@ -2,12 +2,17 @@
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@types/react": "^19.1.0",
-    "@types/react-dom": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.3.4",
     "typescript": "^5.8.3",
-    "vite": "^4.5.12"
+    "vite": "^4.5.9"
   },
   "dependencies": {
+    "@schedule-x/event-modal": "^2.27.2",
+    "@schedule-x/events-service": "^2.27.2",
+    "@schedule-x/react": "^2.27.1",
+    "@schedule-x/theme-default": "^2.27.2",
+    "@syncfusion/ej2-react-schedule": "^29.1.37",
     "axios": "^1.8.4",
     "date-fns": "^4.1.0",
     "node-fetch": "^2.7.0",

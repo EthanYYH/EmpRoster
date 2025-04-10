@@ -44,25 +44,18 @@ async function getCompany (uid){
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' }
         });
-
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
         const data = await response.json();
-        console.log(data);
-        return data;
+        // console.log(data);
+
+        return await data;
     } catch (error) {
-        console.error('Error:', error);
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to fetch company data: ${error.message}`);
     }
-    //     const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/profile', {
-    //         method: 'POST',
-    //         body: JSON.stringify(body),
-    //         headers: { 'Content-Type': 'application/json' }
-    //     })
-    //         const data = await response.json();
-    //         console.log(data);
-    //         return data;
-    // } catch (error) {
-    //     console.log(`Failed to fetch ${uid}'s company information:\n`, error)
-    //     throw error
-    // }
 }
 
 function GetCompanyRoles (){
@@ -121,7 +114,7 @@ const handleSelectedDetail = (selectedCompany) => {
     return selectedCompany;
 }
 
-const handleFilterUENBizName = (companies, filterString) => {
+function handleFilterUENBizName(companies, filterString){
     const filteredData = companies.filter((company) => {
         const search = filterString.trim().toLowerCase();
         if (!search) return true;

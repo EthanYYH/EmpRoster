@@ -1,13 +1,20 @@
-import { useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { ExternalLink } from 'react-external-link';
-import { IoClose, FaFilePdf } from '../../../public/Icons.js';
+import { useAlert } from '../../components/PromptAlert/AlertContext';
+import { formatDateTime } from '../../controller/Variables.js';
+import RegisReqController from '../../controller/RegisReqController.js';
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton/SecondaryButton";
-import { useAlert } from '../../components/PromptAlert/AlertContext';
 import './RegisReqDetail.css'
 import '../../../public/styles/common.css'
+import { IoClose, 
+         FaFilePdf, 
+         RiUserReceived2Fill,
+         FaCircle } from '../../../public/Icons.js';
 
 const sampleBizFile = "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8";
+const REG_STATUS = ["Pending", "Approved", "Rejected"]
+const { setRegistrationRequest, } = RegisReqController
 
 const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) => {
     // console.log(regisRequest);
@@ -17,44 +24,66 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
 
     if (!regisRequest) return null;
 
-    const handleStatusChange = async (statusChanged:string) => {
-        if (!regisRequest) return null;
+    const triggerRejectionOrApproval = async (statusChanged:string) => {
+        try {
+            const updatedData = {
+                ...regisRequest,
+                status: statusChanged,
+                lastUpdate: new Date().toISOString(),
+            };
 
-        const updatedData = {
-            ...regisRequest,
-            status: statusChanged,
-            lastUpdate: new Date().toISOString(),
-        };
+            if(statusChanged === REG_STATUS[2]){
+                updatedData.reasonOfReject = reasonReject
+            }
 
-        if(statusChanged === "Rejected"){
-            updatedData.reasonOfReject = reasonReject
+            // console.log("Updated Registration Request: \n", updatedData)
+
+            // Trigger api with updated data
+            const response = await setRegistrationRequest(
+                updatedData.registrationID, 
+                updatedData.status, 
+                updatedData.reasonOfReject
+            )
+
+            // Update updatedData locally from parent page
+            if(onUpdate)
+                onUpdate(updatedData)
+
+            if(onClose)
+                onClose()
+
+            // Prompt user on user action output
+            if(statusChanged === REG_STATUS[2])
+                showAlert(
+                    updatedData.bizName,
+                    updatedData.UEN,
+                    `${response.message}`,
+                    { type: 'success' }
+                );
+            else
+                showAlert(
+                    updatedData.bizName,
+                    updatedData.UEN,
+                    `${response.message}`,
+                    { type: 'success' }
+                );
+
+        } catch(error) {
+            showAlert(
+                'triggerRejectionOrApproval',
+                '',
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            );
         }
-
-        // This part onward is to replace await JSON in parent 
-        // (add try catch)
-        if(onUpdate)
-            onUpdate(updatedData)
-
-        if(statusChanged === "Rejected")
-            showAlert(
-                updatedData.bizName,
-                updatedData.UEN,
-                "Rejected Registration Successfully",
-                { type: 'success' }
-            );
-        else
-            showAlert(
-                updatedData.bizName,
-                updatedData.UEN,
-                "Approved Registration Successfully",
-                { type: 'success' }
-            );
-
-        if(onClose)
-            onClose()
     }
 
-    const handleCancelReject = () => {
+    // Debugging section
+    // useEffect(() => {
+    //     setRegistrationRequest(regisRequest.registrationID, 'Pending', '')
+    // })
+
+    function triggerCancelReject(){
         setReasonReject("")
         setIsReject(false)
     }
@@ -77,12 +106,12 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
                 <div className="btns-grp">
                     <PrimaryButton 
                         text='Confirm'
-                        onClick={() => handleStatusChange("Rejected")}
+                        onClick={() => triggerRejectionOrApproval(REG_STATUS[2])}
                         disabled = {!reasonReject}
                     />
                     <SecondaryButton 
                         text='Cancel'
-                        onClick={() => handleCancelReject()}
+                        onClick={() => triggerCancelReject()}
                     />
                 </div>
             </div>
@@ -101,7 +130,7 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
                 </button>
             </div>
 
-            <div className="content">
+            <div className="App-popup-main-content">
                 <div className="uen data-content">
                     <h2>{regisRequest.UEN}</h2>
                     <button className='icons'>
@@ -113,20 +142,45 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
 
                 <div className="detail-content">
                     <div className="regs-status">
-                        <p className="title">Status</p>
+                        {regisRequest?.status === REG_STATUS[0] && (
+                            <FaCircle  
+                                className='App-popup-content-icon pending'
+                            />
+                        )}
+                        {regisRequest?.status === REG_STATUS[1] && (
+                            <FaCircle  
+                                className='App-popup-content-icon approved'
+                            />
+                        )}
+                        {regisRequest?.status === REG_STATUS[2] && (
+                            <FaCircle  
+                                className='App-popup-content-icon rejected'
+                            />
+                        )}
                         <p className="main-data">{regisRequest.status}</p>
                     </div>
                     <div className="request-date">
-                        <p className="title">Request On</p>
-                        <p className="main-data">{regisRequest.createdAt}</p>
+                        <RiUserReceived2Fill  
+                            className='App-popup-content-icon'
+                        />
+                        <p className="main-data">
+                            {formatDateTime(regisRequest.createdAt)}
+                        </p>
                     </div>
                 </div>
+
+                {regisRequest?.status === REG_STATUS[2] && (
+                    <div className="data-content">
+                        <p className="title">Reason Of Reject:</p>
+                        <p className="main-data">{regisRequest.reasonOfReject}</p>
+                    </div>
+                )}
             </div>
 
             <div className="btns-grp">
                 <PrimaryButton 
                     text="Approve"
-                    onClick={() => handleStatusChange("Approved")}
+                    onClick={() => triggerRejectionOrApproval(REG_STATUS[1])}
                 />
                 <SecondaryButton 
                     text="Reject"

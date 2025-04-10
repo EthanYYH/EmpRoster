@@ -41,23 +41,6 @@ const UserMgts = () => {
     // Auto trigger when allUsers length change
     useEffect(() => { fetchUsersData(); }, [allUsers.length])
     // useEffect(() => { console.log(allUsers); }, [allUsers.length])
-    
-    const filterBizOwner = async () => {
-        try {
-            const filter = handleFilterRole(allUsers, UserType[0]); // Filter Business Owner
-            setBizOwners(Array.isArray(filter) ? filter : []);
-        } catch (error) {
-            setError(`${error}`)
-            setBizOwners([])
-        }
-        if(error)
-            showAlert(
-                "filterBizOwner",
-                "Fetch data error",
-                error,
-                { type: 'error' }
-            )
-    }
 
     const filterEmployee = async () => {
         try {
@@ -80,11 +63,11 @@ const UserMgts = () => {
         try{
             const data = await getBOUsers();
             const boList = data.BOList || [];
-            console.log(boList)
+            // console.log(boList)
             setBizOwners(Array.isArray(boList) ? boList : []);
         } catch(error) {
             showAlert(
-                "filterBizOwner",
+                "fetchBoUsersData",
                 "Fetch data error",
                 `${error}`,
                 { type: 'error' }
@@ -97,21 +80,21 @@ const UserMgts = () => {
     // useEffect(() => {console.log(bizOwners)},[bizOwners])
 
     return (
-        <div className='user-management'>
+        <div className='App-content'>
             
             {/* Display side menu base on user role */}
             {user?.role === 'System Admin' && (
-                <div className="App-content">
+                <>
                     <SASide />
                     <div className="content">
-                        <h1>View All Business Owners</h1>
+                        <h1>Business Owner Management</h1>
                         {bizOwners.length === 0 ? (
                             <div>Loading business owners...</div>
                         ) : (
                             <BOUserList boUsers={bizOwners} />
                         )}
                     </div>
-                </div>
+                </>
             )}
 
             {user?.role === 'Business Owner' && (

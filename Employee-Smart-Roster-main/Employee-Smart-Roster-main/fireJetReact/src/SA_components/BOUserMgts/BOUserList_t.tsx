@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
+import { BiSolidUserDetail } from '../../../public/Icons.js';
+import { NO_DATA_MATCHED } from "../../controller/Variables.js";
 import Header from '../../components/table/Header';
 import Cell from '../../components/table/Cell';
-import { BiSolidUserDetail } from '../../../public/Icons.js';
 import BODetail from './BODetail';
 import CompanyController from '../../controller/CompanyController';
 
@@ -12,6 +13,7 @@ import '../../../public/styles/common.css'
 const { handleSelectedDetail } = CompanyController;
 
 const BOUserList_t = ({ companies = [], onUpdate }: BOListTableProps) => {
+    // console.log(companies)
     const { showAlert } = useAlert();
     const [ selectedCompany, setSelectedCompany ] = useState<any>([]);
     const [ showDetail, setShowDetail ] = useState(false);
@@ -46,7 +48,7 @@ const BOUserList_t = ({ companies = [], onUpdate }: BOListTableProps) => {
 
     if (companies.length === 0) return (
         <div className="App-desktop-responsive-table">
-            <b>No Data Loaded...</b>
+            <b>{NO_DATA_MATCHED}</b>
         </div>
     )
 
@@ -60,7 +62,7 @@ const BOUserList_t = ({ companies = [], onUpdate }: BOListTableProps) => {
                 <Header className='App-header-icon-gap' text='' />
             </div>
             {companies.map((company:any) => (
-            <div className="App-desktop-table-row bo-user-table-row" key={company.cID}>
+            <div className="App-desktop-table-row bo-user-table-row" key={company.UEN}>
                 <Cell className='bo-user-table-row-uen' text={company.UEN} />
                 <Cell className='bo-user-table-row-company-name' text={company.bizName} />
                 <Cell className='bo-user-table-row-subs-status' text={company.transactions[0]?.subsStatus || 'Unsubscribed'} />
