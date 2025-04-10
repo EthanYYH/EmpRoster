@@ -1,58 +1,49 @@
-/***************************************************************
- * Outer container: centers the heading + layout vertically & horizontally
- ***************************************************************/
  .company_profile {
-    min-height: 20vh;             /* fill the viewport height */
+    min-height: 20vh;             
     display: flex;
     flex-direction: column;
-    justify-content: center;       /* vertical centering */
-    align-items: center;           /* horizontal centering */
+    justify-content: center;      
+    align-items: center;           
     margin: 0;
-    background-color: #f3eafc;     /* optional light purple */
+    background-color: #f3eafc;     
   }
   
-  /***************************************************************
-   * Page Title
-   ***************************************************************/
+
   .company-profile_title {
     font-size: 24px;
     margin-bottom: 24px;
     text-align: center;
   }
   
-  /***************************************************************
-   * Layout container (the white card + the side buttons)
-   ***************************************************************/
+
   .company-profile_layout {
     display: flex;
-    align-items: center;  /* align them at the top edge */
-    gap: 40px;            /* space between the card and the buttons */
+    align-items: center;  
+    gap: 40px;            
     padding-left: 39%;
   }
   
-  /***************************************************************
-   * The white container (profile card)
-   ***************************************************************/
+
   .company-profile_card {
     background-color: white;
-    width: 400px;             /* adjust as needed */
+    width: 400px;             
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 24px;
-    text-align: center;       /* center text, optional */
+    text-align: center;       
   }
   
-  /* Icon styling */
+
   .company-profile_icon {
     color: var(--primary-background);
     margin-bottom: 16px;
     margin-left: 38%;
   }
   
-  /* Info text */
+
   .company-profile_info {
     margin-bottom: 16px;
-    text-align: left;         /* left-align labels if you prefer */
+    text-align: left;         
     border: none;
   }
   
@@ -65,5 +56,9 @@
   .button_control {
     padding-top: 30px;
     padding-left: 33%;
-  }
-  
+}
+
+
+input.company-profile_inputfields {
+  width: 300px !important;
+}

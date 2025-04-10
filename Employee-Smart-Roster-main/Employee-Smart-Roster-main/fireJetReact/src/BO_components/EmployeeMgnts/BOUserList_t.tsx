@@ -3,36 +3,73 @@ import { useAlert } from '../../components/PromptAlert/AlertContext';
 import Header from '../../components/table/Header';
 import Cell from '../../components/table/Cell';
 import { BiSolidUserDetail } from '../../../public/Icons.js';
-
 import UserDetail from './UserDetail';
-
 import './BOUserList_t.css';
 import '../../../public/styles/common.css';
 
+// Define an interface for Employee.
+export interface Employee {
+    activeOrInactive: number;
+    dateJoined: string;            // e.g. "2025-03-28T20:05:28.000Z"
+    daysOfWork: number;
+    email: string;
+    endWorkTime: string;
+    fullName: string;
+    hpNo: number | string;
+    jobTitle: string;
+    noOfLeave: number;
+    noOfLeaveAvailable: number;
+    noOfMC: number;
+    noOfMCAvailable: number;
+    resStatusPassType: string;
+    roleID: number;               
+    skillSet: string;             
+    standardWrkHrs: number | string; 
+    startWorkTime: string;
+    user_id: number;
+  
+    // Controller for filtering/identification:
+    role: string; // e.g. "Employee"
+}
+
+interface BOListTableProps {
+  users?: Employee[];
+  onUpdate?: (updatedData: Employee) => void;
+}
+
 const BOUserList_t = ({ users = [], onUpdate }: BOListTableProps) => {
   const { showAlert } = useAlert();
-  const [selectedUser, setSelectedUser] = useState<any>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [showDetail, setShowDetail] = useState(false);
   const [error, setError] = useState("");
 
-  // Handle clicking a row to open the detail modal
-  const handleDetailClick = (user: any) => {
+  // Helper function to format the ISO date string to dd/mm/yyyy
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  const handleDetailClick = (employee: Employee) => {
     try {
-      setSelectedUser(user);
+      setSelectedEmployee(employee);
       setShowDetail(true);
     } catch (err) {
       setError(`${err}`);
-      setSelectedUser(null);
+      setSelectedEmployee(null);
       setShowDetail(false);
     }
-    if (error)
+    if (error) {
       showAlert("handleDetailClick in BOUserList_t", '', error, { type: 'error' });
+    }
   };
 
-  function triggerCloseDetail() {
-    setSelectedUser(null);
+  const triggerCloseDetail = () => {
+    setSelectedEmployee(null);
     setShowDetail(false);
-  }
+  };
 
   if (users.length === 0)
     return (
@@ -45,28 +82,28 @@ const BOUserList_t = ({ users = [], onUpdate }: BOListTableProps) => {
     <>
       <div className="App-desktop-responsive-table">
         <div className="desktop-table-header">
-          <Header className="header-nric" text="NRIC" />
-          <Header className="header-fullname" text="FULL NAME" />
+          <Header className="header-employee-id" text="NAME" />
           <Header className="header-email" text="EMAIL" />
-          <Header className="header-role" text="ROLE" />
+          <Header className="header-job-title" text="JOB TITLE" />
+          <Header className="header-role" text="DATE JOINED" />
           <Header className="header-phone" text="PHONE" />
           <Header className="header-status" text="STATUS" />
           <Header className="header-icon" text="" />
         </div>
-        {users.map((user: any) => (
-          <div className="table-body" key={user.nric}>
-            <Cell className="body-nric" text={user.nric} />
-            <Cell className="body-fullname" text={user.fullName} />
-            <Cell className="body-email" text={user.email} />
-            <Cell className="body-role" text={user.role} />
-            <Cell className="body-phone" text={user.hpNo} />
+        {users.map((employee: Employee) => (
+          <div className="table-body" key={employee.user_id}>
+            <Cell className="body-employee-id" text={employee.fullName} />
+            <Cell className="body-email" text={employee.email} />
+            <Cell className="body-job-title" text={employee.jobTitle} />
+            <Cell className="body-role" text={formatDate(employee.dateJoined)} />
+            <Cell className="body-phone" text={employee.hpNo.toString()} />
             <Cell
               className="body-status"
-              text={user.isSuspended ? "Suspended" : "Active"}
+              text={employee.activeOrInactive === 1 ? "Active" : "Inactive"}
             />
             <div
               className="App-desktop-table-icon"
-              onClick={() => handleDetailClick(user)}
+              onClick={() => handleDetailClick(employee)}
             >
               <BiSolidUserDetail />
             </div>
@@ -74,11 +111,11 @@ const BOUserList_t = ({ users = [], onUpdate }: BOListTableProps) => {
         ))}
       </div>
 
-      {showDetail && selectedUser && (
+      {showDetail && selectedEmployee && (
         <div className="App-popup">
           <UserDetail
-            user={selectedUser}
-            onClose={() => triggerCloseDetail()}
+            user={selectedEmployee}
+            onClose={triggerCloseDetail}
             onUpdate={onUpdate}
           />
         </div>
@@ -86,10 +123,5 @@ const BOUserList_t = ({ users = [], onUpdate }: BOListTableProps) => {
     </>
   );
 };
-
-interface BOListTableProps {
-  users?: any;
-  onUpdate?: (updatedData: any) => void;
-}
 
 export default BOUserList_t;

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import CompanyController from "../../controller/CompanyController"; // Adjust the path as needed
+import CompanyProfileController from "../../controller/BOEmpMgntProfile/CompanyProfileController";
+import CompanyController from "../../controller/CompanyController";
+import { useAuth } from "../../AuthContext"; // Import the AuthContext hook
 import "./CPContents.css";
 
 // Define interfaces for type safety
 interface CompanyProfile {
   companyName: string;
   address: string;
-  email: string;
+  contactNo: string;
   uen: string;
 }
 
@@ -24,11 +26,12 @@ interface Skillset {
 
 function CPContents() {
   const navigate = useNavigate();
+  const { user } = useAuth(); // Get the logged-in user
 
   const [companyProfile, setCompanyProfile] = useState<CompanyProfile>({
     companyName: "",
     address: "",
-    email: "",
+    contactNo: "",
     uen: "",
   });
 
@@ -37,30 +40,33 @@ function CPContents() {
 
   const [roles, setRoles] = useState<Role[]>([]);
   const [skillsets, setSkillsets] = useState<Skillset[]>([]);
-
   const [newRole, setNewRole] = useState("");
   const [newSkillset, setNewSkillset] = useState("");
 
-  // Initialize companyProfile from localStorage or default from CompanyController
+  // Fetch companyProfile directly from the database using CompanyProfileController.
+  // Company UID is taken from the auth context (user.UID).
   useEffect(() => {
-    const storedProfile = localStorage.getItem("companyProfile");
-    if (storedProfile) {
-      setCompanyProfile(JSON.parse(storedProfile));
-    } else {
-      const companies = CompanyController.getCompanies();
-      if (companies.length > 0) {
-        const defaultCompany = companies[0];
-        setCompanyProfile({
-          companyName: defaultCompany.bizName,
-          address: defaultCompany.address,
-          email: defaultCompany.email,   
-          uen: defaultCompany.UEN,
+    if (user && user.UID) {
+      CompanyProfileController.getCompanyProfile(user.UID)
+        .then((profile) => {
+          // Expected fetched JSON: { UID, bizName, UEN, address, contactNo }
+          const newProfile: CompanyProfile = {
+            companyName: profile.bizName,
+            address: profile.address,
+            contactNo: profile.contactNo,
+            uen: profile.UEN,
+          };
+          setCompanyProfile(newProfile);
+        })
+        .catch((err) => {
+          console.error("Error fetching company profile:", err);
         });
-      }
+    } else {
+      console.error("User is not logged in or UID is missing");
     }
-  }, []);
+  }, [user]);
 
-  // Load roles and skillsets when the modals are opened
+  // Load roles when the Role modal opens.
   useEffect(() => {
     console.log("Role modal effect triggered.");
     console.log("isRoleModalOpen:", isRoleModalOpen);
@@ -71,9 +77,9 @@ function CPContents() {
       companyProfile.uen ? companyProfile.uen.length : "N/A"
     );
     if (isRoleModalOpen && companyProfile.uen) {
-      const allRoles = CompanyController.GetCompanyRoles();
+      const allRoles: Role[] = CompanyController.GetCompanyRoles();
       console.log("All roles from controller:", allRoles);
-      allRoles.forEach((item, index) => {
+      allRoles.forEach((item: Role, index: number) => {
         console.log(
           `Role ${index} uen:`,
           item.uen ? JSON.stringify(item.uen) : "undefined",
@@ -81,26 +87,21 @@ function CPContents() {
           item.uen ? item.uen.length : "N/A"
         );
       });
-      // Use trim() for both strings to eliminate hidden whitespace
-      const filteredRoles = allRoles.filter(
-        (item) =>
-          item.uen === companyProfile.uen &&
-          item.uen.trim() === companyProfile.uen.trim()
+      const filteredRoles = allRoles.filter((item: Role) =>
+        item.uen === companyProfile.uen &&
+        item.uen.trim() === companyProfile.uen.trim()
       );
       console.log("Filtered roles:", filteredRoles);
       setRoles(filteredRoles);
     }
   }, [isRoleModalOpen, companyProfile.uen]);
-  
-  
 
-  
-
+  // Load skillsets when the Skillset modal opens.
   useEffect(() => {
     if (isSkillsetModalOpen && companyProfile.uen) {
       const allSkillsets: Skillset[] = CompanyController.GetCompanySkillsets();
-      const filteredSkillsets = allSkillsets.filter(
-        (item) => item.uen === companyProfile.uen
+      const filteredSkillsets = allSkillsets.filter((item: Skillset) =>
+        item.uen === companyProfile.uen
       );
       setSkillsets(filteredSkillsets);
     }
@@ -116,7 +117,7 @@ function CPContents() {
   };
 
   const handleRemoveRole = (index: number) => {
-    setRoles(roles.filter((_, i) => i !== index));
+    setRoles(roles.filter((_, i: number) => i !== index));
   };
 
   // Handlers for Skillset Modal
@@ -129,7 +130,7 @@ function CPContents() {
   };
 
   const handleRemoveSkillset = (index: number) => {
-    setSkillsets(skillsets.filter((_, i) => i !== index));
+    setSkillsets(skillsets.filter((_, i: number) => i !== index));
   };
 
   return (
@@ -145,13 +146,17 @@ function CPContents() {
             <p>{companyProfile.companyName}</p>
             <p className="company-profile__label">Address</p>
             <p>{companyProfile.address}</p>
-            <p className="company-profile__label">Email</p>
-            <p>{companyProfile.email}</p>
+            <p className="company-profile__label">Contact Number</p>
+            <p>{companyProfile.contactNo}</p>
           </div>
           <div className="button_update">
             <div
               className="primary-button"
-              onClick={() => navigate("/update-company-detail")}
+              onClick={() =>
+                navigate("/update-company-detail", {
+                  state: { companyUID: companyProfile.uen || "2" },
+                })
+              }
             >
               Update Company Profile
             </div>
@@ -161,16 +166,18 @@ function CPContents() {
           <div
             className="primary-button"
             onClick={() => {
-                console.log("Role button clicked, setting isSkillsetModalOpen to true");
-                setIsRoleModalOpen(true)}}
+              console.log("Role button clicked, setting isRoleModalOpen to true");
+              setIsRoleModalOpen(true);
+            }}
           >
             View Role List
           </div>
           <div
             className="primary-button"
             onClick={() => {
-                console.log("Skillset button clicked, setting isRoleModalOpen to true");
-                setIsSkillsetModalOpen(true);}}
+              console.log("Skillset button clicked, setting isSkillsetModalOpen to true");
+              setIsSkillsetModalOpen(true);
+            }}
           >
             View Skillset List
           </div>
@@ -181,10 +188,7 @@ function CPContents() {
       {isRoleModalOpen && (
         <div className="modal">
           <div className="modal-content">
-            <span
-              className="close"
-              onClick={() => setIsRoleModalOpen(false)}
-            >
+            <span className="close" onClick={() => setIsRoleModalOpen(false)}>
               &times;
             </span>
             <h2 className="skillsetrole-title">Role List</h2>
@@ -193,9 +197,7 @@ function CPContents() {
                 <li key={index} className="skillrole-list-item">
                   {item.role}
                   <div className="secondary-button">
-                    <button onClick={() => handleRemoveRole(index)}>
-                      Remove
-                    </button>
+                    <button onClick={() => handleRemoveRole(index)}>Remove</button>
                   </div>
                 </li>
               ))}
@@ -219,10 +221,7 @@ function CPContents() {
       {isSkillsetModalOpen && (
         <div className="modal">
           <div className="modal-content">
-            <span
-              className="close"
-              onClick={() => setIsSkillsetModalOpen(false)}
-            >
+            <span className="close" onClick={() => setIsSkillsetModalOpen(false)}>
               &times;
             </span>
             <h2 className="skillsetrole-title">Skillset List</h2>
@@ -231,9 +230,7 @@ function CPContents() {
                 <li key={index} className="skillrole-list-item">
                   {item.skill}
                   <div className="secondary-button">
-                    <button onClick={() => handleRemoveSkillset(index)}>
-                      Remove
-                    </button>
+                    <button onClick={() => handleRemoveSkillset(index)}>Remove</button>
                   </div>
                 </li>
               ))}

@@ -1,47 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import BOSide from "../../components/SideMenu/BOSide";
-import CompanyController from "../../controller/CompanyController"; // Import if needed for default data
+import CompanyProfileController from "../../controller/BOEmpMgntProfile/CompanyProfileController";
+import { useAuth } from "../../AuthContext";
 import "./UpdateProfile.css";
 import "./CompanyProfile.css";
 import "../../../public/styles/common.css";
 
 function UpdateProfile() {
-  // Get default company from CompanyController
-  const companies = CompanyController.getCompanies();
-  const defaultCompany = companies.length > 0 ? companies[0] : null;
-  const defaultProfile = defaultCompany
-    ? {
-        companyName: defaultCompany.bizName,
-        address: defaultCompany.address,
-        email: defaultCompany.email,
-        uen: defaultCompany.UEN,
-      }
-    : {
-        companyName: "",
-        address: "",
-        email: "",
-        uen: "",
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const companyUID = user?.UID || "123"; 
+  console.log("UpdateProfile - companyUID from auth:", companyUID);
+
+  const [companyProfile, setCompanyProfile] = useState({
+    companyName: "",
+    address: "",
+    contactNo: "",
+    uen: "",
+  });
+
+  const [originalProfile, setOriginalProfile] = useState({
+    companyName: "",
+    address: "",
+    contactNo: "",
+    uen: "",
+  });
+
+  useEffect(() => {
+    if (companyUID) {
+      CompanyProfileController.getCompanyProfile(companyUID)
+        .then((profile) => {
+          console.log("Fetched profile:", profile);
+
+          const newProfile = {
+            companyName: profile.bizName,
+            address: profile.address,
+            contactNo: profile.contactNo,
+            uen: profile.UEN,
+          };
+          setCompanyProfile(newProfile);
+          setOriginalProfile(newProfile);
+        })
+        .catch((err) => {
+          console.error("Error fetching company profile:", err);
+        });
+    } else {
+      console.error("No companyUID available from auth.");
+    }
+  }, [companyUID]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const updatePayload = {
+        newEmail: companyProfile.contactNo, 
+        originalEmail: originalProfile.contactNo,
+        originalBizName: originalProfile.companyName,
+        newBizName: companyProfile.companyName,
+        originalAddress: originalProfile.address,
+        newAddress: companyProfile.address,
       };
 
-  // Optionally, load stored data from localStorage if it exists
-  const storedData = localStorage.getItem("companyProfile");
-  const initialProfile = storedData ? JSON.parse(storedData) : defaultProfile;
-
-  const [companyName, setCompanyName] = useState(initialProfile.companyName);
-  const [address, setAddress] = useState(initialProfile.address);
-  const [email, setEmail] = useState(initialProfile.email);
-  const [uen, setUen] = useState(initialProfile.uen); // Preserve UEN
-
-  const navigate = useNavigate();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Save the UEN along with the other fields
-    const updatedProfile = { companyName, address, email, uen };
-    localStorage.setItem("companyProfile", JSON.stringify(updatedProfile));
-    navigate("/company-detail"); // Redirect to CPContents
+      const updatedProfile = await CompanyProfileController.updateCompanyProfile(updatePayload);
+      console.log("Profile updated:", updatedProfile);
+      navigate("/company-detail");
+    } catch (err) {
+      console.error("Update failed:", err);
+    }
   };
 
   return (
@@ -60,28 +88,36 @@ function UpdateProfile() {
                 <form className="company-profile_info" onSubmit={handleSubmit}>
                   <p className="company-profile_label">Company Name</p>
                   <input
+                    className="company-profile_inputfields"
                     type="text"
-                    value={companyName}
-                    onChange={(e) => setCompanyName(e.target.value)}
+                    value={companyProfile.companyName}
+                    onChange={(e) =>
+                      setCompanyProfile({ ...companyProfile, companyName: e.target.value })
+                    }
                   />
 
                   <p className="company-profile_label">Address</p>
                   <input
+                    className="company-profile_inputfields"
                     type="text"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
+                    value={companyProfile.address}
+                    onChange={(e) =>
+                      setCompanyProfile({ ...companyProfile, address: e.target.value })
+                    }
                   />
 
-                  <p className="company-profile_label">Email</p>
+                  <p className="company-profile_label">Contact Number</p>
                   <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    className="company-profile_inputfields"
+                    type="text"
+                    value={companyProfile.contactNo}
+                    onChange={(e) =>
+                      setCompanyProfile({ ...companyProfile, contactNo: e.target.value })
+                    }
                   />
 
-                  {/* Optionally, you can display the UEN if needed */}
                   <p className="company-profile_label">UEN</p>
-                  <input type="text" value={uen} readOnly />
+                  <input className="company-profile_inputfields" type="text" value={companyProfile.uen} readOnly />
 
                   <button type="submit" className="button_control">
                     <div className="primary-button">Submit</div>
