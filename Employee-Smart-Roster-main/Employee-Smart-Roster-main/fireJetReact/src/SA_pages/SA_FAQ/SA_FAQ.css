@@ -4,48 +4,49 @@
     text-align: center;
 }
 
-.desktop-faq-table-header {
+.desktop-table-header {
     display: flex;
     flex-direction: row;
   
     .header-faq-question {
-        min-width: 800px;
-        max-width: 800px;
+        min-width: 600px;
+        max-width: 600px;
     }
   
     .header-faq-answer {
-        min-width: 700px;
-        max-width: 700px; /* takes remaining space */
-    }
-
-    .header-faq-actions {
         width: 1fr; /* takes remaining space */
     }
-  
+
 }
   
 
 .faq-table-body {
-    display: flex;
-    flex-direction: row;
     
     .body-faq-question {
-        min-width: 800px;
-        max-width: 800px;
+        min-width: 600px;
+        max-width: 600px;
     }
   
     .body-faq-answer {
-        min-width: 700px;
-        max-width: 700px; /* takes remaining space */
-    }
-
-    .body-faq-actions {
         width: 1fr; /* takes remaining space */
     }
-  }
+
+    .faq-action-buttons {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end; 
+        align-items: center;
+    }
+  
+    .faq-action-buttons .primary-button {
+        width: auto !important;
+        margin-left: auto; 
+    }
+  
+}
 
 
-  .faq-edit-detail-contents{
+.faq-edit-detail-contents{
     background-color:#F3ECFE;
   }
 
@@ -86,3 +87,64 @@
     gap: 10px;
     padding-bottom: 8px;
 }
+
+.faq-popup-warning-icon{
+    color: var(--error);
+    font-size: 40px;
+}
+
+.faq-popup-delete-content{
+    text-align: center;
+    font-size: large;
+}
+
+.faq-search-section{
+    width: 50%;
+    margin-left: auto;
+    padding-top: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.faq-search-input {
+    width: 100%;
+    padding-right: 2.5rem; /* Ensure space for the clear button */
+    box-sizing: border-box;
+  }
+  
+  .faq-search-clear {
+    position: absolute;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #333; /* Adjust color as needed */
+}
+
+
+/* By default, show desktop and hide mobile */
+.desktop-faq-container {
+    display: block;
+  }
+  .mobile-faq-container {
+    display: none;
+  }
+  
+  /* For mobile devices, hide the desktop view and show the mobile view */
+  @media only screen and (max-width: 768px) {
+    .desktop-faq-container {
+      display: none;
+    }
+    .mobile-faq-container {
+      display: block;
+    }
+  }
+  
+  /* Optionally, if you need a separate adjustment for tablets */
+  @media only screen and (min-width: 769px) and (max-width: 1023px) {
+    .mobile-faq-container {
+        display: block;
+      }
+  }

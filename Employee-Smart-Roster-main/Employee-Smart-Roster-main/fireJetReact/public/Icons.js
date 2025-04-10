@@ -15,6 +15,7 @@ import { MdContactPhone,
 import { RiUserReceived2Fill } from "react-icons/ri";
 import { TiTick } from "react-icons/ti";
 import { GoAlertFill } from "react-icons/go";
+import { IoIosWarning } from "react-icons/io";
 
 export {
     LuLogOut,   // Logout icon
@@ -35,4 +36,5 @@ export {
     FaClipboardList, // List icon
     TiTick, // Correct Icon
     GoAlertFill, // Triangle alert icon
+    IoIosWarning, // Warning icon
 };

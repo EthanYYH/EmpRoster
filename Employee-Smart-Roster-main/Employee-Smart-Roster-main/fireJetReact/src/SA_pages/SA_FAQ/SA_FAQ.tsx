@@ -5,9 +5,10 @@ import React, { useState } from 'react';
 import { FAQController, updateFAQ, addFAQ, deleteFAQ } from '../../controller/FAQController';
 import Header from "../../components/table/Header";
 import Cell from "../../components/table/Cell";
-import { IoClose } from '../../../public/Icons.js';
+import { IoClose, IoIosWarning } from '../../../public/Icons.js';
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton/SecondaryButton";
+import SA_FAQ_m from '../../SA_components/SA_FAQ/SA_FAQ_m';
 
 const FAQManagement = () => {
   const { faqs, loading, error, refetch } = FAQController();
@@ -17,9 +18,11 @@ const FAQManagement = () => {
   const [editedQuestion, setEditedQuestion] = useState("");
   const [editedAnswer, setEditedAnswer] = useState("");
 
-  // For inline Add FAQ section
+
   const [newQuestion, setNewQuestion] = useState("");
   const [newAnswer, setNewAnswer] = useState("");
+  const [faqSearch, setFaqSearch] = useState("");
+  const [isDeletePromptOpen, setIsDeletePromptOpen] = useState(false);
 
   const openViewModal = (faq: any) => {
     setCurrentFAQ(faq);
@@ -62,16 +65,22 @@ const FAQManagement = () => {
     setEditedAnswer(currentFAQ.answer);
   };
 
-  const handleDeleteFAQ = async () => {
+
+  const confirmDeleteFAQ = async () => {
     if (!currentFAQ) return;
     try {
       const result = await deleteFAQ(currentFAQ.faqID);
       console.log("FAQ deleted successfully:", result);
       refetch();
+      setIsDeletePromptOpen(false);
       closeViewModal();
     } catch (err) {
       console.error("Failed to delete FAQ", err);
     }
+  };
+
+  const cancelDeleteFAQ = () => {
+    setIsDeletePromptOpen(false);
   };
 
   const handleAddFAQ = async () => {
@@ -97,6 +106,12 @@ const FAQManagement = () => {
     };
     return new Date(isoDate).toLocaleString('en-US', options);
   };
+
+
+  const displayedFaqs = faqs.filter((faq: any) =>
+    faq.question_desc.toLowerCase().includes(faqSearch.toLowerCase()) ||
+    faq.answer.toLowerCase().includes(faqSearch.toLowerCase())
+  );
 
   return (
     <div className="App-content">
@@ -134,6 +149,25 @@ const FAQManagement = () => {
             </div>
           </div>
         </div>
+
+        <div className="faq-search-section">
+            <input
+                type="text"
+                className="faq-search-input"
+                value={faqSearch}
+                onChange={(e) => setFaqSearch(e.target.value)}
+                placeholder="Search FAQs..."
+            />
+            {faqSearch && (
+                <button 
+                    className="faq-search-clear" 
+                    onClick={() => setFaqSearch("")}
+                    aria-label="Clear search"
+                >
+                <IoClose />
+                </button>
+            )}
+        </div>
         
         {/* FAQ Listing Section */}
         <div className="main-contents">
@@ -144,32 +178,34 @@ const FAQManagement = () => {
               <div>Error loading FAQs: {(error as Error)?.message || 'Unknown error'}</div>
             ) : (
               <>
-                <div className="desktop-faq-table-header">
+                <div className="App-desktop-table-row desktop-table-header">
                   <Header className="header-faq-question" text="Question" />
                   <Header className="header-faq-answer" text="Answer" />
-                  <Header className="header-faq-action" text="Actions" />
+                  <Header className="App-header-icon-gap" text="" />
                 </div>
-                <div className="faq-table-body-container">
-                  {faqs.map((faq: any) => (
-                    <div key={faq.faqID} className="faq-table-body">
-                      <Cell className="body-faq-question" text={faq.question_desc} />
-                      <Cell className="body-faq-answer" text={faq.answer} />
-                      <Cell
-                        className="body-faq-action"
-                        text={
-                          <div className="action-buttons">
-                            <button className="primary-button" onClick={() => openViewModal(faq)}>
-                              View Details
-                            </button>
-                          </div>
-                        }
-                      />
-                    </div>
+                  {displayedFaqs.map((faq: any) => (
+                <div key={faq.faqID} className="App-desktop-table-row faq-table-body">
+                    <Cell className="body-faq-question" text={faq.question_desc} />
+                    <Cell className="body-faq-answer" text={faq.answer} />
+                    <Cell
+                    className="body-faq-action"
+                    text={
+                        <div className="faq-action-buttons">
+                        <button className="primary-button" onClick={() => openViewModal(faq)}>
+                            View Details
+                        </button>
+                        </div>
+                    }
+                    />
+                </div>
                   ))}
-                </div>
               </>
             )}
           </div>
+        </div>
+        {/* FAQ Listing Section for Mobile */}
+        <div className="mobile-faq-container">
+            <SA_FAQ_m data={displayedFaqs} onUpdate={refetch} />
         </div>
       </div>
 
@@ -219,7 +255,7 @@ const FAQManagement = () => {
                 {!isEditing ? (
                   <div className="btns-grp">
                     <PrimaryButton text="Edit Details" onClick={handleEditClick} />
-                    <SecondaryButton text="Delete FAQ" onClick={handleDeleteFAQ} />
+                    <SecondaryButton text="Delete FAQ" onClick={() => setIsDeletePromptOpen(true)} />
                   </div>
                 ) : (
                   <div className="btns-grp">
@@ -230,6 +266,32 @@ const FAQManagement = () => {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Prompt Modal */}
+      {isDeletePromptOpen && currentFAQ && (
+        <div className="App-popup">
+        <div className="App-popup-content faq-delete-prompt">
+            <div className="App-header">
+                <label className="faq-popup-warning-icon">
+                    <IoIosWarning />
+                </label>
+                <h2>Delete FAQ?</h2>
+                <button className="icons" onClick={cancelDeleteFAQ}>
+                <IoClose />
+                </button>
+            </div>
+            <div className="faq-popup-delete-content">
+                <p>Are you sure to delete this FAQ?</p>
+            </div>
+            <div className="faq-modal-actions">
+                <div className="btns-grp">
+                <PrimaryButton text="Delete" onClick={confirmDeleteFAQ} />
+                <SecondaryButton text="Cancel" onClick={cancelDeleteFAQ} />
+                </div>
+            </div>
+        </div>
         </div>
       )}
     </div>
