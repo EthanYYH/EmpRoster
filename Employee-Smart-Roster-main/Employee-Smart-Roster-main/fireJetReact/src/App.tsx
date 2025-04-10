@@ -18,13 +18,16 @@ import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import UserMgts from "./pages/UserManagement/UserMgts";
 import UserDetail from "./components/UserMgt/UserDetail";
 import PreviewLanding from "./SA_pages/PreviewLanding";
+import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
-
+import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
+import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
+// import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
 
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
@@ -96,6 +99,14 @@ function App() {
                 }
               />
 
+              <Route
+                path="/test123"
+                element={
+                  // <ProtectedRoute>
+                    <Test123 />
+                  // </ProtectedRoute>
+                }
+              />
 
               {/* Route for System Admin pages */}
               <Route
@@ -299,6 +310,15 @@ function App() {
                   <ProtectedRoute>
                     <div>Employee Project</div>
                   </ProtectedRoute>
+                }
+              />
+
+<Route
+                path="/view-rating"
+                element={
+                  
+                    <ViewRating />
+                  
                 }
               />
             </Routes>
