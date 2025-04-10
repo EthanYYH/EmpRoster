@@ -27,7 +27,7 @@ import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/Create
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
 import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
 import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
-// import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
+
 
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
