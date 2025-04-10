@@ -92,7 +92,7 @@
   z-index: 2;
 }
 
-.landing-header-title {
+.LandingTitle {
   font-size: 72px;
   font-weight: 700;
 }
@@ -116,4 +116,5 @@
   .nav-menu {
     flex-wrap: nowrap;
   }
+  
 }

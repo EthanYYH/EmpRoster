@@ -73,7 +73,7 @@ const UserDetail = ({userDetail = "", companyDetail="", onClose }: UserDetailPro
                 
                     <div className="acc-status">
                         <div className="user-sub-status">
-                            <p className="title">Subscription Status:</p>
+                            <p className="userDetailTitle">Subscription Status:</p>
                             <p className="main-data">{userData.user.subsStatus}</p>
                         </div>
 
