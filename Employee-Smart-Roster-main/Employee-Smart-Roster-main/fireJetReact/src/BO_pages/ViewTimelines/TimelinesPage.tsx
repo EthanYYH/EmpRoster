@@ -8,7 +8,7 @@ import BOSide from '../../components/SideMenu/BOSide';
 import './TimelinesPage.css'
 import '../../../public/styles/common.css'
 
-const { getTimelines, getTaskDetail } = TimelineController
+const { getTimelines } = TimelineController
 
 const BOTimelinesPage = () => {
     const { user } = useAuth();
@@ -28,7 +28,7 @@ const BOTimelinesPage = () => {
             showAlert(
                 "fetchTasksData",
                 "Fetch data error",
-                `${error}`,
+                error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }
@@ -38,13 +38,26 @@ const BOTimelinesPage = () => {
         fetchTasksData();
     }, [allTasks.length]); 
 
+    
+    const handleDeleteTask = async (taskID: number) => {
+        // console.log(taskID)
+        setAllTasks((prev:any) => 
+            prev.filter((task:any) => 
+                task.taskID !== taskID
+        ));
+    }
+
+
     return (
         <div className="App-content">
             <BOSide />
             {/* BO Side Menu here */}
             <div className="content">
                 <h1>Timeline Management</h1>
-                <MonthCalendar tasks={allTasks} />
+                <MonthCalendar 
+                    tasks={allTasks} 
+                    onDelete={handleDeleteTask}
+                />
             </div>
         </div>
     )

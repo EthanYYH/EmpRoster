@@ -47,7 +47,7 @@ const UserMgts = () => {
             const filter = handleFilterRole(allUsers, UserType[2]); // Filter Business Owner
             setBizOwners(Array.isArray(filter) ? filter : []);
         } catch (error) {
-            setError(`${error}`)
+            setError(error instanceof Error ? error.message : String(error))
             setEmployee([])
         }
         if(error)
@@ -69,7 +69,7 @@ const UserMgts = () => {
             showAlert(
                 "fetchBoUsersData",
                 "Fetch data error",
-                `${error}`,
+                error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }
