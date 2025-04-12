@@ -45,13 +45,32 @@ const UserMgts = () => {
     }
   };
 
+<<<<<<< HEAD
   // Fetch users when the component mounts or when filterUserType or user changes.
   useEffect(() => {
     if (user) {
       fetchUsersData();
+=======
+    const filterEmployee = async () => {
+        try {
+            const filter = handleFilterRole(allUsers, UserType[2]); // Filter Business Owner
+            setBizOwners(Array.isArray(filter) ? filter : []);
+        } catch (error) {
+            setError(error instanceof Error ? error.message : String(error))
+            setEmployee([])
+        }
+        if(error)
+            showAlert(
+                "filterEmployee",
+                "Fetch data error",
+                error,
+                { type: 'error' }
+            )
+>>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
     }
   }, [filterUserType, user]);
 
+<<<<<<< HEAD
   // Update filtering logic (this filters based on fullName).
   const triggerFilterUsers = () => {
     try {
@@ -66,6 +85,21 @@ const UserMgts = () => {
             emp.jobTitle.toLowerCase().includes(filterName.toLowerCase()) ||
             (emp.fullName && emp.fullName.toLowerCase().includes(filterName.toLowerCase()))
           );
+=======
+    const fetchBoUsersData = async () => {
+        try{
+            const data = await getBOUsers();
+            const boList = data.BOList || [];
+            // console.log(boList)
+            setBizOwners(Array.isArray(boList) ? boList : []);
+        } catch(error) {
+            showAlert(
+                "fetchBoUsersData",
+                "Fetch data error",
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            )
+>>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
         }
       } else {
         // For business owners (or other roles), use the original filtering logic.

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
+<<<<<<< HEAD
 import { TODAY, DAYS_OF_WEEK, MONTHS, YEAR_CHANGE } from '../../controller/Variables.js';
 import CalendarHeader from './CalendarHeader';
 import EventDetail from './EventDetail';
@@ -15,6 +16,26 @@ interface ContinuousCalendarProps {
     onClick?: (_day:number, _month: number, _year: number) => void;
 }
 const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ tasks=[], onClick }) => {
+=======
+import { TODAY, DAYS_OF_WEEK, MONTHS, YEAR_CHANGE, TASK_STATUS } from '../../controller/Variables.js';
+import CalendarHeader from './CalendarHeader';
+import EventDetail from './TaskDetail/EventDetail';
+
+import './index.css'
+import '../../../public/styles/common.css'
+
+interface ContinuousCalendarProps {
+    tasks: any[];
+    onUpdate?: (updatedData: any) => void;
+    onDelete?: (deletedTaskId: number) => void;
+    onClick?: (_day:number, _month: number, _year: number) => void;
+}
+const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ 
+    tasks=[], 
+    onUpdate,
+    onDelete,
+    onClick }) => {
+>>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
     // console.log(tasks)
     const dayRefs = useRef<(HTMLDivElement | null)[]>([]);
     const [ year, setYear ] = useState<number>(TODAY.getFullYear());
@@ -281,9 +302,16 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ tasks=[], onClick })
             </div>
 
             {showTaskDetail && selectedTask && (
+<<<<<<< HEAD
                 <div className="App-popup">
                     <EventDetail 
                         task={selectedTask}
+=======
+                <div className="App-popup" onClick={triggerCloseSelectedTask}>
+                    <EventDetail 
+                        task={selectedTask}
+                        onDelete={onDelete}
+>>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
                         onClose={() => triggerCloseSelectedTask()}
                     />
                 </div>

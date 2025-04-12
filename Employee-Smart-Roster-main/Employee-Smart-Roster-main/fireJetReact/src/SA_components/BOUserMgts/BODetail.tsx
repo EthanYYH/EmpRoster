@@ -18,6 +18,12 @@ import { IoClose,
 const { handleSuspendUser,
         handleUsuspendUser, } = UserController
 
+interface BODetailProps {
+    company?: any;
+    onClose?: () => void;
+    onUpdate?: (updatedData:any) => void
+}
+
 const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
     // console.log(company)
     const { showAlert } = useAlert()
@@ -239,12 +245,6 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             </div>
         </div>
     )
-}
-
-interface BODetailProps {
-    company?: any;
-    onClose?: () => void;
-    onUpdate?: (updatedData:any) => void
 }
 
 export default BODetail;

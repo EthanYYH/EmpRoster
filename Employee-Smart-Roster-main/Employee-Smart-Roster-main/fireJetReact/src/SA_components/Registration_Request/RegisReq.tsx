@@ -67,7 +67,7 @@ const RegisReq = ({data=[], onUpdate}: RegisReqProps) => {
     );
   };
 
-  interface RegisReqProps {
+interface RegisReqProps {
     data?: any;
     onUpdate?: (updatedData: any) => void
 }

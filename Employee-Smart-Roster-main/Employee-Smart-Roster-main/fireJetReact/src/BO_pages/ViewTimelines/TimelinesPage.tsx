@@ -8,7 +8,11 @@ import BOSide from '../../components/SideMenu/BOSide';
 import './TimelinesPage.css'
 import '../../../public/styles/common.css'
 
+<<<<<<< HEAD
 const { getTimelines, getTaskDetail } = TimelineController
+=======
+const { getTimelines } = TimelineController
+>>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
 
 const BOTimelinesPage = () => {
     const { user } = useAuth();
@@ -28,7 +32,11 @@ const BOTimelinesPage = () => {
             showAlert(
                 "fetchTasksData",
                 "Fetch data error",
+<<<<<<< HEAD
                 `${error}`,
+=======
+                error instanceof Error ? error.message : String(error),
+>>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
                 { type: 'error' }
             )
         }
@@ -38,13 +46,33 @@ const BOTimelinesPage = () => {
         fetchTasksData();
     }, [allTasks.length]); 
 
+<<<<<<< HEAD
+=======
+    
+    const handleDeleteTask = async (taskID: number) => {
+        // console.log(taskID)
+        setAllTasks((prev:any) => 
+            prev.filter((task:any) => 
+                task.taskID !== taskID
+        ));
+    }
+
+
+>>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
     return (
         <div className="App-content">
             <BOSide />
             {/* BO Side Menu here */}
             <div className="content">
                 <h1>Timeline Management</h1>
+<<<<<<< HEAD
                 <MonthCalendar tasks={allTasks} />
+=======
+                <MonthCalendar 
+                    tasks={allTasks} 
+                    onDelete={handleDeleteTask}
+                />
+>>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
             </div>
         </div>
     )

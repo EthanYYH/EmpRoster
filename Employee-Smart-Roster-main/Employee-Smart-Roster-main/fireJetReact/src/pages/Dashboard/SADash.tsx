@@ -33,7 +33,7 @@ export default function SADash() {
             showAlert(
                 "fetchRegisReqsData",
                 "Fetch data error",
-                `${error}`,
+                error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }

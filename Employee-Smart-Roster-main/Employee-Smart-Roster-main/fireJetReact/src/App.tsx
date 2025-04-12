@@ -18,6 +18,7 @@ import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import UserMgts from "./pages/UserManagement/UserMgts";
 import UserDetail from "./components/UserMgt/UserDetail";
 import PreviewLanding from "./SA_pages/PreviewLanding";
+<<<<<<< HEAD
 import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
 
 
@@ -32,12 +33,28 @@ import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
 
 
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployeeOLD"
+=======
+import ViewRating from "./SA_pages/RegisRequest/ViewRating";
+
+// Pages for Busines Owner
+import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
+import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
+import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
+>>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
-import Test123 from "./BO_components/rolesNskillset/CreateEmployee/test123"
+import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
+import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
+
+
+
+
 
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
 import BOSide from "./components/SideMenu/BOSide";
+
+// Import for testing
+
 
 import "./App.css";
 import "../public/styles/common.css";
@@ -103,15 +120,46 @@ function App() {
               />
 
               <Route
-                path="/test123"
+                path="/view-employee-detail"
                 element={
                   // <ProtectedRoute>
-                    <Test123 />
+                    <ViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/emp-view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <EmpViewEmployeeDetail />
                   // </ProtectedRoute>
                 }
               />
 
-              {/* Route for System Admin pages */}
+
+
+<Route
+                path="/view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <ViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/emp-view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <EmpViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+                />
+
+
+
+
+              
               <Route
                 path="/admin-dashboard"
                 element={
@@ -261,10 +309,7 @@ function App() {
                 path="/timeline-management"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <BOSide />
-                      <h1>Timeline Management</h1>
-                    </div>
+                    <BOTimelinesPage />
                   </ProtectedRoute>
                 }
               />
@@ -329,6 +374,15 @@ function App() {
                   <ProtectedRoute>
                     <div>Employee Project</div>
                   </ProtectedRoute>
+                }
+              />
+
+<Route
+                path="/view-rating"
+                element={
+                  
+                    <ViewRating />
+                  
                 }
               />
             </Routes>

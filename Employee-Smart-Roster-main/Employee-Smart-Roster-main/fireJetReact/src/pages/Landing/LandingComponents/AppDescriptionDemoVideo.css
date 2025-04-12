@@ -1,20 +1,6 @@
-
-/* Common Background Styling */
-.video-overlay,
-.video-overlay-secondary {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 0;
-  background-color: white;
-}
-
 /* General Layout */
 .app-description-container {
   padding: 24px 250px;
-  /* margin-left: 100px; */
   display: flex;
   width: 100%;
   background-color: white;
@@ -46,18 +32,10 @@
   flex-direction: column;
   padding: 23px 18px;
   position: relative;
+  display: flex;
 }
 
-
-
-.video-overlay-secondary {
-  background-image: url(/assets/background-1.png);
-  opacity: 0.2;
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
+/* Video Thumbnail */
 .video-thumbnail {
   object-fit: cover;
   object-position: center;
@@ -96,4 +74,63 @@ table {
   .app-description-content {
     flex-wrap: nowrap;
   }
+}
+
+@media (max-width: 768px) {
+  .app-description-container {
+    padding: 24px;
+  }
+
+  .app-description-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-right: 0;
+  }
+
+  .app-description-text {
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+  }
+
+  .app-description-video {
+    width: 100%;
+    padding: 20px 0;
+  }
+
+  .video-thumbnail {
+    width: 100%;
+    height: auto;
+    max-width: 550px;
+  }
+}
+
+/* ========== Animations ========== */
+
+/* Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animation Classes */
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+/* Optional delays */
+.fade-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.fade-delay-2 {
+  animation-delay: 0.4s;
 }

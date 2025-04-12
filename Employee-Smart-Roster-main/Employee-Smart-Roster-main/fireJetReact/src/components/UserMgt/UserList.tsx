@@ -42,7 +42,7 @@ const UserList = ({users = [], currentUser = [], onDataUpdate}: UserListProps) =
                 setEmployee(Array.isArray(filter) ? filter : []);
             }
         } catch (error) {
-            setError(`${error}`)
+            setError(error instanceof Error ? error.message : String(error))
             setEmployee([]);
             setBusinessOwners([]);
         }
@@ -128,11 +128,11 @@ const UserList = ({users = [], currentUser = [], onDataUpdate}: UserListProps) =
                 </div>
             </div>
             {/* Desktop Table Header */}
-            {currentUser?.role === 'System Admin' && (
+            {/* {currentUser?.role === 'System Admin' && (
             <BOUserList 
                 boUsers={businessOwners} 
                 onDataUpdate={onDataUpdate} 
-            />)}
+            />)} */}
             
             {/* {data.map((user, index) => (
             <div key={user.id}> */}

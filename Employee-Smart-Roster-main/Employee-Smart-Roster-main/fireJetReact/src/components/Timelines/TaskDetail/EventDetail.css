@@ -1,0 +1,7 @@
+.event-button-group {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: end;
+    align-items: baseline;
+}

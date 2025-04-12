@@ -53,24 +53,6 @@
   border-bottom-color: var(--primary-background);
 }
 
-.App-side-menuOLD {
-  /* position: fixed; Fix the sidebar in place */
-  top: 0;
-  left: 0;
-  margin-top: 65px; /* Set gap base on navbar */
-  width: 200px; /* Set a fixed width */
-  height: 100%; /* Full height of the viewport */
-  background-color: var(--side-menu-background);
-  opacity: var(--side-menu-transparency);
-  color: var(--light-color-text);
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow-y: hidden; /* Enable scrolling if content overflows */
-  z-index: 1000; /* Ensure it's above other elements */
-}
-
 .App-side-menu {
   width: 200px;
   background-color: var(--side-menu-background);
@@ -123,7 +105,7 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--popup-background);
+  background-color: rgba(0, 0, 0, 0.7); /* semi-transparent black background */
   padding: 20px;
   width: 100%;
   display: flex;
