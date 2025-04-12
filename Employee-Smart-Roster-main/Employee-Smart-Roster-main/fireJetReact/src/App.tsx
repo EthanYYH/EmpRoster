@@ -18,7 +18,6 @@ import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import UserMgts from "./pages/UserManagement/UserMgts";
 import UserDetail from "./components/UserMgt/UserDetail";
 import PreviewLanding from "./SA_pages/PreviewLanding";
-<<<<<<< HEAD
 import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
 
 
@@ -32,20 +31,15 @@ import BOUpdateCompanyProfile from "./BO_pages/CompanyProfile/UpdateProfile";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
 
 
-import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployeeOLD"
-=======
+import CreateEmployeeOld from "./BO_components/rolesNskillset/CreateEmployee/old/CreateEmployeeOLD"
 import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 
 // Pages for Busines Owner
-import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
->>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
 import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
 import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
-
-
 
 
 
@@ -54,8 +48,6 @@ import SASide from "./components/SideMenu/SASide";
 import BOSide from "./components/SideMenu/BOSide";
 
 // Import for testing
-
-
 import "./App.css";
 import "../public/styles/common.css";
 
@@ -138,7 +130,7 @@ function App() {
 
 
 
-<Route
+              <Route
                 path="/view-employee-detail"
                 element={
                   // <ProtectedRoute>

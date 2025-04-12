@@ -41,11 +41,7 @@ const ViewRatingController = async () => {
     const realData = data.ReviewAndRatingList || [];
 
     // If real data is empty, use dummy data
-<<<<<<< HEAD
-    if (realData.length === 1) {
-=======
     if (realData.length === 0) {
->>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
       console.warn("API returned empty list, using dummy data.");
       return getDummyData();
     }

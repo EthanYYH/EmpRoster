@@ -10,7 +10,7 @@ const BOCompanyProfile = () => {
         <div className="App-content">
             <BOSide />
             <div className="content">
-                <h1 className="logo">EmpRoster</h1>
+                <h1 className="EmpRosterlogo">EmpRoster</h1>
                 <div className="main-contents">
                     <CPContents />
                 </div> 

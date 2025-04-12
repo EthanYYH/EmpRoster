@@ -1,17 +1,10 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 interface User {
-<<<<<<< HEAD
-  UID(UID: any): any;
-  email: string;
-  role: string;
-  lastOnline?: string; // Optional based on your needs
-=======
     UID: number;
     email: string;
     role: string;
     lastOnline?: string; // Optional based on your needs
->>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
 }
 
 interface AuthContextType {

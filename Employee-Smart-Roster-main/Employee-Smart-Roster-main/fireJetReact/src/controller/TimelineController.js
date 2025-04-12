@@ -24,8 +24,6 @@ async function getTimelines (boID) {
     }
 }
 
-<<<<<<< HEAD
-=======
 // return task's detail for BO
 async function boGetTaskDetail (taskID) {
     const body = {
@@ -78,7 +76,6 @@ async function deleteTaskDetail (taskID) {
     }
 }
 
->>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
 // return get aloocated task's detail
 async function getTaskDetail (userID) {
     const body = {
@@ -107,10 +104,7 @@ async function getTaskDetail (userID) {
 
 export default {
     getTimelines, 
-<<<<<<< HEAD
-=======
     boGetTaskDetail,
     deleteTaskDetail, 
->>>>>>> 137fa90da682af594a11dfe3b5eefdfba6eb6c51
     getTaskDetail,
 }
