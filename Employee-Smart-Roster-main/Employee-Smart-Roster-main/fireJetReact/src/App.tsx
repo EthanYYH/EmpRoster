@@ -25,9 +25,10 @@ import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
-
 import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
 import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
+
+
 
 
 
@@ -101,6 +102,24 @@ function App() {
                 }
               />
 
+              <Route
+                path="/view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <ViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/emp-view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <EmpViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+              />
+
+
 
 <Route
                 path="/view-employee-detail"
@@ -111,18 +130,19 @@ function App() {
                 }
               />
 
-<Route
+              <Route
                 path="/emp-view-employee-detail"
                 element={
                   // <ProtectedRoute>
                     <EmpViewEmployeeDetail />
                   // </ProtectedRoute>
                 }
+                />
 
 
 
 
-              {/* Route for System Admin pages */}
+              
               <Route
                 path="/admin-dashboard"
                 element={
