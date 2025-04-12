@@ -100,13 +100,23 @@ function App() {
               />
 
               <Route
-                path="/test123"
+                path="/view-employee-detail"
                 element={
                   // <ProtectedRoute>
-                    <Test123 />
+                    <ViewEmployeeDetail />
                   // </ProtectedRoute>
                 }
               />
+              <Route
+                path="/emp-view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <EmpViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+              />
+
+
 
               {/* Route for System Admin pages */}
               <Route
