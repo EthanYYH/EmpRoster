@@ -29,6 +29,9 @@ import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/Vi
 import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
 
 
+
+
+
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
 import BOSide from "./components/SideMenu/BOSide";
@@ -118,7 +121,28 @@ function App() {
 
 
 
-              {/* Route for System Admin pages */}
+<Route
+                path="/view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <ViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/emp-view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <EmpViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+                />
+
+
+
+
+              
               <Route
                 path="/admin-dashboard"
                 element={
