@@ -4,8 +4,6 @@ body, html {
 }
 
 .viewProfileContainer {
-  /* margin-left: 200px; */
-  /* margin-top: 50px; */
   padding-right: 1rem;
 }
 
@@ -63,9 +61,8 @@ body, html {
   box-sizing: border-box;
 }
 
-
 /* Responsive handling */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .viewProfileContainer {
     margin-left: 0;
     padding: 1rem;
