@@ -16,9 +16,9 @@ type Employee = {
   hpNo: string;
   resStatusPassType: string;
   jobTitle: string;
-  roles: string;
+  roleID: string; // stored as string for editing
   standardWrkHrs: string;
-  skillsets: string;
+  skillSetID: string; // stored as string for editing
   noOfLeave: string;
   noOfLeaveAvailable: string;
   noOfMC: string;
@@ -30,6 +30,8 @@ type Employee = {
 };
 
 type SimpleEmployee = {
+  roleID: number;
+  skillSetID: number;
   user_id: number;
   fullName: string;
   email: string;
@@ -52,7 +54,7 @@ type SimpleEmployee = {
 const ViewEmployeeDetail = () => {
   const [editMode, setEditMode] = useState(false);
 
-  // Initialize employee state with empty/default values; these will be filled by fetched data.
+  // Initialize employee state with empty/default values; these will be overwritten by fetched data.
   const [employee, setEmployee] = useState<Employee>({
     user_id: 4,
     fullName: "",
@@ -60,9 +62,9 @@ const ViewEmployeeDetail = () => {
     hpNo: "",
     resStatusPassType: "",
     jobTitle: "",
-    roles: "",
+    roleID: "", // now stored as a string
     standardWrkHrs: "",
-    skillsets: "",
+    skillSetID: "", // now stored as a string
     noOfLeave: "",
     noOfLeaveAvailable: "",
     noOfMC: "",
@@ -73,7 +75,7 @@ const ViewEmployeeDetail = () => {
     activeOrInactive: "",
   });
 
-  // State to hold the list of employees for the picklist
+  // State to hold the list of employees for the picklist (if needed)
   const [employeeList, setEmployeeList] = useState<SimpleEmployee[]>([]);
 
   const { showAlert } = useAlert();
@@ -95,9 +97,13 @@ const ViewEmployeeDetail = () => {
             hpNo: firstEmployee.hpNo.toString(),
             resStatusPassType: firstEmployee.resStatusPassType,
             jobTitle: firstEmployee.jobTitle,
-            roles: firstEmployee.roles,
-            standardWrkHrs: firstEmployee.standardWrkHrs !== null ? firstEmployee.standardWrkHrs.toString() : "",
-            skillsets: firstEmployee.skillsets,
+            // Convert roleID and skillSetID to string for editing
+            roleID: firstEmployee.roleID.toString(),
+            standardWrkHrs:
+              firstEmployee.standardWrkHrs !== null
+                ? firstEmployee.standardWrkHrs.toString()
+                : "",
+            skillSetID: firstEmployee.skillSetID.toString(),
             noOfLeave: firstEmployee.noOfLeave !== null ? firstEmployee.noOfLeave.toString() : "",
             noOfLeaveAvailable: firstEmployee.noOfLeaveAvailable !== null ? firstEmployee.noOfLeaveAvailable.toString() : "",
             noOfMC: firstEmployee.noOfMC !== null ? firstEmployee.noOfMC.toString() : "",
@@ -115,12 +121,12 @@ const ViewEmployeeDetail = () => {
     fetchEmployees();
   }, []);
 
-  // Generic handler for input fields (other than the picklist)
+  // Generic handler for input fields
   const handleChange = (field: keyof Employee, value: string) => {
     setEmployee((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Specific handler for the fullName picklist
+  // For fullName, when not editing, display a picklist; when editing, show an input.
   const handleNameChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedName = e.target.value;
     const matched = employeeList.find((emp) => emp.fullName === selectedName);
@@ -132,9 +138,9 @@ const ViewEmployeeDetail = () => {
         hpNo: matched.hpNo.toString(),
         resStatusPassType: matched.resStatusPassType,
         jobTitle: matched.jobTitle,
-        roles: matched.roles,
+        roleID: matched.roleID.toString(),
         standardWrkHrs: matched.standardWrkHrs !== null ? matched.standardWrkHrs.toString() : "",
-        skillsets: matched.skillsets,
+        skillSetID: matched.skillSetID.toString(),
         noOfLeave: matched.noOfLeave !== null ? matched.noOfLeave.toString() : "",
         noOfLeaveAvailable: matched.noOfLeaveAvailable !== null ? matched.noOfLeaveAvailable.toString() : "",
         noOfMC: matched.noOfMC !== null ? matched.noOfMC.toString() : "",
@@ -153,7 +159,7 @@ const ViewEmployeeDetail = () => {
 
   // On submit, call the edit API to update employee details.
   const handleSubmitClick = async () => {
-    // Prepare updated employee data for the API, converting numeric fields appropriately
+    // Prepare updated employee data for the API, converting numeric fields appropriately.
     const updatedEmployee = {
       business_owner_id: 2,
       user_id: employee.user_id,
@@ -161,9 +167,9 @@ const ViewEmployeeDetail = () => {
       hpNo: parseInt(employee.hpNo),
       resStatusPassType: employee.resStatusPassType,
       jobTitle: employee.jobTitle,
-      roleID: 2, // assuming roleID remains fixed or selected separately
+      roleID: parseInt(employee.roleID), // Convert back to number
       standardWrkHrs: parseInt(employee.standardWrkHrs),
-      skillSetID: 1, // assuming skillSetID remains fixed or selected separately
+      skillSetID: parseInt(employee.skillSetID), // Convert back to number
       noOfLeave: parseInt(employee.noOfLeave),
       noOfLeaveAvailable: parseInt(employee.noOfLeaveAvailable),
       noOfMC: parseInt(employee.noOfMC),
@@ -174,9 +180,11 @@ const ViewEmployeeDetail = () => {
       activeOrInactive: parseInt(employee.activeOrInactive),
     };
 
+    console.log("Submitting updated employee data:", updatedEmployee);
+
     const result = await EditEmployee(updatedEmployee);
 
-    if (result) {
+    if (result && result.message === "Employee updated successfully") {
       showAlert(
         `Employee details for ${employee.fullName} have been updated`,
         "The employee information has been successfully updated.",
@@ -200,9 +208,10 @@ const ViewEmployeeDetail = () => {
     hpNo: "Phone Number",
     resStatusPassType: "Pass Type",
     jobTitle: "Job Title",
-    roles: "Roles",
+    roleID: "Role ID",
     standardWrkHrs: "Standard Working Hours",
-    skillsets: "Skillsets",
+    skillSetID: "Skill Set ID",
+    // skillsets: "Skillsets",
     noOfLeave: "Total Leave",
     noOfLeaveAvailable: "Available Leave",
     noOfMC: "Total MC",
@@ -216,7 +225,6 @@ const ViewEmployeeDetail = () => {
   return (
     <div className="viewProfileContainer">
       <Nav />
-      {/* <SideMenu /> */}
       <div className="viewProfileContent">
         <h2>Employee Detail</h2>
         <table className="employeeDetailTable">
@@ -229,17 +237,26 @@ const ViewEmployeeDetail = () => {
                   <th>{headerMap[typedKey] || typedKey}</th>
                   <td>
                     {typedKey === "fullName" ? (
-                      <select
-                        value={value as string}
-                        onChange={handleNameChange}
-                        className="full-width"
-                      >
-                        {employeeList.map((emp) => (
-                          <option key={emp.user_id} value={emp.fullName}>
-                            {emp.fullName}
-                          </option>
-                        ))}
-                      </select>
+                      editMode ? (
+                        <input
+                          type="text"
+                          value={value as string}
+                          onChange={(e) => handleChange(typedKey, e.target.value)}
+                          className="full-width"
+                        />
+                      ) : (
+                        <select
+                          value={value as string}
+                          onChange={handleNameChange}
+                          className="full-width"
+                        >
+                          {employeeList.map((emp) => (
+                            <option key={emp.user_id} value={emp.fullName}>
+                              {emp.fullName}
+                            </option>
+                          ))}
+                        </select>
+                      )
                     ) : editMode ? (
                       <input
                         type="text"
