@@ -1,5 +1,6 @@
 import { LuLogOut } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
+import { GoAlertFill } from "react-icons/go";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { IoClose, IoArrowBack } from "react-icons/io5";
 import { FaFilePdf, 
@@ -8,15 +9,18 @@ import { FaFilePdf,
          FaCircle,
          FaClipboardList,
          FaChevronCircleLeft,
-         FaChevronCircleRight } from "react-icons/fa";
+         FaChevronCircleRight,
+         FaRegListAlt } from "react-icons/fa";
 import { IoIosAlert } from "react-icons/io";
 import { GiRotaryPhone } from "react-icons/gi";
 import { MdContactPhone, 
          MdOutlineMailOutline,
          MdOutlineLocationOn } from "react-icons/md";
 import { RiUserReceived2Fill } from "react-icons/ri";
-import { TiTick } from "react-icons/ti";
-import { GoAlertFill } from "react-icons/go";
+import { TiTick, TiTime } from "react-icons/ti";
+import { TbTarget, TbTargetArrow } from "react-icons/tb";
+import { VscDebugBreakpointData } from "react-icons/vsc";
+import { HiMiniViewfinderCircle } from "react-icons/hi2";
 
 export {
     LuLogOut,   // Logout icon
@@ -39,4 +43,10 @@ export {
     GoAlertFill, // Triangle alert icon
     FaChevronCircleLeft, // Go previous in circle icon
     FaChevronCircleRight, // Go next in circle icon
+    TbTarget, // Circle target icon
+    TbTargetArrow, // Targeted goal icon
+    FaRegListAlt, // Description icon
+    VscDebugBreakpointData, // List point icon
+    HiMiniViewfinderCircle, // Allocated time view icon
+    TiTime, // Time icon
 };

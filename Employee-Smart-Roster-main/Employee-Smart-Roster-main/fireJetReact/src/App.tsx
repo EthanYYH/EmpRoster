@@ -25,8 +25,10 @@ import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
+
 import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
 import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
+
 
 
 // Import side menu
@@ -99,6 +101,7 @@ function App() {
                 }
               />
 
+
 <Route
                 path="/view-employee-detail"
                 element={
@@ -115,7 +118,7 @@ function App() {
                     <EmpViewEmployeeDetail />
                   // </ProtectedRoute>
                 }
-              />
+
 
 
 

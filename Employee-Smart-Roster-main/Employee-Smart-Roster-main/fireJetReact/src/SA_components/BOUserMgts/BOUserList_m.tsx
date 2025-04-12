@@ -23,7 +23,7 @@ const BOUserList_m = ({ companies = [], onUpdate }: BOListMobileProps) => {
             setSelectedCompany(selectedCompany)
             setShowDetail(true)
         } catch (error) {
-            setError(`${error}`);
+            setError(error instanceof Error ? error.message : String(error));
             setSelectedCompany([]);
             setShowDetail(false);
         }
