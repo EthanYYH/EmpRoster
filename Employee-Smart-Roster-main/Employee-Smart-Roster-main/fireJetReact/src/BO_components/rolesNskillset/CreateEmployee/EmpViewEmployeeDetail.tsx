@@ -70,7 +70,7 @@ const EmpViewEmployeeDetail = () => {
 
   return (
     <div className="viewProfileContainer">
-      <Nav />
+      
       {/* <SideMenu /> */}
       <div className="viewProfileContent">
         <h2>Employee Detail</h2>
