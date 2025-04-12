@@ -76,7 +76,6 @@ table {
   }
 }
 
-/* Mobile Optimization */
 @media (max-width: 768px) {
   .app-description-container {
     padding: 24px;
@@ -105,4 +104,33 @@ table {
     height: auto;
     max-width: 550px;
   }
+}
+
+/* ========== Animations ========== */
+
+/* Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animation Classes */
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+/* Optional delays */
+.fade-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.fade-delay-2 {
+  animation-delay: 0.4s;
 }

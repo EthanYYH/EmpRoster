@@ -18,12 +18,17 @@ import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import UserMgts from "./pages/UserManagement/UserMgts";
 import UserDetail from "./components/UserMgt/UserDetail";
 import PreviewLanding from "./SA_pages/PreviewLanding";
+import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
+
+import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
+import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
+
 
 
 // Import side menu
@@ -95,6 +100,26 @@ function App() {
                   // </ProtectedRoute>
                 }
               />
+
+
+<Route
+                path="/view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <ViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+              />
+
+<Route
+                path="/emp-view-employee-detail"
+                element={
+                  // <ProtectedRoute>
+                    <EmpViewEmployeeDetail />
+                  // </ProtectedRoute>
+                }
+
+
 
 
               {/* Route for System Admin pages */}
@@ -299,6 +324,15 @@ function App() {
                   <ProtectedRoute>
                     <div>Employee Project</div>
                   </ProtectedRoute>
+                }
+              />
+
+<Route
+                path="/view-rating"
+                element={
+                  
+                    <ViewRating />
+                  
                 }
               />
             </Routes>

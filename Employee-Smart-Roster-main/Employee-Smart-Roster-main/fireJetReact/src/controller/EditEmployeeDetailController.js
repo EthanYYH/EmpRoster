@@ -17,11 +17,13 @@ const EditEmployee = async (employeeData) => {
     }
 
     const data = await response.json();
-    if (data.success) {
+
+    
+    if (data.message="Employee updated successfully") {
       console.log("Employee updated successfully:", data);
       return data; // Returning success response or data
     } else {
-      console.error("Failed to update employee:", data);
+      console.error("Failed to update employee:");
       return null; // Return null if the update fails
     }
   } catch (error) {

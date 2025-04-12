@@ -128,11 +128,11 @@ const UserList = ({users = [], currentUser = [], onDataUpdate}: UserListProps) =
                 </div>
             </div>
             {/* Desktop Table Header */}
-            {currentUser?.role === 'System Admin' && (
+            {/* {currentUser?.role === 'System Admin' && (
             <BOUserList 
                 boUsers={businessOwners} 
                 onDataUpdate={onDataUpdate} 
-            />)}
+            />)} */}
             
             {/* {data.map((user, index) => (
             <div key={user.id}> */}

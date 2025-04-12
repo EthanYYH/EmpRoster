@@ -20,6 +20,7 @@
 
 
 async function createEmployee(values) {
+    console.log("Test: ",values)
     try {
         const response = await fetch(
             'https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/employee/add',
@@ -31,6 +32,8 @@ async function createEmployee(values) {
                 },
             }
         );
+
+        console.log("API Response:",response.statusText);
 
         if (response.ok) {
             const data = await response.json();
