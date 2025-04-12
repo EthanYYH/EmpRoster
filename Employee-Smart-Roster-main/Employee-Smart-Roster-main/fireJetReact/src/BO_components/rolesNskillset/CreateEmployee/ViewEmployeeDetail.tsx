@@ -16,9 +16,9 @@ type Employee = {
   hpNo: string;
   resStatusPassType: string;
   jobTitle: string;
-  roleID: string; // stored as string for editing
+  roleID: string;        // stored as string for editing
   standardWrkHrs: string;
-  skillSetID: string; // stored as string for editing
+  skillSetID: string;    // stored as string for editing
   noOfLeave: string;
   noOfLeaveAvailable: string;
   noOfMC: string;
@@ -40,7 +40,7 @@ type SimpleEmployee = {
   jobTitle: string;
   roles: string;
   standardWrkHrs: number | null;
-  skillsets: string;
+  skillsets: string; // note: API returns this as "skillsets" even though we use skillSetID for editing
   noOfLeave: number | null;
   noOfLeaveAvailable: number | null;
   noOfMC: number | null;
@@ -62,9 +62,9 @@ const ViewEmployeeDetail = () => {
     hpNo: "",
     resStatusPassType: "",
     jobTitle: "",
-    roleID: "", // now stored as a string
+    roleID: "",
     standardWrkHrs: "",
-    skillSetID: "", // now stored as a string
+    skillSetID: "",
     noOfLeave: "",
     noOfLeaveAvailable: "",
     noOfMC: "",
@@ -75,14 +75,14 @@ const ViewEmployeeDetail = () => {
     activeOrInactive: "",
   });
 
-  // State to hold the list of employees for the picklist (if needed)
+  // State to hold the list of employees for the picklist
   const [employeeList, setEmployeeList] = useState<SimpleEmployee[]>([]);
 
   const { showAlert } = useAlert();
 
   // Fetch the employee list on component mount
   useEffect(() => {
-    const business_owner_id = 2; // Set as needed
+    const business_owner_id = 2; // Adjust as needed
     const fetchEmployees = async () => {
       try {
         const data = await ViewEmployeeList(business_owner_id);
@@ -90,6 +90,7 @@ const ViewEmployeeDetail = () => {
         setEmployeeList(data);
         if (data.length > 0) {
           const firstEmployee = data[0];
+          // Set all fields (convert numeric fields to string for editing)
           setEmployee({
             user_id: firstEmployee.user_id,
             fullName: firstEmployee.fullName,
@@ -97,12 +98,12 @@ const ViewEmployeeDetail = () => {
             hpNo: firstEmployee.hpNo.toString(),
             resStatusPassType: firstEmployee.resStatusPassType,
             jobTitle: firstEmployee.jobTitle,
-            // Convert roleID and skillSetID to string for editing
             roleID: firstEmployee.roleID.toString(),
             standardWrkHrs:
               firstEmployee.standardWrkHrs !== null
                 ? firstEmployee.standardWrkHrs.toString()
                 : "",
+            // For skills, we use the skillSetID (editing) even though API returns "skillsets"
             skillSetID: firstEmployee.skillSetID.toString(),
             noOfLeave: firstEmployee.noOfLeave !== null ? firstEmployee.noOfLeave.toString() : "",
             noOfLeaveAvailable: firstEmployee.noOfLeaveAvailable !== null ? firstEmployee.noOfLeaveAvailable.toString() : "",
@@ -126,7 +127,9 @@ const ViewEmployeeDetail = () => {
     setEmployee((prev) => ({ ...prev, [field]: value }));
   };
 
-  // For fullName, when not editing, display a picklist; when editing, show an input.
+  // For fullName:
+  // When not editing, display as a picklist.
+  // When editing, display as an input.
   const handleNameChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedName = e.target.value;
     const matched = employeeList.find((emp) => emp.fullName === selectedName);
@@ -139,12 +142,15 @@ const ViewEmployeeDetail = () => {
         resStatusPassType: matched.resStatusPassType,
         jobTitle: matched.jobTitle,
         roleID: matched.roleID.toString(),
-        standardWrkHrs: matched.standardWrkHrs !== null ? matched.standardWrkHrs.toString() : "",
+        standardWrkHrs:
+          matched.standardWrkHrs !== null ? matched.standardWrkHrs.toString() : "",
         skillSetID: matched.skillSetID.toString(),
         noOfLeave: matched.noOfLeave !== null ? matched.noOfLeave.toString() : "",
-        noOfLeaveAvailable: matched.noOfLeaveAvailable !== null ? matched.noOfLeaveAvailable.toString() : "",
+        noOfLeaveAvailable:
+          matched.noOfLeaveAvailable !== null ? matched.noOfLeaveAvailable.toString() : "",
         noOfMC: matched.noOfMC !== null ? matched.noOfMC.toString() : "",
-        noOfMCAvailable: matched.noOfMCAvailable !== null ? matched.noOfMCAvailable.toString() : "",
+        noOfMCAvailable:
+          matched.noOfMCAvailable !== null ? matched.noOfMCAvailable.toString() : "",
         startWorkTime: matched.startWorkTime,
         endWorkTime: matched.endWorkTime,
         daysOfWork: matched.daysOfWork.toString(),
@@ -157,9 +163,8 @@ const ViewEmployeeDetail = () => {
     setEditMode(true);
   };
 
-  // On submit, call the edit API to update employee details.
+  // On submit, prepare the payload (converting numeric fields) and call the edit API.
   const handleSubmitClick = async () => {
-    // Prepare updated employee data for the API, converting numeric fields appropriately.
     const updatedEmployee = {
       business_owner_id: 2,
       user_id: employee.user_id,
@@ -167,9 +172,9 @@ const ViewEmployeeDetail = () => {
       hpNo: parseInt(employee.hpNo),
       resStatusPassType: employee.resStatusPassType,
       jobTitle: employee.jobTitle,
-      roleID: parseInt(employee.roleID), // Convert back to number
+      roleID: parseInt(employee.roleID),
       standardWrkHrs: parseInt(employee.standardWrkHrs),
-      skillSetID: parseInt(employee.skillSetID), // Convert back to number
+      skillSetID: parseInt(employee.skillSetID),
       noOfLeave: parseInt(employee.noOfLeave),
       noOfLeaveAvailable: parseInt(employee.noOfLeaveAvailable),
       noOfMC: parseInt(employee.noOfMC),
@@ -211,7 +216,7 @@ const ViewEmployeeDetail = () => {
     roleID: "Role ID",
     standardWrkHrs: "Standard Working Hours",
     skillSetID: "Skill Set ID",
-    // skillsets: "Skillsets",
+    // We no longer render a separate field for skillsets
     noOfLeave: "Total Leave",
     noOfLeaveAvailable: "Available Leave",
     noOfMC: "Total MC",
@@ -223,8 +228,11 @@ const ViewEmployeeDetail = () => {
   };
 
   return (
-    <div className="viewProfileContainer">
+    <div>
+      hi
       <Nav />
+      <SideMenu/>
+      hi
       <div className="viewProfileContent">
         <h2>Employee Detail</h2>
         <table className="employeeDetailTable">
