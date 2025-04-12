@@ -229,11 +229,10 @@ const ViewEmployeeDetail = () => {
 
   return (
     <div>
-      hi
-      <Nav />
+      {/* Test
       <SideMenu/>
-      hi
-      <div className="viewProfileContent">
+      Test */}
+      <div>
         <h2>Employee Detail</h2>
         <table className="employeeDetailTable">
           <tbody>

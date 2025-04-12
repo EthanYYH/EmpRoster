@@ -8,7 +8,7 @@ export default function AppDescriptionDemo({ className = "" }: AppDescriptionDem
   return (
     <div className={`${className} app-description-container`}>
       <div className="app-description-content">
-        <div className="app-description-text">
+        <div className="app-description-text fade-in-up fade-delay-1">
           <span>
             {/* Time Management */}
             <p>Time Management</p>
@@ -74,7 +74,7 @@ export default function AppDescriptionDemo({ className = "" }: AppDescriptionDem
         </div>
 
         {/* Demo Video Section */}
-        <div className="app-description-video">
+        <div className="app-description-video fade-in-up fade-delay-2">
           <img className="video-thumbnail" src={sampleVideo} loading="lazy" alt="Demo Video" />
         </div>
       </div>
