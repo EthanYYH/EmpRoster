@@ -18,10 +18,23 @@ import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import UserMgts from "./pages/UserManagement/UserMgts";
 import UserDetail from "./components/UserMgt/UserDetail";
 import PreviewLanding from "./SA_pages/PreviewLanding";
-import ViewRating from "./SA_pages/RegisRequest/ViewRating";
+import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
+
 
 // Pages for Busines Owner
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
+import BODashboard from "./BO_pages/Dashboard/Dashboard";
+import BOViewProfile from "./BO_pages/ViewProfile/ViewProfile";
+import BOUpdateBOProfile from "./BO_pages/ViewProfile/BOUpdateBOProfile";
+import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
+import BOUpdateCompanyProfile from "./BO_pages/CompanyProfile/UpdateProfile";
+import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
+
+
+import CreateEmployeeOld from "./BO_components/rolesNskillset/CreateEmployee/old/CreateEmployeeOLD"
+import ViewRating from "./SA_pages/RegisRequest/ViewRating";
+
+// Pages for Busines Owner
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
@@ -30,15 +43,11 @@ import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee
 
 
 
-
-
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
 import BOSide from "./components/SideMenu/BOSide";
 
 // Import for testing
-
-
 import "./App.css";
 import "../public/styles/common.css";
 
@@ -121,7 +130,7 @@ function App() {
 
 
 
-<Route
+              <Route
                 path="/view-employee-detail"
                 element={
                   // <ProtectedRoute>
@@ -207,12 +216,7 @@ function App() {
                 path="/faqs-management"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <SASide />
-                      <div className="content">
-                        <h1>FAQ Management</h1>
-                      </div>
-                    </div>
+                    <FAQManagement />
                   </ProtectedRoute>
                 }
               />
@@ -231,25 +235,46 @@ function App() {
                 path="/business-dashboard"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <BOSide />
-                      <h1>Business Owner Dasboard</h1>
-                    </div>
+                    <BODashboard />
                   </ProtectedRoute>
                 }
               />
+
+              <Route
+                path="/view-bo-detail"
+                element={
+                  <ProtectedRoute>
+                    <BOViewProfile />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/update-bo-detail"
+                element={
+                  <ProtectedRoute>
+                    <BOUpdateBOProfile />
+                  </ProtectedRoute>
+                }
+              />    
               
               <Route
                 path="/company-detail"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <BOSide />
-                      <h1>My Company</h1>
-                    </div>
+                    <BOCompanyProfile />
                   </ProtectedRoute>
                 }
               />
+
+              <Route
+                path="/update-company-detail"
+                element={
+                  <ProtectedRoute>
+                    <BOUpdateCompanyProfile />
+                  </ProtectedRoute>
+                }
+              />    
 
               <Route
                 path="/roles-skills-menagement"
@@ -297,10 +322,7 @@ function App() {
                 path="/mc-management"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <BOSide />
-                      <h1>MC Management</h1>
-                    </div>
+                    <BOLeaveManagement />
                   </ProtectedRoute>
                 }
               />
