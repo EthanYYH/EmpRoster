@@ -10,7 +10,7 @@ import Register from "./pages/RegistrationNLogin/Registration";
 import ResetPassword from "./pages/RegistrationNLogin/ResetPW";
 import ReqResetEmail from "./pages/RegistrationNLogin/ReqResetEmail";
 import Navbar from "./components/NavBar/NavBar";
-import GuestLanding from './pages/Landing/LandingPage'
+//import GuestLanding from './pages/Landing/LandingPage'
 
 // Pages for System Admin
 import SADash from "./pages/Dashboard/SADash";
@@ -67,8 +67,8 @@ function App() {
           <div className="App-content" >
             <Routes>
               {/* Route for General pages */}
-              <Route path="/home" element={<GuestLanding />} />
-              <Route path="/" element={<Navigate to="/home" replace />} />
+              
+              <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/request-reset-pw-email" element={<ReqResetEmail />} />
