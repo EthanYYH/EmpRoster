@@ -119,6 +119,7 @@ function App() {
                   // </ProtectedRoute>
                 }
               />
+
               <Route
                 path="/emp-view-employee-detail"
                 element={
@@ -127,8 +128,6 @@ function App() {
                   // </ProtectedRoute>
                 }
               />
-
-
 
               <Route
                 path="/view-employee-detail"
@@ -146,12 +145,9 @@ function App() {
                     <EmpViewEmployeeDetail />
                   // </ProtectedRoute>
                 }
-                />
+              />
 
-
-
-
-              
+              {/* Route for System Admin */}
               <Route
                 path="/admin-dashboard"
                 element={

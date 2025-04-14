@@ -46,7 +46,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
                     showAlert(
                         `Error fetching company`,
                         `UID: ${user.UID}: `,
-                        {error}.toString(),
+                        error instanceof Error ? error.message : String(error),
                         { type: 'error' }
                     )
                     return null;
@@ -78,7 +78,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
             showAlert(
                 "Fetch Company Data Error",
                 'Failed to fetch company data BOUserList',
-                {error}.toString(),
+                error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }
@@ -101,7 +101,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
             showAlert(
                 "triggerFilterBOData", 
                 "Failed to apply filter", 
-                {error}.toString(), 
+                error instanceof Error ? error.message : String(error), 
                 { type: 'error' }
             );
         }
