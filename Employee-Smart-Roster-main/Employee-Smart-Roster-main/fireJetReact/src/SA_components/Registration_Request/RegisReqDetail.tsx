@@ -29,26 +29,26 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
             const fileData = await getBizFile (regisRequest.registrationID)
             const base64Data = `data:application/pdf;base64,${fileData.fileData}`;
             // console.log(base64Data)
-            // setBizFileData(base64Data)
-            // setShowBizFile(true)
+            setBizFileData(base64Data)
+            setShowBizFile(true)
              // Decode base64 to binary string
-            const byteCharacters = atob(fileData.fileData);
-            const byteNumbers = new Array(byteCharacters.length).fill(0).map((_, i) =>
-                byteCharacters.charCodeAt(i)
-            );
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            // const byteCharacters = atob(fileData.fileData);
+            // const byteNumbers = new Array(byteCharacters.length).fill(0).map((_, i) =>
+            //     byteCharacters.charCodeAt(i)
+            // );
+            // const byteArray = new Uint8Array(byteNumbers);
+            // const blob = new Blob([byteArray], { type: 'application/pdf' });
 
-            const pdfUrl = URL.createObjectURL(blob);
-            const newTab = window.open(pdfUrl, '_blank');
-            if (!newTab) {
-                showAlert(
-                    "PDF Preview", 
-                    "Failed to display PDF", 
-                    "", 
-                    { type: 'warning' }
-                );
-            }
+            // const pdfUrl = URL.createObjectURL(blob);
+            // const newTab = window.open(pdfUrl, '_blank');
+            // if (!newTab) {
+            //     showAlert(
+            //         "PDF Preview", 
+            //         "Failed to display PDF", 
+            //         "", 
+            //         { type: 'warning' }
+            //     );
+            // }
         } catch (error) {
             showAlert(
                 'fetchBizFilePDF',
@@ -160,20 +160,20 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
             setShowBizFile(false)
     }
 
-    // if(showBizFile && bizFileData) return (
-    //     <div className='App-pdf-frame'>
-    //         <IoClose 
-    //             className='App-close-pdf'
-    //             onClick={() => toggleShowBizFile()}
-    //         />
-    //         <iframe
-    //             src={bizFileData}
-    //             width="100%"
-    //             height="600px"
-    //             title="PDF Preview"
-    //         />
-    //     </div>
-    // )
+    if(showBizFile && bizFileData) return (
+        <div className='App-pdf-frame'>
+            <IoClose 
+                className='App-close-pdf'
+                onClick={() => toggleShowBizFile()}
+            />
+            <iframe
+                src={bizFileData}
+                width="100%"
+                height="600px"
+                title="PDF Preview"
+            />
+        </div>
+    )
 
     return (
         <>
@@ -249,7 +249,7 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
             </div>
             )}
 
-            {showBizFile && bizFileData && (
+            {/* {showBizFile && bizFileData && (
             <div className='App-pdf-frame'>
                 <IoClose 
                     className='App-close-pdf'
@@ -257,12 +257,10 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
                 />
                 <iframe
                     src={bizFileData}
-                    width="100%"
-                    height="600px"
                     title="PDF Preview"
                 />
             </div>
-            )}
+            )} */}
         </> 
     );
 }
