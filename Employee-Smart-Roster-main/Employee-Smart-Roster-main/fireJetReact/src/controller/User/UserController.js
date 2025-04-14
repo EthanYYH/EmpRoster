@@ -295,23 +295,28 @@ async function getEmployeeList(boID) {
     };
 
     try {
+        console.log("Sending request to fetch employee list with body:", body);
         const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/employee/view', {
             method: 'POST',
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' }
         });
+
         if (!response.ok) {
             const errorData = await response.json();
+            console.error("API returned an error response:", errorData);
             throw new Error(errorData.message || `HTTP error status: ${response.status}`);
         }
+        
         const data = await response.json();
-        // You may want to return data.employeeList if the API returns an object like { employeeList: [...] }
+        console.log("Employee data returned:", data);
         return data;
     } catch (error) {
-        console.error(`Network error for business owner ID ${boID}: \n`, error);
+        console.error(`Network error for business owner ID ${boID}:`, error);
         throw new Error(`Failed to fetch employee data: ${error.message}`);
     }
 }
+
 
 
 export default {

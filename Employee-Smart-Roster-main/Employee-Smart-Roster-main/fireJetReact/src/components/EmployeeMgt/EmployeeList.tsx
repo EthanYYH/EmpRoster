@@ -8,8 +8,7 @@ interface Employee {
   fullName: string;
   email: string;
   jobTitle: string;
-  role: string;
-  skillsets: string;
+  hpNo: string;
 }
 
 // Define the shape of the API response

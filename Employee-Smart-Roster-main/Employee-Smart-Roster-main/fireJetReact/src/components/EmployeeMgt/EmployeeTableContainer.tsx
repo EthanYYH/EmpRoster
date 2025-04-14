@@ -5,12 +5,11 @@ import EmployeeList_t from './EmployeeList_t';
 
 // Define the structure for an employee object.
 interface Employee {
-  user_id: number;
-  fullName: string;
-  email: string;
-  jobTitle: string;
-  role: string;
-  skillsets: string;
+    user_id: number;
+    fullName: string;
+    email: string;
+    jobTitle: string;
+    hpNo: string;
 }
 
 interface EmployeeResponse {
@@ -30,8 +29,6 @@ const EmployeeTableContainer: React.FC = () => {
     }
     const fetchEmployees = async () => {
       try {
-        // Call the new getEmployeeList function with the business owner's UID.
-        // Expect the API response to be in the form { employeeList: [...] }
         const data: EmployeeResponse = await UserController.getEmployeeList(user.UID);
         setEmployees(data.employeeList || []);
       } catch (err: unknown) {

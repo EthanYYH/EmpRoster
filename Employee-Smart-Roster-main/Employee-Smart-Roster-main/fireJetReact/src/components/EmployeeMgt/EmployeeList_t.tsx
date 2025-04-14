@@ -9,8 +9,7 @@ interface Employee {
   fullName: string;
   email: string;
   jobTitle: string;
-  role: string;
-  skillsets: string;
+  hpNo: string;
 }
 
 interface EmployeeListProps {
@@ -33,8 +32,7 @@ const EmployeeList_t: React.FC<EmployeeListProps> = ({ employees }) => {
         <Header className="employee-list-header-fullname" text="NAME" />
         <Header className="employee-list-header-email" text="EMAIL" />
         <Header className="employee-list-header-jobtitle" text="JOB TITLE" />
-        <Header className="employee-list-header-role" text="ROLE" />
-        <Header className="employee-list-header-skillsets" text="SKILLSETS" />
+        <Header className="employee-list-header-role" text="PHONE NUMBER" />
       </div>
       {employees.map((emp) => (
         <div className="App-desktop-table-row employee-list-row" key={emp.user_id}>
@@ -42,8 +40,7 @@ const EmployeeList_t: React.FC<EmployeeListProps> = ({ employees }) => {
           <Cell className="employee-list-cell-fullname" text={emp.fullName} />
           <Cell className="employee-list-cell-email" text={emp.email} />
           <Cell className="employee-list-cell-jobtitle" text={emp.jobTitle} />
-          <Cell className="employee-list-cell-role" text={emp.role} />
-          <Cell className="employee-list-cell-skillset" text={emp.skillsets} />
+          <Cell className="employee-list-cell-role" text={emp.hpNo} />
         </div>
       ))}
     </div>

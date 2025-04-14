@@ -45,6 +45,9 @@ const BOSide = () => {
                 <Link to="/company-detail" className="sub-link-hover">
                     My Company
                 </Link>
+                <Link to="/view-bo-detail" className="sub-link-hover">
+                    View Profile
+                </Link>
                 <Link to="/roles-skills-menagement" className="sub-link-hover">
                     Roles & Skillsets Management
                 </Link>
