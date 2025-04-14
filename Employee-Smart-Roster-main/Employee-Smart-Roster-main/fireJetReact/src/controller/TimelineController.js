@@ -102,25 +102,9 @@ async function getTaskDetail (userID) {
     }
 }
 
-function getRoleNeededForTask (allRoles, roleNeededID){
-    const roleNeeded = allRoles.filter((role) => 
-        role.roleID === roleNeededID
-    )
-    return roleNeeded
-} 
-
-function getSkillNeededForTask (allSkills, skillNeededID){
-    const skillNeeded = allSkills.filter((skill) => 
-        skill.skillSetID === skillNeededID
-    )
-    return skillNeeded
-} 
-
 export default {
     getTimelines, 
     boGetTaskDetail,
     deleteTaskDetail, 
     getTaskDetail,
-    getRoleNeededForTask,
-    getSkillNeededForTask,
 }

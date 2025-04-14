@@ -145,7 +145,6 @@ h3 {
       .App-popup-content-icon {
         font-size: 20px;
         color: var(--primary-background);
-        width: fit-content;
       }
     }
   }

@@ -172,14 +172,15 @@ async function getBOUsers () {
     }
 }
 
-async function getCurrentUserProfile (uid) {
+async function handleSuspendUser (uid, reason) {
     const body = {
-        employee_user_id: uid
+        UID: uid,
+        reasonOfSuspend: reason
     };
 
     try{
-        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/employee/profile/view', {
-            method: 'POST',
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/user/suspend', {
+            method: 'PATCH',
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' }
         });
@@ -270,6 +271,6 @@ export default {
     setUser,
     handleUserAccStatusFilter,
     getBOUsers,
-    getCurrentUserProfile,
+    handleSuspendUser,
     handleUsuspendUser,
 }
