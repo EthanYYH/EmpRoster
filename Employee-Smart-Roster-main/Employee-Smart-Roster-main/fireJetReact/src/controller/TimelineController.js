@@ -81,7 +81,7 @@ async function getTaskDetail (userID) {
     const body = {
         employee_user_id: userID
     };
-// 
+
     try{
         const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/employee/task/view', {
             method: 'POST',
