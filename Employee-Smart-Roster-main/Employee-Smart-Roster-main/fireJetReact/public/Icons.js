@@ -2,6 +2,7 @@ import { LuLogOut } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
 import { GoAlertFill } from "react-icons/go";
 import { BiSolidUserDetail } from "react-icons/bi";
+import { FaUpload } from "react-icons/fa6";
 import { IoClose, IoArrowBack } from "react-icons/io5";
 import { FaFilePdf, 
          FaInfoCircle, 
@@ -49,4 +50,5 @@ export {
     VscDebugBreakpointData, // List point icon
     HiMiniViewfinderCircle, // Allocated time view icon
     TiTime, // Time icon
+    FaUpload, // Upload
 };

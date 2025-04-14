@@ -46,7 +46,6 @@ async function createRegisRequest (bizFile, email, UEN, bizName, password){
     }
 }
 
-
 export default {
     validateEmail,
     createRegisRequest,

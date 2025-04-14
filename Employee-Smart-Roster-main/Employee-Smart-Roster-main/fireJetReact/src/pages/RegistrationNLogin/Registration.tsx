@@ -97,19 +97,23 @@ const Register = () => {
     const triggerRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Stop auto refresh for form submit
         if (bizFile) {
-            setFileStatus('uploading')
             const formData =  new FormData();
             formData.append('bizFile', bizFile);
 
             try {
-                const submitRegisReq = await createRegisRequest (bizFile, email, UEN, bizName, password)
-                console.log(submitRegisReq)
-                setFileStatus('success');
+                const response = await createRegisRequest (bizFile, email, UEN, bizName, password)
+                // console.log(submitRegisReq)
+
+                showAlert(
+                    `${response.message}`,
+                    'We had received your registration request',
+                    'The account is Pending Approval', 
+                    { type: 'success'}
+                )
             } catch (error) {
-                setFileStatus('fail');
                 showAlert(
                     'triggerRegistration',
-                    'Same ',
+                    'Failed to Submit Registration Request',
                     error instanceof Error ? error.message : String(error),
                     { type: 'error' }
                 )
@@ -281,7 +285,6 @@ const Register = () => {
                 </div>
 
                 <div className="register-btns-grp">
-                    <FileUploadResult fileStatus={fileStatus} />
                     <PrimaryButton 
                         text='Register'
                         type='submit'
@@ -306,25 +309,9 @@ const Register = () => {
                         />
                     </div>
                 </div>
-                
             </form>
         </div>
     )
-}
-
-const FileUploadResult = ({ fileStatus }:{ fileStatus: string }) => {
-    if (fileStatus === 'success') {
-        return <p>✅ Registration Request Submited & BizFile uploaded successfully!</p>;
-    } 
-    else if (fileStatus === 'fail') {
-        return <p>❌ File upload failed!</p>;
-    } 
-    else if (fileStatus === 'uploading') {
-        return <p>⏳ BizFile is Uploading ...</p>;
-    } 
-    else {
-        return null;
-    }
 }
 
 export default Register
