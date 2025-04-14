@@ -12,6 +12,7 @@ export const YEAR_CHANGE = ['prevYear', 'nextYear'];
 
 // ENUM in DB
 export const TASK_STATUS = ['Not Started', 'In Progress', 'Completed'];
+export const REG_STATUS = ["Pending", "Approved", "Rejected"]
 
 export function formatDateTime (isoString){
     return new Intl.DateTimeFormat('en-US', {
@@ -19,7 +20,7 @@ export function formatDateTime (isoString){
     }).format(new Date(isoString), 'dd/MM/yyyy hh:mm tt')
 }
 
-export function encodeFileContent(file) {
+export async function encodeFileContent(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
 
