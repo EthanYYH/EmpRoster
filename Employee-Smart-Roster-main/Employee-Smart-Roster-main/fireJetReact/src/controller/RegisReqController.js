@@ -1,7 +1,3 @@
-async function createRegistrationRequest() {
-    
-}
-
 async function getRegistrationRequests (){
     const body = {
 
