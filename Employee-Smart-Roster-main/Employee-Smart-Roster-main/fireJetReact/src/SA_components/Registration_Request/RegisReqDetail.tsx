@@ -27,9 +27,9 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
     const fetchBizFilePDF = async () => {
         try {
             const fileData = await getBizFile (regisRequest.registrationID)
-            const base64Data = `data:application/pdf;base64,${fileData.fileData}`;
-            console.log(base64Data)
-            setBizFileData(base64Data)
+            // const base64Data = `data:application/pdf;base64,${fileData.fileData}`;
+            // console.log(base64Data)
+            // setBizFileData(base64Data)
             // setShowBizFile(true)
             // Decode base64 to binary string
             const byteCharacters = atob(fileData.fileData);
@@ -59,6 +59,9 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
             );
         }
     }
+    useEffect(() => {
+        fetchBizFilePDF()
+    }, [regisRequest])
 
     const triggerRejectionOrApproval = async (statusChanged:string) => {
         try {
@@ -177,92 +180,81 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
     // )
 
     return (
-        <>
-        {!showBizFile && !bizFileData && (
-                <div className="App-popup-content" onClick={(e) => e.stopPropagation()}>
+        <div className="App-popup-content" onClick={(e) => e.stopPropagation()}>
+            <div className='App-header'>
+                <h1 className='company-name'>
+                    {regisRequest.bizName}
+                </h1>
+                <button className='icons' onClick={onClose}>
+                    <IoClose />
+                </button>
+            </div>
 
-                <div className='App-header'>
-                    <h1 className='company-name'>
-                        {regisRequest.bizName}
-                    </h1>
-                    <button className='icons' onClick={onClose}>
-                        <IoClose />
+            <div className="App-popup-main-content">
+                <div className="uen data-content">
+                    <h2>{regisRequest.UEN}</h2>
+                    <button className='icons'>
+                    <a href={bizFileData}
+                        target="_blank"
+                        // rel="noopener noreferrer"
+                        onClick={bizFileData ? undefined : (e) => {
+                            e.preventDefault();
+                        }}
+                        className="icons"
+                    >
+                        <FaFilePdf />
+                    </a>
                     </button>
                 </div>
 
-                <div className="App-popup-main-content">
-                    <div className="uen data-content">
-                        <h2>{regisRequest.UEN}</h2>
-                        <button className='icons'>
-                            <ExternalLink href={bizFileData}>
-                                <FaFilePdf onClick={fetchBizFilePDF}/>
-                            </ExternalLink>
-                        </button>
-                    </div>
-
-                    <div className="detail-content">
-                        <div className="regs-status">
-                            {regisRequest?.status === REG_STATUS[0] && (
-                                <FaCircle  
-                                    className='App-popup-content-icon pending'
-                                />
-                            )}
-                            {regisRequest?.status === REG_STATUS[1] && (
-                                <FaCircle  
-                                    className='App-popup-content-icon approved'
-                                />
-                            )}
-                            {regisRequest?.status === REG_STATUS[2] && (
-                                <FaCircle  
-                                    className='App-popup-content-icon rejected'
-                                />
-                            )}
-                            <p className="main-data">{regisRequest.status}</p>
-                        </div>
-                        <div className="request-date">
-                            <RiUserReceived2Fill  
-                                className='App-popup-content-icon'
+                <div className="detail-content">
+                    <div className="regs-status">
+                        {regisRequest?.status === REG_STATUS[0] && (
+                            <FaCircle  
+                                className='App-popup-content-icon pending'
                             />
-                            <p className="main-data">
-                                {formatDateTime(regisRequest.createdAt)}
-                            </p>
-                        </div>
+                        )}
+                        {regisRequest?.status === REG_STATUS[1] && (
+                            <FaCircle  
+                                className='App-popup-content-icon approved'
+                            />
+                        )}
+                        {regisRequest?.status === REG_STATUS[2] && (
+                            <FaCircle  
+                                className='App-popup-content-icon rejected'
+                            />
+                        )}
+                        <p className="main-data">{regisRequest.status}</p>
                     </div>
-
-                    {regisRequest?.status === REG_STATUS[2] && (
-                        <div className="data-content">
-                            <p className="title">Reason Of Reject:</p>
-                            <p className="main-data">{regisRequest.reasonOfReject}</p>
-                        </div>
-                    )}
+                    <div className="request-date">
+                        <RiUserReceived2Fill  
+                            className='App-popup-content-icon'
+                        />
+                        <p className="main-data">
+                            {formatDateTime(regisRequest.createdAt)}
+                        </p>
+                    </div>
                 </div>
 
-                <div className="btns-grp">
-                    <PrimaryButton 
-                        text="Approve"
-                        onClick={() => triggerRejectionOrApproval(REG_STATUS[1])}
-                    />
-                    <SecondaryButton 
-                        text="Reject"
-                        onClick={() => setIsReject(true)}
-                    />
-                </div>
+                {regisRequest?.status === REG_STATUS[2] && (
+                    <div className="data-content">
+                        <p className="title">Reason Of Reject:</p>
+                        <p className="main-data">{regisRequest.reasonOfReject}</p>
+                    </div>
+                )}
             </div>
-            )}
 
-            {/* {showBizFile && bizFileData && (
-            <div className='App-pdf-frame'>
-                <IoClose 
-                    className='App-close-pdf'
-                    onClick={() => toggleShowBizFile()}
+            <div className="btns-grp">
+                <PrimaryButton 
+                    text="Approve"
+                    onClick={() => triggerRejectionOrApproval(REG_STATUS[1])}
                 />
-                <iframe
-                    src={bizFileData}
-                    title="PDF Preview"
+                <SecondaryButton 
+                    text="Reject"
+                    onClick={() => setIsReject(true)}
                 />
             </div>
-            )} */}
-        </> 
+        </div>
     );
 }
 
