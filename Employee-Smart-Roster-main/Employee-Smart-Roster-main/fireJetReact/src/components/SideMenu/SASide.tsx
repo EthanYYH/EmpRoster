@@ -72,7 +72,7 @@ const SASide = () => {
     return (
         <div className="App-side-menu">
             <div className="main">
-                <Link to="" className="sub-link-hover">
+                <Link to="/users-menagement" className="sub-link-hover">
                   BUSINESS OWNER MANAGEMENT
                 </Link>
             </div>

@@ -30,6 +30,8 @@ import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee
 
 
 
+
+
 // Import side menu
 import SASide from "./components/SideMenu/SASide";
 import BOSide from "./components/SideMenu/BOSide";
@@ -58,10 +60,11 @@ function App() {
               {/* Route for General pages */}
               <Route path="/home" element={<GuestLanding />} />
               <Route path="/" element={<Navigate to="/home" replace />} />
-              <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/request-reset-pw-email" element={<ReqResetEmail />} />
-              <Route path="/reset-pw" element={<ResetPassword />} />
+              <Route path="/reset-pw/:email" element={<ResetPassword />} />
+              {/* <Route path="/reset-pw/:email/:token" element={<ResetPassword />} /> */}
+              <Route path="/reset-pw" element={<ReqResetEmail />} />
+              <Route path="/login" element={<Login />} />
               {/* <Route path="/reset-pw/:token" element={<ResetPassword />} /> */}
               
               <Route
@@ -118,7 +121,9 @@ function App() {
                 }
               />
 
-              <Route
+
+
+<Route
                 path="/view-employee-detail"
                 element={
                   // <ProtectedRoute>

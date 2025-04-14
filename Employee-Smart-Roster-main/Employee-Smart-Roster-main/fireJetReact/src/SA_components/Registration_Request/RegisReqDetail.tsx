@@ -1,28 +1,67 @@
 import {  useEffect, useState } from 'react';
 import { ExternalLink } from 'react-external-link';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
-import { formatDateTime } from '../../controller/Variables.js';
+import { formatDateTime, REG_STATUS } from '../../controller/Variables.js';
 import RegisReqController from '../../controller/RegisReqController.js';
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton/SecondaryButton";
-import './RegisReqDetail.css'
-import '../../../public/styles/common.css'
-import { IoClose, 
-         FaFilePdf, 
-         RiUserReceived2Fill,
+
+import { IoClose, FaFilePdf, RiUserReceived2Fill,
          FaCircle } from '../../../public/Icons.js';
 
-const sampleBizFile = "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8";
-const REG_STATUS = ["Pending", "Approved", "Rejected"]
-const { setRegistrationRequest, } = RegisReqController
+import './RegisReqDetail.css'
+import '../../../public/styles/common.css'
+
+const { setRegistrationRequest, getBizFile} = RegisReqController
 
 const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) => {
     // console.log(regisRequest);
     const { showAlert } = useAlert();
+    const [ bizFileData, setBizFileData ] = useState<string>("");
+    const [ showBizFile, setShowBizFile ] = useState(false);
     const [ isReject, setIsReject ] = useState(false);
-    const [ reasonReject, setReasonReject ] = useState("");
+    const [ reasonReject, setReasonReject ] = useState<string>("");
 
     if (!regisRequest) return null;
+
+    const fetchBizFilePDF = async () => {
+        try {
+            const fileData = await getBizFile (regisRequest.registrationID)
+            // const base64Data = `data:application/pdf;base64,${fileData.fileData}`;
+            // console.log(base64Data)
+            // setBizFileData(base64Data)
+            // setShowBizFile(true)
+            // Decode base64 to binary string
+            const byteCharacters = atob(fileData.fileData);
+            const byteNumbers = new Array(byteCharacters.length).fill(0).map((_, i) =>
+                byteCharacters.charCodeAt(i)
+            );
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+            const pdfUrl = URL.createObjectURL(blob);
+            // const newTab = window.open(pdfUrl, '_blank');
+            // if (!newTab) {
+            //     showAlert(
+            //         "PDF Preview", 
+            //         "Failed to display PDF", 
+            //         "", 
+            //         { type: 'warning' }
+            //     );
+            // }
+            setBizFileData(pdfUrl)
+        } catch (error) {
+            showAlert(
+                'fetchBizFilePDF',
+                '',
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            );
+        }
+    }
+    useEffect(() => {
+        fetchBizFilePDF()
+    }, [regisRequest])
 
     const triggerRejectionOrApproval = async (statusChanged:string) => {
         try {
@@ -90,8 +129,8 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
 
     // Display reject popup
     if (isReject) return (
-        <div className="App-popup">
-            <div className='App-popup-prompt-content reg-rejection-popup'>
+        <div className="App-popup" onClick={triggerCancelReject}>
+            <div className='App-popup-prompt-content reg-rejection-popup' onClick={(e) => e.stopPropagation()}>
                 <div>
                     <p className='App-prompt-confirmation-title'>Confirm to Reject the Registration Request for:</p>
                     <p className="App-prompt-confirmation-title-highlighted-text">{regisRequest.UEN}</p>
@@ -118,9 +157,30 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
         </div>
     )
 
+    function toggleShowBizFile() {
+        if (showBizFile === false)
+            setShowBizFile(true)
+        else
+            setShowBizFile(false)
+    }
+
+    // if(showBizFile && bizFileData) return (
+    //     <div className='App-pdf-frame'>
+    //         <IoClose 
+    //             className='App-close-pdf'
+    //             onClick={() => toggleShowBizFile()}
+    //         />
+    //         <iframe
+    //             src={bizFileData}
+    //             width="100%"
+    //             height="600px"
+    //             title="PDF Preview"
+    //         />
+    //     </div>
+    // )
+
     return (
-        <div className="App-popup-content">
-            
+        <div className="App-popup-content" onClick={(e) => e.stopPropagation()}>
             <div className='App-header'>
                 <h1 className='company-name'>
                     {regisRequest.bizName}
@@ -134,9 +194,16 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
                 <div className="uen data-content">
                     <h2>{regisRequest.UEN}</h2>
                     <button className='icons'>
-                        <ExternalLink href={sampleBizFile}>
-                            <FaFilePdf />
-                        </ExternalLink>
+                    <a href={bizFileData}
+                        target="_blank"
+                        // rel="noopener noreferrer"
+                        onClick={bizFileData ? undefined : (e) => {
+                            e.preventDefault();
+                        }}
+                        className="icons"
+                    >
+                        <FaFilePdf />
+                    </a>
                     </button>
                 </div>
 

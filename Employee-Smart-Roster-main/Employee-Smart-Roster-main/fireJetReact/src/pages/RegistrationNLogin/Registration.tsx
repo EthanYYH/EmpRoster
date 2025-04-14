@@ -5,6 +5,7 @@ import { GoAlertFill, TiTick, FaInfoCircle } from '../../../public/Icons.js'
 import PwRule from './PwRule';
 import PasswordController from '../../controller/User/PasswordController.js';
 import UserController from '../../controller/User/UserController';
+import SignupController from '../../controller/User/SignupController';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton'
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton';
 import Header from "./Header";
@@ -16,6 +17,8 @@ const { validateEmail } = UserController;
 
 const { validateConfirmNewPassword,
         validateNewPassword, } = PasswordController
+
+const { createRegisRequest } = SignupController
 
 const Register = () => {
     const { showAlert } = useAlert();
@@ -82,6 +85,8 @@ const Register = () => {
         }))
     }
 
+    // Handle Registration Submission with File Upload:
+    // https://uploadcare.com/blog/how-to-upload-file-in-react/#show-upload-result-indicator
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setFileStatus('initial');
@@ -89,34 +94,30 @@ const Register = () => {
         }
     };
 
-    const handleFileUpload = async () => {
+    const triggerRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); // Stop auto refresh for form submit
         if (bizFile) {
-          setFileStatus('uploading');
-    
-          const formData = new FormData();
-          formData.append('bizFile', bizFile);
-    
-          try {
-            // const result = await fetch('https://httpbin.org/post', {
-            //   method: 'POST',
-            //   body: formData,
-            // });
-    
-            // const data = await result.json();
-            
-            // console.log(data);
-            console.log(formData);
+            const formData =  new FormData();
+            formData.append('bizFile', bizFile);
 
-            setFileStatus('success');
-          } catch (error) {
-            setFileStatus('fail');
-            showAlert(
-                'BizFile failed upload: ',
-                '',
-                {error}.toString(),
-                { type: 'error' }
-            )
-          }
+            try {
+                const response = await createRegisRequest (bizFile, email, UEN, bizName, password)
+                // console.log(submitRegisReq)
+
+                showAlert(
+                    `${response.message}`,
+                    'We had received your registration request',
+                    'The account is Pending Approval', 
+                    { type: 'success'}
+                )
+            } catch (error) {
+                showAlert(
+                    'triggerRegistration',
+                    'Failed to Submit Registration Request',
+                    error instanceof Error ? error.message : String(error),
+                    { type: 'error' }
+                )
+            }
         }
     };
 
@@ -124,12 +125,13 @@ const Register = () => {
         navigate('/login')
     }
 
+
     return (
         <div className="registration-form">
             <Header />
             <form
                 action="" 
-                // onSubmit={triggerRegistration}
+                onSubmit={triggerRegistration}
             >
                 <div className="registration-form-content">
                     <div className="registration-form-company">
@@ -287,15 +289,15 @@ const Register = () => {
                         text='Register'
                         type='submit'
                         disabled={
-                            !bizFile ||
-                            !bizName ||
-                            !UEN ||
-                            !email ||
-                            !password ||
-                            !confirmPassword ||
-                            !!errors.email ||
-                            !!errors.password ||
-                            !!errors.confirm_password
+                            !bizFile
+                            || !bizName 
+                            || !UEN 
+                            || !email 
+                            || !password 
+                            || !confirmPassword 
+                            || !!errors.email 
+                            || !!errors.password 
+                            || !!errors.confirm_password
                         }
                     />
                     <div className="register-log-in">
@@ -307,7 +309,6 @@ const Register = () => {
                         />
                     </div>
                 </div>
-                
             </form>
         </div>
     )

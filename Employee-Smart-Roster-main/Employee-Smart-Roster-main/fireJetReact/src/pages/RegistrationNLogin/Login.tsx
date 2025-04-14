@@ -72,7 +72,7 @@ export default function Login() {
   }
 
   function triggerForgotPassword () {
-    navigate('/request-reset-pw-email');
+    navigate('/reset-pw');
   }
 
   return (

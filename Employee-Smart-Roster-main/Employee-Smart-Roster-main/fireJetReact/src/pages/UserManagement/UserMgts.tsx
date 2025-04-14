@@ -25,7 +25,6 @@ const UserMgts = () => {
     const [ employee, setEmployee ] = useState<any>([]);
     const [ error, setError ] = useState("")
 
-
     const fetchUsersData = async () => {
         try {
             const response = getUsers();
