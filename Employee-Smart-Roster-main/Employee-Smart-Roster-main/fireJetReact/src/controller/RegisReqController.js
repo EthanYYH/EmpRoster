@@ -73,7 +73,6 @@ function handleFilterRegReqUENBizName(allFilteredRegisReq, filterString){
 }
 
 export default {
-    createRegistrationRequest,
     getRegistrationRequests,
     setRegistrationRequest, 
     handleFilterRegsStatus,
