@@ -11,5 +11,5 @@ export default function Cell({ className = "", text = "Text" }: CellProps) {
 
 interface CellProps {
   className?: string;
-  text?: React.ReactNode; 
+  text?: string;
 }
