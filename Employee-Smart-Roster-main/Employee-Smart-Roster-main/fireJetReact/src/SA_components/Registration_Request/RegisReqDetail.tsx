@@ -31,16 +31,18 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
             // console.log(base64Data)
             // setBizFileData(base64Data)
             // setShowBizFile(true)
-             // Decode base64 to binary string
+            // Convert base64 to binary → Blob
             const byteCharacters = atob(fileData.fileData);
-            const byteNumbers = new Array(byteCharacters.length).fill(0).map((_, i) =>
-                byteCharacters.charCodeAt(i)
-            );
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            const byteArray = new Uint8Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteArray[i] = byteCharacters.charCodeAt(i);
+            }
 
-            const pdfUrl = URL.createObjectURL(blob);
-            const newTab = window.open(pdfUrl, '_blank');
+            const blob = new Blob([byteArray], { type: "application/pdf" });
+            const blobUrl = URL.createObjectURL(blob);
+
+            // Open in new tab
+            const newTab = window.open(blobUrl, '_blank');
             if (!newTab) {
                 showAlert(
                     "PDF Preview", 
