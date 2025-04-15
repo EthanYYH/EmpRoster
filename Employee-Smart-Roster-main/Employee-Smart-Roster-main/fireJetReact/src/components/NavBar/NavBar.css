@@ -28,6 +28,11 @@ div{
 
   .nav-link {
     width: 50px;
+    min-width: 50px;
+  }
+
+  .nav-user-role {
+    width: 100%;
   }
 
   .btn-group {
@@ -56,9 +61,16 @@ div{
   }
 
   .hamburger-menu-icon {
-    display: flex;
+    display: none;
     flex-direction: column;
     width: fit-content;
     height: fit-content;
     margin-right: 5px;
   }
+
+/* Mobile (all screens below 768px) */
+@media only screen and (max-width: 768px) {
+  .hamburger-menu-icon {
+    display: flex;
+  }
+}

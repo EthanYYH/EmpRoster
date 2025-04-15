@@ -10,7 +10,8 @@ import Register from "./pages/RegistrationNLogin/Registration";
 import ResetPassword from "./pages/RegistrationNLogin/ResetPW";
 import ReqResetEmail from "./pages/RegistrationNLogin/ReqResetEmail";
 import Navbar from "./components/NavBar/NavBar";
-import GuestLanding from './pages/Landing/LandingPage'
+import GuestLanding from './pages/Landing/LandingPage';
+import SideMenu_t from "./components/SideMenu/SideMenu_t";
 
 // Pages for System Admin
 import SADash from "./pages/Dashboard/SADash";
@@ -30,8 +31,6 @@ import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
 import BOUpdateCompanyProfile from "./BO_pages/CompanyProfile/UpdateProfile";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
 
-
-import CreateEmployeeOld from "./BO_components/rolesNskillset/CreateEmployee/old/CreateEmployeeOLD"
 import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 
 // Pages for Busines Owner
@@ -53,7 +52,7 @@ import "../public/styles/common.css";
 
 function App() {
 
-  //const { user } = useAuth();
+  // const { user } = useAuth();
   //console.log(user);
 
   return (
@@ -65,6 +64,7 @@ function App() {
               user is not in the following page */}
           <Navbar />
           <div className="App-content" >
+            <SideMenu_t />
             <Routes>
               {/* Route for General pages */}
               <Route path="/home" element={<GuestLanding />} />
@@ -76,7 +76,7 @@ function App() {
               {/* <Route path="/reset-pw/:token" element={<ResetPassword />} /> */}
               
               <Route
-                path="/users-menagement"
+                path="/users-management"
                 element={
                   <ProtectedRoute>
                     <UserMgts />
@@ -175,7 +175,6 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
-                      <SASide />
                       <div className="content">
                         <h1>ISSUES LOG</h1>
                       </div>
@@ -189,7 +188,6 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
-                      <SASide />
                       <div className="content">
                         <h1>Demo Video Management</h1>
                       </div>
@@ -203,7 +201,6 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
-                      <SASide />
                       <div className="content">
                         <h1>Review & Rating</h1>
                       </div>
@@ -290,7 +287,6 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
-                      <BOSide />
                       <h1>Subscription Management</h1>
                     </div>
                   </ProtectedRoute>
@@ -311,7 +307,6 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
-                      <BOSide />
                       <h1>Attendance Records Management</h1>
                     </div>
                   </ProtectedRoute>
@@ -332,7 +327,6 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
-                      <BOSide />
                       <h1>Leave Management</h1>
                     </div>
                   </ProtectedRoute>
@@ -344,7 +338,6 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <div className="App-content">
-                      <BOSide />
                       <h1>Report Issues</h1>
                     </div>
                   </ProtectedRoute>
