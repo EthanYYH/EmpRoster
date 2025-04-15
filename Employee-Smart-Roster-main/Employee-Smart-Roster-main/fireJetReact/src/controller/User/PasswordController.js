@@ -7,9 +7,9 @@ async function handleSendResetPwURL(email){
     // return response code
 }
 
-async function handleResetPassword(email, password){
+async function handleResetPassword(uid, password){
     const body = {
-        email: email,
+        UID: uid,
         password: password
     };
 
