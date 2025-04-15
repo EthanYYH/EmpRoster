@@ -18,18 +18,3 @@ export function formatDateTime (isoString){
         dateStyle: 'long'
     }).format(new Date(isoString), 'dd/MM/yyyy hh:mm tt')
 }
-
-export function encodeFileContent(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            // reader.result looks like: "data:application/pdf;base64,..."
-            const base64String = reader.result.split(',')[1]; // remove prefix
-            resolve(base64String);
-        };
-
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-    });
-}
