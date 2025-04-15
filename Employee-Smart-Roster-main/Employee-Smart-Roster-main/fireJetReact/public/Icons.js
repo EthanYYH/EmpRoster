@@ -2,7 +2,6 @@ import { LuLogOut } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
 import { GoAlertFill } from "react-icons/go";
 import { BiSolidUserDetail } from "react-icons/bi";
-import { FaUpload } from "react-icons/fa6";
 import { IoClose, IoArrowBack } from "react-icons/io5";
 import { FaFilePdf, 
          FaInfoCircle, 
@@ -18,6 +17,7 @@ import { MdContactPhone,
          MdOutlineMailOutline,
          MdOutlineLocationOn } from "react-icons/md";
 import { RiUserReceived2Fill } from "react-icons/ri";
+import { IoIosWarning } from "react-icons/io";
 import { TiTick, TiTime } from "react-icons/ti";
 import { TbTarget, TbTargetArrow } from "react-icons/tb";
 import { VscDebugBreakpointData } from "react-icons/vsc";
@@ -45,6 +45,7 @@ export {
     FaClipboardList, // List icon
     TiTick, // Correct Icon
     GoAlertFill, // Triangle alert icon
+    IoIosWarning, // Warning icon
     FaChevronCircleLeft, // Go previous in circle icon
     FaChevronCircleRight, // Go next in circle icon
     TbTarget, // Circle target icon
@@ -53,6 +54,4 @@ export {
     VscDebugBreakpointData, // List point icon
     HiMiniViewfinderCircle, // Allocated time view icon
     TiTime, // Time icon
-    FaUpload, // Upload
-    IoIosWarning, // Warning icon
 };

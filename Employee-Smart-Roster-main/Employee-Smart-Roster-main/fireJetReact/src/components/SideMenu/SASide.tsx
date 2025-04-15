@@ -71,8 +71,6 @@ const SASide = () => {
     }, [location]);
 
     return (
-      <>
-      {/* Desktop */}
       <div className="App-side-menu">
         <div className="main">
             <Link to="/users-menagement" className="sub-link-hover">
@@ -84,7 +82,7 @@ const SASide = () => {
               Registration Request Management
             </Link>
         </div>
-
+        
         <div className="main">
             <Link to="/issues-reported" className="sub-link-hover" >
                 ISSUES REPORTED
@@ -107,7 +105,6 @@ const SASide = () => {
             </Link>
         </div>
       </div>
-      </>
     );
 }
 
