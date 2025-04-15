@@ -33,6 +33,8 @@ const Navbar: React.FC = () => {
             </div>
           </div>
         </div>
+
+        
       </nav>
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (

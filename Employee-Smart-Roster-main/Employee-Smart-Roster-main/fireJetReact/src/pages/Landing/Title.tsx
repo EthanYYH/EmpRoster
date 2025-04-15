@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Title.css";
+import whiteBG from "./whiteBG.jpg"; // Ensure the path is correct based on your project structure
 import LandingPageController from '../../controller/LandingPageController';
 
 const Title: React.FC = () => {

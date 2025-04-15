@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LandingPageController from "../../controller/LandingPageController";
-import { FaDollarSign, FaUsers, FaCalendarAlt } from "react-icons/fa";
+import { FaRegCreditCard } from "react-icons/fa";
 import "./SubscriptionPlan.css";
 
 const SubscriptionPlans: React.FC = () => {
@@ -21,16 +21,14 @@ const SubscriptionPlans: React.FC = () => {
       <div className="plans-list">
         {plans.map((plan) => (
           <div key={plan.subsPlanID} className="plan-card">
-            <h3>{plan.subscription_name}</h3>
-            <div className="plan-icons">
-              <FaDollarSign />
-              <FaUsers />
-              <FaCalendarAlt />
+            <div className="plan-icon">
+              <FaRegCreditCard />
             </div>
+            <h3>{plan.subscription_name}</h3>
             <p>{plan.subscription_plan_description}</p>
-            <p>Price: ${plan.price}</p>
+            <p className="plan-price">Price: ${plan.price}</p>
             <p>Employees: {plan.noOfEmps}</p>
-            <p>Created on: {plan.createdAt}</p>
+            <p className="plan-date">Created on: {plan.createdAt}</p>
           </div>
         ))}
       </div>

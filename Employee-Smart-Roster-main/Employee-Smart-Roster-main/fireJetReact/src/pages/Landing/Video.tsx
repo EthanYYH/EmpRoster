@@ -4,23 +4,20 @@ import LandingPageController from '../../controller/LandingPageController';
 
 const Video: React.FC = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchVideo = async () => {
       try {
-        // Attempt to retrieve video data from your controller.
         const data = await LandingPageController.getVideo();
-        // Assume the data returns an array of objects with a "videoUrl" property.
         if (data && data.length > 0) {
           setVideoUrl(data[0].videoUrl);
         } else {
-          // If no video data is returned, use a fallback video URL.
           console.warn("No video data available, using fallback video.");
           setVideoUrl("https://www.example.com/video.mp4");
         }
       } catch (error) {
         console.error("Error fetching video data:", error);
-        // Fallback to a default video URL if the fetch fails.
         setVideoUrl("https://www.example.com/video.mp4");
       }
     };
@@ -28,25 +25,37 @@ const Video: React.FC = () => {
     fetchVideo();
   }, []);
 
+  const handlePlay = () => {
+    setIsPlaying(true);
+  };
+
   return (
     <div className="video-section">
       {videoUrl ? (
-        <iframe
-          className="video-player"
-          width="100%"
-          height="400"
-          src={videoUrl.replace("watch?v=", "embed/")}
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
+        <div className="video-container">
+          {!isPlaying && (
+            <div className="play-button" onClick={handlePlay}>
+              ▶
+            </div>
+          )}
+          <iframe
+            className="video-player"
+            src={
+              isPlaying
+                ? videoUrl.replace("watch?v=", "embed/") + "?autoplay=1"
+                : ""
+            }
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </div>
       ) : (
         <p>Loading video...</p>
       )}
     </div>
   );
-  
 };
 
 export default Video;
