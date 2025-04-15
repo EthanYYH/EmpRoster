@@ -22,7 +22,7 @@ interface EventDetailProps {
 }
 
 const { boGetTaskDetail, deleteTaskDetail } = TimelineController;
-const { getCurrentUserProfile } = UserController
+const { getCurrentUserProfile } = UserController;
 
 const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
     const { showAlert } = useAlert()
