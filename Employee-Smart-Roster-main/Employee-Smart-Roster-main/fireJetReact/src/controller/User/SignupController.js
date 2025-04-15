@@ -9,6 +9,7 @@ function validateEmail (email){
 }
 
 
+
 export default {
     validateEmail,
 }
