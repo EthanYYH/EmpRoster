@@ -1,18 +1,33 @@
-import Header from "./LandingComponents/Header";
-import AppDescriptionDemoVideo from "./LandingComponents/AppDescriptionDemoVideo";
-import Feedback from "./LandingComponents/Feedback"
-import SubscriptionPlans from "./LandingComponents/SubscriptionPlans"
-import FAQFooter from "./LandingComponents/FAQFooter"
 import "./LandingPage.css"
+import NavBar from "./LandingNavBar";
+import Title from "./Title";
+import Video from "./Video";
+import Reviews from "./Review";
+import FAQ from "./FAQ";
+import SubscriptionPlans from "./SubscriptionPlan";
 
 export default function LandingPage() {
     return (
       <div className="landingPage">
-        <Header />
-        <AppDescriptionDemoVideo />
+        <NavBar/>
+        
+        <Title/>
+        <Video/>
         <SubscriptionPlans/>
-        <Feedback/>
-        <FAQFooter/>
+        <Reviews/>
+        <FAQ/>
+        
+
+
+//Header fixed position, burger menu bar
+
+// Description 
+
+// Video 
+
+//  Reviews
+
+//
       </div>
     );
   }

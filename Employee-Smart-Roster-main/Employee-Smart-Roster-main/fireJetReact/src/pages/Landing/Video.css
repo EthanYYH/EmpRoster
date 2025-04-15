@@ -1,0 +1,23 @@
+/* Container for the video component */
+.video-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 24px;
+  background-color: #f9f9f9;
+}
+
+/* Styling for the video element */
+.video-player {
+  max-width: 100%;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Responsive adjustments: You can fine-tune these as needed */
+@media (max-width: 768px) {
+  .video-section {
+    padding: 20px 16px;
+  }
+}
