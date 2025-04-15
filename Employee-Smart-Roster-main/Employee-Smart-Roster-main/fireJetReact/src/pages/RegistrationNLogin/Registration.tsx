@@ -110,6 +110,7 @@ const Register = () => {
                     'The account is Pending Approval', 
                     { type: 'success'}
                 )
+                navigate('/home')
             } catch (error) {
                 showAlert(
                     'triggerRegistration',

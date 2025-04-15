@@ -58,6 +58,30 @@ async function getCompany (uid){
     }
 }
 
+async function getCompanyBizFile (email){
+    const body = {
+        email: email,
+    }
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/s3/owner/downloadpdf', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch (error) {
+        console.error(`Network error for fetch company's BizFile: \n`, error);
+        throw new Error(`Failed to fetch company's BizFile: ${error.message}`);
+    }
+}
+
 function GetCompanyRoles (){
     const data = [
         {
@@ -128,10 +152,11 @@ function handleFilterUENBizName(companies, filterString){
 }
 
 export default {
-    getCompanies,
+    getCompanies, // Not using
     getCompany,
-    GetCompanyRoles,
-    GetCompanySkillsets,
+    getCompanyBizFile,
+    GetCompanyRoles, // Not using
+    GetCompanySkillsets, // Not using
     handleSelectedDetail,
     handleFilterUENBizName,
 }

@@ -1,5 +1,4 @@
 import {  useEffect, useState } from 'react';
-import { ExternalLink } from 'react-external-link';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
 import { formatDateTime, REG_STATUS } from '../../controller/Variables.js';
 import RegisReqController from '../../controller/RegisReqController.js';
@@ -17,7 +16,7 @@ const { setRegistrationRequest, getBizFile} = RegisReqController
 const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) => {
     // console.log(regisRequest);
     const { showAlert } = useAlert();
-    const [ bizFileData, setBizFileData ] = useState<string>("");
+    const [ bizFileURL, setBizFileURL ] = useState<string>("");
     const [ showBizFile, setShowBizFile ] = useState(false);
     const [ isReject, setIsReject ] = useState(false);
     const [ reasonReject, setReasonReject ] = useState<string>("");
@@ -27,10 +26,6 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
     const fetchBizFilePDF = async () => {
         try {
             const fileData = await getBizFile (regisRequest.registrationID)
-            // const base64Data = `data:application/pdf;base64,${fileData.fileData}`;
-            // console.log(base64Data)
-            // setBizFileData(base64Data)
-            // setShowBizFile(true)
             // Decode base64 to binary string
             const byteCharacters = atob(fileData.fileData);
             const byteNumbers = new Array(byteCharacters.length).fill(0).map((_, i) =>
@@ -40,16 +35,8 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
             const blob = new Blob([byteArray], { type: 'application/pdf' });
 
             const pdfUrl = URL.createObjectURL(blob);
-            // const newTab = window.open(pdfUrl, '_blank');
-            // if (!newTab) {
-            //     showAlert(
-            //         "PDF Preview", 
-            //         "Failed to display PDF", 
-            //         "", 
-            //         { type: 'warning' }
-            //     );
-            // }
-            setBizFileData(pdfUrl)
+            // console.log(pdfUrl)
+            setBizFileURL(pdfUrl)
         } catch (error) {
             showAlert(
                 'fetchBizFilePDF',
@@ -157,28 +144,6 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
         </div>
     )
 
-    function toggleShowBizFile() {
-        if (showBizFile === false)
-            setShowBizFile(true)
-        else
-            setShowBizFile(false)
-    }
-
-    // if(showBizFile && bizFileData) return (
-    //     <div className='App-pdf-frame'>
-    //         <IoClose 
-    //             className='App-close-pdf'
-    //             onClick={() => toggleShowBizFile()}
-    //         />
-    //         <iframe
-    //             src={bizFileData}
-    //             width="100%"
-    //             height="600px"
-    //             title="PDF Preview"
-    //         />
-    //     </div>
-    // )
-
     return (
         <div className="App-popup-content" onClick={(e) => e.stopPropagation()}>
             <div className='App-header'>
@@ -194,10 +159,9 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
                 <div className="uen data-content">
                     <h2>{regisRequest.UEN}</h2>
                     <button className='icons'>
-                    <a href={bizFileData}
+                    <a href={bizFileURL}
                         target="_blank"
-                        // rel="noopener noreferrer"
-                        onClick={bizFileData ? undefined : (e) => {
+                        onClick={bizFileURL ? undefined : (e) => {
                             e.preventDefault();
                         }}
                         className="icons"
