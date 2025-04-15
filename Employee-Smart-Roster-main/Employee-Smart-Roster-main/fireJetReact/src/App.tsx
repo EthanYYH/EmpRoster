@@ -19,22 +19,16 @@ import UserMgts from "./pages/UserManagement/UserMgts";
 import UserDetail from "./components/UserMgt/UserDetail";
 import PreviewLanding from "./SA_pages/PreviewLanding";
 import ViewRating from "./SA_pages/RegisRequest/ViewRating";
-import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
-
 
 // Pages for Busines Owner
-import BODashboard from "./BO_pages/Dashboard/Dashboard";
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
 import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
 import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
-import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
-import BOUpdateCompanyProfile from "./BO_pages/CompanyProfile/UpdateProfile";
-import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
-import BOViewProfile from "./BO_pages/ViewProfile/ViewProfile";
-import BOUpdateBOProfile from "./BO_pages/ViewProfile/BOUpdateBOProfile";
+
+
 
 
 
@@ -117,7 +111,6 @@ function App() {
                   // </ProtectedRoute>
                 }
               />
-
               <Route
                 path="/emp-view-employee-detail"
                 element={
@@ -129,7 +122,7 @@ function App() {
 
 
 
-              <Route
+<Route
                 path="/view-employee-detail"
                 element={
                   // <ProtectedRoute>
@@ -145,9 +138,12 @@ function App() {
                     <EmpViewEmployeeDetail />
                   // </ProtectedRoute>
                 }
-              />
+                />
 
-              {/* Route for System Admin */}
+
+
+
+              
               <Route
                 path="/admin-dashboard"
                 element={
@@ -212,7 +208,12 @@ function App() {
                 path="/faqs-management"
                 element={
                   <ProtectedRoute>
-                    <FAQManagement />
+                    <div className="App-content">
+                      <SASide />
+                      <div className="content">
+                        <h1>FAQ Management</h1>
+                      </div>
+                    </div>
                   </ProtectedRoute>
                 }
               />
@@ -231,7 +232,10 @@ function App() {
                 path="/business-dashboard"
                 element={
                   <ProtectedRoute>
-                    <BODashboard />
+                    <div className="App-content">
+                      <BOSide />
+                      <h1>Business Owner Dasboard</h1>
+                    </div>
                   </ProtectedRoute>
                 }
               />
@@ -240,37 +244,13 @@ function App() {
                 path="/company-detail"
                 element={
                   <ProtectedRoute>
-                    <BOCompanyProfile />
+                    <div className="App-content">
+                      <BOSide />
+                      <h1>My Company</h1>
+                    </div>
                   </ProtectedRoute>
                 }
               />
-
-              <Route
-                path="/update-company-detail"
-                element={
-                  <ProtectedRoute>
-                    <BOUpdateCompanyProfile />
-                  </ProtectedRoute>
-                }
-              />       
-
-              <Route
-                path="/view-bo-detail"
-                element={
-                  <ProtectedRoute>
-                    <BOViewProfile />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/update-bo-detail"
-                element={
-                  <ProtectedRoute>
-                    <BOUpdateBOProfile />
-                  </ProtectedRoute>
-                }
-              />                        
 
               <Route
                 path="/roles-skills-menagement"
@@ -330,7 +310,10 @@ function App() {
                 path="/leave-management"
                 element={
                   <ProtectedRoute>
-                    <BOLeaveManagement />
+                    <div className="App-content">
+                      <BOSide />
+                      <h1>Leave Management</h1>
+                    </div>
                   </ProtectedRoute>
                 }
               />

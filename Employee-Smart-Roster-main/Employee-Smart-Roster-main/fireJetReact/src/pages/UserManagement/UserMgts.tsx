@@ -5,13 +5,9 @@ import UserController from '../../controller/User/UserController';
 import SASide from '../../components/SideMenu/SASide';
 import UserList from '../../components/UserMgt/UserList';
 import BOUserList from '../../SA_components/BOUserMgts/UserList';
-import BOSide from '../../components/SideMenu/BOSide';
-import EmployeeTableContainer from '../../components/EmployeeMgt/EmployeeTableContainer';
-
 
 import './UserMgts.css'
 import "../../../public/styles/common.css"
-
 
 // Import functions needed from UserController
 const { getUsers, getBOUsers, handleFilterRole } = UserController
@@ -83,8 +79,6 @@ const UserMgts = () => {
     }, [bizOwners.length, user?.role === UserType[1]])
     // useEffect(() => {console.log(bizOwners)},[bizOwners])
 
-
-
     return (
         <div className='App-content'>
             
@@ -104,14 +98,10 @@ const UserMgts = () => {
             )}
 
             {user?.role === 'Business Owner' && (
-                <>
-                    <BOSide />
-                    <div className="content">
-                        <h1>My Employee</h1>
-                        <EmployeeTableContainer />
-                    </div>
-                </>
-            )}
+                <div className="side-menu">
+                    Business Owner Side Menu Here
+                </div>
+            )} 
         </div>
     );
     

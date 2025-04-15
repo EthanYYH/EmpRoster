@@ -22,7 +22,6 @@ import { TiTick, TiTime } from "react-icons/ti";
 import { TbTarget, TbTargetArrow } from "react-icons/tb";
 import { VscDebugBreakpointData } from "react-icons/vsc";
 import { HiMiniViewfinderCircle } from "react-icons/hi2";
-import { IoIosWarning } from "react-icons/io";
 
 export {
     LuLogOut,   // Logout icon
@@ -52,5 +51,4 @@ export {
     HiMiniViewfinderCircle, // Allocated time view icon
     TiTime, // Time icon
     FaUpload, // Upload
-    IoIosWarning, // Warning icon
 };
