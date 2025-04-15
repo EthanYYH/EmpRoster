@@ -6,7 +6,7 @@ function getUsers (){
             email: "bo1@gmail.com",
             UID: 1,
             role: 'Business Owner',
-            nric: "encrpted_nric",
+            nric: "S9348573K",
             isSuspended: false,
             isLoggedIn: false,
             lastUpdate: '15 / 03 / 2025',
@@ -22,7 +22,7 @@ function getUsers (){
             email: "bo2@gmail.com",
             UID: 2,
             role: 'Business Owner',
-            nric: "encrpted_nric",
+            nric: "S9348233U",
             isSuspended: false,
             isLoggedIn: false,
             lastUpdate: '15 / 03 / 2025',
@@ -38,7 +38,7 @@ function getUsers (){
             email: "bo3@gmail.com",
             UID: 3,
             role: 'Business Owner',
-            nric: "encrpted_nric",
+            nric: "S9348613E",
             isSuspended: false,
             isLoggedIn: false,
             lastUpdate: '15 / 03 / 2025',
@@ -54,9 +54,9 @@ function getUsers (){
             email: "emp1@gmail.com",
             UID: 4,
             role: 'Employee',
-            nric: "encrpted_nric",
-            isSuspended: "false",
-            isLoggedIn: "false",
+            nric: "S9348933R",
+            isSuspended: false,
+            isLoggedIn: false,
             lastUpdate: '',
             updateBy: "", 
             createdAt: "2025-3-25 12:00:08",
@@ -83,9 +83,9 @@ function getUsers (){
             email: "emp2@gmail.com",
             UID: 5,
             role: 'Employee',
-            nric: "encrpted_nric",
-            isSuspended: "false",
-            isLoggedIn: "false",
+            nric: "S9458233T",
+            isSuspended: false,
+            isLoggedIn: false,
             lastUpdate: '',
             updateBy: "", 
             createdAt: "2025-3-25 12:00:08",
@@ -112,9 +112,9 @@ function getUsers (){
             email: "emp3@gmail.com",
             UID: 6,
             role: 'Employee',
-            nric: "encrpted_nric",
-            isSuspended: "false",
-            isLoggedIn: "false",
+            nric: "S9366233E",
+            isSuspended: false,
+            isLoggedIn: false,
             lastUpdate: '',
             updateBy: "", 
             createdAt: "2025-3-25 12:00:08",
@@ -172,15 +172,14 @@ async function getBOUsers () {
     }
 }
 
-async function handleSuspendUser (uid, reason) {
+async function getCurrentUserProfile (uid) {
     const body = {
-        UID: uid,
-        reasonOfSuspend: reason
+        employee_user_id: uid
     };
 
     try{
-        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/user/suspend', {
-            method: 'PATCH',
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/employee/profile/view', {
+            method: 'POST',
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' }
         });
@@ -263,31 +262,6 @@ function handleUserAccStatusFilter(companies, accStatus) {
     return filteredData;
 }
 
-// Check if user registered an account before
-async function checkIfEmailRegistered(email) {
-    const body = {
-        email: email,
-    };
-
-    try{
-        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/account/change-password/send-email-address', {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        if(!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log(data);
-
-        return await data;
-    } catch(error) {
-        console.error(`Network error for UID ${uid}: \n`, error);
-        throw new Error(`Failed to suspend the user: ${error.message}`);
-    }
-}
 
 async function getEmployeeList(boID) {
     const body = {
@@ -314,6 +288,7 @@ async function getEmployeeList(boID) {
 }
 
 
+
 export default {
     getUsers,
     validateEmail,
@@ -322,8 +297,7 @@ export default {
     setUser,
     handleUserAccStatusFilter,
     getBOUsers,
-    handleSuspendUser,
+    getCurrentUserProfile,
     handleUsuspendUser,
-    checkIfEmailRegistered,
     getEmployeeList,
 }
