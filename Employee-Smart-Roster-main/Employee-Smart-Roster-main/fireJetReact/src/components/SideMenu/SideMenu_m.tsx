@@ -1,53 +1,73 @@
 import { useState, useEffect, useRef } from "react";
+import { useAuth } from "../../AuthContext";
 import { useLocation } from "react-router-dom";
-import SideMenu_t from "./SideMenu_t.js";
+import { USER_ROLE } from "../../controller/Variables";
+import { SA_Items, BO_Items, EMP_Items } from './SideMenu_t'
+import Menu from "./Menu";
 import { RxHamburgerMenu } from '../../../public/Icons.js';
 
 import './menu.css';
-import '../NavBar/NavBar.css';
-import '../../../public/styles/common.css'
 
-const SideMenu_m = () => {
-    // console.log(role)
+const SideMenu_m: React.FC = () => {
     const location = useLocation();
-    const [ showMenu, setShowMenu ] = useState(false)
-    const triggerCloseMenuOutsite = useRef<HTMLDivElement>(null);
+    const { user } = useAuth();
+    const [showMenu, setShowMenu] = useState<boolean>(false);
+    const menuRef = useRef<HTMLDivElement>(null);
 
-    // Close dropdown when clicking outside
+    // Close menu when clicking outside or when route changes
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-        if (triggerCloseMenuOutsite.current && !triggerCloseMenuOutsite.current.contains(event.target as Node)) {
-            toggleShowMenu();
-        }
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setShowMenu(false);
+            }
         };
 
-        document.addEventListener('mousedown', handleClickOutside);
+        if (showMenu) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [location.pathname]);
-    
+    }, [showMenu]);
 
-    function toggleShowMenu() {
-        setShowMenu(!showMenu)
-    }
+    // Close menu when route changes
+    useEffect(() => {
+        setShowMenu(false);
+    }, [location.pathname]);
+
+    const toggleMenu = () => {
+        setShowMenu(prev => !prev);
+    };
 
     return (
-        <div>
+        <div className="mobile-menu-container">
             <RxHamburgerMenu 
                 className="nav-button"
-                onClick={toggleShowMenu}
+                onClick={toggleMenu} 
             />
-            {/* System Admin Menu */}
-            {showMenu && (
-                <div className="App-popup" onClick={toggleShowMenu}>
-                    <div className="App-popup-content" onClick={(e) => e.stopPropagation()}>
-                        <SideMenu_t />
-                    </div>
+            
+            <div className={`mobile-menu-overlay ${showMenu ? 'active' : ''}`}>
+                <div className="mobile-menu-content" ref={menuRef}>
+                    <button 
+                        className="mobile-menu-close" 
+                        onClick={toggleMenu}
+                    >
+                        <RxHamburgerMenu className="nav-button" />
+                    </button>
+                    {user?.role === USER_ROLE[0] && (
+                        <Menu menuItems={SA_Items} responsive="mobile" />
+                    )}
+                    {user?.role === USER_ROLE[1] && (
+                        <Menu menuItems={BO_Items} responsive="mobile" />
+                    )}
+                    {user?.role === USER_ROLE[2] && (
+                        <Menu menuItems={EMP_Items} responsive="mobile" />
+                    )}
                 </div>
-            )}
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default SideMenu_m
+export default SideMenu_m;

@@ -41,6 +41,7 @@ div{
     justify-content: end;
     gap: 5px;
     justify-self: end;
+    align-items: center;
   }
 
   .navbar-brand {
