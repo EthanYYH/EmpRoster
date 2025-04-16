@@ -1,49 +1,85 @@
 import React, { useState } from "react";
-import "./landingNavBar.css";
+import { useNavigate, useLocation } from "react-router-dom"; // import useLocation
+import "./LandingNavbar.css";
 import logo from "../../../public/assets/Logo.svg";
 
 const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation(); // get current route
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+  const isPreviewPage = location.pathname === "/preview-landing-page";
+
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  const handleLoginClick = () => navigate("/login");
+  const handleRegisterClick = () => navigate("/register");
 
   return (
     <>
-      <nav className="landing-navbar">
-        <div className="navbar-container">
-          {/* Logo and App Name */}
-          <div className="navbar-logo">
-            <img src={logo} alt="Logo" />
-            <h1>EmpRoster</h1>
-            <span></span>
+      <nav className="landing-navbar-navbar">
+        <div className="landing-navbar-navbar-container">
+          {/* Left Section: Logo & Brand */}
+          <div className="landing-navbar-navbar-left">
+            <span className="landing-navbar-brand">
+              <img src={logo} alt="Logo" className="landing-navbar-brand-logo" />
+              EmpRoster
+            </span>
           </div>
-          {/* Desktop Menu (hidden on mobile) */}
-          <div className="navbar-actions desktop-menu">
-            <button className="btn login-btn">Login</button>
-            <button className="btn register-btn">Register</button>
+
+          {/* Right Section (Desktop Menu) */}
+          <div className="landing-navbar-navbar-right landing-navbar-desktop-menu">
+            <a href="#subscription" className="landing-navbar-nav-link">Plans</a>
+            <a href="#reviews" className="landing-navbar-nav-link">Reviews</a>
+            <a href="#faq" className="landing-navbar-nav-link">FAQ</a>
+            <button
+              className="landing-navbar-nav-button"
+              onClick={handleLoginClick}
+              disabled={isPreviewPage}
+            >
+              Login
+            </button>
+            <button
+              className="landing-navbar-nav-button"
+              onClick={handleRegisterClick}
+              disabled={isPreviewPage}
+            >
+              Register
+            </button>
           </div>
-          {/* Mobile Hamburger (shown on mobile) */}
-          <div className="mobile-hamburger" onClick={toggleMobileMenu}>
-            <div className="hamburger-icon">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+
+          {/* Mobile Hamburger Icon */}
+          <div className="landing-navbar-mobile-hamburger" onClick={toggleMobileMenu}>
+            <span className="landing-navbar-hamburger-icon"></span>
+            <span className="landing-navbar-hamburger-icon"></span>
+            <span className="landing-navbar-hamburger-icon"></span>
           </div>
         </div>
-
-        
       </nav>
-      {/* Mobile Menu Dropdown */}
+
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="mobile-menu">
-          <button className="btn mobile-login-btn">Login</button>
-          <button className="btn mobile-register-btn">Register</button>
+        <div className="landing-navbar-mobile-menu">
+          <a href="#subscription" className="landing-navbar-nav-link" onClick={closeMobileMenu}>Plans</a>
+          <a href="#reviews" className="landing-navbar-nav-link" onClick={closeMobileMenu}>Reviews</a>
+          <a href="#faq" className="landing-navbar-nav-link" onClick={closeMobileMenu}>FAQ</a>
+          <button
+            className="landing-navbar-nav-button"
+            onClick={() => { closeMobileMenu(); handleLoginClick(); }}
+            disabled={isPreviewPage}
+          >
+            Login
+          </button>
+          <button
+            className="landing-navbar-nav-button"
+            onClick={() => { closeMobileMenu(); handleRegisterClick(); }}
+            disabled={isPreviewPage}
+          >
+            Register
+          </button>
         </div>
       )}
-
     </>
   );
 };

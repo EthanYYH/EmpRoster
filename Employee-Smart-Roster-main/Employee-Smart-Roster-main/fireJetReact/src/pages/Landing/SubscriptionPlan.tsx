@@ -27,8 +27,8 @@ const SubscriptionPlans: React.FC = () => {
             <h3>{plan.subscription_name}</h3>
             <p>{plan.subscription_plan_description}</p>
             <p className="plan-price">Price: ${plan.price}</p>
-            <p>Employees: {plan.noOfEmps}</p>
-            <p className="plan-date">Created on: {plan.createdAt}</p>
+            {/* <p>Employees: {plan.noOfEmps}</p> */}
+            {/* <p className="plan-date">Created on: {plan.createdAt}</p> */}
           </div>
         ))}
       </div>

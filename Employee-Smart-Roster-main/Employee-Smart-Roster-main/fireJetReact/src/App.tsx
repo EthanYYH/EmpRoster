@@ -43,8 +43,8 @@ import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee
 
 
 // Import side menu
-import SASide from "./components/SideMenu/SASide";
-import BOSide from "./components/SideMenu/BOSide";
+// import SASide from "./components/SideMenu/SASide";
+// import BOSide from "./components/SideMenu/BOSide";
 
 // Import for testing
 import "./App.css";
@@ -112,14 +112,26 @@ function App() {
                 }
               />
 
-              <Route
+              {/* <Route
                 path="/view-employee-detail"
                 element={
                   // <ProtectedRoute>
                     <ViewEmployeeDetail />
                   // </ProtectedRoute>
                 }
-              />
+                
+              /> */}
+
+<Route
+                path="/view-employee-detail"
+                element={
+                  <ProtectedRoute>
+                    <SideMenu_t />
+                    <ViewEmployeeDetail />
+                  </ProtectedRoute>
+                }
+                />
+
               <Route
                 path="/emp-view-employee-detail"
                 element={
