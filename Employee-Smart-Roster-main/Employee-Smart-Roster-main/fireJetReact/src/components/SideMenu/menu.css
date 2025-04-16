@@ -11,7 +11,10 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-content: center;
     padding: 5px;
+    max-width: 200px;
+    width: auto;
     border-radius: 7px 7px 0 0;
 }
 
@@ -78,7 +81,7 @@
 }
 
 .side-menu {
-    max-width: 300px;
+    max-width: 200px;
     background-color: var(--side-menu-background);
     opacity: var(--side-menu-transparency);
     color: var(--light-color-text);
