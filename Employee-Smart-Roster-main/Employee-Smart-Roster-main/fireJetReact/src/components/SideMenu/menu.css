@@ -101,17 +101,19 @@
     height: auto;
     max-height: 90vh; /* make sure submenu isn't cropped */
     overflow-y: auto;
+    max-width: 200px;
     gap: 10px;
     background-color: var(--side-menu-background);
 }
 
 .side-menu.mobile .sub-menu {
     display: flex !important;
+    max-width: 200px;
 }
 
 .mobile-menu-content {
     width: 80%;
-    max-width: 300px;
+    max-width: 200px;
     height: 100vh;
     position: fixed;
     left: -100%;
