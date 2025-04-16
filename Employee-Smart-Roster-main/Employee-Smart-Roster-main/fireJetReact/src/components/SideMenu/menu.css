@@ -1,145 +1,94 @@
-.main {
-    margin-bottom: 5px;
-    margin-top: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    
-}
-
-.main:hover {
-    font-weight: 900;
-    font-style: oblique;
-}
-
-.sub-menu {
-    margin-left: 10px;
-    margin-bottom: 5px;
-    gap: 10px;
-    min-height: fit-content;
-    width: auto;
+.menu-item-container {
+    list-style-type: none; /* Remove bullet point from list */
     display: flex;
     flex-direction: column;
-    font-size: var(--secondary-text);
+    margin: 0px;
+    padding: 0px;
 }
 
-.sub-link {
-    min-height: fit-content;
-    width: max-content;
-}
+/* Side menu tab */
+.side-menu-btn {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
 
-.sub-link-hover:hover {
-    text-decoration: underline;
-}
+    .menu-tab {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        font-size: 15px;
+        gap: 5px;
 
-/* SASide */
-.user, .issues, .landing {
-    display: none;
-}
-
-/* BOSide */
-.company, .employee {
-    display: none;
-}
-
-/* Mobile Responsive Menu Default Setup */
-.menu-info {
-    position: relative;
-    display: inline-block;
-    width: auto;
-}
-
-/* Menu For Mobile Responsive (invisible by default) */
-.menu-for-mobile-responsive {
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 100%;
-    min-width: 300px;
-    color: var(--light-color-text);
-    background-color: var(--side-menu-background);
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-    z-index: 100;
-    padding: 15px;
-    margin-top: 5px;
-    animation: fadeIn 0.2s ease-out;
-}
-  
-/* Show the reset password rule when active */
-.menu-info.active .menu-for-mobile-responsive {
-    display: block;
-}
-  
-.menu-info.active .menu-for-mobile-responsive {
-    color: var(--side-menu-background);
-}
-  
-/* Dropdown arrow */
-.menu-for-mobile-responsive::before {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 15px;
-    border-width: 8px;
-    border-style: solid;
-    border-color: transparent transparent var(--side-menu-background) transparent;
-    filter: drop-shadow(0 -2px 1px rgba(0,0,0,0.1));
-}
-  
-@keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
+        .menu-tab-label {
+            display: flex;
+            flex-direction: row;
+            width: fit-content;
+            justify-content: start;
+            gap: 5px;
+        }
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+}
+/* Side menu expanded */
+.side-menu-btn.expanded {
+    background-color: var(--side-menu-hover-background);
+    border-bottom: var(--light-color-text);
+    border-bottom-style: outset;
+    border-bottom-width: 2px;
+}
+
+.side-menu-btn:hover {
+    border-radius: 7px;
+    background-color: var(--side-menu-hover-background);
+}
+
+.expand-icon, .menu-icon {
+    min-width: 17px;
+    font-size: 17px;
+    align-self: center;
+}
+
+/* Sub menu */
+.sub-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    background-color: var(--main-page-background);
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+    color: var(--primary-background);
+    padding: 4px;
+
+    .sub-navHref-hover {
+        padding: 5px;
+        border-bottom: var(--light-color-text);
+        border-bottom-style: outset;
+        border-bottom-width: 2px;
+        font-size: 14px;
+    }
+
+    .sub-navHref-hover:hover {
+        background-color: #D9B9ED;
+        font-weight: bold;
     }
 }
 
-.menu-info.active::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.25);
-    z-index: 99;
+.sub-navHref-hover.active {
+    background-color: #DFD4F0;
+    font-weight: bold;
+    color: var(--primary-background);
+    border-radius: 7px;
 }
 
 /* Mobile (all screens below 768px) */
 @media only screen and (max-width: 768px) {
     .menu-for-mobile-responsive{
         display: flex;
-        
-    }
-
-    /* Menu For Mobile Responsive */
-    .menu-for-mobile-responsive {
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 90%;
-        max-width: 300px;
-        
-        .App-side-menu {
-            display: flex;
-            width: auto;
-            height: fit-content;
-
-            .main {
-                font-size: 15px;
-            }
-
-            .main:hover {
-                font-size: 15px;
-                font-weight: 400px;
-            }
-        }
-    }
-    
-    .menu-for-mobile-responsive::before {
-        display: none;
     }
 }

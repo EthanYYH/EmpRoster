@@ -51,7 +51,7 @@ const Navbar = () => {
              && (
                 <div className="navbar">
                     <div className="nav-button hamburger-menu-icon">
-                        <SideMenu_m role = {user?.role}/>
+                        <SideMenu_m />
                     </div>
                     <div className="front">
                         {user?.role === USER_ROLE[0] && (
@@ -69,7 +69,7 @@ const Navbar = () => {
                                 <img src={appLogo} alt="Dashboard"></img>
                             </Link>
                         )}
-                        <span className="user-role">Welcome back, {user?.role}</span>
+                        <span className="nav-user-role">Welcome back, {user?.role}</span>
                     </div>
                     <div className="btn-group">
                         {user?.role !== "System Admin" && (

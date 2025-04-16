@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
 import EmployeeMgntController from '../../controller/BOEmpMgntProfile/EmployeeMgntController';
 import UserController from '../../controller/User/UserController';
-import BOSide from '../../components/SideMenu/BOSide';
 import BOUserList_t from '../../BO_components/EmployeeMgnts/BOUserList_t';
 import BOUserList_m from '../../BO_components/EmployeeMgnts/BOUserList_m';
 
@@ -101,7 +100,6 @@ const UserMgts = () => {
 
   return (
     <div className="UserMgts">
-      <BOSide />
       <div className="content">
         <h1>User Management</h1>
         <div className="App-filter-search-component">

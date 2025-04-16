@@ -10,6 +10,8 @@ import { FaFilePdf,
          FaClipboardList,
          FaChevronCircleLeft,
          FaChevronCircleRight,
+         FaChevronCircleDown,
+         FaChevronCircleUp,
          FaRegListAlt } from "react-icons/fa";
 import { IoIosAlert } from "react-icons/io";
 import { GiRotaryPhone } from "react-icons/gi";
@@ -47,6 +49,8 @@ export {
     IoIosWarning, // Warning icon
     FaChevronCircleLeft, // Go previous in circle icon
     FaChevronCircleRight, // Go next in circle icon
+    FaChevronCircleDown, // Expend item
+    FaChevronCircleUp, // Collpose item
     TbTarget, // Circle target icon
     TbTargetArrow, // Targeted goal icon
     FaRegListAlt, // Description icon
