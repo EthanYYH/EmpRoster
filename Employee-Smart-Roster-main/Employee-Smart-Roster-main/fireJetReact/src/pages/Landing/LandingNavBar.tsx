@@ -16,6 +16,18 @@ const Navbar: React.FC = () => {
   const handleLoginClick = () => navigate("/login");
   const handleRegisterClick = () => navigate("/register");
 
+  const handleScrollToSection = (e: React.MouseEvent, targetId: string) => {
+    e.preventDefault(); // Prevent the default anchor behavior
+  
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth", // This enables smooth scrolling
+        block: "start", // Align to the start of the section
+      });
+    }
+  };
+
   return (
     <>
       <nav className="landing-navbar-navbar">
@@ -31,9 +43,9 @@ const Navbar: React.FC = () => {
           {/* Right Section (Desktop Menu) */}
           <div className="landing-navbar-navbar-right landing-navbar-desktop-menu">
             <div className="landing-navbar-menu-wrapper">
-              <a href="#subscription" className="landing-navbar-nav-link">Plans</a>
-              <a href="#reviews" className="landing-navbar-nav-link">Reviews</a>
-              <a href="#faq" className="landing-navbar-nav-link">FAQ</a>
+              <a href="#subscription" className="landing-navbar-nav-link"onClick={(e) => handleScrollToSection(e, "subscription")}>Plans</a>
+              <a href="#reviews" className="landing-navbar-nav-link" onClick={(e) => handleScrollToSection(e, "reviews")}>Reviews</a>
+              <a href="#faq" className="landing-navbar-nav-link"  onClick={(e) => handleScrollToSection(e, "faq")}>FAQ</a>
               <button
                 className="landing-navbar-nav-button"
                 onClick={handleLoginClick}
