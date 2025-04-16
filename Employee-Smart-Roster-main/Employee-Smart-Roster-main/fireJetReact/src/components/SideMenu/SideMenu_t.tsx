@@ -14,7 +14,7 @@ const SideMenu_t = ({}) => {
         <>
         {user?.role === USER_ROLE[0] && <SASide />}
         {user?.role === USER_ROLE[1] && <BOSide />}
-        {user?.role === USER_ROLE[1] && <EmpSide />}
+        {user?.role === USER_ROLE[2] && <EmpSide />}
         </>
     )
 }

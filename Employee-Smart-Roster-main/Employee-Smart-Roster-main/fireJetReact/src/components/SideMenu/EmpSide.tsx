@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { FaRegBuilding } from "react-icons/fa";
 import { GrSchedules } from "react-icons/gr";
 import { FaUsersViewfinder } from "react-icons/fa6";
+import { FaHeartCircleExclamation } from "react-icons/fa6";
 import { MdOutlineBugReport } from "react-icons/md";
 import { CiStar } from "react-icons/ci";
 
@@ -16,23 +17,6 @@ const EmpSide = () => {
   const location = useLocation();
     
   const menuItems = [
-        {
-            name: 'user',
-            label: 'COMPANY',
-            src: <FaRegBuilding className="menu-icon"/>,
-            items: [
-                {
-                    name: 'companyProfile',
-                    label: 'My Company',
-                    navHref: '/company-detail',
-                },
-                {
-                    name: 'subscriptionManagement',
-                    label: 'Subscription Management',
-                    navHref: '/subscription-management',
-                }
-            ]
-        },
         {
             name: 'timelineManagement',
             label: 'TIMELINE MANAGEMENT',
@@ -59,7 +43,7 @@ const EmpSide = () => {
             name: 'leaveManagement',
             label: 'LEAVE MANAGEMENT',
             navHref: '/my-leave-management',
-            src: <MdOutlineBugReport className="menu-icon"/>,
+            src: <FaHeartCircleExclamation className="menu-icon"/>,
         },
         {
             name: 'reportIssues',
