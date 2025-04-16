@@ -106,14 +106,26 @@ function App() {
                 }
               />
 
-              <Route
+              {/* <Route
                 path="/view-employee-detail"
                 element={
                   // <ProtectedRoute>
                     <ViewEmployeeDetail />
                   // </ProtectedRoute>
                 }
-              />
+                
+              /> */}
+
+<Route
+                path="/view-employee-detail"
+                element={
+                  <ProtectedRoute>
+                    <SideMenu_t />
+                    <ViewEmployeeDetail />
+                  </ProtectedRoute>
+                }
+                />
+
               <Route
                 path="/emp-view-employee-detail"
                 element={
