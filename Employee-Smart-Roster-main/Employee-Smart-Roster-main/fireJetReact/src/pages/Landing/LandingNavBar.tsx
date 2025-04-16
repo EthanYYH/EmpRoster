@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // import useLocation
-import "./LandingNavBar.css";
+import "./landingNavBar.css";
 import logo from "../../../public/assets/Logo.svg";
 
 const Navbar: React.FC = () => {
