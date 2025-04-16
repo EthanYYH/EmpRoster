@@ -6,6 +6,11 @@ import UserDetail from './UserDetail';
 import './BOUserList_m.css';
 import '../../../public/styles/common.css';
 
+interface BOListMobileProps {
+  users?: any;
+  onUpdate?: (updatedData: any) => void;
+}
+
 const BOUserList_m = ({ users = [], onUpdate }: BOListMobileProps) => {
   const { showAlert } = useAlert();
   const [selectedUser, setSelectedUser] = useState<any>(null);
@@ -72,7 +77,7 @@ const BOUserList_m = ({ users = [], onUpdate }: BOListMobileProps) => {
         ))}
       </div>
       {showDetail && selectedUser && (
-        <div className="App-popup">
+        <div className="App-popup" onClick={triggerCloseDetail}>
           <UserDetail
             user={selectedUser}
             onClose={triggerCloseDetail}
@@ -83,10 +88,5 @@ const BOUserList_m = ({ users = [], onUpdate }: BOListMobileProps) => {
     </>
   );
 };
-
-interface BOListMobileProps {
-  users?: any;
-  onUpdate?: (updatedData: any) => void;
-}
 
 export default BOUserList_m;

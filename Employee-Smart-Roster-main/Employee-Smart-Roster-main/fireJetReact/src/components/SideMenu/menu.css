@@ -13,7 +13,6 @@
     justify-content: space-between;
     align-content: center;
     padding: 5px;
-    max-width: 200px;
     width: auto;
     border-radius: 7px 7px 0 0;
 }
@@ -62,6 +61,7 @@
 }
 
 .sub-navHref-hover {
+    width: auto;
     padding: 5px;
     border-bottom: 2px outset var(--light-color-text);
     font-size: 14px;
@@ -81,7 +81,7 @@
 }
 
 .side-menu {
-    max-width: 200px;
+    width: 200px;
     background-color: var(--side-menu-background);
     opacity: var(--side-menu-transparency);
     color: var(--light-color-text);

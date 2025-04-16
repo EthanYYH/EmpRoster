@@ -22,6 +22,10 @@ const { getSubscriptionTransactions,
 const SubscribingStatus = ['Subscribed', 'Pending Payment', 'Unsubscribed', 'Cancelled Subscription']
 const IsAccSuspended = ['Activated', 'Suspended']
 
+interface BOListProps {
+    boUsers?: any;
+}
+
 const BOUserList = ({boUsers = []}: BOListProps) => {
     // console.log(boUsers)
     const { showAlert } = useAlert();
@@ -177,10 +181,6 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
             onUpdate={handleDataUpdate} />
         </>
     )
-}
-
-interface BOListProps {
-    boUsers?: any;
 }
 
 export default BOUserList;

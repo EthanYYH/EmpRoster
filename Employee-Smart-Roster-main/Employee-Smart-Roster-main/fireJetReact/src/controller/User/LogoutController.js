@@ -21,7 +21,7 @@ export const LogUserOut = async (uid) => {
         }
         const data = await response.json();
         // logout();
-        console.log(data);
+        // console.log(data);
 
         return await data;
     } catch(error) {

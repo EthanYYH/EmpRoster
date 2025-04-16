@@ -227,7 +227,7 @@ function App() {
                   </ProtectedRoute>
               }/> */}
 
-              <Route element={<RequiredCompleteProfile/>}>
+              {/* <Route element={<RequiredCompleteProfile/>}> */}
                 {/* Route for Business Owner pages */}
                 <Route
                   path="/business-dashboard"
@@ -356,10 +356,8 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-              </Route>
-
+              {/* </Route> */}
               
-
               {/* Route for Employee pages */}
               <Route
                 path="/employee-dashboard"
