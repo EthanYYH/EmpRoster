@@ -1,51 +1,63 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import "./Navbar.css";
 import logo from "../../../public/assets/Logo.svg";
 
 const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate(); // Initialize the navigate function
 
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
+  // Redirect handlers
+  const handleLoginClick = () => {
+    navigate("/login"); // Redirect to /login
+  };
+
+  const handleRegisterClick = () => {
+    navigate("/register"); // Redirect to /register
+  };
+
   return (
     <>
-      <nav className="navbar">
-        <div className="navbar-container">
+      <nav className="landing-navbar-navbar">
+        <div className="landing-navbar-navbar-container">
           {/* Left Section: Logo & Brand */}
-          <div className="navbar-left">
-            <span className="brand">
-              <img src={logo} alt="Logo" className="brand-logo" />
+          <div className="landing-navbar-navbar-left">
+            <span className="landing-navbar-brand">
+              <img src={logo} alt="Logo" className="landing-navbar-brand-logo" />
               EmpRoster
             </span>
           </div>
 
           {/* Right Section (Desktop Menu) */}
-          <div className="navbar-right desktop-menu">
-            <a href="#subscription" className="nav-link">Plans</a>
-            <a href="#reviews" className="nav-link">Reviews</a>
-            <a href="#faq" className="nav-link">FAQ</a>
-            <button className="nav-button">Login</button>
-            <button className="nav-button">Register</button> {/* Add Register Button */}
+          <div className="landing-navbar-navbar-right landing-navbar-desktop-menu">
+            <a href="#subscription" className="landing-navbar-nav-link">Plans</a>
+            <a href="#reviews" className="landing-navbar-nav-link">Reviews</a>
+            <a href="#faq" className="landing-navbar-nav-link">FAQ</a>
+            <button className="landing-navbar-nav-button" onClick={handleLoginClick}>Login</button>
+            <button className="landing-navbar-nav-button" onClick={handleRegisterClick}>Register</button>
           </div>
 
           {/* Mobile Hamburger Icon */}
-          <div className="mobile-hamburger" onClick={toggleMobileMenu}>
-            <span className="hamburger-icon"></span>
-            <span className="hamburger-icon"></span>
-            <span className="hamburger-icon"></span>
+          <div className="landing-navbar-mobile-hamburger" onClick={toggleMobileMenu}>
+            <span className="landing-navbar-hamburger-icon"></span>
+            <span className="landing-navbar-hamburger-icon"></span>
+            <span className="landing-navbar-hamburger-icon"></span>
           </div>
+          
         </div>
       </nav>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="mobile-menu">
-          <a href="#subscription" className="nav-link" onClick={closeMobileMenu}>Plans</a>
-          <a href="#reviews" className="nav-link" onClick={closeMobileMenu}>Reviews</a>
-          <a href="#faq" className="nav-link" onClick={closeMobileMenu}>FAQ</a>
-          <button className="nav-button" onClick={closeMobileMenu}>Login</button>
-          <button className="nav-button" onClick={closeMobileMenu}>Register</button> {/* Add Register Button to Mobile Menu */}
+        <div className="landing-navbar-mobile-menu">
+          <a href="#subscription" className="landing-navbar-nav-link" onClick={closeMobileMenu}>Plans</a>
+          <a href="#reviews" className="landing-navbar-nav-link" onClick={closeMobileMenu}>Reviews</a>
+          <a href="#faq" className="landing-navbar-nav-link" onClick={closeMobileMenu}>FAQ</a>
+          <button className="landing-navbar-nav-button" onClick={() => { closeMobileMenu(); handleLoginClick(); }}>Login</button>
+          <button className="landing-navbar-nav-button" onClick={() => { closeMobileMenu(); handleRegisterClick(); }}>Register</button>
         </div>
       )}
     </>
