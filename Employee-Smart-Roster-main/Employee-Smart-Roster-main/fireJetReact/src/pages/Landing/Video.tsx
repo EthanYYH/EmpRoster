@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./Video.css";
-import LandingPageController from '../../controller/LandingPageController';
+import LandingPageController from "../../controller/LandingPageController";
+
+const extractVideoId = (url: string) => {
+  const match = url.match(/(?:\/|v=)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : "";
+};
 
 const Video: React.FC = () => {
   const [videoUrl, setVideoUrl] = useState<string>("");
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchVideo = async () => {
@@ -14,40 +18,32 @@ const Video: React.FC = () => {
           setVideoUrl(data[0].videoUrl);
         } else {
           console.warn("No video data available, using fallback video.");
-          setVideoUrl("https://www.example.com/video.mp4");
+          setVideoUrl("https://www.youtube.com/watch?v=A8Hg4z16xLI");
         }
       } catch (error) {
         console.error("Error fetching video data:", error);
-        setVideoUrl("https://www.example.com/video.mp4");
+        setVideoUrl("https://www.youtube.com/watch?v=A8Hg4z16xLI");
       }
     };
 
     fetchVideo();
   }, []);
 
-  const handlePlay = () => {
-    setIsPlaying(true);
-  };
+  const embedUrl = videoUrl
+    ? videoUrl.replace("watch?v=", "embed/") +
+      `?autoplay=1&mute=1&loop=1&playlist=${extractVideoId(videoUrl)}`
+    : "";
 
   return (
     <div className="video-section">
-      {videoUrl ? (
+      {embedUrl ? (
         <div className="video-container">
-          {!isPlaying && (
-            <div className="play-button" onClick={handlePlay}>
-              ▶
-            </div>
-          )}
           <iframe
             className="video-player"
-            src={
-              isPlaying
-                ? videoUrl.replace("watch?v=", "embed/") + "?autoplay=1"
-                : ""
-            }
+            src={embedUrl}
             title="YouTube video player"
             frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="autoplay; fullscreen; encrypted-media"
             allowFullScreen
           ></iframe>
         </div>
