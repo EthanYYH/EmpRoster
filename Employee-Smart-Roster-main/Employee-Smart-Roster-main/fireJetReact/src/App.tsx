@@ -23,6 +23,8 @@ import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
 
 
 // Pages for Busines Owner
+import CompleteProfile from "./BO_pages/FirstLogin/CompleteProfile";
+import RequiredCompleteProfile from "./BO_pages/FirstLogin/RequiredCompleteProfile";
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BODashboard from "./BO_pages/Dashboard/Dashboard";
 import BOViewProfile from "./BO_pages/ViewProfile/ViewProfile";
@@ -116,7 +118,7 @@ function App() {
                 
               /> */}
 
-<Route
+              <Route
                 path="/view-employee-detail"
                 element={
                   <ProtectedRoute>
@@ -135,30 +137,7 @@ function App() {
                 }
               />
 
-
-
-              <Route
-                path="/view-employee-detail"
-                element={
-                  // <ProtectedRoute>
-                    <ViewEmployeeDetail />
-                  // </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/emp-view-employee-detail"
-                element={
-                  // <ProtectedRoute>
-                    <EmpViewEmployeeDetail />
-                  // </ProtectedRoute>
-                }
-                />
-
-
-
-
-              
+              {/* Route for System Admin Pages */}
               <Route
                 path="/admin-dashboard"
                 element={
@@ -241,134 +220,145 @@ function App() {
                 }
               />
 
-              {/* Route for Business Owner pages */}
-              <Route
-                path="/business-dashboard"
-                element={
+              {/* <Route path="/complete-profile" element={
                   <ProtectedRoute>
                     <SideMenu_t />
-                    <BODashboard />
+                    <CompleteProfile />
                   </ProtectedRoute>
-                }
-              />
+              }/> */}
 
-              <Route
-                path="/view-bo-detail"
-                element={
-                  <ProtectedRoute>
-                    <SideMenu_t />
-                    <BOViewProfile />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/update-bo-detail"
-                element={
-                  <ProtectedRoute>
-                    <SideMenu_t />
-                    <BOUpdateBOProfile />
-                  </ProtectedRoute>
-                }
-              />    
-              
-              <Route
-                path="/company-detail"
-                element={
-                  <ProtectedRoute>
-                    <SideMenu_t />
-                    <BOCompanyProfile />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/update-company-detail"
-                element={
-                  <ProtectedRoute>
-                    <SideMenu_t />
-                    <BOUpdateCompanyProfile />
-                  </ProtectedRoute>
-                }
-              />    
-
-              <Route
-                path="/roles-skills-menagement"
-                element={
-                  <ProtectedRoute>
-                    <SideMenu_t />
-                    <RoleNSkillset />
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/subscription-menagement"
-                element={
-                  <ProtectedRoute>
-                    <div className="App-content">
+              <Route element={<RequiredCompleteProfile/>}>
+                {/* Route for Business Owner pages */}
+                <Route
+                  path="/business-dashboard"
+                  element={
+                    <ProtectedRoute>
                       <SideMenu_t />
-                      <h1>Subscription Management</h1>
-                    </div>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/timeline-management"
-                element={
-                  <ProtectedRoute>
-                    <SideMenu_t />
-                    <BOTimelinesPage />
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/attendance-records-management"
-                element={
-                  <ProtectedRoute>
-                    <div className="App-content">
-                      <SideMenu_t />
-                      <h1>Attendance Records Management</h1>
-                    </div>
-                  </ProtectedRoute>
-                }
-              />
+                      <BODashboard />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/mc-management"
-                element={
-                  <ProtectedRoute>
-                    <SideMenu_t />
-                    <BOLeaveManagement />
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/leave-management"
-                element={
-                  <ProtectedRoute>
-                    <div className="App-content">
+                <Route
+                  path="/view-bo-detail"
+                  element={
+                    <ProtectedRoute>
                       <SideMenu_t />
-                      <h1>Leave Management</h1>
-                    </div>
-                  </ProtectedRoute>
-                }
-              />
+                      <BOViewProfile />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/report-issues"
-                element={
-                  <ProtectedRoute>
-                    <div className="App-content">
+                <Route
+                  path="/update-bo-detail"
+                  element={
+                    <ProtectedRoute>
                       <SideMenu_t />
-                      <h1>Report Issues</h1>
-                    </div>
-                  </ProtectedRoute>
-                }
-              />
+                      <BOUpdateBOProfile />
+                    </ProtectedRoute>
+                  }
+                />    
+                
+                <Route
+                  path="/company-detail"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <BOCompanyProfile />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/update-company-detail"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <BOUpdateCompanyProfile />
+                    </ProtectedRoute>
+                  }
+                />    
+
+                <Route
+                  path="/roles-skills-menagement"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <RoleNSkillset />
+                    </ProtectedRoute>
+                  }
+                />
+                
+                <Route
+                  path="/subscription-menagement"
+                  element={
+                    <ProtectedRoute>
+                      <div className="App-content">
+                        <SideMenu_t />
+                        <h1>Subscription Management</h1>
+                      </div>
+                    </ProtectedRoute>
+                  }
+                />
+                
+                <Route
+                  path="/timeline-management"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <BOTimelinesPage />
+                    </ProtectedRoute>
+                  }
+                />
+                
+                <Route
+                  path="/attendance-records-management"
+                  element={
+                    <ProtectedRoute>
+                      <div className="App-content">
+                        <SideMenu_t />
+                        <h1>Attendance Records Management</h1>
+                      </div>
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/mc-management"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <BOLeaveManagement />
+                    </ProtectedRoute>
+                  }
+                />
+                
+                <Route
+                  path="/leave-management"
+                  element={
+                    <ProtectedRoute>
+                      <div className="App-content">
+                        <SideMenu_t />
+                        <h1>Leave Management</h1>
+                      </div>
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/report-issues"
+                  element={
+                    <ProtectedRoute>
+                      <div className="App-content">
+                        <SideMenu_t />
+                        <h1>Report Issues</h1>
+                      </div>
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+
+              
 
               {/* Route for Employee pages */}
               <Route

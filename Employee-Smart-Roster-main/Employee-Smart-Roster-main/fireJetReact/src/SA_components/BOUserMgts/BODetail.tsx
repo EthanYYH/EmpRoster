@@ -92,7 +92,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             showAlert(
                 'BODetail: suspend user fail',
                 '',
-                {error}.toString(),
+                error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }
@@ -130,7 +130,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             showAlert(
                 'BODetail: unSuspend user fail',
                 '',
-                {error}.toString(),
+                error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }

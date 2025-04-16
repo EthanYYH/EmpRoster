@@ -12,7 +12,8 @@ import { FaFilePdf,
          FaChevronCircleRight,
          FaChevronCircleDown,
          FaChevronCircleUp,
-         FaRegListAlt } from "react-icons/fa";
+         FaRegListAlt,
+         FaRegEdit } from "react-icons/fa";
 import { IoIosAlert } from "react-icons/io";
 import { GiRotaryPhone } from "react-icons/gi";
 import { MdContactPhone, 
@@ -57,4 +58,5 @@ export {
     VscDebugBreakpointData, // List point icon
     HiMiniViewfinderCircle, // Allocated time view icon
     TiTime, // Time icon
+    FaRegEdit, // Edit icon
 };

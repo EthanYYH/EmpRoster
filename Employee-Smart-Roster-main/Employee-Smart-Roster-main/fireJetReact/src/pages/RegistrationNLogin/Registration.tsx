@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAlert } from '../../components/PromptAlert/AlertContext'
 import { GoAlertFill, TiTick, FaInfoCircle } from '../../../public/Icons.js'
 import PwRule from './PwRule';
+import SignupController from '../../controller/User/SignupController';
 import PasswordController from '../../controller/User/PasswordController.js';
 import UserController from '../../controller/User/UserController';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton'
@@ -16,6 +17,8 @@ const { validateEmail } = UserController;
 
 const { validateConfirmNewPassword,
         validateNewPassword, } = PasswordController
+
+const { createRegisRequest } = SignupController
 
 const Register = () => {
     const { showAlert } = useAlert();
@@ -82,6 +85,8 @@ const Register = () => {
         }))
     }
 
+    // Handle Registration Submission with File Upload:
+    // https://uploadcare.com/blog/how-to-upload-file-in-react/#show-upload-result-indicator
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setFileStatus('initial');
@@ -89,15 +94,16 @@ const Register = () => {
         }
     };
 
-    const handleFileUpload = async () => {
+    const triggerRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); // Stop auto refresh for form submit
         if (bizFile) {
-          setFileStatus('uploading');
+            setFileStatus('uploading')
+            const formData =  new FormData();
+            formData.append('bizFile', bizFile);
     
-          const formData = new FormData();
-          formData.append('bizFile', bizFile);
-    
-          try {
-            console.log(formData);
+            try {
+                const response = await createRegisRequest (bizFile, email, UEN, bizName, password)
+                // console.log(response)
 
                 showAlert(
                     `${response.message}`,
@@ -107,6 +113,7 @@ const Register = () => {
                 )
                 navigate('/home')
             } catch (error) {
+                setFileStatus('fail');
                 showAlert(
                     'triggerRegistration',
                     'Failed to Submit Registration Request',
@@ -126,7 +133,7 @@ const Register = () => {
             <Header />
             <form
                 action="" 
-                // onSubmit={triggerRegistration}
+                onSubmit={triggerRegistration}
             >
                 <div className="registration-form-content">
                     <div className="registration-form-company">
@@ -284,15 +291,15 @@ const Register = () => {
                         text='Register'
                         type='submit'
                         disabled={
-                            !bizFile ||
-                            !bizName ||
-                            !UEN ||
-                            !email ||
-                            !password ||
-                            !confirmPassword ||
-                            !!errors.email ||
-                            !!errors.password ||
-                            !!errors.confirm_password
+                            !bizFile
+                            || !bizName 
+                            || !UEN 
+                            || !email 
+                            || !password 
+                            || !confirmPassword 
+                            || !!errors.email 
+                            || !!errors.password 
+                            || !!errors.confirm_password
                         }
                     />
                     <div className="register-log-in">
