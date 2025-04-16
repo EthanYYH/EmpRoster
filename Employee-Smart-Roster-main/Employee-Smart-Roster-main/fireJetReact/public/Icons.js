@@ -26,6 +26,7 @@ import { TbTarget, TbTargetArrow } from "react-icons/tb";
 import { VscDebugBreakpointData } from "react-icons/vsc";
 import { HiMiniViewfinderCircle } from "react-icons/hi2";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { FaUpload } from "react-icons/fa6";
 
 export {
     LuLogOut,   // Logout icon
@@ -58,5 +59,6 @@ export {
     VscDebugBreakpointData, // List point icon
     HiMiniViewfinderCircle, // Allocated time view icon
     TiTime, // Time icon
+    FaUpload, // Upload
     FaRegEdit, // Edit icon
 };

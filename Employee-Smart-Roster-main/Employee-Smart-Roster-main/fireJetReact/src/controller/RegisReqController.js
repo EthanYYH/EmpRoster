@@ -22,8 +22,8 @@ async function getRegistrationRequests (){
 
         return await data;
     } catch(error) {
-        console.error(`Network error for UID ${uid}: \n`, error);
-        throw new Error(`Failed to fetch company data: ${error.message}`);
+        console.error(`Network error: \n`, error);
+        throw new Error(`Failed to fetch registration data: ${error.message}`);
     }
 }
 

@@ -1,26 +1,23 @@
 import {  useEffect, useState } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
-import { formatDateTime } from '../../controller/Variables.js';
+import { formatDateTime, REG_STATUS } from '../../controller/Variables.js';
 import RegisReqController from '../../controller/RegisReqController.js';
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton/SecondaryButton";
+
+import { IoClose, FaFilePdf, RiUserReceived2Fill,
+         FaCircle } from '../../../public/Icons.js';
 import './RegisReqDetail.css'
 import '../../../public/styles/common.css'
-import { IoClose, 
-         FaFilePdf, 
-         RiUserReceived2Fill,
-         FaCircle } from '../../../public/Icons.js';
 
-const sampleBizFile = "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8";
-const REG_STATUS = ["Pending", "Approved", "Rejected"]
-const { setRegistrationRequest, } = RegisReqController
+const { setRegistrationRequest, getBizFile } = RegisReqController
 
 const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) => {
     // console.log(regisRequest);
     const { showAlert } = useAlert();
     const [ bizFileURL, setBizFileURL ] = useState<string>("");
     const [ isReject, setIsReject ] = useState(false);
-    const [ reasonReject, setReasonReject ] = useState("");
+    const [ reasonReject, setReasonReject ] = useState<string>("");
 
     if (!regisRequest) return null;
 
@@ -117,8 +114,8 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
 
     // Display reject popup
     if (isReject) return (
-        <div className="App-popup">
-            <div className='App-popup-prompt-content reg-rejection-popup'>
+        <div className="App-popup" onClick={triggerCancelReject}>
+            <div className='App-popup-prompt-content reg-rejection-popup' onClick={(e) => e.stopPropagation()}>
                 <div>
                     <p className='App-prompt-confirmation-title'>Confirm to Reject the Registration Request for:</p>
                     <p className="App-prompt-confirmation-title-highlighted-text">{regisRequest.UEN}</p>
@@ -146,8 +143,7 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
     )
 
     return (
-        <div className="App-popup-content">
-            
+        <div className="App-popup-content" onClick={(e) => e.stopPropagation()}>
             <div className='App-header'>
                 <h1 className='company-name'>
                     {regisRequest.bizName}
@@ -168,7 +164,7 @@ const RegisReqDetail = ({regisRequest = [], onClose, onUpdate }: RegisReqProps) 
                         }}
                         className="icons"
                     >
-                        <FaFilePdf />
+                        <FaFilePdf onClick={fetchBizFilePDF}/>
                     </a>
                     </button>
                 </div>
