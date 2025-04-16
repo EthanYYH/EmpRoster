@@ -11,7 +11,10 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-content: center;
     padding: 5px;
+    max-width: 200px;
+    width: auto;
     border-radius: 7px 7px 0 0;
 }
 
@@ -78,7 +81,7 @@
 }
 
 .side-menu {
-    max-width: 300px;
+    max-width: 200px;
     background-color: var(--side-menu-background);
     opacity: var(--side-menu-transparency);
     color: var(--light-color-text);
@@ -98,17 +101,19 @@
     height: auto;
     max-height: 90vh; /* make sure submenu isn't cropped */
     overflow-y: auto;
+    max-width: 200px;
     gap: 10px;
     background-color: var(--side-menu-background);
 }
 
 .side-menu.mobile .sub-menu {
     display: flex !important;
+    max-width: 200px;
 }
 
 .mobile-menu-content {
     width: 80%;
-    max-width: 300px;
+    max-width: 200px;
     height: 100vh;
     position: fixed;
     left: -100%;
