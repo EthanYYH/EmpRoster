@@ -10,6 +10,8 @@ import { FaFilePdf,
          FaClipboardList,
          FaChevronCircleLeft,
          FaChevronCircleRight,
+         FaChevronCircleDown,
+         FaChevronCircleUp,
          FaRegListAlt } from "react-icons/fa";
 import { IoIosAlert } from "react-icons/io";
 import { GiRotaryPhone } from "react-icons/gi";
@@ -17,13 +19,16 @@ import { MdContactPhone,
          MdOutlineMailOutline,
          MdOutlineLocationOn } from "react-icons/md";
 import { RiUserReceived2Fill } from "react-icons/ri";
+import { IoIosWarning } from "react-icons/io";
 import { TiTick, TiTime } from "react-icons/ti";
 import { TbTarget, TbTargetArrow } from "react-icons/tb";
 import { VscDebugBreakpointData } from "react-icons/vsc";
 import { HiMiniViewfinderCircle } from "react-icons/hi2";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 export {
     LuLogOut,   // Logout icon
+    RxHamburgerMenu, // Hamburger Menu icon
     CgProfile,  // Profile icon
     BiSolidUserDetail, // User details icon
     IoClose, // Close popup icons
@@ -41,8 +46,11 @@ export {
     FaClipboardList, // List icon
     TiTick, // Correct Icon
     GoAlertFill, // Triangle alert icon
+    IoIosWarning, // Warning icon
     FaChevronCircleLeft, // Go previous in circle icon
     FaChevronCircleRight, // Go next in circle icon
+    FaChevronCircleDown, // Expend item
+    FaChevronCircleUp, // Collpose item
     TbTarget, // Circle target icon
     TbTargetArrow, // Targeted goal icon
     FaRegListAlt, // Description icon
