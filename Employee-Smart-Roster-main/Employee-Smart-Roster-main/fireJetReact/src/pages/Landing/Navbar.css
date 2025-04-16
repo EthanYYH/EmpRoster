@@ -1,0 +1,142 @@
+/* Base Navbar Styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* Add padding to body so content doesn't hide behind fixed navbar */
+body {
+  padding-top: 80px;
+}
+
+/* Container to align content within navbar */
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* Navbar Left: Logo and Brand */
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333333;
+}
+
+.brand-logo {
+  height: 24px;
+  width: auto;
+  margin-right: 8px;
+}
+
+/* Navbar Right: Navigation links and auth buttons */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #555555;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #000000;
+}
+
+/* Stylish Login and Register Buttons (Black & White) */
+.nav-button {
+  padding: 8px 20px; /* Reduced height */
+  background-color: #ffffff;
+  color: #333333; /* Black text */
+  border: 2px solid #333333; /* Black border */
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600; /* Bold */
+  cursor: pointer;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1), -2px -2px 6px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #333333; /* Black on hover */
+  color: #ffffff; /* White text on hover */
+  border-color: #ffffff; /* White border on hover */
+  transform: translateY(-2px); /* Slight hover effect */
+}
+
+.nav-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(72, 157, 255, 0.5);
+}
+
+/* Mobile Hamburger Icon - Hidden on Desktop */
+.mobile-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hamburger-icon {
+  width: 25px;
+  height: 3px;
+  background-color: #333;
+  margin: 4px 0;
+}
+
+/* Mobile Menu (Dropdown) */
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background-color: #ffffff;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  /* Center the navbar-left (logo & text) on mobile */
+  .navbar-left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Hide desktop menu on mobile */
+  .desktop-menu {
+    display: none;
+  }
+
+  /* Show hamburger on mobile */
+  .mobile-hamburger {
+    display: flex;
+  }
+}

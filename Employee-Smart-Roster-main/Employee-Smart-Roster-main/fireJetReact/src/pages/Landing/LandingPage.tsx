@@ -1,5 +1,6 @@
 import "./LandingPage.css"
-import NavBar from "./LandingNavBar";
+import NavBar2 from "./LandingNavBar";
+import NavBar from "./Navbar";
 import Title from "./Title";
 import Video from "./Video";
 import Reviews from "./Review";
