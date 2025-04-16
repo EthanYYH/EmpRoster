@@ -30,23 +30,25 @@ const Navbar: React.FC = () => {
 
           {/* Right Section (Desktop Menu) */}
           <div className="landing-navbar-navbar-right landing-navbar-desktop-menu">
-            <a href="#subscription" className="landing-navbar-nav-link">Plans</a>
-            <a href="#reviews" className="landing-navbar-nav-link">Reviews</a>
-            <a href="#faq" className="landing-navbar-nav-link">FAQ</a>
-            <button
-              className="landing-navbar-nav-button"
-              onClick={handleLoginClick}
-              disabled={isPreviewPage}
-            >
-              Login
-            </button>
-            <button
-              className="landing-navbar-nav-button"
-              onClick={handleRegisterClick}
-              disabled={isPreviewPage}
-            >
-              Register
-            </button>
+            <div className="landing-navbar-menu-wrapper">
+              <a href="#subscription" className="landing-navbar-nav-link">Plans</a>
+              <a href="#reviews" className="landing-navbar-nav-link">Reviews</a>
+              <a href="#faq" className="landing-navbar-nav-link">FAQ</a>
+              <button
+                className="landing-navbar-nav-button"
+                onClick={handleLoginClick}
+                disabled={isPreviewPage}
+              >
+                Login
+              </button>
+              <button
+                className="landing-navbar-nav-button"
+                onClick={handleRegisterClick}
+                disabled={isPreviewPage}
+              >
+                Register
+              </button>
+            </div>
           </div>
 
           {/* Mobile Hamburger Icon */}

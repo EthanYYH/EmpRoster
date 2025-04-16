@@ -18,7 +18,7 @@ html {
 }
 
 /* Add padding to body so content doesn't hide behind fixed navbar */
-/* ignore */
+
 
 /* Container to align content within navbar */
 .landing-navbar-navbar-container {
@@ -52,6 +52,7 @@ html {
 /* Navbar Right: Navigation links and auth buttons */
 .landing-navbar-navbar-right {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   gap: 16px;
 }
@@ -167,4 +168,11 @@ html {
     transform: translateY(-50%);
     z-index: 10001; /* just in case */
   }
+}
+
+.landing-navbar-menu-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 400px; /* You can adjust this number to your liking */
 }
