@@ -40,12 +40,6 @@ import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmpl
 import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
 import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
 
-
-
-// Import side menu
-import SASide from "./components/SideMenu/SASide";
-import BOSide from "./components/SideMenu/BOSide";
-
 // Import for testing
 import "./App.css";
 import "../public/styles/common.css";
