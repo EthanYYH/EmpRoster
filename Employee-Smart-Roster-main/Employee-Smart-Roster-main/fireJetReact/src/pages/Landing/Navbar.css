@@ -24,6 +24,7 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  position: relative; /* Needed for absolute hamburger */
 }
 
 /* Navbar Left: Logo and Brand */
@@ -66,7 +67,7 @@ body {
 
 /* Stylish Login and Register Buttons (Black & White) */
 .nav-button {
-  padding: 8px 20px; /* Reduced height */
+  padding: 6px 18px; /* Slightly smaller height */
   background-color: #ffffff;
   color: #333333; /* Black text */
   border: 2px solid #333333; /* Black border */
@@ -121,13 +122,14 @@ body {
   z-index: 999;
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
-  /* Center the navbar-left (logo & text) on mobile */
+  /* Reset navbar-left width */
   .navbar-left {
-    flex: 1;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex: auto; /* changed from flex: 1 */
+    margin: 0 auto;
   }
 
   /* Hide desktop menu on mobile */
@@ -135,8 +137,12 @@ body {
     display: none;
   }
 
-  /* Show hamburger on mobile */
   .mobile-hamburger {
     display: flex;
+    position: absolute;
+    
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10001; /* just in case */
   }
 }
