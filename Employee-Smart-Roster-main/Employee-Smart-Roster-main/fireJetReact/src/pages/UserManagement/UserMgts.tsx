@@ -58,8 +58,10 @@ const UserMgts = () => {
         if(user?.role === USER_ROLE[0])
             fetchBoUsersData();
 
-        if(user?.role === USER_ROLE[1])
+        else if(user?.role === USER_ROLE[1])
             fetchEmpUsersData();
+
+        else return;
     }, [user])
 
     return (
