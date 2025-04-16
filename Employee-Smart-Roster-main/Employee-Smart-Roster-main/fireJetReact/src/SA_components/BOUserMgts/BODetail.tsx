@@ -92,7 +92,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             showAlert(
                 'BODetail: suspend user fail',
                 '',
-                {error}.toString(),
+                error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }
@@ -130,7 +130,7 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
             showAlert(
                 'BODetail: unSuspend user fail',
                 '',
-                {error}.toString(),
+                error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }
@@ -142,8 +142,8 @@ const BODetail = ({company = [], onClose, onUpdate }: BODetailProps) => {
     }
 
     if (suspend) return (
-        <div className="App-popup">
-            <div className='App-popup-prompt-content suspend-bo'>
+        <div className="App-popup" onClick={triggerCancelSuspend}>
+            <div className='App-popup-prompt-content suspend-bo'  onClick={(e) => e.stopPropagation()}>
                 <div>
                     <p className='App-prompt-confirmation-title'>
                         Confirm to Suspend {company.UEN}'s Owner: 

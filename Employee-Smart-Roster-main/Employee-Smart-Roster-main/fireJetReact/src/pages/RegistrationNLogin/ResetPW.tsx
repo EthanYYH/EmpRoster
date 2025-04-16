@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useAlert } from '../../components/PromptAlert/AlertContext.js';
 import { FaInfoCircle, GoAlertFill, TiTick } from '../../../public/Icons.js'
 import PasswordController from '../../controller/User/PasswordController.js';
 import Header from './Header';
@@ -15,7 +16,12 @@ const { handleResetPassword,
         validateNewPassword, } = PasswordController
 
 const ResetPassword: React.FC = () => {
-    const token = useParams(); // SubString the token to URL link for token
+    const { email, } = useParams<{ 
+        email: string; 
+        // token: string;
+    }>(); // SubString the token to URL link for token
+    const { showAlert } = useAlert();
+    const navigate = useNavigate();
     const [ newPassword, setNewPassword ] = useState<string>('');
     const [ confirmNewPw, setConfirmNewPw ] = useState<string>('');
     const [ showPwRule, setShowPwRule ] = useState(false);
@@ -61,12 +67,38 @@ const ResetPassword: React.FC = () => {
         }))
     }
 
+    const triggerResetPassword = async () => {
+        try {
+            const decodedEmail = decodeURIComponent(email ?? '')
+            // console.log(decodedEmail)
+            await handleResetPassword(decodedEmail, confirmNewPw)
+            showAlert(
+                'Password Reset',
+                '',
+                'Password Reset Completed',
+                { type: 'success' }
+            );
+            navigate('/login')
+        } catch (error) {
+            showAlert(
+                'triggerResetPassword',
+                '',
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            );
+        }
+    }
+
     return (
         <div className="App-form-content">
             <Header />
             <form 
                 action=""
                 className='reset-password-form'
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    triggerResetPassword();
+                }}
             >
                 
                 {/* Request User Input New Password */}

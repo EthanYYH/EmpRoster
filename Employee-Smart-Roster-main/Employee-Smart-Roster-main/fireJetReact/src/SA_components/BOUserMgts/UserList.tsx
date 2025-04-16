@@ -22,6 +22,10 @@ const { getSubscriptionTransactions,
 const SubscribingStatus = ['Subscribed', 'Pending Payment', 'Unsubscribed', 'Cancelled Subscription']
 const IsAccSuspended = ['Activated', 'Suspended']
 
+interface BOListProps {
+    boUsers?: any;
+}
+
 const BOUserList = ({boUsers = []}: BOListProps) => {
     // console.log(boUsers)
     const { showAlert } = useAlert();
@@ -46,7 +50,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
                     showAlert(
                         `Error fetching company`,
                         `UID: ${user.UID}: `,
-                        {error}.toString(),
+                        error instanceof Error ? error.message : String(error),
                         { type: 'error' }
                     )
                     return null;
@@ -78,7 +82,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
             showAlert(
                 "Fetch Company Data Error",
                 'Failed to fetch company data BOUserList',
-                {error}.toString(),
+                error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }
@@ -101,7 +105,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
             showAlert(
                 "triggerFilterBOData", 
                 "Failed to apply filter", 
-                {error}.toString(), 
+                error instanceof Error ? error.message : String(error), 
                 { type: 'error' }
             );
         }
@@ -177,10 +181,6 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
             onUpdate={handleDataUpdate} />
         </>
     )
-}
-
-interface BOListProps {
-    boUsers?: any;
 }
 
 export default BOUserList;
