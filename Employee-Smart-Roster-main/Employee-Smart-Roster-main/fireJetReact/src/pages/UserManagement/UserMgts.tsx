@@ -2,10 +2,12 @@ import { useAuth } from '../../AuthContext';
 import { useEffect, useState } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
 import { USER_ROLE } from '../../controller/Variables.js';
-import UserController from '../../controller/User/UserController';
 import EmpList from '../../BO_components/EmployeeMgnts/EmpList';
 import BOUserList from '../../SA_components/BOUserMgts/UserList';
+import UserController from '../../controller/User/UserController';
+import CompanyController from '../../controller/CompanyController';
 import EmployeeMgntController from '../../controller/BOEmpMgntProfile/EmployeeMgntController.js';
+import CreateAccount from '../../BO_components/CreateEditEmployee/CreateEmployee';
 
 import './UserMgts.css'
 import "../../../public/styles/common.css"
@@ -14,19 +16,22 @@ import "../../../public/styles/common.css"
 // Import functions needed from UserController
 const { getBOUsers } = UserController
 const { getEmployeeList } = EmployeeMgntController
+const { getCompanyRoles, getCompanySkillsets } = CompanyController
 
 const UserMgts = () => {
     const { showAlert } = useAlert()
     const { user } = useAuth();
     const [ bizOwners, setBizOwners ] = useState<any>([]);
     const [ employees, setEmployees ] = useState<any>([]);
-    const [ error, setError ] = useState("")
+    const [ roles, setRoles ] = useState<any>([]);
+    const [ skills, setSkillsets ] = useState<any>([]);
+    const [ createEmp, setCreateEmp ] = useState(false);
 
     const fetchBoUsersData = async () => {
         try{
             let data = await getBOUsers();
             data = data.BOList || [];
-            // console.log(boList)
+            console.log(data)
             setBizOwners(Array.isArray(data) ? data : []);
         } catch(error) {
             showAlert(
@@ -42,8 +47,17 @@ const UserMgts = () => {
         try{
             let data = await getEmployeeList(user?.UID);
             data = data.employeeList || [];
-            // console.log(data)
             setEmployees(Array.isArray(data) ? data : []);
+
+            let roles = await getCompanyRoles(user?.UID);
+            roles = roles.roleName
+            setRoles(Array.isArray(roles) ? roles : [])
+
+            let skillsets = await getCompanySkillsets(user?.UID);
+            skillsets = skillsets.skillSets
+            // console.log(skillsets)
+            setSkillsets(Array.isArray(skillsets) ? skillsets : [])
+
         } catch(error) {
             showAlert(
                 "fetchEmpUsersData",
@@ -62,7 +76,12 @@ const UserMgts = () => {
             fetchEmpUsersData();
 
         else return;
-    }, [user])
+    }, [user?.role])
+
+    // Show / Close Create Emp form
+    function toggleCreateEmp () {
+        setCreateEmp(!!createEmp)
+    }
 
     return (
         <div className='App-content'>
@@ -83,11 +102,18 @@ const UserMgts = () => {
             {user?.role === USER_ROLE[1] && (
             <>
               <div className="content">
-                <h1>My Employee</h1>
-                {bizOwners.length === 0 ? (
+                <div className="bo-employee-list-page-title">
+                    <h1>My Employee</h1>
+                    <CreateAccount />
+                </div>
+                {employees.length === 0 ? (
                     <div>Loading your employee list...</div>
                 ) : (
-                    <EmpList empUsers={employees} />
+                    <EmpList 
+                        empUsers={employees} 
+                        roles={roles}
+                        skillsets={skills}
+                    />
                 )}
               </div>
             </>

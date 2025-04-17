@@ -13,7 +13,10 @@ export const YEAR_CHANGE = ['prevYear', 'nextYear'];
 // ENUM in DB
 export const USER_ROLE = ['System Admin', 'Business Owner', 'Employee']
 export const TASK_STATUS = ['Not Started', 'In Progress', 'Completed'];
-export const REG_STATUS = ["Pending", "Approved", "Rejected"]
+export const REG_STATUS = ["Pending", "Approved", "Rejected"];
+export const SUB_STATUS = ['Subscribed', 'Pending Payment', 'Unsubscribed', 'Cancelled Subscription'];
+export const PASS_TYPE = ['Singapore Citizen/PR', 'Employment Pass', 'S Pass', 'Work Permit', 'Other Work Pass']
+export const IS_ACC_SUSPENDED = ['Activated', 'Suspended']
 
 export function formatDateTime (isoString){
     return new Intl.DateTimeFormat('en-US', {
@@ -34,4 +37,10 @@ export async function encodeFileContent(file) {
         reader.onerror = reject;
         reader.readAsDataURL(file);
     });
+}
+
+export function convertDateToSGTime (timeStamp) {
+    const dateTime = new Date(timeStamp);
+    dateTime.setHours(dateTime.getHours() - 2);
+    return new Date(dateTime).toISOString().split('T');
 }

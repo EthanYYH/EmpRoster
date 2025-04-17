@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import "../../../../public/styles/common.css";
-import Nav from "../../../components/NavBar/NavBar";
-import SideMenu from "../../../components/SideMenu/BOSide";
-import EditButton from "../../../components/PrimaryButton/PrimaryButton"; 
-import SubmitButton from "../../../components/SecondaryButton/SecondaryButton";
-import { useAlert } from "../../../components/PromptAlert/AlertContext"; 
-import ViewEmployeeList from "../../../controller/ViewEmployeeListController";
-import { EditEmployee } from "../../../controller/EditEmployeeDetailController";
+import Nav from "../../components/NavBar/NavBar";
+import EditButton from "../../components/PrimaryButton/PrimaryButton"; 
+import SubmitButton from "../../components/SecondaryButton/SecondaryButton";
+import { useAlert } from "../../components/PromptAlert/AlertContext"; 
+import ViewEmployeeList from "../../controller/ViewEmployeeListController";
+import { EditEmployee } from "../../controller/EditEmployeeDetailController";
+
 import "./ViewEmployeeDetail.css";
+import "../../../public/styles/common.css";
 
 type Employee = {
   user_id: number;

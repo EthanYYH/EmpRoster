@@ -5,7 +5,6 @@ import PrimaryButton from '../../components/PrimaryButton/PrimaryButton.js'
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton'
 import UserController from '../../controller/User/UserController.js'
 import CompanyController from '../../controller/CompanyController.js'
-import '../../components/UserMgt/UserDetail.css'
 import './BODetail.css'
 import '../../../public/styles/common.css'
 import { IoClose, 

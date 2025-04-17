@@ -3,15 +3,17 @@ import { useAlert } from '../../components/PromptAlert/AlertContext';
 import { BiSolidUserDetail } from '../../../public/Icons.js';
 import UserDetail from './UserDetail';
 
-import './BOUserList_m.css';
+// import './EmpTableList_m.css';
 import '../../../public/styles/common.css';
 
 interface BOListMobileProps {
-  users?: any;
+  users: any;
+  roles: any;
+  skillsets: any;
   onUpdate?: (updatedData: any) => void;
 }
 
-const BOUserList_m = ({ users = [], onUpdate }: BOListMobileProps) => {
+const EMPUserList_m = ({ users, roles, skillsets, onUpdate }: BOListMobileProps) => {
   const { showAlert } = useAlert();
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [showDetail, setShowDetail] = useState(false);
@@ -31,6 +33,21 @@ const BOUserList_m = ({ users = [], onUpdate }: BOListMobileProps) => {
       showAlert("handleDetailClick in BOUserList_m", '', error, { type: 'error' });
   };
 
+  function returnRoleName (skillID:number) {
+    const skillName = skillsets.filter((skillset:any) => {
+      return skillset.skillSetID === skillID
+    })
+    return skillName.skillSetName
+  }
+
+  function returnSkillName (skillID:number) {
+    const skill = skillsets.filter((skill:any) => {
+      return skill.skillSetID === skillID
+    })
+    // console.log(skill[0])
+    return skill[0].skillSetName
+  }
+
   function triggerCloseDetail() {
     setSelectedUser(null);
     setShowDetail(false);
@@ -47,7 +64,7 @@ const BOUserList_m = ({ users = [], onUpdate }: BOListMobileProps) => {
     <>
       <div className="App-mobile-responsive-table">
         {users.map((user: any) => (
-          <div key={user.nric} className="App-mobile-responsive-table-card">
+          <div key={user.UID} className="App-mobile-responsive-table-card">
             <div className="App-mobile-responsive-table-card-title">
               <h2>{user.fullName}</h2>
               <div
@@ -80,6 +97,8 @@ const BOUserList_m = ({ users = [], onUpdate }: BOListMobileProps) => {
         <div className="App-popup" onClick={triggerCloseDetail}>
           <UserDetail
             user={selectedUser}
+            role={returnRoleName(selectedUser.roleID)}
+            skillset={returnSkillName(selectedUser.skillSetID)}
             onClose={triggerCloseDetail}
             onUpdate={onUpdate}
           />
@@ -89,4 +108,4 @@ const BOUserList_m = ({ users = [], onUpdate }: BOListMobileProps) => {
   );
 };
 
-export default BOUserList_m;
+export default EMPUserList_m;

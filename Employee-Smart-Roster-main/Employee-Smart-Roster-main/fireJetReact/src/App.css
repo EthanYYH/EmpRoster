@@ -166,7 +166,8 @@ h3 {
 input[type=text], 
 input[type=email],
 input[type=password],
-input[type=number]{
+input[type=number],
+input[type=time]{
   background-color: white;
   border-style: outset;
   border-width: 2px;
@@ -329,7 +330,9 @@ option:checked {
 
   .App-filter-container {
     display: flex;
+    height: 100%;
     flex-direction: column;
+    justify-content: space-between;
     gap: 5px;
 
     .App-filter-title {
