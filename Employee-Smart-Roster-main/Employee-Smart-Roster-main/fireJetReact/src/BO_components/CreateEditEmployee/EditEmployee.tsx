@@ -1,9 +1,9 @@
 import { useState } from "react";
-import "../../../../public/styles/common.css";
-import SubmitButton from "../../../components/PrimaryButton/PrimaryButton";
+import SubmitButton from "../../components/PrimaryButton/PrimaryButton";
 import { IoClose } from "react-icons/io5"; 
-import { useAlert } from "../../../components/PromptAlert/AlertContext"; 
+import { useAlert } from "../../components/PromptAlert/AlertContext"; 
 import "./CreateEmployee.css"
+import "../../../public/styles/common.css";
 
 const EditEmployee = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);

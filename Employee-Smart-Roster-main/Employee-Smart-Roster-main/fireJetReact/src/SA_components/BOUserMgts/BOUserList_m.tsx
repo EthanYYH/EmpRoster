@@ -47,12 +47,7 @@ const BOUserList_m = ({ companies = [], onUpdate }: BOListMobileProps) => {
         setSelectedCompany([]);
         setShowDetail(false);
     }
-
-    if (companies.length === 0) return (
-        <div className="App-mobile-responsive-table">
-            <b>{NO_DATA_MATCHED}</b>
-        </div>
-    )
+    
     return (
         <>
         <div className="App-mobile-responsive-table">

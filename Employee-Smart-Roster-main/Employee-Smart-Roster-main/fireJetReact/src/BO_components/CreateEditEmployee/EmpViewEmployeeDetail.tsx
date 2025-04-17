@@ -1,11 +1,9 @@
 import { useState } from "react";
-import "../../../../public/styles/common.css";
-import Nav from "../../../components/NavBar/NavBar";
-import SideMenu from "../../../components/SideMenu/BOSide";
-import EditButton from "../../../components/PrimaryButton/PrimaryButton"; 
-import SubmitButton from "../../../components/SecondaryButton/SecondaryButton";
-import { useAlert } from "../../../components/PromptAlert/AlertContext"; 
+import EditButton from "../../components/PrimaryButton/PrimaryButton"; 
+import SubmitButton from "../../components/SecondaryButton/SecondaryButton";
+import { useAlert } from "../../components/PromptAlert/AlertContext"; 
 import "./EmpViewEmployeeDetail.css";
+import "../../../public/styles/common.css";
 
 const EmpViewEmployeeDetail = () => {
   const [editMode, setEditMode] = useState(false);

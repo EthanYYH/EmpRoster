@@ -17,7 +17,6 @@ import SideMenu_t from "./components/SideMenu/SideMenu_t";
 import SADash from "./pages/Dashboard/SADash";
 import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import UserMgts from "./pages/UserManagement/UserMgts";
-import UserDetail from "./components/UserMgt/UserDetail";
 import PreviewLanding from "./SA_pages/PreviewLanding";
 import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
 
@@ -37,10 +36,10 @@ import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 
 // Pages for Busines Owner
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
-import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
-import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
-import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
-import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
+import CreateEmployee from "./BO_components/CreateEditEmployee/CreateEmployee"
+import EditEmployee from "./BO_components/CreateEditEmployee/EditEmployee"
+import ViewEmployeeDetail from "./BO_components/CreateEditEmployee/ViewEmployeeDetail"
+import EmpViewEmployeeDetail from "./BO_components/CreateEditEmployee/EmpViewEmployeeDetail"
 
 // Import for testing
 import "./App.css";
@@ -76,16 +75,6 @@ function App() {
                   <ProtectedRoute>
                     <SideMenu_t />
                     <UserMgts />
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/user-detail"
-                element={
-                  <ProtectedRoute>
-                    <SideMenu_t />
-                    <UserDetail />
                   </ProtectedRoute>
                 }
               />

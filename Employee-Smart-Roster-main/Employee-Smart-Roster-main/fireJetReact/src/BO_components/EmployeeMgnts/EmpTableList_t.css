@@ -1,0 +1,34 @@
+.header-employee-name,
+.body-employee-name {
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.header-employee-email,
+.body-employee-email {      
+    min-width: 200px;
+}
+
+.header-employee-phone,
+.body-employee-phone {
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.header-employee-job-title,
+.body-employee-job-title{
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.header-employee-role,
+.body-employee-role{
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.header-employee-skill,
+.body-employee-skill{
+    min-width: 150px;
+    max-width: 150px;
+}
