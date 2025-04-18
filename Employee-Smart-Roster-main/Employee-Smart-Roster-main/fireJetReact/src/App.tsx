@@ -80,34 +80,6 @@ function App() {
               />
 
               <Route
-                path="/create-employee"
-                element={
-                  // <ProtectedRoute>
-                    <CreateEmployee />
-                  // </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/edit-employee"
-                element={
-                  // <ProtectedRoute>
-                    <EditEmployee />
-                  // </ProtectedRoute>
-                }
-              />
-
-              {/* <Route
-                path="/view-employee-detail"
-                element={
-                  // <ProtectedRoute>
-                    <ViewEmployeeDetail />
-                  // </ProtectedRoute>
-                }
-                
-              /> */}
-
-              <Route
                 path="/view-employee-detail"
                 element={
                   <ProtectedRoute>
@@ -116,15 +88,6 @@ function App() {
                   </ProtectedRoute>
                 }
                 />
-
-              <Route
-                path="/emp-view-employee-detail"
-                element={
-                  // <ProtectedRoute>
-                    <EmpViewEmployeeDetail />
-                  // </ProtectedRoute>
-                }
-              />
 
               {/* Route for System Admin Pages */}
               <Route
@@ -209,14 +172,7 @@ function App() {
                 }
               />
 
-              {/* <Route path="/complete-profile" element={
-                  <ProtectedRoute>
-                    <SideMenu_t />
-                    <CompleteProfile />
-                  </ProtectedRoute>
-              }/> */}
-
-              {/* <Route element={<RequiredCompleteProfile/>}> */}
+              <Route element={<RequiredCompleteProfile/>}>
                 {/* Route for Business Owner pages */}
                 <Route
                   path="/business-dashboard"
@@ -345,7 +301,7 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-              {/* </Route> */}
+              </Route>
               
               {/* Route for Employee pages */}
               <Route
