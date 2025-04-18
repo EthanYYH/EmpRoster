@@ -84,6 +84,11 @@ h3 {
   color: var(--h3);
 }
 
+h4 {
+  font-size: var(--text-h4);
+  color: var(--h3);
+}
+
 .App-popup {
   position: fixed;
   top: 0;
@@ -167,7 +172,8 @@ input[type=text],
 input[type=email],
 input[type=password],
 input[type=number],
-input[type=time]{
+input[type=time],
+input[type=tel]{
   background-color: white;
   border-style: outset;
   border-width: 2px;
@@ -388,6 +394,10 @@ option:checked {
 
   h3 {
     font-size: var(--text-h3-m);
+  }
+
+  h4 {
+    font-size: var(--text-h4-m);
   }
 
   .App-desktop-responsive-table {

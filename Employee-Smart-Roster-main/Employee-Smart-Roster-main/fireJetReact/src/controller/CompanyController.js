@@ -1,41 +1,4 @@
-function getCompanies (){
-    const data = [
-        {
-            cID: 1,
-            UEN: "202017097M",
-            bizName: "GOOGLE VENTURES PTE. LTD.",
-            contactNo: "+65 6666 1111",
-            bizFilePath: "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8",
-            email: "GoogleVentures@gmail.com",
-            address: "#01-01 Clementi S111111",
-            createdAt: "2025-3-25 12:00:08",
-            lastUpdate: "",
-        },
-        {
-            cID: 2,
-            UEN: "53137217X",
-            bizName: "GOOGLE CARS",
-            contactNo: "+65 6666 1112",
-            bizFilePath: "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8",
-            email: "GoogleCars@gmail.com",
-            address: "#02-02 Clementi S111122",
-            createdAt: "2025-3-25 12:00:08",
-            lastUpdate: "",
-        },
-        {
-            cID: 3,
-            UEN: "53342345K",
-            bizName: "GOOGLE CLOUD",
-            contactNo: "+65 6666 1113",
-            bizFilePath: "https://mymailsimedu-my.sharepoint.com/:b:/g/personal/wmlim014_mymail_sim_edu_sg/EfaXUfD99AdHrSO5GjbQNssBfoSXi7ZLWPO2oGbLADvDAA?e=MT6By8",
-            email: "GoogleCloud@gmail.com",
-            address: "#03-03 Clementi S111133",
-            createdAt: "2025-3-25 12:00:08",
-            lastUpdate: "",
-        }
-    ]
-    return data;
-}
+import { COMPANY_PHONE_PATTERN } from "./Variables.js";
 
 async function getCompany (uid){
     const body = {
@@ -159,7 +122,7 @@ async function getCompanyRoles (boID){
 
         return await data;
     } catch (error) {
-        console.error(`Network error for UID ${uid}: \n`, error);
+        // console.error(`Network error for UID ${uid}: \n`, error);
         throw new Error(`Failed to fetch company data: ${error.message}`);
     }
 }
@@ -183,8 +146,65 @@ async function getCompanySkillsets (boID){
 
         return await data;
     } catch (error) {
-        console.error(`Network error for UID ${uid}: \n`, error);
+        // console.error(`Network error for UID ${uid}: \n`, error);
         throw new Error(`Failed to fetch company data: ${error.message}`);
+    }
+}
+
+async function getBOUserProfile(boID) {
+    const body = {
+        business_owner_id: boID,
+    }
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/profile/view', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch (error) {
+        // console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to fetch user data: ${error.message}`);
+    }
+}
+
+async function setBOCompleteProfile(boID, cContact, address, nric, hpNo, name) {
+    // Remove all non-digit characters
+    cContact = cContact.replace(/\D/g, '').slice(0, 8);
+    hpNo = hpNo.replace(/\D/g, '').slice(0, 8);
+    
+    const body = {
+        business_owner_id: boID,
+        BusinessContactNo: cContact,
+        address: address,
+        hpNo: hpNo,
+        fullName: name,
+        nric: nric
+    }
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/firstlogin', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch (error) {
+        // console.error(`Network error for UID ${name}: \n`, error);
+        throw new Error(`Failed to complete user profile: ${error.message}`);
     }
 }
 
@@ -205,14 +225,27 @@ function handleFilterUENBizName(companies, filterString){
     return filteredData
 }
 
+function validateVirtualPhoneNo(phone) {
+    const cleaned = phone.replace(/\D/g, '').slice(0, 8);
+    // console.log("Phone: ", cleaned)
+    // console.log("valid format: ", COMPANY_PHONE_PATTERN.test(cleaned))
+
+    if(!COMPANY_PHONE_PATTERN.test(cleaned))
+        return "Invalid Virtual Phone Format (8 digits and starting with 6)"
+    else
+        return ''
+}
+
 export default {
-    getCompanies, // Not using
     getCompany,
     getCompanyBizFile,
     getCompanyRoles,
     getCompanySkillsets,
     GetCompanyRoles, // Not using
     GetCompanySkillsets, // Not using
+    getBOUserProfile,
+    setBOCompleteProfile,
     handleSelectedDetail,
     handleFilterUENBizName,
+    validateVirtualPhoneNo
 }

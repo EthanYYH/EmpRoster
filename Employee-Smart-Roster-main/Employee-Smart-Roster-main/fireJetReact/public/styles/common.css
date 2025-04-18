@@ -26,7 +26,7 @@
     --error-background: #fff2f0;
     --error: #EF4444;
     --warning-background: #fef5e7;
-    --warning: #f59f0a;
+    --warning: rgb(255, 102, 0);
     --info-background: #e6f7ff;
     --info: #0077e6;
 
@@ -41,4 +41,6 @@
     --text-h2-m: 24px;
     --text-h3: var(--text-h2-m);
     --text-h3-m: 20px;
+    --text-h4: var(--text-h3-m);
+    --text-h4-m: 18px;
 }
