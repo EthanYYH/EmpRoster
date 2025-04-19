@@ -22,8 +22,8 @@ async function getRegistrationRequests (){
 
         return await data;
     } catch(error) {
-        console.error(`Network error for UID ${uid}: \n`, error);
-        throw new Error(`Failed to fetch company data: ${error.message}`);
+        console.error(`Network error: \n`, error);
+        throw new Error(`Failed to fetch registration data: ${error.message}`);
     }
 }
 
@@ -45,11 +45,36 @@ async function setRegistrationRequest(registrationID, status, reasonOfReject){
             throw new Error(errorData.message || `HTTP error status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         return await data;
     } catch(error) {
-        console.error(`Network error for UID ${uid}: \n`, error);
+        console.error(`Network error: \n`, error);
+        throw new Error(`Failed to update registration request: ${error.message}`);
+    }
+}
+
+async function getBizFile(registrationID) {
+    const body = {
+        registrationID: registrationID,
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/s3/pdf/download', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(response.status !== 200) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error: \n`, error);
         throw new Error(`Failed to fetch company data: ${error.message}`);
     }
 }
@@ -80,6 +105,7 @@ export default {
     createRegistrationRequest,
     getRegistrationRequests,
     setRegistrationRequest, 
+    getBizFile,
     handleFilterRegsStatus,
     handleFilterRegReqUENBizName,
 }

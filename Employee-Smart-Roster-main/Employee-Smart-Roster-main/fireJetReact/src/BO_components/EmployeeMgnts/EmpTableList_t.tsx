@@ -4,7 +4,8 @@ import Header from '../../components/table/Header';
 import Cell from '../../components/table/Cell';
 import { BiSolidUserDetail } from '../../../public/Icons.js';
 import UserDetail from './UserDetail';
-import './BOUserList_t.css';
+
+import './EmpTableList_t.css';
 import '../../../public/styles/common.css';
 
 // Define an interface for Employee.
@@ -33,24 +34,17 @@ export interface Employee {
 }
 
 interface BOListTableProps {
-  users?: Employee[];
+  users: any;
+  roles: any;
+  skillsets: any;
   onUpdate?: (updatedData: Employee) => void;
 }
 
-const BOUserList_t = ({ users = [], onUpdate }: BOListTableProps) => {
+const EMPUserList_t = ({ users, roles, skillsets, onUpdate }: BOListTableProps) => {
   const { showAlert } = useAlert();
-  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<any>([]);
   const [showDetail, setShowDetail] = useState(false);
   const [error, setError] = useState("");
-
-  // Helper function to format the ISO date string to dd/mm/yyyy
-  const formatDate = (isoDate: string): string => {
-    const date = new Date(isoDate);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
 
   const handleDetailClick = (employee: Employee) => {
     try {
@@ -70,6 +64,22 @@ const BOUserList_t = ({ users = [], onUpdate }: BOListTableProps) => {
     setSelectedEmployee(null);
     setShowDetail(false);
   };
+  
+  function returnRoleName (roleID:number) {
+    const role = roles.filter((role:any) => {
+      return role.roleID === roleID
+    })
+    // console.log(role[0])
+    return role[0].roleName
+  }
+
+  function returnSkillName (skillID:number) {
+    const skill = skillsets.filter((skill:any) => {
+      return skill.skillSetID === skillID
+    })
+    // console.log(skill[0])
+    return skill[0].skillSetName
+  }
 
   if (users.length === 0)
     return (
@@ -81,25 +91,25 @@ const BOUserList_t = ({ users = [], onUpdate }: BOListTableProps) => {
   return (
     <>
       <div className="App-desktop-responsive-table">
-        <div className="desktop-table-header">
-          <Header className="header-employee-id" text="NAME" />
-          <Header className="header-email" text="EMAIL" />
-          <Header className="header-job-title" text="JOB TITLE" />
-          <Header className="header-role" text="DATE JOINED" />
-          <Header className="header-phone" text="PHONE" />
-          <Header className="header-status" text="STATUS" />
-          <Header className="header-icon" text="" />
+        <div className="App-desktop-table-row desktop-table-header">
+          <Header className="header-employee-name" text="NAME" />
+          <Header className="header-employee-email" text="EMAIL" />
+          <Header className="header-employee-phone" text="PHONE" />
+          <Header className="header-employee-job-title" text="JOB TITLE" />
+          <Header className="header-employee-role" text="ROLE" />
+          <Header className="header-employee-skill" text="SKILL" />
+          <Header className="App-header-icon-gap" text="" />
         </div>
-        {users.map((employee: Employee) => (
-          <div className="table-body" key={employee.user_id}>
-            <Cell className="body-employee-id" text={employee.fullName} />
-            <Cell className="body-email" text={employee.email} />
-            <Cell className="body-job-title" text={employee.jobTitle} />
-            <Cell className="body-role" text={formatDate(employee.dateJoined)} />
-            <Cell className="body-phone" text={employee.hpNo.toString()} />
+        {users.map((employee:any) => (
+          <div className="App-desktop-table-row table-body" key={employee.user_id}>
+            <Cell className="body-employee-name" text={employee.fullName} />
+            <Cell className="body-employee-email" text={employee.email} />
+            <Cell className="body-employee-phone" text={employee.hpNo} />
+            <Cell className="body-employee-job-title" text={employee.jobTitle} />
+            <Cell className="body-employee-role" text={returnRoleName(employee.roleID)} />
             <Cell
-              className="body-status"
-              text={employee.activeOrInactive === 1 ? "Active" : "Inactive"}
+              className="body-employee-skill"
+              text={returnSkillName(employee.skillSetID)}
             />
             <div
               className="App-desktop-table-icon"
@@ -112,9 +122,11 @@ const BOUserList_t = ({ users = [], onUpdate }: BOListTableProps) => {
       </div>
 
       {showDetail && selectedEmployee && (
-        <div className="App-popup">
+        <div className="App-popup" onClick={triggerCloseDetail}>
           <UserDetail
             user={selectedEmployee}
+            role={returnRoleName(selectedEmployee.roleID)}
+            skillset={returnSkillName(selectedEmployee.skillSetID)}
             onClose={triggerCloseDetail}
             onUpdate={onUpdate}
           />
@@ -124,4 +136,4 @@ const BOUserList_t = ({ users = [], onUpdate }: BOListTableProps) => {
   );
 };
 
-export default BOUserList_t;
+export default EMPUserList_t;

@@ -1,10 +1,12 @@
 import { useState } from "react";
-import "../../../../public/styles/common.css";
-import CreateEmployeeController from "../../../controller/CreateEmployeeController";
-import SubmitButton from "../../../components/PrimaryButton/PrimaryButton";
+import CreateEmployeeController from "../../controller/CreateEmployeeController";
+import SubmitButton from "../../components/PrimaryButton/PrimaryButton";
 import { IoClose } from "react-icons/io5"; 
-import { useAlert } from "../../../components/PromptAlert/AlertContext"; 
+import { useAlert } from "../../components/PromptAlert/AlertContext"; 
+
+import { FaPlusCircle } from '../../../public/Icons.js'
 import "./CreateEmployee.css"
+import "../../../public/styles/common.css";
 
 const CreateAccount = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -81,12 +83,12 @@ const CreateAccount = () => {
     };
 
     return (
-        <div>
-            <SubmitButton onClick={() => setIsPopupOpen(true)} text="Create Account" />
+        <>
+            <FaPlusCircle onClick={() => setIsPopupOpen(true)} className="create-new-emp-icon" />
 
             {isPopupOpen && (
-                <div className="App-popup">
-                    <div className="App-popup-content">
+                <div className="App-popup" onClick={() => setIsPopupOpen(false)}>
+                    <div className="App-popup-content" onClick={(e) => e.stopPropagation()}>
                         <div className='App-header'>
                             <h1>Create Account</h1>
                             <button className='icons' onClick={() => setIsPopupOpen(false)}>
@@ -190,7 +192,7 @@ const CreateAccount = () => {
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 };
 

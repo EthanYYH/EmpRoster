@@ -12,7 +12,8 @@ import { FaFilePdf,
          FaChevronCircleRight,
          FaChevronCircleDown,
          FaChevronCircleUp,
-         FaRegListAlt } from "react-icons/fa";
+         FaRegListAlt,
+         FaRegEdit } from "react-icons/fa";
 import { IoIosAlert } from "react-icons/io";
 import { GiRotaryPhone } from "react-icons/gi";
 import { MdContactPhone, 
@@ -23,8 +24,10 @@ import { IoIosWarning } from "react-icons/io";
 import { TiTick, TiTime } from "react-icons/ti";
 import { TbTarget, TbTargetArrow } from "react-icons/tb";
 import { VscDebugBreakpointData } from "react-icons/vsc";
-import { HiMiniViewfinderCircle } from "react-icons/hi2";
+import { HiMiniViewfinderCircle,
+         HiOutlineCalendarDateRange } from "react-icons/hi2";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { HiOutlineIdentification } from "react-icons/hi";
 
 export {
     LuLogOut,   // Logout icon
@@ -57,4 +60,7 @@ export {
     VscDebugBreakpointData, // List point icon
     HiMiniViewfinderCircle, // Allocated time view icon
     TiTime, // Time icon
+    FaRegEdit, // Edit icon
+    HiOutlineIdentification, // Identification icon
+    HiOutlineCalendarDateRange, // Date icon
 };

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
+import { SUB_STATUS, IS_ACC_SUSPENDED } from '../../controller/Variables';
 import CompanyController from '../../controller/CompanyController';
 import SubscribtionController from '../../controller/SubscribtionController';
 import UserController from '../../controller/User/UserController';
@@ -19,14 +20,15 @@ const { getSubscriptionTransactions,
         getSortedSubsTransactions,
         handleFilterSubsStatus, } = SubscribtionController;
 
-const SubscribingStatus = ['Subscribed', 'Pending Payment', 'Unsubscribed', 'Cancelled Subscription']
-const IsAccSuspended = ['Activated', 'Suspended']
+interface BOListProps {
+    boUsers?: any;
+}
 
 const BOUserList = ({boUsers = []}: BOListProps) => {
     // console.log(boUsers)
     const { showAlert } = useAlert();
-    const [ filterSubsStatus, setFilterSubsStatus ] = useState(SubscribingStatus[0]);
-    const [ filterAccStatus, setFilterAccStatus ] = useState(IsAccSuspended[0]);
+    const [ filterSubsStatus, setFilterSubsStatus ] = useState(SUB_STATUS[0]);
+    const [ filterAccStatus, setFilterAccStatus ] = useState(IS_ACC_SUSPENDED[0]);
     const [ filterUENOBizName, setFilterUENOBizName ] = useState('');
     const [ allCompanies, setAllCompanies ] = useState<any>([])
     const [ companies, setCompanies ] = useState<any>([]);  // Data to Display
@@ -46,7 +48,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
                     showAlert(
                         `Error fetching company`,
                         `UID: ${user.UID}: `,
-                        {error}.toString(),
+                        error instanceof Error ? error.message : String(error),
                         { type: 'error' }
                     )
                     return null;
@@ -78,7 +80,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
             showAlert(
                 "Fetch Company Data Error",
                 'Failed to fetch company data BOUserList',
-                {error}.toString(),
+                error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }
@@ -101,7 +103,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
             showAlert(
                 "triggerFilterBOData", 
                 "Failed to apply filter", 
-                {error}.toString(), 
+                error instanceof Error ? error.message : String(error), 
                 { type: 'error' }
             );
         }
@@ -136,7 +138,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
                     value={filterSubsStatus}
                     onChange={(e) => setFilterSubsStatus(e.target.value)}
                 >
-                {SubscribingStatus.map(status => (
+                {SUB_STATUS.map(status => (
                     <option key={status} value={status}>
                         {status}
                     </option>
@@ -150,7 +152,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
                     value={filterAccStatus}
                     onChange={(e) => setFilterAccStatus(e.target.value)}
                 >
-                {IsAccSuspended.map(accStatus => (
+                {IS_ACC_SUSPENDED.map(accStatus => (
                     <option key={accStatus} value={accStatus}>
                         {accStatus}
                     </option>
@@ -166,21 +168,21 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
                 />
             </div>
         </div>
-        {/* Desktop Table */}
-        <BOUserList_t 
-            companies={companies}
-            onUpdate={handleDataUpdate} />
+        {companies.length > 0 ? (
+        <>
+            {/* Desktop Table */}
+            <BOUserList_t 
+                companies={companies}
+                onUpdate={handleDataUpdate} />
 
-        {/* Tablet and Mobile Table */}
-        <BOUserList_m 
-            companies={companies}
-            onUpdate={handleDataUpdate} />
+            {/* Tablet and Mobile Table */}
+            <BOUserList_m 
+                companies={companies}
+                onUpdate={handleDataUpdate} />
+        </>
+        ):(<>No Data Matched with Filter</>)}
         </>
     )
-}
-
-interface BOListProps {
-    boUsers?: any;
 }
 
 export default BOUserList;

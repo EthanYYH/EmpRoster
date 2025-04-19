@@ -1,9 +1,9 @@
 import { useState } from "react";
-import "../../../../public/styles/common.css";
-import SubmitButton from "../../../components/PrimaryButton/PrimaryButton";
+import SubmitButton from "../../components/PrimaryButton/PrimaryButton";
 import { IoClose } from "react-icons/io5"; 
-import { useAlert } from "../../../components/PromptAlert/AlertContext"; 
+import { useAlert } from "../../components/PromptAlert/AlertContext"; 
 import "./CreateEmployee.css"
+import "../../../public/styles/common.css";
 
 const EditEmployee = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -52,8 +52,8 @@ const EditEmployee = () => {
 
             {/* Popup Section */}
             {isPopupOpen && (
-                <div className="App-popup">
-                    <div className="App-popup-content">
+                <div className="App-popup" onClick={() => setIsPopupOpen(false)}>
+                    <div className="App-popup-content" onClick={(e) => e.stopPropagation()}>
 
                         <div className='App-header'>
                             <h1>Edit Account</h1> {/* Change the header to 'Edit Account' */}
