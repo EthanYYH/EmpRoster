@@ -39,7 +39,7 @@ import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/CreateEditEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/CreateEditEmployee/EditEmployee"
 import ViewEmployeeDetail from "./BO_components/CreateEditEmployee/BOViewEmployeeDetail"
-import EmpViewEmployeeDetail from "./BO_components/CreateEditEmployee/EmpViewDetail"
+import EmpViewDetail from "./BO_components/CreateEditEmployee/EmpViewDetail"
 
 // Import for testing
 import "./App.css";
@@ -93,7 +93,7 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <SideMenu_t />
-                    <EmpViewEmployeeDetail />
+                    <EmpViewDetail />
                   </ProtectedRoute>
                 }
                 />
