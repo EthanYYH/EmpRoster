@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import "../../../../public/styles/common.css";
-import EditButton from "../../../components/PrimaryButton/PrimaryButton";
-import SubmitButton from "../../../components/SecondaryButton/SecondaryButton";
-import { useAlert } from "../../../components/PromptAlert/AlertContext";
-import EmpViewDetailController from "../../../controller/EmpViewDetailController";
-import { EditEmployee } from "../../../controller/EmpEditDetailController";
+import "../../../public/styles/common.css";
+import EditButton from "../../components/PrimaryButton/PrimaryButton";
+import SubmitButton from "../../components/SecondaryButton/SecondaryButton";
+import { useAlert } from "../../components/PromptAlert/AlertContext";
+import EmpViewDetailController from "../../controller/EmpViewDetailController";
+import { EditEmployee } from "../../controller/EmpEditDetailController";
 import "./EmpViewDetail.css";
-import { useAuth } from "../../../AuthContext";
+import { useAuth } from "../../AuthContext";
 
 type Employee = {
   user_id: number;
