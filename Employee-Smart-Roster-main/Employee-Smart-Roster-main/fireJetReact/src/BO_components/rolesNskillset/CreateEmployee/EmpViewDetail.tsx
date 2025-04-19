@@ -52,7 +52,7 @@ const ViewEmployeeDetail = () => {
 
   const { showAlert } = useAlert();
   const { user } = useAuth();
-  const employee_user_id = 4;
+  const employee_user_id = user?.UID;
 
   useEffect(() => {
     if (!employee_user_id) return;
