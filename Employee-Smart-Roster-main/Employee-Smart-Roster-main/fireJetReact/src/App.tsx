@@ -38,8 +38,8 @@ import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/CreateEditEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/CreateEditEmployee/EditEmployee"
-import ViewEmployeeDetail from "./BO_components/CreateEditEmployee/ViewEmployeeDetail"
-import EmpViewEmployeeDetail from "./BO_components/CreateEditEmployee/EmpViewEmployeeDetail"
+import ViewEmployeeDetail from "./BO_components/CreateEditEmployee/BOViewEmployeeDetail"
+import EmpViewDetail from "./BO_components/CreateEditEmployee/EmpViewDetail"
 
 // Import for testing
 import "./App.css";
@@ -85,6 +85,15 @@ function App() {
                   <ProtectedRoute>
                     <SideMenu_t />
                     <ViewEmployeeDetail />
+                  </ProtectedRoute>
+                }
+                />
+              <Route
+                path="/emp-view-employee-detail"
+                element={
+                  <ProtectedRoute>
+                    <SideMenu_t />
+                    <EmpViewDetail />
                   </ProtectedRoute>
                 }
                 />
