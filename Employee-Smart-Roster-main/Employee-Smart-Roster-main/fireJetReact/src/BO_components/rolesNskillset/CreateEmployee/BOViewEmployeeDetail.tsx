@@ -77,7 +77,7 @@ const ViewEmployeeDetail = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    const business_owner_id = 2;
+    const business_owner_id = user?.UID;
 
     const fetchEmployees = async () => {
       try {
