@@ -37,8 +37,8 @@ import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/rolesNskillset/CreateEmployee/CreateEmployee"
 import EditEmployee from "./BO_components/rolesNskillset/CreateEmployee/EditEmployee"
-import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/ViewEmployeeDetail"
-import EmpViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewEmployeeDetail"
+import ViewEmployeeDetail from "./BO_components/rolesNskillset/CreateEmployee/BOViewEmployeeDetail"
+import EmpViewDetail from "./BO_components/rolesNskillset/CreateEmployee/EmpViewDetail"
 
 // Import for testing
 import "./App.css";
@@ -126,32 +126,16 @@ function App() {
                 }
                 />
 
-              <Route
-                path="/emp-view-employee-detail"
-                element={
-                  // <ProtectedRoute>
-                    <EmpViewEmployeeDetail />
-                  // </ProtectedRoute>
-                }
-              />
 
 
-
-              <Route
-                path="/view-employee-detail"
-                element={
-                  // <ProtectedRoute>
-                    <ViewEmployeeDetail />
-                  // </ProtectedRoute>
-                }
-              />
 
               <Route
                 path="/emp-view-employee-detail"
                 element={
-                  // <ProtectedRoute>
-                    <EmpViewEmployeeDetail />
-                  // </ProtectedRoute>
+                  <ProtectedRoute>
+                  <SideMenu_t />
+                    <EmpViewDetail />
+                  </ProtectedRoute>
                 }
                 />
 
