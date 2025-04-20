@@ -93,7 +93,6 @@ const CompleteProfile = ({ userID, onDataUpdate }:CompleteProfileProps) => {
 
     const handleNRICInput = async(nric: string) => {
         const formattedNRIC = formatNRIC(nric);
-        // Format the phone number with spaces
         setNRIC(formattedNRIC)
 
         const error = validateNRICofFIN(formattedNRIC)
@@ -212,7 +211,7 @@ const CompleteProfile = ({ userID, onDataUpdate }:CompleteProfileProps) => {
                         </strong>
                         <div className="fields">
                             <input type='text' 
-                                name='password'
+                                name='company-add'
                                 placeholder='Company Address' 
                                 value={companyAdd}
                                 onChange={(e) => setCompanyAdd(e.target.value)}
@@ -273,7 +272,7 @@ const CompleteProfile = ({ userID, onDataUpdate }:CompleteProfileProps) => {
                         </div>
                     </div>
 
-                    {/* HpNo*/}
+                    {/* HpNo */}
                     <div className='forms-input'>
                         <strong>
                             Contact No <span style={{ color: 'red' }}>*</span>

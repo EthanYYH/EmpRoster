@@ -72,7 +72,7 @@ const RequiredCompleteProfile = () => {
             String(hpNo).trim() !== '' &&
             String(nric).trim() !== '';
 
-    setIsProfileComplete(isAllFilled);
+        setIsProfileComplete(isAllFilled);
     }, [companyContact, companyAdd, fullName, hpNo, nric]);
 
     // const fetchData = async () => {

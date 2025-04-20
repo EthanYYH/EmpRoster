@@ -102,11 +102,11 @@ const EmpList = ({empUsers, roles, skillsets}: EMPListProps) => {
                   onChange={(e) => setFilterRole(e.target.value)}
               >
                 <option value="All">ALL</option>
-              {roles.map((role:any) => (
-                <option key={role.roleID} value={role.roleName}>
-                  {role.roleName}
-                </option>
-              ))}
+                {roles.map((role:any) => (
+                  <option key={role.roleID} value={role.roleName}>
+                    {role.roleName}
+                  </option>
+                ))}
               </select>
           </div>
           <div className="App-filter-container subscription-status">
@@ -117,11 +117,11 @@ const EmpList = ({empUsers, roles, skillsets}: EMPListProps) => {
                   onChange={(e) => setFilterSkill(e.target.value)}
               >
                 <option value="All">ALL</option>
-              {skillsets.map((skill:any) => (
-                <option key={skill.skillSetID} value={skill.skillSetName}>
-                  {skill.skillSetName}
-                </option>
-              ))}
+                {skillsets.map((skill:any) => (
+                  <option key={skill.skillSetID} value={skill.skillSetName}>
+                    {skill.skillSetName}
+                  </option>
+                ))}
               </select>
           </div>
           <div className="App-filter-container subscription-status">

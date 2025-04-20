@@ -1,0 +1,27 @@
+.create-edit-emp-content {
+    gap: 5px !important;
+}
+
+.create-employee-form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    .create-emp-left,
+    .create-emp-right {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: start;
+    }
+}
+
+.create-edit-emp-button {
+    display: flex;
+    justify-content: end;
+}
+
+/* Mobile (all screens below 768px) */
+@media only screen and (max-width: 768px) {
+    
+}

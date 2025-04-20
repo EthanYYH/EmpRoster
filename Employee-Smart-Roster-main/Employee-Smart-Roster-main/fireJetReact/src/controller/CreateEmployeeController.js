@@ -39,7 +39,7 @@ async function createEmployee(values) {
 
     const body = cleanUndefined({
         business_owner_id: values.business_owner_id,
-        user_id: values.user_id,
+        fullName: values.name,
         email: values.email,
         hpNo: values.hpNo,
         resStatusPassType: values.resStatusPassType,
@@ -57,7 +57,7 @@ async function createEmployee(values) {
         activeOrInactive: values.activeOrInactive,
     });
 
-    console.log("🚀 Sending employee data to API:", body);
+    console.log("Sending employee data to API:", body);
 
     try {
         const response = await fetch(
@@ -71,18 +71,18 @@ async function createEmployee(values) {
             }
         );
 
-        console.log("🔁 API Response Status:", response.status);
+        console.log("API Response Status:", response.status);
 
         if (response.ok) {
             const data = await response.json();
-            console.log("✅ Employee created:", data);
+            console.log("Employee created:", data);
             return data;
         } else {
             const errorData = await response.json();
-            throw new Error(errorData.message || `❌ Create employee failed: ${response.status}`);
+            throw new Error(errorData.message || `Create employee failed: ${response.status}`);
         }
     } catch (error) {
-        console.error("🚨 CreateEmployee error:", error.message);
+        console.error("CreateEmployee error:", error.message);
         throw error;
     }
 }
