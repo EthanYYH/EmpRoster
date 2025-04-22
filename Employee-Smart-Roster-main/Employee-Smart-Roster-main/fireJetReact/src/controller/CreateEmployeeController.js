@@ -87,6 +87,20 @@ async function createEmployee(values) {
     }
 }
 
+function validateEndWorkTime (start, end) {
+    const [startH, startM] = start.split(':').map(Number);
+    const [endH, endM] = end.split(':').map(Number);
+
+    const startTotalMinutes = startH * 60 + startM;
+    const endTotalMinutes = endH * 60 + endM;
+
+    if (startTotalMinutes > endTotalMinutes)
+        return 'The end work time must bigger than the start work time'
+    else
+        ''
+}
+
 export default {
-    createEmployee
+    createEmployee,
+    validateEndWorkTime,
 };

@@ -7,6 +7,7 @@ import BOUserList from '../../SA_components/BOUserMgts/UserList';
 import UserController from '../../controller/User/UserController';
 import CompanyController from '../../controller/CompanyController';
 import EmployeeMgntController from '../../controller/BOEmpMgntProfile/EmployeeMgntController.js';
+import CreateOEditEmp from '../../BO_components/CreateEditEmployee/CreateOEdit';
 import CreateAccount from '../../BO_components/CreateEditEmployee/CreateEmployee';
 
 import './UserMgts.css'
@@ -25,7 +26,6 @@ const UserMgts = () => {
     const [ employees, setEmployees ] = useState<any>([]);
     const [ roles, setRoles ] = useState<any>([]);
     const [ skills, setSkillsets ] = useState<any>([]);
-    const [ createEmp, setCreateEmp ] = useState(false);
 
     const fetchBoUsersData = async () => {
         try{
@@ -78,11 +78,6 @@ const UserMgts = () => {
         else return;
     }, [user?.role])
 
-    // Show / Close Create Emp form
-    function toggleCreateEmp () {
-        setCreateEmp(!!createEmp)
-    }
-
     return (
         <div className='App-content'>
             {/* Display side menu base on user role */}
@@ -104,7 +99,9 @@ const UserMgts = () => {
               <div className="content">
                 <div className="bo-employee-list-page-title">
                     <h1>My Employee</h1>
-                    <CreateAccount />
+                    <CreateOEditEmp 
+                        isCreate={true}
+                    />
                 </div>
                 {employees.length === 0 ? (
                     <div>Loading your employee list...</div>

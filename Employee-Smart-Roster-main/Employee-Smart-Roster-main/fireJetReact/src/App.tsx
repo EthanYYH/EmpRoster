@@ -22,7 +22,6 @@ import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
 
 
 // Pages for Busines Owner
-import CompleteProfile from "./BO_pages/FirstLogin/CompleteProfile";
 import RequiredCompleteProfile from "./BO_pages/FirstLogin/RequiredCompleteProfile";
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BODashboard from "./BO_pages/Dashboard/Dashboard";
@@ -31,7 +30,7 @@ import BOUpdateBOProfile from "./BO_pages/ViewProfile/BOUpdateBOProfile";
 import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
 import BOUpdateCompanyProfile from "./BO_pages/CompanyProfile/UpdateProfile";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
-
+import CreateOEditEmp from "./BO_components/CreateEditEmployee/CreateOEdit";
 import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 
 // Pages for Busines Owner
@@ -274,6 +273,17 @@ function App() {
                     <ProtectedRoute>
                       <SideMenu_t />
                       <BOLeaveManagement />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/create-employee"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <CreateOEditEmp 
+                      isCreate={true}/>
                     </ProtectedRoute>
                   }
                 />
