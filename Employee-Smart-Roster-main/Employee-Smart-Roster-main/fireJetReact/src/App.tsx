@@ -20,7 +20,6 @@ import UserMgts from "./pages/UserManagement/UserMgts";
 import PreviewLanding from "./SA_pages/PreviewLanding";
 import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
 
-
 // Pages for Busines Owner
 import RequiredCompleteProfile from "./BO_pages/FirstLogin/RequiredCompleteProfile";
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
@@ -32,10 +31,7 @@ import BOUpdateCompanyProfile from "./BO_pages/CompanyProfile/UpdateProfile";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
 import CreateOEditEmp from "./BO_components/CreateEditEmployee/CreateOEdit";
 import ViewRating from "./SA_pages/RegisRequest/ViewRating";
-
-// Pages for Busines Owner
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
-import CreateEmployee from "./BO_components/CreateEditEmployee/EmployeeForm"
 
 // Import for testing
 import "./App.css";
@@ -84,6 +80,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
 
               {/* Route for System Admin Pages */}
               <Route

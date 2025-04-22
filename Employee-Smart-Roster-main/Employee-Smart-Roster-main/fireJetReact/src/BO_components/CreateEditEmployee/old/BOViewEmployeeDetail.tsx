@@ -1,14 +1,5 @@
 import { useState, useEffect } from "react";
-<<<<<<<< HEAD:Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/src/BO_components/CreateEditEmployee/BOViewEmployeeDetail.tsx
-import "../../../../public/styles/common.css";
-import EditButton from "../../../components/PrimaryButton/PrimaryButton";
-import SubmitButton from "../../../components/SecondaryButton/SecondaryButton";
-import { useAlert } from "../../../components/PromptAlert/AlertContext";
-import ViewEmployeeList from "../../../controller/ViewEmployeeListController";
-import { EditEmployee } from "../../../controller/EditEmployeeDetailController";
-import "./BOViewEmployeeDetail.css";
-import { useAuth } from "../../../AuthContext";
-========
+
 import Nav from "../../components/NavBar/NavBar";
 import EditButton from "../../components/PrimaryButton/PrimaryButton"; 
 import SubmitButton from "../../components/SecondaryButton/SecondaryButton";
@@ -18,7 +9,7 @@ import { EditEmployee } from "../../controller/EditEmployeeDetailController";
 
 import "./ViewEmployeeDetail.css";
 import "../../../public/styles/common.css";
->>>>>>>> main:Employee-Smart-Roster-main/Employee-Smart-Roster-main/fireJetReact/src/BO_components/CreateEditEmployee/ViewEmployeeDetail.tsx
+import { useAuth } from "../../AuthContext";
 
 type Employee = {
   user_id: number;
