@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import { useAlert } from "../../components/PromptAlert/AlertContext"; 
 import { formatPhoneNumber, formatNRIC, PASS_TYPE,
-         FIRST_3_MIN_MC, MIN_YEAR1_ANNUAL, formatKey } from '../../controller/Variables.js';
+         FIRST_3_MIN_MC, MIN_YEAR1_ANNUAL, formatKey,
+         convertDateToSGTime } from '../../controller/Variables.js';
 import CreateEmployeeController from "../../controller/CreateEmployeeController";
 import UserController from '../../controller/User/UserController';
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
@@ -15,18 +16,25 @@ import "../../../public/styles/common.css";
 
 interface CreateOrEditEmpProps {
     isCreate: boolean;
+    bo_UID: any;
     defaultValues: any;
     allRoles: any;
     allSkillsets: any;
+    onEmpAdd?: (newEmp: any) => void;
     onEmpUpdate?: (updatedEmpData: any) => void;
+    onCloseDetail?: () => void
     onClose: () => void
 }
 
 const { validateEmail, validatePhoneNo, validateNRICofFIN } = UserController;
-const { validateEndWorkTime } = CreateEmployeeController
+const { validateEndWorkTime, createEmployee, editEmployee,
+        getRoleNameForEmp, getSkillNameForEmp } = CreateEmployeeController
 
-const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUpdate, onClose}: CreateOrEditEmpProps) => {
-    // console.log(isCreate)
+const CreateAccount = ({
+    isCreate, bo_UID, defaultValues, 
+    allRoles, allSkillsets, onEmpUpdate, 
+    onEmpAdd, onCloseDetail, onClose}: CreateOrEditEmpProps) => {
+    // console.log("Default Value", defaultValues)
     const navigate = useNavigate();
     const { showAlert } = useAlert();
     const [ showConfirmation, setShowConfirmation ] = useState(false);
@@ -54,9 +62,19 @@ const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUp
     }>({})
 
     useEffect(() => {
-        setEmployeeData(defaultValues)
-    }, [defaultValues])
+        let updatedValues = { ...defaultValues };
+        if(!isCreate){
+            const phoneStr = String(defaultValues.hpNo)
+            updatedValues.hpNo = formatPhoneNumber(phoneStr)
+            
+            const role = getRoleNameForEmp(allRoles, updatedValues.roleID)
+            updatedValues.roleID = role[0].roleName
 
+            const skillset = getSkillNameForEmp(allSkillsets, updatedValues.skillSetID)
+            updatedValues.skillSetID = skillset[0].skillSetName
+        }
+        setEmployeeData(updatedValues)
+    }, [defaultValues])
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
@@ -70,7 +88,7 @@ const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUp
             const formattedNRIC = formatNRIC(value)
             setEmployeeData((prevData) => ({
                 ...prevData,
-                nric: formattedNRIC,
+                [name]: formattedNRIC,
             }));
         } else if (name === 'roleID' || name === 'skillSetID'){
             setEmployeeData((prevData) => ({
@@ -84,9 +102,7 @@ const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUp
             }));
         }
     };
-    useEffect(() => {
-        console.log(employeeData)
-    }, [employeeData])
+    // useEffect(() => { console.log(employeeData) }, [employeeData])
 
     const triggerEmailValidation = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         // Store email value
@@ -134,7 +150,6 @@ const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUp
             endWorkTime: error
         }))
     };
-    
 
     // Check if create/edit employee form
     const isFormIncomplete = () => {
@@ -169,7 +184,79 @@ const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUp
     }
 
     const triggerCreateEmpAcc = async() => {
+        try{
+            const response = await createEmployee(bo_UID, employeeData, allRoles, allSkillsets)
+            // console.log(response)
+            if(response.response.message === "Employee added successfully"){
+                showAlert(
+                    "Employee Account Created Successfully",
+                    `${employeeData.email} : ${employeeData.fullName}`,
+                    ``,
+                    { type: 'success' }
+                );
 
+                if(onEmpAdd)
+                    onEmpAdd(response.empData)
+
+                if(!isMobile && onClose){
+                    toggleConfirmation()
+                    onClose()
+                }
+                else{
+                    toggleConfirmation()
+                    navigate('/users-management')
+                }
+            } else {
+                showAlert(
+                    "Failed to Create Employee Account",
+                    `${employeeData.email} is registered before`,
+                    ``,
+                    { type: 'error' }
+                );
+            }
+        } catch(error) {
+            showAlert(
+                "triggerCreateEmpAcc",
+                `Failed to Create Employee for "${employeeData.email}"`,
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            );
+        }
+    }
+
+    const triggerUpdateEmpAcc = async() => {
+        try{
+            const response = await editEmployee(bo_UID, defaultValues, employeeData, allRoles, allSkillsets)
+            // console.log(response)
+            if(response.response.message === "Employee updated successfully"){
+                showAlert(
+                    "Employee Information Update Successfully",
+                    `${defaultValues.email} : ${defaultValues.fullName}`,
+                    ``,
+                    { type: 'success' }
+                );
+
+                if(onEmpUpdate)
+                    onEmpUpdate(response.empData); // Update Locally from Controller response
+
+                if(!isMobile && onClose && onCloseDetail){
+                    toggleConfirmation()
+                    onCloseDetail()
+                    onClose()
+                }
+                else{
+                    toggleConfirmation()
+                    navigate('/users-management')
+                }
+            }
+        } catch(error) {
+            showAlert(
+                "triggerUpdateEmpAcc",
+                `Failed to Update Employee for "${employeeData.email}"`,
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            );
+        }
     }
 
     // Prompt user confirmation for update
@@ -179,10 +266,38 @@ const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUp
 
     if(showConfirmation) return (
         <div className="App-popup" onClick={toggleConfirmation}>
-            <div className="App-popup-prompt-content confirm-user-profile-completion" onClick={(e) => e.stopPropagation()}>
-                <h3 className="App-prompt-confirmation-title App-header">
-                    Confirm The Employee Information
-                </h3>
+            <div className="App-popup-prompt-content confirm-create-edit-emp-completion" onClick={(e) => e.stopPropagation()}>
+                {isCreate ? (
+                    <>
+                    <h3 className="App-prompt-confirmation-title App-header">
+                        Confirm The Employee Information
+                    </h3>
+
+                    <span className='warning-message warining-message-in-confirmatiom-prompt'>
+                        <div className="title">
+                            <GoAlertFill />
+                            <strong>Default Password is Set As</strong> 
+                        </div>
+                        <span className='warning-message-text create-emp-warning-message-text'>
+                            [Name Initials in UPPERCASE] + 
+                            [Last 4 digits of your mobile number] + 
+                            _[First 3 characters of your NRIC in lowercase]
+                        </span>
+                        <span className='warning-message-text'>
+                            <strong>Example: </strong>
+                            If the employee's name is <b>Alice Tan</b>, mobile number is <b>9123 4567</b>, and NRIC is <b>S1234567D</b>, <br/>
+                            Then the default password is: <b>AT4567_s12</b>
+                        </span>
+                    </span>
+                    </>
+                ) : (
+                    <>
+                    <h3 className="App-prompt-confirmation-title App-header">
+                        Confirm Update for Employee Information
+                    </h3>
+                    </>
+                )}
+
                 <div className="all-create-employee-data">
                     {Object.entries(employeeData).map(([key, value], index) => (
                         <div className={`create-employee-confirmation-detail 
@@ -193,19 +308,41 @@ const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUp
                                 <p className="title">Skillset</p>
                             ) : key === 'noOfMC' ? (
                                 <p className="title">No Of MC</p>
+                            ) : key === 'activeOrInactive' ? (
+                                <></>
+                            ) : key === 'noOfMCAvailable' ? (
+                                <p className="title">No Of MC Available</p>
                             ) : (
                                 <p className="title">{formatKey(key)}</p>
                             )}
-                            <p className="main-data">{String(value)}</p>
+
+                            {key === 'activeOrInactive' ? (
+                                <></>
+                            ) : key === 'dateJoined' ? (
+                                <p className="main-data">
+                                    {convertDateToSGTime(value)[0]}&nbsp;
+                                    {convertDateToSGTime(value)[1].split(".")[0]}
+                                </p>
+                            ) : (
+                                <p className="main-data">{String(value)}</p>
+                            )}
                         </div>
                     ))}
                 </div>
+                
                 {/* Display values */}
                 <div className="btns-grp">
-                    <PrimaryButton 
-                        text="Confirm" 
-                        onClick={() => triggerCreateEmpAcc()}
-                    />
+                    {isCreate ? ( // Create new emp
+                        <PrimaryButton 
+                            text="Confirm" 
+                            onClick={() => triggerCreateEmpAcc()}
+                        />
+                    ) : ( // Edit emp
+                        <PrimaryButton 
+                            text="Confirm" 
+                            onClick={() => triggerUpdateEmpAcc()}
+                        />
+                    )}
                     <SecondaryButton 
                         text="Cancel" 
                         onClick={() => toggleConfirmation()}
@@ -214,47 +351,6 @@ const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUp
             </div>
         </div>
     )
-
-    const handleSubmit = async () => {
-        console.log("Submitted Employee Data:", employeeData);
-
-        const requestData = {
-            business_owner_id: 2,
-            email: "test@test.com",
-            hpNo: 91234567,
-            resStatusPassType: "Work Permit",
-            jobTitle: "Test Title",
-            roleID: 3,
-            standardWrkHrs: 10,
-            skillSetID: 3,
-            noOfLeave: 10,
-            noOfLeaveAvailable: 5,
-            noOfMC: 5,
-            noOfMCAvailable: 4,
-            startWorkTime: "10:00:00",
-            endWorkTime: "12:00:00",
-            daysOfWork: 6,
-            activeOrInactive: 1,
-        };
-
-        try {
-            const response = await CreateEmployeeController.createEmployee(requestData);
-            console.log(response);
-
-            showAlert(
-                `Employee Account Created`, 
-                "The employee account has been created successfully.", 
-                "Account Created", 
-                { type: "success" }
-            );
-
-            // setIsPopupOpen(false);
-            console.log("Employee created successfully:", response);
-        } catch (error) {
-            console.error("Error creating employee:", error);
-            showAlert("Error", "There was an error creating the employee account.", "Error", { type: "error" });
-        }
-    };
 
     return (
         <div className={isMobile ? "mobile-create-emp-content" : "App-popup-content create-edit-emp-content"} onClick={(e) => e.stopPropagation()}>
@@ -273,7 +369,11 @@ const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUp
                     </>
                 ) : (
                     <>
-                        <h1>Create Account</h1>
+                        {isCreate ? (
+                            <h1>Create New Employee Account</h1>
+                        ) : (
+                            <h1>Edit Employee Information</h1>
+                        )}
                         <IoClose className="icons" onClick={onClose}/>
                     </>
                 )}
@@ -526,11 +626,19 @@ const CreateAccount = ({isCreate, defaultValues, allRoles, allSkillsets, onEmpUp
                         />
                     </div>
                     <div className="create-edit-emp-button">
-                        <PrimaryButton 
-                            text="Create Employee"
-                            disabled= {isFormIncomplete() || !!isAllValueValid()}
-                            onClick={() => toggleConfirmation()}
-                        />
+                        {isCreate ? (
+                            <PrimaryButton 
+                                text="Create Employee"
+                                disabled= {isFormIncomplete() || !!isAllValueValid()}
+                                onClick={() => toggleConfirmation()}
+                            />
+                        ) : (
+                            <PrimaryButton 
+                                text="Update Information"
+                                disabled= {isFormIncomplete() || !!isAllValueValid()}
+                                onClick={() => toggleConfirmation()}
+                            /> 
+                        )}
                     </div>
                 </div>
             </div>

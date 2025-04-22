@@ -10,10 +10,10 @@ interface BOListMobileProps {
   users: any;
   roles: any;
   skillsets: any;
-  onUpdate?: (updatedData: any) => void;
+  onEmpUpdate?: (updatedData: any) => void
 }
 
-const EMPUserList_m = ({ users, roles, skillsets, onUpdate }: BOListMobileProps) => {
+const EMPUserList_m = ({ users, roles, skillsets, onEmpUpdate }: BOListMobileProps) => {
   const { showAlert } = useAlert();
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [showDetail, setShowDetail] = useState(false);
@@ -33,11 +33,11 @@ const EMPUserList_m = ({ users, roles, skillsets, onUpdate }: BOListMobileProps)
       showAlert("handleDetailClick in BOUserList_m", '', error, { type: 'error' });
   };
 
-  function returnRoleName (skillID:number) {
-    const skillName = skillsets.filter((skillset:any) => {
-      return skillset.skillSetID === skillID
+  function returnRoleName (roleID:number) {
+    const roleName = roles.filter((role:any) => {
+      return role.roleID === roleID
     })
-    return skillName.skillSetName
+    return roleName[0].roleName
   }
 
   function returnSkillName (skillID:number) {
@@ -64,7 +64,7 @@ const EMPUserList_m = ({ users, roles, skillsets, onUpdate }: BOListMobileProps)
     <>
       <div className="App-mobile-responsive-table">
         {users.map((user: any) => (
-          <div key={user.UID} className="App-mobile-responsive-table-card">
+          <div key={user.email} className="App-mobile-responsive-table-card">
             <div className="App-mobile-responsive-table-card-title">
               <h2>{user.fullName}</h2>
               <div
@@ -100,7 +100,7 @@ const EMPUserList_m = ({ users, roles, skillsets, onUpdate }: BOListMobileProps)
             role={returnRoleName(selectedUser.roleID)}
             skillset={returnSkillName(selectedUser.skillSetID)}
             onClose={triggerCloseDetail}
-            onUpdate={onUpdate}
+            onEmpUpdate={onEmpUpdate}
           />
         </div>
       )}

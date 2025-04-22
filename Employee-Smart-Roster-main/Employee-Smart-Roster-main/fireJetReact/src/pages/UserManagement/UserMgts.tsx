@@ -8,11 +8,9 @@ import UserController from '../../controller/User/UserController';
 import CompanyController from '../../controller/CompanyController';
 import EmployeeMgntController from '../../controller/BOEmpMgntProfile/EmployeeMgntController.js';
 import CreateOEditEmp from '../../BO_components/CreateEditEmployee/CreateOEdit';
-import CreateAccount from '../../BO_components/CreateEditEmployee/CreateEmployee';
 
 import './UserMgts.css'
 import "../../../public/styles/common.css"
-
 
 // Import functions needed from UserController
 const { getBOUsers } = UserController
@@ -78,6 +76,14 @@ const UserMgts = () => {
         else return;
     }, [user?.role])
 
+    function handleNewEmpAdd(newEmp: any) {
+        setEmployees((prevData: any[]) => {
+            const updated = [...prevData, newEmp];
+            console.log("Updated employees array:", updated);
+            return updated;
+        });
+    }
+
     return (
         <div className='App-content'>
             {/* Display side menu base on user role */}
@@ -101,6 +107,7 @@ const UserMgts = () => {
                     <h1>My Employee</h1>
                     <CreateOEditEmp 
                         isCreate={true}
+                        onEmpAdd={handleNewEmpAdd}
                     />
                 </div>
                 {employees.length === 0 ? (
@@ -120,4 +127,4 @@ const UserMgts = () => {
     
 }
 
-export default UserMgts;
+export default UserMgts

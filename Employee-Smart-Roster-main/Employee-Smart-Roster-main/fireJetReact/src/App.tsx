@@ -36,9 +36,6 @@ import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 // Pages for Busines Owner
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import CreateEmployee from "./BO_components/CreateEditEmployee/CreateEmployee"
-import EditEmployee from "./BO_components/CreateEditEmployee/EditEmployee"
-import ViewEmployeeDetail from "./BO_components/CreateEditEmployee/ViewEmployeeDetail"
-import EmpViewEmployeeDetail from "./BO_components/CreateEditEmployee/EmpViewEmployeeDetail"
 
 // Import for testing
 import "./App.css";
@@ -79,14 +76,14 @@ function App() {
               />
 
               <Route
-                path="/view-employee-detail"
+                path="/user-profile"
                 element={
                   <ProtectedRoute>
                     <SideMenu_t />
-                    <ViewEmployeeDetail />
+                    <h1>User Profile</h1>
                   </ProtectedRoute>
                 }
-                />
+              />
 
               {/* Route for System Admin Pages */}
               <Route
@@ -181,27 +178,7 @@ function App() {
                       <BODashboard />
                     </ProtectedRoute>
                   }
-                />
-
-                <Route
-                  path="/view-bo-detail"
-                  element={
-                    <ProtectedRoute>
-                      <SideMenu_t />
-                      <BOViewProfile />
-                    </ProtectedRoute>
-                  }
-                />
-
-                <Route
-                  path="/update-bo-detail"
-                  element={
-                    <ProtectedRoute>
-                      <SideMenu_t />
-                      <BOUpdateBOProfile />
-                    </ProtectedRoute>
-                  }
-                />    
+                />  
                 
                 <Route
                   path="/company-detail"
@@ -283,7 +260,20 @@ function App() {
                     <ProtectedRoute>
                       <SideMenu_t />
                       <CreateOEditEmp 
-                      isCreate={true}/>
+                        isCreate={true}
+                      />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/edit-employee"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <CreateOEditEmp 
+                        isCreate={false}
+                      />
                     </ProtectedRoute>
                   }
                 />

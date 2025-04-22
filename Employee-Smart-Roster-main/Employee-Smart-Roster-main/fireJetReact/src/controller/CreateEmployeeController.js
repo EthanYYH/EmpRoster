@@ -1,63 +1,85 @@
-function cleanUndefined(obj) {
-    return Object.fromEntries(
-        Object.entries(obj).map(([key, value]) => [key, value === undefined ? null : value])
-    );
+function generateDefaultPw(name, hpNo, nric) {
+    const shortName = name
+        .split(' ')
+        .map(word => word[0])
+        .join('')
+        .toUpperCase();
+
+    const last4Hp = hpNo.slice(-4)
+    const nricStart = nric.slice(0, 3).toLowerCase();
+
+    return `${shortName}${last4Hp}_${nricStart}`
 }
 
-function validateEmployeePayload(values) {
-    const requiredFields = [
-        "business_owner_id",
-        "user_id",
-        "email",
-        "hpNo",
-        "resStatusPassType",
-        "jobTitle",
-        "roleID",
-        "standardWrkHrs",
-        "skillSetID",
-        "noOfLeave",
-        "noOfLeaveAvailable",
-        "noOfMC",
-        "noOfMCAvailable",
-        "startWorkTime",
-        "endWorkTime",
-        "daysOfWork",
-        "activeOrInactive"
-    ];
+function calWrkingHrs(startTime, endTime) {
+    const [startH, startM] = startTime.split(':').map(Number);
+    const [endH, endM] = endTime.split(':').map(Number);
 
-    for (const field of requiredFields) {
-        if (values[field] === undefined) {
-            console.warn(`❗ Missing field: ${field}`);
-            // Optional: throw an error instead of sending null
-            // throw new Error(`Missing required field: ${field}`);
-        }
-    }
+    const totalStart = startH * 60 + startM
+    const totalEnd = endH * 60 + endM
+    
+    return (totalEnd - totalStart) / 60
 }
 
-async function createEmployee(values) {
-    validateEmployeePayload(values);
 
-    const body = cleanUndefined({
-        business_owner_id: values.business_owner_id,
-        fullName: values.name,
+function getRoleIdForEmp (allRoles, roleName){
+    const role = allRoles.filter((role) => 
+        role.roleName === roleName
+    )
+    return role
+} 
+
+function getSkillIdForEmp (allSkills, skillName){
+    const skill = allSkills.filter((skill) => 
+        skill.skillSetName === skillName
+    )
+    return skill
+} 
+
+function getRoleNameForEmp (allRoles, roleID){
+    const role = allRoles.filter((role) => 
+        role.roleID === roleID
+    )
+    return role
+} 
+
+function getSkillNameForEmp (allSkills, skillID){
+    const skill = allSkills.filter((skill) => 
+        skill.skillSetID === skillID
+    )
+    return skill
+} 
+
+async function createEmployee(boUID, values, allRoles, allSkills) {
+    const defaultPw = generateDefaultPw(values.fullName, values.hpNo, values.nric)
+    const standardWrkHrs = calWrkingHrs(values.startWorkTime, values.endWorkTime)
+    const role = getRoleIdForEmp(allRoles, values.roleID)
+    const skill = getSkillIdForEmp(allSkills, values.skillSetID)
+    const cleanedHp = values.hpNo.replace(/\D/g, '').slice(0, 8); // Remove the non-digit character
+    
+    const body = {
+        business_owner_id: boUID,
         email: values.email,
-        hpNo: values.hpNo,
+        password: defaultPw,
+        nric: values.nric,
+        hpNo: cleanedHp,
+        fullName: values.fullName,
         resStatusPassType: values.resStatusPassType,
         jobTitle: values.jobTitle,
-        roleID: values.roleID,
-        standardWrkHrs: values.standardWrkHrs,
-        skillSetID: values.skillSetID,
+        roleID: role[0].roleID,
+        standardWrkHrs: standardWrkHrs,
+        skillSetID: skill[0].skillSetID,
         noOfLeave: values.noOfLeave,
-        noOfLeaveAvailable: values.noOfLeaveAvailable,
+        noOfLeaveAvailable: values.noOfLeave,
         noOfMC: values.noOfMC,
-        noOfMCAvailable: values.noOfMCAvailable,
+        noOfMCAvailable: values.noOfMC,
         startWorkTime: values.startWorkTime,
         endWorkTime: values.endWorkTime,
         daysOfWork: values.daysOfWork,
-        activeOrInactive: values.activeOrInactive,
-    });
+        activeOrInactive: 1,
+    };
 
-    console.log("Sending employee data to API:", body);
+    // console.log("Sending employee data to API:", body);
 
     try {
         const response = await fetch(
@@ -71,19 +93,147 @@ async function createEmployee(values) {
             }
         );
 
-        console.log("API Response Status:", response.status);
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log("Employee created:", data);
-            return data;
-        } else {
+        // console.log("API Response Status:", response);
+        if(!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.message || `Create employee failed: ${response.status}`);
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
         }
+        const data = await response.json();
+        // console.log(data);
+
+        return {
+            empData: {
+                ...values,
+                user_id: parseInt(Date.now()), // Generate temper new employee ID
+                hpNo: parseInt(cleanedHp, 10), // Convert to number like other records
+                dateJoined: new Date().toISOString(),
+                roleID: role[0].roleID,
+                skillSetID: skill[0].skillSetID,
+                standardWrkHrs: standardWrkHrs,
+                noOfLeaveAvailable: values.noOfLeave,
+                noOfMCAvailable: values.noOfMC,
+                activeOrInactive: 1
+            },
+            response: {...data} // Spread any additional fields from the API response
+        };
     } catch (error) {
-        console.error("CreateEmployee error:", error.message);
-        throw error;
+        throw new Error(`Failed to create employee: ${error.message}`);
+    }
+}
+
+function updateLeaveNMCCounts(originalAvailable, originalDays, newDays) {
+    // console.log(originalDays, newDays)
+    const different = Number(newDays) - Number(originalDays);
+    const newAvailable = originalAvailable + different;
+    return Math.max(0, newAvailable);
+}
+
+async function editEmployee(boUID, originalValues, values, allRoles, allSkills) {
+    // console.log(originalValues)
+    const standardWrkHrs = calWrkingHrs(values.startWorkTime, values.endWorkTime)
+    const role = getRoleIdForEmp(allRoles, values.roleID)
+    const skill = getSkillIdForEmp(allSkills, values.skillSetID)
+    const cleanedHp = values.hpNo.replace(/\D/g, '').slice(0, 8); // Remove the non-digit character
+    // Apply diff to available count
+    let newLeaveAvailable = updateLeaveNMCCounts(originalValues.noOfLeaveAvailable, originalValues.noOfLeave, parseInt(values.noOfLeave))
+    let newMCAvailable = updateLeaveNMCCounts(originalValues.noOfMCAvailable, originalValues.noOfMC, parseInt(values.noOfMC))
+
+    const body = {
+        business_owner_id: boUID,
+        user_id: originalValues.user_id,
+        email: values.email,
+        nric: values.nric,
+        hpNo: cleanedHp,
+        fullName: values.fullName,
+        resStatusPassType: values.resStatusPassType,
+        jobTitle: values.jobTitle,
+        roleID: role[0].roleID,
+        standardWrkHrs: standardWrkHrs,
+        skillSetID: skill[0].skillSetID,
+        noOfLeave: values.noOfLeave,
+        noOfLeaveAvailable: newLeaveAvailable,
+        noOfMC: values.noOfMC,
+        noOfMCAvailable: newMCAvailable,
+        startWorkTime: values.startWorkTime,
+        endWorkTime: values.endWorkTime,
+        daysOfWork: values.daysOfWork,
+        activeOrInactive: 1,
+    };
+
+    // console.log("Sending employee data to API:", body);
+    // console.log("Sending to API", {
+    //     noOfLeave: values.noOfLeave,
+    //     noOfLeaveAvailable: newLeaveAvailable,
+    //     noOfMC: values.noOfMC,
+    //     noOfMCAvailable: newMCAvailable
+    // });
+    try {
+        const response = await fetch(
+            'https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/employee/update',
+            {
+                method: 'PATCH',
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        // console.log("API Response Status:", response);
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return {
+            empData: {
+                ...values,
+                hpNo: parseInt(cleanedHp, 10), // Convert to number like other records
+                roleID: role[0].roleID,
+                skillSetID: skill[0].skillSetID,
+                standardWrkHrs: standardWrkHrs,
+                noOfMCAvailable: newMCAvailable,
+                noOfLeaveAvailable: newLeaveAvailable,
+                activeOrInactive: 1
+            },
+            response: {...data} // Spread any additional fields from the API response
+        };
+    } catch (error) {
+        throw new Error(`Failed to create employee: ${error.message}`);
+    }
+}
+
+async function inactiveOrActiveEmployee(empId, isActivate) {
+    const body = {
+        user_id: empId,
+        activeOrInactive: isActivate
+    }
+
+    try {
+        const response = await fetch(
+            'https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/employee/status/update',
+            {
+                method: 'PATCH',
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        // console.log("API Response Status:", response);
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data // Spread any additional fields from the API response
+    } catch (error) {
+        throw new Error(`Failed to create employee: ${error.message}`);
     }
 }
 
@@ -102,5 +252,11 @@ function validateEndWorkTime (start, end) {
 
 export default {
     createEmployee,
+    editEmployee,
     validateEndWorkTime,
+    getRoleIdForEmp,
+    getSkillIdForEmp,
+    getRoleNameForEmp,
+    getSkillNameForEmp,
+    inactiveOrActiveEmployee
 };

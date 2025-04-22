@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import "../../../../public/styles/common.css";
-import Nav from "../../components/NavBar/NavBar";
-import SideMenu from "../../../components/SideMenu/BOSide";
 import "./ViewEmployeeList.css";
-import fetchEmployeeList from "../../controller/ViewEmployeeListController";
 
 const ViewProfile = () => {
   const [employeeList, setEmployeeList] = useState<any[]>([]);

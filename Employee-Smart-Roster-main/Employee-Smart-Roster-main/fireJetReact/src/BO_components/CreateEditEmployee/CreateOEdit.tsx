@@ -14,11 +14,17 @@ import "../../../public/styles/common.css";
 interface employeeProps {
     isCreate: boolean
     selectedEmpValues?: any;
+    onEmpAdd?: (newEmp: any) => void;
+    onEmpUpdate?: (updatedEmpData: any) => void;
+    onCloseDetail?: () => void
 }
 
 const { getCompanyRoles, getCompanySkillsets } = CompanyController;
 
-const CreateOEditEmp = ({ isCreate, selectedEmpValues }: employeeProps) => {
+const CreateOEditEmp = ({ 
+    isCreate, selectedEmpValues, 
+    onEmpAdd, onEmpUpdate , onCloseDetail
+}: employeeProps) => {
     // const [ isCreate, setIsCreate ] = useState(true)
     const { user } = useAuth();
     const { showAlert } = useAlert();
@@ -85,7 +91,7 @@ const CreateOEditEmp = ({ isCreate, selectedEmpValues }: employeeProps) => {
     }, [allRoles, allSkillsets]);
 
     function toggleShowEmpForm (){
-        if(isMobile)
+        if(isMobile && isCreate)
             navigate('/create-employee', {
                 state: {
                     defaultValues: createEmpValues,
@@ -93,17 +99,42 @@ const CreateOEditEmp = ({ isCreate, selectedEmpValues }: employeeProps) => {
                     allSkillsets
                 }
             })
+
+        if(isMobile && !isCreate)
+            navigate('/edit-employee', {
+                state: {
+                    defaultValues: selectedEmpValues,
+                    allRoles,
+                    allSkillsets
+                }
+            })
         else
             setShowEmpForm(!showEmpForm)
     }
-
-    if (isMobile && isCreate && navState) {
+    // Create new employee
+    if (isMobile && isCreate && navState && allRoles && allSkillsets) {
         return (
             <CreateAccount
                 isCreate={true}
+                bo_UID={user?.UID}
                 defaultValues={navState.defaultValues}
                 allRoles={navState.allRoles}
                 allSkillsets={navState.allSkillsets}
+                onEmpAdd={onEmpAdd}
+                onClose={() => navigate(-1)}
+            />
+        );
+    }
+    // Update employee information
+    if (isMobile && !isCreate && navState && allRoles && allSkillsets) {
+        return (
+            <CreateAccount
+                isCreate={false}
+                bo_UID={user?.UID}
+                defaultValues={navState.defaultValues}
+                allRoles={navState.allRoles}
+                allSkillsets={navState.allSkillsets}
+                onEmpUpdate={onEmpUpdate}
                 onClose={() => navigate(-1)}
             />
         );
@@ -122,9 +153,11 @@ const CreateOEditEmp = ({ isCreate, selectedEmpValues }: employeeProps) => {
                     <div className="App-popup" onClick={() => toggleShowEmpForm()}>
                         <CreateAccount 
                             isCreate = {isCreate}
+                            bo_UID={user?.UID}
                             defaultValues={createEmpValues}
                             allRoles={allRoles}
                             allSkillsets={allSkillsets}
+                            onEmpAdd={onEmpAdd}
                             onClose={() => toggleShowEmpForm()}
                         />
                     </div>
@@ -132,7 +165,24 @@ const CreateOEditEmp = ({ isCreate, selectedEmpValues }: employeeProps) => {
             </>
         ) : (
             <>
-            
+                <PrimaryButton 
+                    text="Edit Employee Information"
+                    onClick={() => toggleShowEmpForm()}
+                />
+                {showEmpForm && !isMobile && (
+                    <div className="App-popup" onClick={() => toggleShowEmpForm()}>
+                        <CreateAccount 
+                            isCreate = {isCreate}
+                            bo_UID={user?.UID}
+                            defaultValues={selectedEmpValues}
+                            allRoles={allRoles}
+                            allSkillsets={allSkillsets}
+                            onEmpUpdate={onEmpUpdate}
+                            onCloseDetail={onCloseDetail}
+                            onClose={() => toggleShowEmpForm()}
+                        />
+                    </div>
+                )}
             </>
         )}
         </>

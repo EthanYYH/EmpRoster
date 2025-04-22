@@ -11,6 +11,18 @@
     }
 }
 
+.create-new-emp-icon {
+    padding: 5px;
+    font-size: 30px;
+    border-radius: 5px;
+}
+
+.create-new-emp-icon:hover {
+    cursor: pointer;
+    background-color: var(--primary-background);
+    color: var(--light-color-text);
+}
+
 .create-edit-emp-content {
     gap: 5px !important;
 }
@@ -51,12 +63,20 @@
 
         .title {
             font-weight: bold;
-            width: 150px;
+            width: 200px;
         }
     }
     .create-employee-confirmation-detail.odd-row{
         background-color: #e0e0eb;
     }
+}
+
+.confirm-create-edit-emp-completion {
+    gap: 5px !important;
+}
+
+.create-emp-warning-message-text {
+    text-align: center;
 }
 
 /* Mobile (all screens below 768px) */
@@ -67,5 +87,30 @@
 
     .create-emp-right {
         margin-bottom: 20px;
+    }
+
+    .confirm-create-edit-emp-completion {
+        h3 {
+            font-size: var(--text-h4);
+        }
+
+        .create-emp-warning-message-text,
+        .warning-message-text {
+            font-size: 12px;
+        }
+    }
+
+    .all-create-employee-data {
+        .create-employee-confirmation-detail {
+            height: auto;
+            .title {
+                width: 140px;
+                min-width: 140px;
+            }
+
+            .main-data {
+                height: auto;
+            }
+        }
     }
 }
