@@ -5,7 +5,7 @@ import { useAlert } from "../../components/PromptAlert/AlertContext";
 import { formatPhoneNumber, formatNRIC, PASS_TYPE,
          FIRST_3_MIN_MC, MIN_YEAR1_ANNUAL, formatKey,
          convertDateToSGTime } from '../../controller/Variables.js';
-import CreateEmployeeController from "../../controller/CreateEmployeeController";
+import BOEmployeeController from "../../controller/BOEmployeeController";
 import UserController from '../../controller/User/UserController';
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../components/SecondaryButton/SecondaryButton";
@@ -28,9 +28,9 @@ interface CreateOrEditEmpProps {
 
 const { validateEmail, validatePhoneNo, validateNRICofFIN } = UserController;
 const { validateEndWorkTime, createEmployee, editEmployee,
-        getRoleNameForEmp, getSkillNameForEmp } = CreateEmployeeController
+        getRoleNameForEmp, getSkillNameForEmp } = BOEmployeeController
 
-const CreateAccount = ({
+const CreateEditAccount = ({
     isCreate, bo_UID, defaultValues, 
     allRoles, allSkillsets, onEmpUpdate, 
     onEmpAdd, onCloseDetail, onClose}: CreateOrEditEmpProps) => {
@@ -646,4 +646,4 @@ const CreateAccount = ({
     );
 };
 
-export default CreateAccount;
+export default CreateEditAccount;

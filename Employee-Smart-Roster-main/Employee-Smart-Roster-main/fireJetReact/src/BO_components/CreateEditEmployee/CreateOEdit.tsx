@@ -4,7 +4,7 @@ import { useAuth } from "../../AuthContext";
 import { useAlert } from "../../components/PromptAlert/AlertContext"; 
 import { PASS_TYPE, FIRST_3_MIN_MC, MIN_YEAR1_ANNUAL } from '../../controller/Variables.js';
 import CompanyController from "../../controller/CompanyController";
-import CreateAccount from "./CreateEmployee";
+import CreateEditAccount from "./EmployeeForm";
 import PrimaryButton from "../../components/PrimaryButton/PrimaryButton";
 
 import { FaPlusCircle } from '../../../public/Icons.js'
@@ -114,7 +114,7 @@ const CreateOEditEmp = ({
     // Create new employee
     if (isMobile && isCreate && navState && allRoles && allSkillsets) {
         return (
-            <CreateAccount
+            <CreateEditAccount
                 isCreate={true}
                 bo_UID={user?.UID}
                 defaultValues={navState.defaultValues}
@@ -128,7 +128,7 @@ const CreateOEditEmp = ({
     // Update employee information
     if (isMobile && !isCreate && navState && allRoles && allSkillsets) {
         return (
-            <CreateAccount
+            <CreateEditAccount
                 isCreate={false}
                 bo_UID={user?.UID}
                 defaultValues={navState.defaultValues}
@@ -151,7 +151,7 @@ const CreateOEditEmp = ({
                 />
                 {showEmpForm && !isMobile && (
                     <div className="App-popup" onClick={() => toggleShowEmpForm()}>
-                        <CreateAccount 
+                        <CreateEditAccount 
                             isCreate = {isCreate}
                             bo_UID={user?.UID}
                             defaultValues={createEmpValues}
@@ -171,7 +171,7 @@ const CreateOEditEmp = ({
                 />
                 {showEmpForm && !isMobile && (
                     <div className="App-popup" onClick={() => toggleShowEmpForm()}>
-                        <CreateAccount 
+                        <CreateEditAccount 
                             isCreate = {isCreate}
                             bo_UID={user?.UID}
                             defaultValues={selectedEmpValues}

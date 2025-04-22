@@ -5,7 +5,7 @@ import { convertDateToSGTime } from '../../controller/Variables.js';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton';
 import CreateOEditEmp from '../../BO_components/CreateEditEmployee/CreateOEdit';
-import CreateEmployeeController from '../../controller/CreateEmployeeController.js';
+import BOEmployeeController from '../../controller/BOEmployeeController.js';
 
 import { HiOutlineIdentification,
          MdOutlineMailOutline,
@@ -22,7 +22,7 @@ interface UserDetailProps {
   onClose?: () => void;
   onEmpUpdate?: (updatedData: any) => void
 }
-const { inactiveOrActiveEmployee } = CreateEmployeeController
+const { inactiveOrActiveEmployee } = BOEmployeeController
 
 const UserDetail = ({ user, role, skillset, onClose, onEmpUpdate }: UserDetailProps) => {
   // console.log(role)

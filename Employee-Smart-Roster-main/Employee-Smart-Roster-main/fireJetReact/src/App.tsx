@@ -35,7 +35,7 @@ import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 
 // Pages for Busines Owner
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
-import CreateEmployee from "./BO_components/CreateEditEmployee/CreateEmployee"
+import CreateEmployee from "./BO_components/CreateEditEmployee/EmployeeForm"
 
 // Import for testing
 import "./App.css";
