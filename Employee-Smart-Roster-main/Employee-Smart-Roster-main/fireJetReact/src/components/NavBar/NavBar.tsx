@@ -74,7 +74,7 @@ const Navbar = () => {
                     <div className="btn-group">
                         {user?.role !== "System Admin" && (
                             <Link to="/user-profile" className="nav-link">
-                                <button  className="nav-button">
+                                <button className="nav-button">
                                     <CgProfile />
                                 </button>
                             </Link>

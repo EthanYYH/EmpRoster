@@ -50,41 +50,12 @@ form {
 .fields {
   display: flex;
   flex-direction: column;
-
-  .error-message{
-    color: var(--error);
-  }
 }
 
 .forms-input {
   display: flex;
   flex-direction: column;
   gap: 2px;
-}
-
-.error-message {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-  align-items: center;
-  font-size: 14px;
-
-  .error-message-text {
-    max-width: 260px
-  }
-}
-
-.valid-message {
-  display: flex;
-  flex-direction: row;
-  gap: 2px;
-  align-items: center;
-  font-size: 14px;
-  color: var(--success);
-
-  .valid-icon {
-    font-size: 20px;
-  }
 }
 
 /* Login.tsx, Registration.tsx */

@@ -1,0 +1,116 @@
+.mobile-create-emp-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .App-header {
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+.create-new-emp-icon {
+    padding: 5px;
+    font-size: 30px;
+    border-radius: 5px;
+}
+
+.create-new-emp-icon:hover {
+    cursor: pointer;
+    background-color: var(--primary-background);
+    color: var(--light-color-text);
+}
+
+.create-edit-emp-content {
+    gap: 5px !important;
+}
+
+.create-employee-form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    .create-emp-left,
+    .create-emp-right {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: start;
+    }
+}
+
+.create-edit-emp-button {
+    display: flex;
+    justify-content: end;
+}
+
+.all-create-employee-data {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    .create-employee-confirmation-detail{
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: start;
+        gap: 5px;
+        padding: 2px;
+        padding-left: 7px;
+        padding-right: 7px;
+
+        .title {
+            font-weight: bold;
+            width: 200px;
+        }
+    }
+    .create-employee-confirmation-detail.odd-row{
+        background-color: #e0e0eb;
+    }
+}
+
+.confirm-create-edit-emp-completion {
+    gap: 5px !important;
+}
+
+.create-emp-warning-message-text {
+    text-align: center;
+}
+
+/* Mobile (all screens below 768px) */
+@media only screen and (max-width: 768px) {
+    .create-employee-form {
+        flex-direction: column;
+    }
+
+    .create-emp-right {
+        margin-bottom: 20px;
+    }
+
+    .confirm-create-edit-emp-completion {
+        h3 {
+            font-size: var(--text-h4);
+        }
+
+        .create-emp-warning-message-text,
+        .warning-message-text {
+            font-size: 12px;
+        }
+    }
+
+    .all-create-employee-data {
+        .create-employee-confirmation-detail {
+            height: auto;
+            .title {
+                width: 140px;
+                min-width: 140px;
+            }
+
+            .main-data {
+                height: auto;
+            }
+        }
+    }
+}

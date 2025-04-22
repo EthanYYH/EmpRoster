@@ -7,11 +7,10 @@ import BOUserList from '../../SA_components/BOUserMgts/UserList';
 import UserController from '../../controller/User/UserController';
 import CompanyController from '../../controller/CompanyController';
 import EmployeeMgntController from '../../controller/BOEmpMgntProfile/EmployeeMgntController.js';
-import CreateAccount from '../../BO_components/CreateEditEmployee/CreateEmployee';
+import CreateOEditEmp from '../../BO_components/CreateEditEmployee/CreateOEdit';
 
 import './UserMgts.css'
 import "../../../public/styles/common.css"
-
 
 // Import functions needed from UserController
 const { getBOUsers } = UserController
@@ -25,7 +24,6 @@ const UserMgts = () => {
     const [ employees, setEmployees ] = useState<any>([]);
     const [ roles, setRoles ] = useState<any>([]);
     const [ skills, setSkillsets ] = useState<any>([]);
-    const [ createEmp, setCreateEmp ] = useState(false);
 
     const fetchBoUsersData = async () => {
         try{
@@ -78,9 +76,12 @@ const UserMgts = () => {
         else return;
     }, [user?.role])
 
-    // Show / Close Create Emp form
-    function toggleCreateEmp () {
-        setCreateEmp(!!createEmp)
+    function handleNewEmpAdd(newEmp: any) {
+        setEmployees((prevData: any[]) => {
+            const updated = [...prevData, newEmp];
+            console.log("Updated employees array:", updated);
+            return updated;
+        });
     }
 
     return (
@@ -104,7 +105,10 @@ const UserMgts = () => {
               <div className="content">
                 <div className="bo-employee-list-page-title">
                     <h1>My Employee</h1>
-                    <CreateAccount />
+                    <CreateOEditEmp 
+                        isCreate={true}
+                        onEmpAdd={handleNewEmpAdd}
+                    />
                 </div>
                 {employees.length === 0 ? (
                     <div>Loading your employee list...</div>
@@ -123,4 +127,4 @@ const UserMgts = () => {
     
 }
 
-export default UserMgts;
+export default UserMgts

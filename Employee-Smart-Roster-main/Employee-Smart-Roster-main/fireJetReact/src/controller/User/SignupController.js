@@ -9,7 +9,7 @@ function validateEmail (email){
 }
 
 async function createRegisRequest (bizFile, email, UEN, bizName, password){
-    console.log("BizFile: ", bizFile)
+    // console.log("BizFile: ", bizFile)
     try{
         const fileName = bizFile.name;
         const fileType = bizFile.type || 'application/pdf';

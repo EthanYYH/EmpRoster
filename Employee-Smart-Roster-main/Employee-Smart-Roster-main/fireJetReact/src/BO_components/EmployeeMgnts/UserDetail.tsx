@@ -4,7 +4,8 @@ import { useAlert } from '../../components/PromptAlert/AlertContext';
 import { convertDateToSGTime } from '../../controller/Variables.js';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton';
-import EditEmployee from '../../BO_components/CreateEditEmployee/EditEmployee';
+import CreateOEditEmp from '../../BO_components/CreateEditEmployee/CreateOEdit';
+import BOEmployeeController from '../../controller/BOEmployeeController.js';
 
 import { HiOutlineIdentification,
          MdOutlineMailOutline,
@@ -19,42 +20,51 @@ interface UserDetailProps {
   role?: string;
   skillset?: string;
   onClose?: () => void;
-  onUpdate?: (updatedData: any) => void;
+  onEmpUpdate?: (updatedData: any) => void
 }
+const { inactiveOrActiveEmployee } = BOEmployeeController
 
-const UserDetail = ({ user, role, skillset, onClose, onUpdate }: UserDetailProps) => {
+const UserDetail = ({ user, role, skillset, onClose, onEmpUpdate }: UserDetailProps) => {
+  // console.log(role)
   const { showAlert } = useAlert();
-  const [suspend, setSuspend] = useState(false);
-  const [reasonSuspend, setReasonSuspend] = useState("");
-  const [error, setError] = useState("");
+  const [ suspend, setSuspend ] = useState(false);
 
-  const handleSuspendUser = () => {
+  const handleSuspendUser = async () => {
     try {
-      // Create updated user data with suspension details
-      const updatedUser = {
-        ...user,
-        isSuspended: true,
-        reasonOfSuspend: reasonSuspend,
-        lastUpdate: new Date().toISOString(),
-      };
+      const response = await inactiveOrActiveEmployee(user.user_id, 0)
+      // console.log(response)
+      if (response.message === 'Employee status updated successfully') {
+        const updatedUser = {
+          ...user,
+          activeOrInactive: 0,
+        };
 
-      if (onUpdate) onUpdate(updatedUser);
-      if (onClose) onClose();
-    } catch (err) {
-      setError(`${err}`);
-    }
+        if (onEmpUpdate) 
+          onEmpUpdate(updatedUser);
 
-    if (error)
+        if (onClose) 
+          onClose();
+
+        handleCancelSuspend()
+      } else {
+        showAlert(
+          'User Detail: handleSuspendUser',
+          `suspend user successfully ${user.email}`,
+          ``,
+          { type: 'success' }
+        );
+      }
+    } catch (error) {
       showAlert(
-        'UserDetail: suspend user failed',
-        '',
-        error,
+        'User Detail: handleSuspendUser',
+        `suspend user failed ${user.email}`,
+        error instanceof Error ? error.message : String(error),
         { type: 'error' }
       );
+    }
   };
 
   const handleCancelSuspend = () => {
-    setReasonSuspend("");
     setSuspend(false);
   };
 
@@ -63,21 +73,15 @@ const UserDetail = ({ user, role, skillset, onClose, onUpdate }: UserDetailProps
       <div className="App-popup" onClick={handleCancelSuspend}>
         <div className="App-popup-prompt-content suspend-user" onClick={(e) => e.stopPropagation()}>
           <div>
-            <p className="App-prompt-confirmation-title">
+            <p className="App-prompt-confirmation-title App-header">
               Confirm to Suspend {user.fullName}
             </p>
           </div>
-          <input
-            type="text"
-            placeholder="Reason for suspension"
-            onChange={(e) => setReasonSuspend(e.target.value)}
-            required
-          />
+          <p>{user.email}</p>
           <div className="btns-grp">
             <PrimaryButton 
               text="Confirm" 
               onClick={handleSuspendUser}
-              disabled={!reasonSuspend}
             />
             <SecondaryButton 
               text="Cancel" 
@@ -170,7 +174,12 @@ const UserDetail = ({ user, role, skillset, onClose, onUpdate }: UserDetailProps
         </div>
       </div>
       <div className="suspend-btn">
-        <EditEmployee />
+        <CreateOEditEmp 
+          isCreate={false}
+          selectedEmpValues={user}
+          onEmpUpdate={onEmpUpdate}
+          onCloseDetail={onClose}
+        />
         {!user.isSuspended && (
           <SecondaryButton 
             text="Suspend" 

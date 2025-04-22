@@ -226,6 +226,8 @@ function handleFilterUENBizName(companies, filterString){
 }
 
 function validateVirtualPhoneNo(phone) {
+    // Remove all non-digit characters first 
+    // and prevent user to input more than 8 number
     const cleaned = phone.replace(/\D/g, '').slice(0, 8);
     // console.log("Phone: ", cleaned)
     // console.log("valid format: ", COMPANY_PHONE_PATTERN.test(cleaned))

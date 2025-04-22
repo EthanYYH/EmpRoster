@@ -37,10 +37,11 @@ interface BOListTableProps {
   users: any;
   roles: any;
   skillsets: any;
-  onUpdate?: (updatedData: Employee) => void;
+  onEmpUpdate?: (updatedData: any) => void
+
 }
 
-const EMPUserList_t = ({ users, roles, skillsets, onUpdate }: BOListTableProps) => {
+const EMPUserList_t = ({ users, roles, skillsets, onEmpUpdate }: BOListTableProps) => {
   const { showAlert } = useAlert();
   const [selectedEmployee, setSelectedEmployee] = useState<any>([]);
   const [showDetail, setShowDetail] = useState(false);
@@ -101,7 +102,7 @@ const EMPUserList_t = ({ users, roles, skillsets, onUpdate }: BOListTableProps) 
           <Header className="App-header-icon-gap" text="" />
         </div>
         {users.map((employee:any) => (
-          <div className="App-desktop-table-row table-body" key={employee.user_id}>
+          <div className="App-desktop-table-row table-body" key={employee.email}>
             <Cell className="body-employee-name" text={employee.fullName} />
             <Cell className="body-employee-email" text={employee.email} />
             <Cell className="body-employee-phone" text={employee.hpNo} />
@@ -128,7 +129,7 @@ const EMPUserList_t = ({ users, roles, skillsets, onUpdate }: BOListTableProps) 
             role={returnRoleName(selectedEmployee.roleID)}
             skillset={returnSkillName(selectedEmployee.skillSetID)}
             onClose={triggerCloseDetail}
-            onUpdate={onUpdate}
+            onEmpUpdate={onEmpUpdate}
           />
         </div>
       )}

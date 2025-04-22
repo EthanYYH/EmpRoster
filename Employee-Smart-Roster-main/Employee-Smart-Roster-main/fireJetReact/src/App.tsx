@@ -20,9 +20,7 @@ import UserMgts from "./pages/UserManagement/UserMgts";
 import PreviewLanding from "./SA_pages/PreviewLanding";
 import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
 
-
 // Pages for Busines Owner
-import CompleteProfile from "./BO_pages/FirstLogin/CompleteProfile";
 import RequiredCompleteProfile from "./BO_pages/FirstLogin/RequiredCompleteProfile";
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BODashboard from "./BO_pages/Dashboard/Dashboard";
@@ -31,15 +29,9 @@ import BOUpdateBOProfile from "./BO_pages/ViewProfile/BOUpdateBOProfile";
 import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
 import BOUpdateCompanyProfile from "./BO_pages/CompanyProfile/UpdateProfile";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
-
+import CreateOEditEmp from "./BO_components/CreateEditEmployee/CreateOEdit";
 import ViewRating from "./SA_pages/RegisRequest/ViewRating";
-
-// Pages for Busines Owner
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
-import CreateEmployee from "./BO_components/CreateEditEmployee/CreateEmployee"
-import EditEmployee from "./BO_components/CreateEditEmployee/EditEmployee"
-import ViewEmployeeDetail from "./BO_components/CreateEditEmployee/BOViewEmployeeDetail"
-import EmpViewDetail from "./BO_components/CreateEditEmployee/EmpViewDetail"
 
 // Import for testing
 import "./App.css";
@@ -80,23 +72,15 @@ function App() {
               />
 
               <Route
-                path="/view-employee-detail"
+                path="/user-profile"
                 element={
                   <ProtectedRoute>
                     <SideMenu_t />
-                    <ViewEmployeeDetail />
+                    <h1>User Profile</h1>
                   </ProtectedRoute>
                 }
-                />
-              <Route
-                path="/emp-view-employee-detail"
-                element={
-                  <ProtectedRoute>
-                    <SideMenu_t />
-                    <EmpViewDetail />
-                  </ProtectedRoute>
-                }
-                />
+              />
+
 
               {/* Route for System Admin Pages */}
               <Route
@@ -191,27 +175,7 @@ function App() {
                       <BODashboard />
                     </ProtectedRoute>
                   }
-                />
-
-                <Route
-                  path="/view-bo-detail"
-                  element={
-                    <ProtectedRoute>
-                      <SideMenu_t />
-                      <BOViewProfile />
-                    </ProtectedRoute>
-                  }
-                />
-
-                <Route
-                  path="/update-bo-detail"
-                  element={
-                    <ProtectedRoute>
-                      <SideMenu_t />
-                      <BOUpdateBOProfile />
-                    </ProtectedRoute>
-                  }
-                />    
+                />  
                 
                 <Route
                   path="/company-detail"
@@ -283,6 +247,30 @@ function App() {
                     <ProtectedRoute>
                       <SideMenu_t />
                       <BOLeaveManagement />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/create-employee"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <CreateOEditEmp 
+                        isCreate={true}
+                      />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/edit-employee"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <CreateOEditEmp 
+                        isCreate={false}
+                      />
                     </ProtectedRoute>
                   }
                 />

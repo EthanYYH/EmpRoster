@@ -4,7 +4,7 @@ export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s]+$/
 export const PW_PATTERN = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/
 export const COMPANY_PHONE_PATTERN = /^[6]\d{7}$/ // Valid singapore virtual number starting with 6
 export const PHONE_PATTERN = /^[89]\d{7}$/ // Valid singapore phone number starting with 8,9
-export const NRIC_PATTERN = /^[A-Z]\d{7}[A-Z]$/ // Valid singapore work pass type common pattern
+export const NRIC_PATTERN = /^[A-Z][0-9]{7}[A-Z]$/ // Valid singapore work pass type common pattern
 export const NO_DATA_MATCHED = "No Data Match with Filter...";
 
 // Variables for calendar
@@ -18,8 +18,20 @@ export const USER_ROLE = ['System Admin', 'Business Owner', 'Employee']
 export const TASK_STATUS = ['Not Started', 'In Progress', 'Completed'];
 export const REG_STATUS = ["Pending", "Approved", "Rejected"];
 export const SUB_STATUS = ['Subscribed', 'Pending Payment', 'Unsubscribed', 'Cancelled Subscription'];
-export const PASS_TYPE = ['Singapore Citizen/PR', 'Employment Pass', 'S Pass', 'Work Permit', 'Other Work Pass']
-export const IS_ACC_SUSPENDED = ['Activated', 'Suspended']
+export const PASS_TYPE = ['Singapore Citizen/PR', 'Employment Pass', 'S Pass', 'Work Permit', 'Other Work Pass'];
+export const IS_ACC_SUSPENDED = ['Activated', 'Suspended'];
+
+// SG MOM Rules: last update on 20 Apr 2025
+// MC: https://www.mom.gov.sg/employment-practices/leave/sick-leave/eligibility-and-entitlement
+// Need to check everytime employee when login
+// (EVERY MONTH +3 Until Max 6 months)
+export const FIRST_3_MIN_MC =  5 // 1st 3 month Outpatient sick leave
+export const FIRST_6_MIN_MC = 14 // 1st 6 month Outpatient sick leave 
+
+// ANNUAL LEAVE: https://www.mom.gov.sg/employment-practices/leave/annual-leave/eligibility-and-entitlement
+// (EVERY YEAR +1 until Max 8 Year)
+export const MIN_YEAR1_ANNUAL = 7 // 1st year annual leave
+export const MIN_YEAR8_ANNUAL = 14 // 8th and after that year annual leave
 
 export function formatDateTime (isoString){
     return new Intl.DateTimeFormat('en-US', {
@@ -59,8 +71,32 @@ export function formatPhoneNumber (phone) {
 }
 
 export function formatNRIC (nric) {
-    return nric
-        .replace(/[^a-zA-Z0-9]/g, '') // Remove non-alphanumeric
-        .slice(0, 9)                  // Limit to 9 chars
-        .toUpperCase();               // Force uppercase
+    const raw = nric.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+
+    let result = '';
+
+    // 1st char: A-Z
+    if (raw.length >= 1 && /[A-Z]/.test(raw[0])) {
+        result += raw[0];
+    }
+
+    // Next 7 chars: only digits
+    for (let i = 1; i <= 7 && raw.length > i; i++) {
+        if (/\d/.test(raw[i])) {
+            result += raw[i];
+        }
+    }
+
+    // Last char: A-Z
+    if (raw.length >= 9 && /[A-Z]/.test(raw[8])) {
+        result += raw[8];
+    }
+
+    return result;
 };
+
+export function formatKey(key) {
+    return key
+        .replace(/([A-Z])/g, ' $1')   // insert space before capital letters
+        .replace(/^./, str => str.toUpperCase()); // capitalize first letter
+}

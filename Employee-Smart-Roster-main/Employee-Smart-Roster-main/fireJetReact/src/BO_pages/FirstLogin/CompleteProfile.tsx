@@ -93,7 +93,6 @@ const CompleteProfile = ({ userID, onDataUpdate }:CompleteProfileProps) => {
 
     const handleNRICInput = async(nric: string) => {
         const formattedNRIC = formatNRIC(nric);
-        // Format the phone number with spaces
         setNRIC(formattedNRIC)
 
         const error = validateNRICofFIN(formattedNRIC)
@@ -107,61 +106,61 @@ const CompleteProfile = ({ userID, onDataUpdate }:CompleteProfileProps) => {
     // Prompt user to confirm the information
     if (showConfirmation) return (
         <div className="App-popup" onClick={toggleConfirmation}>
-        <div className="App-popup-prompt-content confirm-user-profile-completion" onClick={(e) => e.stopPropagation()}>
-            <p className="App-prompt-confirmation-title App-header">
-                Confirm to Complete the Profile
-            </p>
+            <div className="App-popup-prompt-content confirm-user-profile-completion" onClick={(e) => e.stopPropagation()}>
+                <p className="App-prompt-confirmation-title App-header">
+                    Confirm to Complete the Profile
+                </p>
 
-            <span className='warning-message warining-message-in-confirmatiom-prompt'>
-                <div className="title">
-                    <GoAlertFill />
-                    <strong>Make sure your NRIC/FIN is accurate.</strong> 
-                </div>
-                <span className='warning-message-text'>
-                    Edits will not be allowed after submission.
+                <span className='warning-message warining-message-in-confirmatiom-prompt'>
+                    <div className="title">
+                        <GoAlertFill />
+                        <strong>Make sure your NRIC/FIN is accurate.</strong> 
+                    </div>
+                    <span className='warning-message-text'>
+                        Edits will not be allowed after submission.
+                    </span>
                 </span>
-            </span>
 
-            <div className="confirmation-detail">
-                <div className="company-info">
-                    <h4>Filled Company Information</h4>
-                    <div className="display-filled-information">
-                        <p className="title">Contact No: </p>
-                        <p className="main-data">{companyContact}</p>
+                <div className="confirmation-detail">
+                    <div className="company-info">
+                        <h4>Filled Company Information</h4>
+                        <div className="display-filled-information">
+                            <p className="title">Contact No: </p>
+                            <p className="main-data">{companyContact}</p>
+                        </div>
+                        <div className="display-filled-information">
+                            <p className="title">Address: </p>
+                            <p className="main-data">{companyAdd}</p>
+                        </div>
                     </div>
-                    <div className="display-filled-information">
-                        <p className="title">Address: </p>
-                        <p className="main-data">{companyAdd}</p>
+                    <div className="personal-info">
+                        <h4>Filled Personal Information</h4>
+                        <div className="display-filled-information">
+                            <p className="title">NRIC: </p>
+                            <p className="main-data">{nric.toUpperCase()}</p>
+                        </div>
+                        <div className="display-filled-information">
+                            <p className="title">Contact No: </p>
+                            <p className="main-data">{hpNo}</p>
+                        </div>
+                        <div className="display-filled-information">
+                            <p className="title">Full Name: </p>
+                            <p className="main-data">{fullName}</p>
+                        </div>
                     </div>
                 </div>
-                <div className="personal-info">
-                    <h4>Filled Personal Information</h4>
-                    <div className="display-filled-information">
-                        <p className="title">NRIC: </p>
-                        <p className="main-data">{nric.toUpperCase()}</p>
-                    </div>
-                    <div className="display-filled-information">
-                        <p className="title">Contact No: </p>
-                        <p className="main-data">{hpNo}</p>
-                    </div>
-                    <div className="display-filled-information">
-                        <p className="title">Full Name: </p>
-                        <p className="main-data">{fullName}</p>
-                    </div>
+
+                <div className="btns-grp">
+                <PrimaryButton 
+                    text="Confirm" 
+                    onClick={() => triggerSubmitCompleteProfile()}
+                />
+                <SecondaryButton 
+                    text="Cancel" 
+                    onClick={() => toggleConfirmation()}
+                />
                 </div>
             </div>
-
-            <div className="btns-grp">
-            <PrimaryButton 
-                text="Confirm" 
-                onClick={() => triggerSubmitCompleteProfile()}
-            />
-            <SecondaryButton 
-                text="Cancel" 
-                onClick={() => toggleConfirmation()}
-            />
-            </div>
-        </div>
         </div>
     )
 
@@ -212,7 +211,7 @@ const CompleteProfile = ({ userID, onDataUpdate }:CompleteProfileProps) => {
                         </strong>
                         <div className="fields">
                             <input type='text' 
-                                name='password'
+                                name='company-add'
                                 placeholder='Company Address' 
                                 value={companyAdd}
                                 onChange={(e) => setCompanyAdd(e.target.value)}
@@ -273,7 +272,7 @@ const CompleteProfile = ({ userID, onDataUpdate }:CompleteProfileProps) => {
                         </div>
                     </div>
 
-                    {/* HpNo*/}
+                    {/* HpNo */}
                     <div className='forms-input'>
                         <strong>
                             Contact No <span style={{ color: 'red' }}>*</span>

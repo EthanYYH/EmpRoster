@@ -37,8 +37,8 @@ const EmpList = ({empUsers, roles, skillsets}: EMPListProps) => {
   // Update filtering logic (this filters based on fullName).
   const triggerFilterUsers = () => {
     try {
-      let filtered = empUsers;
-      filtered = handleFilterEmpAccStatus(empUsers, filterAccStatus);
+      let filtered = allUsers;
+      filtered = handleFilterEmpAccStatus(allUsers, filterAccStatus);
 
       if(filterRole !== 'All') {
         // Find roleID for filter
@@ -71,6 +71,11 @@ const EmpList = ({empUsers, roles, skillsets}: EMPListProps) => {
     }
   };
   
+  // Re-run the employee lists when employee data updated
+  useEffect(() => {
+    setAllUsers(empUsers);
+    triggerFilterUsers();
+  }, [empUsers]);
   
   // Re-run filtering when source data or filter values change.
   useEffect(() => {
@@ -84,11 +89,13 @@ const EmpList = ({empUsers, roles, skillsets}: EMPListProps) => {
 
   // Callback to update a single user in state after an update (e.g., suspension).
   const handleUserUpdate = (updatedUser: any) => {
-    setAllUsers((prevUsers: any[]) =>
-      prevUsers.map((user) =>
-        user.UID === updatedUser.UID ? updatedUser : user
-      )
-    );
+    // console.log(updatedUser)
+    const updatedItem = allUsers.map((data:any) => 
+      data.user_id === updatedUser.user_id
+      ? updatedUser
+      : data
+    )
+    setAllUsers(updatedItem);
   };
 
   return (
@@ -102,11 +109,11 @@ const EmpList = ({empUsers, roles, skillsets}: EMPListProps) => {
                   onChange={(e) => setFilterRole(e.target.value)}
               >
                 <option value="All">ALL</option>
-              {roles.map((role:any) => (
-                <option key={role.roleID} value={role.roleName}>
-                  {role.roleName}
-                </option>
-              ))}
+                {roles.map((role:any) => (
+                  <option key={role.roleID} value={role.roleName}>
+                    {role.roleName}
+                  </option>
+                ))}
               </select>
           </div>
           <div className="App-filter-container subscription-status">
@@ -117,11 +124,11 @@ const EmpList = ({empUsers, roles, skillsets}: EMPListProps) => {
                   onChange={(e) => setFilterSkill(e.target.value)}
               >
                 <option value="All">ALL</option>
-              {skillsets.map((skill:any) => (
-                <option key={skill.skillSetID} value={skill.skillSetName}>
-                  {skill.skillSetName}
-                </option>
-              ))}
+                {skillsets.map((skill:any) => (
+                  <option key={skill.skillSetID} value={skill.skillSetName}>
+                    {skill.skillSetName}
+                  </option>
+                ))}
               </select>
           </div>
           <div className="App-filter-container subscription-status">
@@ -171,7 +178,7 @@ const EmpList = ({empUsers, roles, skillsets}: EMPListProps) => {
             users={filteredUsers}
             roles={roles} 
             skillsets={skillsets}
-            onUpdate={handleUserUpdate} 
+            onEmpUpdate={handleUserUpdate} 
           />
 
           {/* Tablet and Mobile Table */}
@@ -179,7 +186,7 @@ const EmpList = ({empUsers, roles, skillsets}: EMPListProps) => {
             users={filteredUsers} 
             roles={roles} 
             skillsets={skillsets}
-            onUpdate={handleUserUpdate} 
+            onEmpUpdate={handleUserUpdate} 
           />
         </>
       ):(<>No Data Matched with Filter</>)}
