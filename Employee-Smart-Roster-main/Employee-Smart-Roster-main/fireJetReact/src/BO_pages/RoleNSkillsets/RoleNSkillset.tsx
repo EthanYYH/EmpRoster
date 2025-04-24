@@ -54,19 +54,7 @@ const RoleNSkillset = () => {
                 <h1 className="App-header">Role & Skillset Management</h1>
             
                 <div className="main-content">
-                    <div className="roles">
-                        <div className="sub-header">
-                            <h2>Roles</h2>
-                            <button className="add-role-skill">
-                                <FaPlusCircle />
-                            </button>
-                        </div>
-                        {roleData.map((role, index) => (
-                        <div key={role.uen}>
-                            <p>{role.role}</p>
-                        </div>
-                        ))}
-                    </div>
+                    
                     
                     <div className="skills">
                         <div className="sub-header">

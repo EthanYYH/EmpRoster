@@ -80,12 +80,6 @@
     color: var(--light-color-text);
 }
 
-
-.App-header {
-    border-bottom: 2px solid #b396d6;
-    margin-bottom: 1rem;
-}
-
 .badge {
   background-color: var(--primary-background);
   padding: 0.25rem 0.5rem;  /* Some horizontal & vertical padding */

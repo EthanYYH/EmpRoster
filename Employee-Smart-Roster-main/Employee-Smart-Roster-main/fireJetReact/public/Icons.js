@@ -18,7 +18,8 @@ import { IoIosAlert } from "react-icons/io";
 import { GiRotaryPhone } from "react-icons/gi";
 import { MdContactPhone, 
          MdOutlineMailOutline,
-         MdOutlineLocationOn } from "react-icons/md";
+         MdOutlineLocationOn,
+         MdDeleteForever } from "react-icons/md";
 import { RiUserReceived2Fill } from "react-icons/ri";
 import { IoIosWarning } from "react-icons/io";
 import { TiTick, TiTime } from "react-icons/ti";
@@ -38,6 +39,7 @@ export {
     IoArrowBack, // Go back to previous page icons
     FaFilePdf,  // PDF icon
     FaPlusCircle,  // Plus sign icon (to add new item)
+    MdDeleteForever, // Delete icon
     IoIosAlert, // Alert icon
     GiRotaryPhone, // Home phone icon
     MdContactPhone, // Contact number icon

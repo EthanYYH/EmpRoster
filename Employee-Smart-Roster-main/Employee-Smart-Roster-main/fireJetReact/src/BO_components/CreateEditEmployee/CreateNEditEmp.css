@@ -67,7 +67,7 @@
         }
     }
     .create-employee-confirmation-detail.odd-row{
-        background-color: #e0e0eb;
+        background-color: var(--table-odd-row);
     }
 }
 

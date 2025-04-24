@@ -24,6 +24,33 @@ async function getCompany (uid){
     }
 }
 
+async function updateCompanyProfile (data){
+    // console.log(data)
+    const cleaned = data.contactNo.replace(/\D/g, '').slice(0, 8);
+    
+    const body = {
+        UEN: data.UEN,
+        address: data.address[0],
+        contactNo: cleaned,
+    }
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/profile/update', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch (error) {
+        throw new Error(`Failed to update company data: ${error.message}`);
+    }
+}
 
 async function getCompanyBizFile (email){
     const body = {
@@ -48,58 +75,6 @@ async function getCompanyBizFile (email){
         console.error(`Network error for fetch company's BizFile: \n`, error);
         throw new Error(`Failed to fetch company's BizFile: ${error.message}`);
     }
-}
-
-function GetCompanyRoles (){
-    const data = [
-        {
-            uen: "202017097M",
-            role: "Programmer",
-        },
-        {
-            uen: "202017097M",
-            role: "Database Designer",
-        },
-        {
-            uen: "202017097M",
-            role: "UI Designer",
-        },
-        {
-            uen: "53342345K",
-            role: "Project Manager",
-        },
-        {
-            uen: "53342345K",
-            role: "Financial",
-        },
-    ]
-    return data;
-}
-
-function GetCompanySkillsets (){
-    const data = [
-        {
-            uen: "202017097M",
-            skill: "React",
-        },
-        {
-            uen: "202017097M",
-            skill: "Figma",
-        },
-        {
-            uen: "202017097M",
-            skill: "Draw.io",
-        },
-        {
-            uen: "53342345K",
-            skill: "Microsoft Project",
-        },
-        {
-            uen: "53342345K",
-            skill: "Visual Studio",
-        },
-    ]
-    return data;
 }
 
 async function getCompanyRoles (boID){
@@ -208,6 +183,106 @@ async function setBOCompleteProfile(boID, cContact, address, nric, hpNo, name) {
     }
 }
 
+async function createRole (roleName, boUID) {
+    const body = {
+        business_owner_id: boUID,
+        roleName: roleName
+    }
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/role/add', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch (error) {
+        // console.error(`Network error for UID ${name}: \n`, error);
+        throw new Error(`Failed to complete user profile: ${error.message}`);
+    }
+}
+
+async function createSkillset (skillset, boUID) {
+    const body = {
+        business_owner_id: boUID,
+        skillSetName: skillset
+    }
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/skillset/add', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch (error) {
+        // console.error(`Network error for UID ${name}: \n`, error);
+        throw new Error(`Failed to complete user profile: ${error.message}`);
+    }
+}
+
+async function removeRole (roleName, boUID) {
+    const body = {
+        business_owner_id: boUID,
+        roleName: roleName
+    }
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/role/delete', {
+            method: 'DELETE',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch (error) {
+        // console.error(`Network error for UID ${name}: \n`, error);
+        throw new Error(`Failed to complete user profile: ${error.message}`);
+    }
+}
+
+async function removeSkillset (skillset, boUID) {
+    const body = {
+        business_owner_id: boUID,
+        skillSetName: skillset
+    }
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/skillset/delete', {
+            method: 'DELETE',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch (error) {
+        // console.error(`Network error for UID ${name}: \n`, error);
+        throw new Error(`Failed to complete user profile: ${error.message}`);
+    }
+}
+
 const handleSelectedDetail = (selectedCompany) => {
     return selectedCompany;
 }
@@ -238,16 +313,37 @@ function validateVirtualPhoneNo(phone) {
         return ''
 }
 
+function checkIfRoleCreated (allRoles, roleName) {
+    // console.log("All Roles: ", allRoles)
+    // console.log("New Role: ", roleName)
+    const role = allRoles.filter((role) => 
+        role.roleName === roleName
+    )
+    return role
+}
+
+function checkIfSkillsetCreated (allSkills, skillName){
+    const skill = allSkills.filter((skill) => 
+        skill.skillSetName === skillName
+    )
+    return skill
+} 
+
 export default {
     getCompany,
+    updateCompanyProfile,
     getCompanyBizFile,
     getCompanyRoles,
     getCompanySkillsets,
-    GetCompanyRoles, // Not using
-    GetCompanySkillsets, // Not using
     getBOUserProfile,
     setBOCompleteProfile,
     handleSelectedDetail,
     handleFilterUENBizName,
-    validateVirtualPhoneNo
+    validateVirtualPhoneNo,
+    createRole,
+    createSkillset,
+    removeRole,
+    removeSkillset,
+    checkIfRoleCreated,
+    checkIfSkillsetCreated,
 }

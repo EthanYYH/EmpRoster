@@ -27,7 +27,6 @@ import BODashboard from "./BO_pages/Dashboard/Dashboard";
 import BOViewProfile from "./BO_pages/ViewProfile/ViewProfile";
 import BOUpdateBOProfile from "./BO_pages/ViewProfile/BOUpdateBOProfile";
 import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
-import BOUpdateCompanyProfile from "./BO_pages/CompanyProfile/UpdateProfile";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
 import CreateOEditEmp from "./BO_components/CreateEditEmployee/CreateOEdit";
 import ViewRating from "./SA_pages/RegisRequest/ViewRating";
@@ -185,17 +184,7 @@ function App() {
                       <BOCompanyProfile />
                     </ProtectedRoute>
                   }
-                />
-
-                <Route
-                  path="/update-company-detail"
-                  element={
-                    <ProtectedRoute>
-                      <SideMenu_t />
-                      <BOUpdateCompanyProfile />
-                    </ProtectedRoute>
-                  }
-                />    
+                />   
 
                 <Route
                   path="/roles-skills-menagement"
