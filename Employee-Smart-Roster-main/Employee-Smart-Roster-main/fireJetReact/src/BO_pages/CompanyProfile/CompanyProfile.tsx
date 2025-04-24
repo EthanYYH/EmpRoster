@@ -38,12 +38,12 @@ const BOCompanyProfile = () => {
             let companyRoles = await getCompanyRoles(user?.UID);
             companyRoles = companyRoles.roleName;
             // console.log(companyRoles)
-            setAllRoles(companyRoles);
+            setAllRoles(Array.isArray(companyRoles) ? companyRoles : []);
 
             let companySkillsets = await getCompanySkillsets(user?.UID);
             companySkillsets = companySkillsets.skillSets;
             // console.log(companySkillsets)
-            setAllSkillsets(companySkillsets);
+            setAllSkillsets(Array.isArray(companySkillsets) ? companySkillsets : []);
 
             // Get company biz file
             await fetchBizFilePDF();
@@ -87,7 +87,10 @@ const BOCompanyProfile = () => {
 
     // Create new role
     const triggerCreateRole = async () => {
-        const isSameRoleCreated = await checkIfRoleCreated(allRoles, newRole)
+        let isSameRoleCreated = allRoles;
+        // console.log(allRoles)
+        if(isSameRoleCreated)
+            isSameRoleCreated = await checkIfRoleCreated(allRoles, newRole)
         // console.log(isSameRoleCreated)
         if(isSameRoleCreated.length > 0) { // If the role is created before
             showAlert(
@@ -135,7 +138,9 @@ const BOCompanyProfile = () => {
 
     // Create new skillset
     const triggerCreateSkillset = async () => {
-        const isSameSkillsetCreated = await checkIfSkillsetCreated(allSkillsets, newSkillset)
+        let isSameSkillsetCreated = [];
+        if(allSkillsets)
+            isSameSkillsetCreated = await checkIfSkillsetCreated(allSkillsets, newSkillset)
         // console.log(isSameSkillsetCreated)
         if(isSameSkillsetCreated.length > 0) { // If the role is created before
             showAlert(
@@ -335,7 +340,7 @@ const BOCompanyProfile = () => {
                 <div className="roles-n-skillsets-container">
                     <div className="roles card">
                         <h3>Roles</h3>
-                        {!allRoles ? (
+                        {!allRoles || allRoles.length === 0 ? (
                             <p className='role-n-skillset-text even-row'>
                                 No Role Added
                             </p>
@@ -357,7 +362,7 @@ const BOCompanyProfile = () => {
     
                     <div className="skillsets card">
                         <h3>Skillsets</h3>
-                        {!allSkillsets ? (
+                        {!allSkillsets || allSkillsets.length === 0 ? (
                             <p className='role-n-skillset-text even-row'>
                                 No Skillset Added
                             </p>
