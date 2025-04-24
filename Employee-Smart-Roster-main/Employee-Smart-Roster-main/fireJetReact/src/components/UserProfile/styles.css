@@ -1,0 +1,42 @@
+.user-profile-data {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: start;
+    padding: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+
+    .title, .edit-title {
+        width: 100px;
+        font-weight: bold;
+    }
+
+    .edit-title {
+        padding-top: 5px;
+    }
+
+    input {
+        height: 30px !important;
+    }
+}
+
+.even-row {
+    background-color: var(--hover-background);
+
+}
+
+.update-user-profile-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 5px;
+}
+
+/* Mobile (all screens below 768px) */
+@media only screen and (max-width: 768px) {
+    .user-profile-data {
+        flex-direction: column;
+    }
+}

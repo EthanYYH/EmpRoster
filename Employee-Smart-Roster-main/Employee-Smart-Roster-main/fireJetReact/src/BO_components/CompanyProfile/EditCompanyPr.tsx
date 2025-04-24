@@ -160,9 +160,9 @@ const EditCompanyProfile = ({ companyData, onClose, onUpdate }: EditCompanyPrPro
                         Contact Number <span style={{ color: 'red' }}>*</span>
                     </strong>
                     <div className="fields">
-                        <input type='text' 
+                        <input type='tel' 
                             name='contactNo'
-                            placeholder='Company contact number' 
+                            placeholder='6123 4567' 
                             value={formatPhoneNumber(String(companyInfo.contactNo))}
                             onChange={(e) => triggerPhoneValidation(e)}
                             required

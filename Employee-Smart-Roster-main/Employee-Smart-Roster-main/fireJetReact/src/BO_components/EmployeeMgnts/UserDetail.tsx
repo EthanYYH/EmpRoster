@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { IoClose } from '../../../public/Icons.js'; // Adjust the import path as needed
 import { useAlert } from '../../components/PromptAlert/AlertContext';
-import { convertDateToSGTime } from '../../controller/Variables.js';
+import { convertDateToSGTime, formatPhoneNumber } from '../../controller/Variables.js';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton';
 import CreateOEditEmp from '../../BO_components/CreateEditEmployee/CreateOEdit';
@@ -122,7 +122,7 @@ const UserDetail = ({ user, role, skillset, onClose, onEmpUpdate }: UserDetailPr
             <p className="title App-popup-content-icon">
               <MdContactPhone className='App-popup-content-icon'/>
             </p>
-            <p className="main-data">{user.hpNo}</p>
+            <p className="main-data">{formatPhoneNumber(String(user.hpNo))}</p>
           </div>
         </div>
         {/* Job and Position Information */}
