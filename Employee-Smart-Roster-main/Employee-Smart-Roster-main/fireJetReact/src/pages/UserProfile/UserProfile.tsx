@@ -3,6 +3,7 @@ import { useAuth } from '../../AuthContext'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
 import UserProfileCard from '../../components/UserProfile/UserProfile'
 import UpdateUserProfileCard from '../../components/UserProfile/UpdateUserPr'
+import EMP_MoreUserPrDetail from '../../components/UserProfile/MoreEmpPr'
 import { USER_ROLE } from '../../controller/Variables.js'
 import UserController from '../../controller/User/UserController.js'
 
@@ -27,10 +28,14 @@ const UserProfile = () => {
             }
 
             if(user?.role === USER_ROLE[2]) {
-                let empUserData = await empGetUserProfile(user?.UID)
-                empUserData = empUserData.employeeProfile
-                console.log(empUserData[0])
-                setUserData(empUserData[0])
+                const empUserData = await empGetUserProfile(user?.UID)
+                // console.log(empUserData)
+                const combinedData = {
+                    ...empUserData.employeeProfile[0], 
+                    ...empUserData.emailnric[0]
+                }
+                // console.log(combinedData)
+                setUserData(combinedData)
             }
 
         } catch (error) {
@@ -77,9 +82,17 @@ const UserProfile = () => {
                 />
             </h1>
             {userData && (
-                <div className='user-profile-detail-container'>
-                    <CgProfile className='user-profile-page-user-icon'/>
-                    <UserProfileCard userData={userData}/>
+                <div className='user-profile-content'>
+                    <div className='user-profile-detail-container'>
+                        <CgProfile className='user-profile-page-user-icon'/>
+                        <UserProfileCard userData={userData}/>
+                        
+                    </div>
+                    {user?.role === USER_ROLE[2] && (
+                    <div className="user-profile-detail-container emp-user-profile-container">
+                        <EMP_MoreUserPrDetail userData={userData}/>
+                    </div>
+                    )}
                 </div>
             )}
         </div>

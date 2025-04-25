@@ -74,7 +74,10 @@ const UserDetail = ({ user, role, skillset, onClose, onEmpUpdate }: UserDetailPr
         <div className="App-popup-prompt-content suspend-user" onClick={(e) => e.stopPropagation()}>
           <div>
             <p className="App-prompt-confirmation-title App-header">
-              Confirm to Suspend {user.fullName}
+              Confirm to&nbsp;
+              { user.activeOrInactive === 1 
+              ? "Suspend"
+              : "Activate" } {user.fullName}
             </p>
           </div>
           <p>{user.email}</p>
@@ -182,7 +185,9 @@ const UserDetail = ({ user, role, skillset, onClose, onEmpUpdate }: UserDetailPr
         />
         {!user.isSuspended && (
           <SecondaryButton 
-            text="Suspend" 
+            text={ user.activeOrInactive === 1 
+              ? "Suspend"
+              : "Activate" } 
             onClick={() => setSuspend(true)}
           />
         )}

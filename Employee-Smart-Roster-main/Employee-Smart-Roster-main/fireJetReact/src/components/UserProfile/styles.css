@@ -7,6 +7,7 @@
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 5px;
+    width: 100%;
 
     .title, .edit-title {
         width: 100px;
@@ -33,6 +34,25 @@
     flex-direction: row;
     justify-content: end;
     gap: 5px;
+}
+
+.user-profile-nric-contain {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 100% !important;
+}
+
+.hide-show-nric-icon {
+    align-self: center;
+    font-size: 20px;
+}
+
+.hide-show-nric-icon:hover {
+    cursor: pointer;
+    color: var(--error);
 }
 
 /* Mobile (all screens below 768px) */
