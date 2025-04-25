@@ -1,7 +1,9 @@
 import { LuLogOut } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
 import { GoAlertFill } from "react-icons/go";
-import { BiSolidUserDetail } from "react-icons/bi";
+import { BiSolidUserDetail,
+         BiSolidHide,
+         BiSolidShow } from "react-icons/bi";
 import { IoClose, IoArrowBack } from "react-icons/io5";
 import { FaFilePdf, 
          FaInfoCircle, 
@@ -65,4 +67,6 @@ export {
     FaRegEdit, // Edit icon
     HiOutlineIdentification, // Identification icon
     HiOutlineCalendarDateRange, // Date icon
+    BiSolidHide, // Hided string icon
+    BiSolidShow, // Showed string icon
 };

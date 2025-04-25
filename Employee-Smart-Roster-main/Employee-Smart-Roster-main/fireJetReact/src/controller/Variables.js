@@ -95,6 +95,11 @@ export function formatNRIC (nric) {
     return result;
 };
 
+export function hideNRIC (nric) {
+    const last4 = nric.slice(-4); // Get last 4 characters
+    return last4.padStart(nric.length, '*'); // Fill the rest with *
+}
+
 export function formatKey(key) {
     return key
         .replace(/([A-Z])/g, ' $1')   // insert space before capital letters
