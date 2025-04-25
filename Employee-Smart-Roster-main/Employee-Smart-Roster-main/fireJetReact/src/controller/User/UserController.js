@@ -273,6 +273,37 @@ async function empGetUserProfile(empUID) {
     }
 }
 
+async function empUpdateUserProfile(empUID, updatedData) {
+    // console.log(updatedData)
+    const cleaned = updatedData.hpNo.replace(/\D/g, '').slice(0, 8);
+
+    const body = {
+        employee_user_id: empUID,
+        email: updatedData.email,
+        hpNo: cleaned,
+        fullName: updatedData.fullName,
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/employee/profile/update', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to suspend the user: ${error.message}`);
+    }
+}
+
 export default {
     validateEmail,
     validateNRICofFIN,
@@ -289,4 +320,5 @@ export default {
     boGetUserProfile, 
     boUpdateUserProfile, 
     empGetUserProfile,
+    empUpdateUserProfile,
 }
