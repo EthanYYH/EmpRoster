@@ -15,7 +15,8 @@ interface BOUpdateUserProfileProps {
     onClose: () => void
 }
 
-const { validateEmail, validatePhoneNo, boUpdateUserProfile } = UserController;
+const { validateEmail, validatePhoneNo, boUpdateUserProfile,
+        empUpdateUserProfile, } = UserController;
 
 const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUserProfileProps) => {
     const { showAlert } = useAlert();
@@ -101,7 +102,7 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
         setShowConfirmation(!showConfirmation)
     }
 
-    const triggerUpdateUserProfile = async() => {
+    const triggerBO_UpdateUserProfile = async() => {
         try {
             const response = await boUpdateUserProfile(userData.user_id, dataForUpdate)
             // console.log(response)
@@ -129,7 +130,43 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
             }
         } catch (error) {
             showAlert(
-                "triggerUpdateUserProfile",
+                "triggerBO_UpdateUserProfile",
+                `Failed to Update User Profile`,
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            );
+        }
+    }
+
+    const triggerEMP_UpdateUserProfile = async() => {
+        try {
+            const response = await empUpdateUserProfile(userData.user_id, dataForUpdate)
+            // console.log(response)
+            if (response.message === "hpNo , fullName , email successfully updated") {
+                if (onDataUpdate)
+                    onDataUpdate(dataForUpdate)
+    
+                if (onClose)
+                    onClose()
+
+                showAlert(
+                    "Update User Profile",
+                    `Succeed`,
+                    ``,
+                    { type: 'success' }
+                );
+            } else {
+                toggleConfirmUpdateProfile()
+                showAlert(
+                    "Update User Profile",
+                    `Failed to Update User Profile`,
+                    ``,
+                    { type: 'error' }
+                );
+            }
+        } catch (error) {
+            showAlert(
+                "triggerBO_UpdateUserProfile",
                 `Failed to Update User Profile`,
                 error instanceof Error ? error.message : String(error),
                 { type: 'error' }
@@ -161,7 +198,13 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
                     {userData.role === USER_ROLE[1] && (
                         <PrimaryButton 
                             text='Confirm'
-                            onClick={() => triggerUpdateUserProfile()}
+                            onClick={() => triggerBO_UpdateUserProfile()}
+                        />
+                    )}
+                    {userData.role === USER_ROLE[2] && (
+                        <PrimaryButton 
+                            text='Confirm'
+                            onClick={() => triggerEMP_UpdateUserProfile()}
                         />
                     )}
                     <SecondaryButton 
