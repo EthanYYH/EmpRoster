@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
-import { formatPhoneNumber } from '../../controller/Variables.js'
+import CompanyController from '../../controller/CompanyController.js'
+import UserController from '../../controller/User/UserController.js'
+import BOEmployeeController from '../../controller/BOEmployeeController'
 
+import { TiTime } from '../../../public/Icons.js'
 import './styles.css'
 import '../../../public/styles/common.css'
 
@@ -9,25 +12,69 @@ interface EmpMoreUserProfileDetailProps {
     userData: any
 }
 
+const { getCompanyRoles, getCompanySkillsets } =  CompanyController
+const { getRoleNameForEmp, getSkillNameForEmp } = BOEmployeeController
+
 const EMP_MoreUserPrDetail = ({ userData }: EmpMoreUserProfileDetailProps) => {
+    const { showAlert } = useAlert();
+    const [ role, setRole ] = useState<any>([]);
+    const [ skillset, setSkillset ] = useState<any>([]);
+    const fetchAllocatedRoleNSkillset = async() => {
+        try {
+            const allRoles = await getCompanyRoles(userData.business_owner_id);
+            const allocatedRole = getRoleNameForEmp(allRoles.roleName, userData.roleID);
+            // console.log("Allocated Role: ", allocatedRole)
+            setRole(allocatedRole[0])
+
+            const allSkillsets = await getCompanySkillsets(userData.business_owner_id);
+            const allocatedSkillsets = getSkillNameForEmp(allSkillsets.skillSets, userData.skillSetID);
+            // console.log("Allocated Skillset: ", allocatedSkillsets)
+            setSkillset(allocatedSkillsets[0])
+
+        } catch (error) {
+            showAlert(
+                "fetchRole",
+                "Fetch data error",
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            )
+        }
+    }
+
+    useEffect(() => {fetchAllocatedRoleNSkillset()}, [userData])
+
     return(
         <>
-            <div className="user-profile-data email even-row">
-                <p className="title">EMAIL</p>
-                <p className="main-data">{userData.email}</p>
+        {role && skillset && (
+            <>
+            <h3>Job Detail</h3>
+            <div className="user-profile-data job-title even-row">
+                <p className="title">JOB TITLE</p>
+                <p className="main-data">{userData.jobTitle}</p>
             </div>
-            <div className="user-profile-data fullname">
-                <p className="title">FULLNAME</p>
-                <p className="main-data">{userData.fullName}</p>
+            <div className="user-profile-data working-time">
+                <p className="title user-profile-title-icon">
+                    <TiTime />
+                    <p className="title-with-icon">{userData.standardWrkHrs} hrs/day</p>
+                </p>
+                <p className="main-data">
+                    {userData.startWorkTime.split(":")[0]}:{userData.startWorkTime.split(":")[1]}&nbsp;
+                    to&nbsp;
+                    {userData.endWorkTime.split(":")[0]}:{userData.endWorkTime.split(":")[1]}
+                    <br />
+                    {userData.daysOfWork} days per week
+                </p>
             </div>
-            <div className="user-profile-data nric even-row">
-                <p className="title">NRIC</p>
-                <p className="main-data">{userData.nric.toUpperCase()}</p>
+            <div className="user-profile-data role even-row">
+                <p className="title">ROLE</p>
+                <p className="main-data">{role.roleName}</p>
             </div>
-            <div className="user-profile-data hpNo">
-                <p className="title">H/P NO</p>
-                <p className="main-data">{formatPhoneNumber(String(userData.hpNo))}</p>
+            <div className="user-profile-data skillset">
+                <p className="title">SKILLSET</p>
+                <p className="main-data">{skillset.skillSetName}</p>
             </div>
+            </>
+        )}
         </>
     )
 }

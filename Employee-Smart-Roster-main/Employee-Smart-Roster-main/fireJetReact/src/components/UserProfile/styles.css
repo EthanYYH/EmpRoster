@@ -23,6 +23,16 @@
     }
 }
 
+.user-profile-title-icon {
+    font-size: 20px;
+    align-self: center;
+
+    .title-with-icon {
+        font-weight: normal !important;
+        font-size: 15px;
+    }
+}
+
 .even-row {
     background-color: var(--hover-background);
     padding-top: 5px;
@@ -55,9 +65,39 @@
     color: var(--error);
 }
 
+.emp-employeer-user-profile-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .title {
+        max-width: 23px;
+    }
+}
+
+.emp-user-profile-other-and-employeer-container {
+    display: flex;
+    flex-direction: row;
+    gap: 35px;
+}
+
+.emp-uswr-profile-employeer-info {
+    display: flex;
+    flex-direction: column;
+}
+
 /* Mobile (all screens below 768px) */
 @media only screen and (max-width: 768px) {
     .user-profile-data {
         flex-direction: column;
+    }
+
+    .user-profile-title-icon { 
+        width: 100% !important;
+        align-self: start;
+        padding-bottom: 2px;
+        border-bottom: 1px;
+        border-bottom-style: dotted;
+        border-bottom-color: var(--primary-background);
     }
 }

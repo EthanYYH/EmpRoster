@@ -1,5 +1,12 @@
 .user-profile-content {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+}
+
+.user-profile-content-user-infos {
+    display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 15px;
@@ -10,11 +17,12 @@
     flex-direction: column;
     justify-content: center;
     align-self: center;
-    padding: 2.5rem;
+    padding: 2rem;
     gap: 6px;
     background-color: white;
     border-radius: 20px;
     width: 60%;
+    height: 100%;
 }
 
 .view-my-profile-header {
@@ -43,8 +51,27 @@
     color: var(--primary-background);
 }
 
+.emp-employeer-user-profile-container {
+    width: 100%;
+}
+
+/* Tablet (769px-1023px) */
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+    .user-profile-content-user-infos {
+        flex-direction: column;
+    }
+
+    .user-profile-detail-container {
+        width: 100%;
+    }
+}
+
 /* Mobile (all screens below 768px) */
 @media only screen and (max-width: 768px) {
+    .user-profile-content-user-infos {
+        flex-direction: column;
+    }
+
     .user-profile-detail-container {
         padding: 1.5rem;
         width: 100%;
