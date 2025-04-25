@@ -24,7 +24,8 @@
 
 .even-row {
     background-color: var(--hover-background);
-
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .update-user-profile-button {

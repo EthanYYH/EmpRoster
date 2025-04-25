@@ -30,7 +30,11 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
     });
     const [ showConfirmation, setShowConfirmation ] = useState(false);
 
-    useEffect(() => { setDataForUpdate(userData) }, [userData])
+    useEffect(() => {
+        let values = { ...userData }
+        values.hpNo = formatPhoneNumber(String(values.hpNo))
+        setDataForUpdate(values)
+    }, [userData])
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
@@ -101,7 +105,7 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
         try {
             const response = await boUpdateUserProfile(userData.user_id, dataForUpdate)
             // console.log(response)
-            // if (response.message === '') {
+            if (response.message === "hpNo , fullName , email successfully updated") {
                 if (onDataUpdate)
                     onDataUpdate(dataForUpdate)
     
@@ -114,15 +118,15 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
                     ``,
                     { type: 'success' }
                 );
-            // } else {
-            //     toggleConfirmUpdateProfile()
-            //     showAlert(
-            //         "Update User Profile",
-            //         `Failed to Update User Profile`,
-            //         ``,
-            //         { type: 'error' }
-            //     );
-            // }
+            } else {
+                toggleConfirmUpdateProfile()
+                showAlert(
+                    "Update User Profile",
+                    `Failed to Update User Profile`,
+                    ``,
+                    { type: 'error' }
+                );
+            }
         } catch (error) {
             showAlert(
                 "triggerUpdateUserProfile",

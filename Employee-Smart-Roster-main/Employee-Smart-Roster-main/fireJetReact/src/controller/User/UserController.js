@@ -218,6 +218,7 @@ async function boGetUserProfile(boUID) {
 }
 
 async function boUpdateUserProfile(boUID, updatedData) {
+    // console.log(updatedData)
     const cleaned = updatedData.hpNo.replace(/\D/g, '').slice(0, 8);
 
     const body = {

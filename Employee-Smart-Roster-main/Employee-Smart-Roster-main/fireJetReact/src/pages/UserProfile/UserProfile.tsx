@@ -29,7 +29,7 @@ const UserProfile = () => {
             if(user?.role === USER_ROLE[2]) {
                 let empUserData = await empGetUserProfile(user?.UID)
                 empUserData = empUserData.employeeProfile
-                // console.log(empUserData[0])
+                console.log(empUserData[0])
                 setUserData(empUserData[0])
             }
 
