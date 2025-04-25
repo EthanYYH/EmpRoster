@@ -1,0 +1,45 @@
+.user-profile-detail-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    padding: 2.5rem;
+    gap: 6px;
+    background-color: white;
+    border-radius: 20px;
+    width: 60%;
+}
+
+.view-my-profile-header {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: start;
+    align-items: center;
+}
+
+.edit-user-profile {
+    font-size: 35px;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.edit-user-profile:hover {
+    cursor: pointer;
+    background-color: var(--primary-background);
+    color: var(--light-color-text);
+}
+
+.user-profile-page-user-icon {
+    font-size: 80px;
+    align-self: center;
+    color: var(--primary-background);
+}
+
+/* Mobile (all screens below 768px) */
+@media only screen and (max-width: 768px) {
+    .user-profile-detail-container {
+        padding: 1.5rem;
+        width: 100%;
+    }
+}

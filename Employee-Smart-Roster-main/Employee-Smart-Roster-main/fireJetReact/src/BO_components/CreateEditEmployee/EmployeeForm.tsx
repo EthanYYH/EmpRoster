@@ -166,7 +166,6 @@ const CreateEditAccount = ({
             'endWorkTime',
             'daysOfWork'
         ];
-      
         
         return requiredFields.some(field => !employeeData[field]);
     };
@@ -432,7 +431,7 @@ const CreateEditAccount = ({
                             <input type='tel' 
                                 name='hpNo'
                                 placeholder='8123 4567' 
-                                value={employeeData.hpNo}
+                                value={formatPhoneNumber(String(employeeData.hpNo))}
                                 onChange={(e) => triggerPhoneValidation(e)}
                                 // onBlur={() => handlePhoneInput(hpNo)}
                                 required

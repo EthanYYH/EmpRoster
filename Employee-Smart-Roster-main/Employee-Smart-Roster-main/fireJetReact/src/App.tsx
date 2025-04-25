@@ -12,6 +12,7 @@ import ReqResetEmail from "./pages/RegistrationNLogin/ReqResetEmail";
 import Navbar from "./components/NavBar/NavBar";
 import GuestLanding from './pages/Landing/LandingPage';
 import SideMenu_t from "./components/SideMenu/SideMenu_t";
+import UserProfile from "./pages/UserProfile/UserProfile";
 
 // Pages for System Admin
 import SADash from "./pages/Dashboard/SADash";
@@ -75,7 +76,7 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <SideMenu_t />
-                    <h1>User Profile</h1>
+                    <UserProfile />
                   </ProtectedRoute>
                 }
               />

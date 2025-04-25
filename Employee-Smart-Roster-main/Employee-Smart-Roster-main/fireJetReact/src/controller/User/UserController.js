@@ -192,6 +192,87 @@ async function checkIfEmailRegistered(email) {
     }
 }
 
+async function boGetUserProfile(boUID) {
+    const body = {
+        business_owner_id: boUID,
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/profile/view', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to suspend the user: ${error.message}`);
+    }
+}
+
+async function boUpdateUserProfile(boUID, updatedData) {
+    // console.log(updatedData)
+    const cleaned = updatedData.hpNo.replace(/\D/g, '').slice(0, 8);
+
+    const body = {
+        business_owner_id: boUID,
+        email: updatedData.email,
+        hpNo: cleaned,
+        fullName: updatedData.fullName,
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/profile/update', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to suspend the user: ${error.message}`);
+    }
+}
+
+async function empGetUserProfile(empUID) {
+    const body = {
+        employee_user_id: empUID,
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/employee/profile/view', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to suspend the user: ${error.message}`);
+    }
+}
+
 export default {
     validateEmail,
     validateNRICofFIN,
@@ -204,5 +285,8 @@ export default {
     getCurrentUserProfile,
     handleSuspendUser,
     handleUsuspendUser,
-    checkIfEmailRegistered, 
+    checkIfEmailRegistered,
+    boGetUserProfile, 
+    boUpdateUserProfile, 
+    empGetUserProfile,
 }
