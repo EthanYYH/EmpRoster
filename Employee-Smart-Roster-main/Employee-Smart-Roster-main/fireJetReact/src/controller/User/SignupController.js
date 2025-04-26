@@ -1,12 +1,4 @@
-import { EMAIL_PATTERN, encodeFileContent } from '../Variables.js'
-
-function validateEmail (email){
-    // Email value validation
-    if(!EMAIL_PATTERN.test(email))
-        return "Invalid email format"
-    else
-        return ""
-}
+import { encodeFileContent } from '../Variables.js'
 
 async function createRegisRequest (bizFile, email, UEN, bizName, password){
     // console.log("BizFile: ", bizFile)
@@ -35,17 +27,16 @@ async function createRegisRequest (bizFile, email, UEN, bizName, password){
             throw new Error(errorData.message || `HTTP error status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         // console.log(data);
 
         return await data;
     } catch(error) {
-        console.error(`Failed to register: \n`, error);
+        // console.error(`Failed to register: \n`, error);
         throw new Error(`Registration Failed: ${error.message}`);
     }
 }
 
 export default {
-    validateEmail,
     createRegisRequest,
 }
