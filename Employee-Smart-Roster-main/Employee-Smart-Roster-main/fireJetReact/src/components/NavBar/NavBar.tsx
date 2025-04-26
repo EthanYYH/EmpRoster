@@ -21,6 +21,7 @@ const Navbar = () => {
     const isOnRegister = location.pathname.includes('register');
     const isOnReqResetEmail = location.pathname.includes('request-reset-pw-email');
     const isOnResetPw = location.pathname.includes('reset-pw');
+    const isOnPreviewLanding = location.pathname.includes('preview-landing-page');
 
     const handleLogout = async () => {
         try{
@@ -48,7 +49,8 @@ const Navbar = () => {
              && !isOnRegister
              && !isOnReqResetEmail
              && !isOnResetPw 
-             && (
+             && !isOnPreviewLanding
+             &&(
                 <div className="navbar">
                     <div className="nav-button hamburger-menu-icon">
                         <SideMenu_m />

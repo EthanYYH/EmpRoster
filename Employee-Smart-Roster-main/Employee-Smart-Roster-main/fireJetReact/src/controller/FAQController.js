@@ -54,7 +54,7 @@ export async function updateFAQ(faqID, question_desc, answer, isShown, createdOn
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error updating FAQ:', error);
+    // console.error('Error updating FAQ:', error);
     throw new Error(`Failed to update FAQ: ${error.message}`);
   }
 }
