@@ -184,7 +184,7 @@ const CompleteProfile = ({ userID, onDataUpdate }:CompleteProfileProps) => {
                         <div className="fields">
                             <input type='tel'
                                 name='company-contact'
-                                placeholder='Comapany Contact No.' 
+                                placeholder='Company Contact No.' 
                                 value={companyContact}
                                 onChange={(e) => handleVirtualPhoneInput(e.target.value)}
                                 onBlur={() => handleVirtualPhoneInput(companyContact)}
@@ -280,7 +280,7 @@ const CompleteProfile = ({ userID, onDataUpdate }:CompleteProfileProps) => {
                         <div className="fields">
                             <input type='tel' 
                                 name='hpNo'
-                                placeholder='Pesornal Contact No' 
+                                placeholder='Personal Contact No' 
                                 value={hpNo}
                                 onChange={(e) => handlePhoneInput(e.target.value)}
                                 onBlur={() => handlePhoneInput(hpNo)}

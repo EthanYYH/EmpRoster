@@ -1,28 +1,23 @@
 .user-profile-content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 15px;
 }
 
 .user-profile-content-user-infos {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     gap: 15px;
 }
 
 .user-profile-detail-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-self: center;
     padding: 2rem;
-    gap: 6px;
+    gap: 5px;
     background-color: white;
     border-radius: 20px;
     width: 60%;
-    height: 100%;
 }
 
 .view-my-profile-header {
@@ -46,8 +41,7 @@
 }
 
 .user-profile-page-user-icon {
-    font-size: 80px;
-    align-self: center;
+    font-size: 30px;
     color: var(--primary-background);
 }
 

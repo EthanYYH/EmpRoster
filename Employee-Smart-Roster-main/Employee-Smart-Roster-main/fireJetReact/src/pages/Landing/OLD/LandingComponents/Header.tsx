@@ -1,5 +1,5 @@
 import "./Header.css";
-import logo from "../../../../public/assets/Logo.svg";
+import logo from "../../../../public/assets/Logo.png";
 import { useNavigate, useLocation } from "react-router-dom";
 
 interface HeaderProps {

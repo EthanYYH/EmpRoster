@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // import useLocation
 import "./landingNavBar.css";
-import logo from "../../../public/assets/Logo.svg";
+import logo from "../../../public/assets/Logo.png";
 
 const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

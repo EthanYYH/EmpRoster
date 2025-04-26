@@ -1,5 +1,5 @@
 // import "./landing.css";
-import logo from '../../../public/assets/Logo.svg';
+import logo from '../../../public/assets/Logo.png';
 
 const GuestLanding = () => {
   return (

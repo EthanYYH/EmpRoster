@@ -288,7 +288,7 @@ const BOCompanyProfile = () => {
                             <p className="main-data">{companyInfo.UEN}</p>
                         </div>
                         <div className="company-profile-data company-name ">
-                            <p className="title">Comapany Name</p>
+                            <p className="title">Company Name</p>
                             <p className="main-data">{companyInfo.bizName}</p>
                         </div>
                         <div className="company-profile-data company-address odd-row">
