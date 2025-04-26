@@ -61,13 +61,13 @@ const CreateOEditEmp = ({
             let roles = await getCompanyRoles(user?.UID);
             roles = roles.roleName
             // console.log(roles)
-            setAllRoles(roles)
+            setAllRoles(Array.isArray(roles) ? roles : [])
 
             // Fetch Skillsets
             let skillsets = await getCompanySkillsets(user?.UID);
             skillsets = skillsets.skillSets
             // console.log(skillsets)
-            setAllSkillsets(skillsets)
+            setAllSkillsets(Array.isArray(skillsets) ? skillsets : [])
         } catch (error) {
             showAlert(
                 "fetchRolesNSkillsets",
