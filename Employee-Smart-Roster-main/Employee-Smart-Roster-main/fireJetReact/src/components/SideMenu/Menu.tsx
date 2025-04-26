@@ -25,6 +25,7 @@ interface MenuProps {
 const Menu = ({ menuItems, responsive = 'desktop' }: MenuProps) => {
     const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
     const location = useLocation();
+    const isOnPreviewLanding = location.pathname.includes('preview-landing-page');
 
     // Initialize expanded state based on current location
     useEffect(() => {
@@ -54,56 +55,61 @@ const Menu = ({ menuItems, responsive = 'desktop' }: MenuProps) => {
     };
 
     return (
-        <div className={`side-menu ${responsive === 'mobile' ? 'mobile' : ''}`}>
-            {menuItems.map(({label, name, navHref, src, items: subItems}) => (
-                <div key={name}>
-                    <ul className="menu-item-container">
-                        {subItems ? (
-                            <li 
-                                className={`side-menu-btn ${expandedItems[name] ? 'expanded' : ''}`} 
-                                onClick={() => toggleExpand(name)}
-                            >
-                                <a href={navHref} className="menu-tab">
-                                    <div className="menu-tab-label">
-                                        {src}
-                                        {label}
-                                    </div>
-                                    {subItems && (
-                                        expandedItems[name] 
-                                            ? <FaChevronCircleUp className="expand-icon"/> 
-                                            : <FaChevronCircleDown className="expand-icon"/>
-                                    )}
-                                </a>
-                            </li>
-                        ) : (
-                            <li 
-                                className={`side-menu-btn ${location.pathname === navHref ? 'active' : ''}`} 
-                            >
-                                <a href={navHref} className="menu-tab">
-                                    <div className="menu-tab-label">
-                                        {src}
-                                        {label}
-                                    </div>
-                                </a>
-                            </li>
-                        )}
-                    
-                        {Array.isArray(subItems) && expandedItems[name] && (
-                            <ul className="sub-menu">
-                                {subItems.map((subItem) => (
-                                    <li 
-                                        className={`sub-navHref-hover ${location.pathname === subItem.navHref ? 'active' : ''}`}
-                                        key={subItem.name}
-                                    >
-                                        <a href={subItem.navHref}>{subItem.label}</a>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </ul>
-                </div>
-            ))}
-        </div>
+        <>
+        {!isOnPreviewLanding && (
+            <div className={`side-menu ${responsive === 'mobile' ? 'mobile' : ''}`}>
+                {menuItems.map(({label, name, navHref, src, items: subItems}) => (
+                    <div key={name}>
+                        <ul className="menu-item-container">
+                            {subItems ? (
+                                <li 
+                                    className={`side-menu-btn ${expandedItems[name] ? 'expanded' : ''}`} 
+                                    onClick={() => toggleExpand(name)}
+                                >
+                                    <a href={navHref} className="menu-tab">
+                                        <div className="menu-tab-label">
+                                            {src}
+                                            {label}
+                                        </div>
+                                        {subItems && (
+                                            expandedItems[name] 
+                                                ? <FaChevronCircleUp className="expand-icon"/> 
+                                                : <FaChevronCircleDown className="expand-icon"/>
+                                        )}
+                                    </a>
+                                </li>
+                            ) : (
+                                <li 
+                                    className={`side-menu-btn ${location.pathname === navHref ? 'active' : ''}`} 
+                                >
+                                    <a href={navHref} className="menu-tab">
+                                        <div className="menu-tab-label">
+                                            {src}
+                                            {label}
+                                        </div>
+                                    </a>
+                                </li>
+                            )}
+                        
+                            {Array.isArray(subItems) && expandedItems[name] && (
+                                <ul className="sub-menu">
+                                    {subItems.map((subItem) => (
+                                        <li 
+                                            className={`sub-navHref-hover ${location.pathname === subItem.navHref ? 'active' : ''}`}
+                                            key={subItem.name}
+                                        >
+                                            <a href={subItem.navHref}>{subItem.label}</a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </ul>
+                    </div>
+                ))}
+            </div>
+        )}
+        </>
+        
     );
 };
 

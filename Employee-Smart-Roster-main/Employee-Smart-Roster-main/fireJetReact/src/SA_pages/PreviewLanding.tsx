@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import PrimaryButton from '../components/PrimaryButton/PrimaryButton';
 import GuestLanding from '../pages/Landing/LandingPage';
+
+import { IoArrowBack } from '../../public/Icons.js'
 import './styles.css';
 import '../../public/styles/common.css';
 
@@ -14,7 +16,7 @@ function PreviewLanding(){
     return(
         <div className='sa-preview-landing-content'>
             <PrimaryButton
-                text="Go Back to Modify Data Shown" 
+                text='Back'
                 onClick={backPrevPage}
             />
             <GuestLanding />

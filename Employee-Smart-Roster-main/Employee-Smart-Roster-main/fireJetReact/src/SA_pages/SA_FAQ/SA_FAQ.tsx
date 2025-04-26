@@ -44,13 +44,15 @@ const FAQManagement = () => {
   const handleSaveChanges = async () => {
     if (!currentFAQ) return;
     try {
-      await updateFAQ(
+      const response = await updateFAQ(
         currentFAQ.faqID,
         editedQuestion,
         editedAnswer,
         currentFAQ.isShown,
         currentFAQ.createdOn
       );
+      console.log(response)
+      
       refetch();
       closeViewModal();
     } catch (err) {
@@ -69,7 +71,7 @@ const FAQManagement = () => {
     if (!currentFAQ) return;
     try {
       const result = await deleteFAQ(currentFAQ.faqID);
-      console.log("FAQ deleted successfully:", result);
+      // console.log("FAQ deleted successfully:", result);
       refetch();
       setIsDeletePromptOpen(false);
       closeViewModal();
@@ -86,7 +88,7 @@ const FAQManagement = () => {
     try {
       const createdOn = new Date().toISOString();
       const result = await addFAQ(newQuestion, newAnswer, 1, createdOn);
-      console.log("FAQ added successfully:", result);
+      // console.log("FAQ added successfully:", result);
       refetch();
       setNewQuestion("");
       setNewAnswer("");
@@ -128,21 +130,30 @@ const FAQManagement = () => {
               value={newQuestion}
               onChange={(e) => setNewQuestion(e.target.value)}
               placeholder="Enter your question here..."
+              required
             />
           </div>
           <div className="faq-add-field">
             <label className="title-add-faq">Answer:</label>
             <div className="faq-add-input-container">
               <input
+                type="text"
                 className="faq-add-input"
                 value={newAnswer}
                 onChange={(e) => setNewAnswer(e.target.value)}
                 placeholder="Enter the answer here..."
+                required
               />
             </div>
           </div>
           <div className="btns-grp">
-            <PrimaryButton text="Add FAQ" onClick={handleAddFAQ} />
+            <PrimaryButton 
+              text="Add FAQ" 
+              onClick={handleAddFAQ} 
+              disabled={ !newQuestion 
+                         || !newAnswer
+                        }
+            />
           </div>
         </div>
       </div>
