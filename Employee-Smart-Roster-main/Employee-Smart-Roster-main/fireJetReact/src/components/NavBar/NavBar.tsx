@@ -5,7 +5,7 @@ import SideMenu_m from "../SideMenu/SideMenu_m";
 // Import resources
 import { LuLogOut, CgProfile } from "../../../public/Icons.js";
 import LogoutController from '../../controller/User/LogoutController';
-import appLogo from "../../../public/assets/Logo.svg";
+import appLogo from "../../../public/assets/Logo.png";
 
 import "./NavBar.css"; 
 import "../../../public/styles/common.css";
