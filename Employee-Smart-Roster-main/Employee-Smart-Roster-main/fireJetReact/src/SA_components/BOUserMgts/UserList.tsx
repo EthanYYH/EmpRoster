@@ -33,33 +33,38 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
     const [ allCompanies, setAllCompanies ] = useState<any>([])
     const [ companies, setCompanies ] = useState<any>([]);  // Data to Display
 
+    async function sleep(ms: number): Promise<void> {
+        return new Promise(
+            (resolve) => setTimeout(resolve, ms));
+    }
+
     const fetchCompaniesData = async() => {
         if(!boUsers) return; // If no boUsers return nothing
         
         try{
-            const companyPromises = boUsers.map(async (user: any) => {
-                try {
-                    const company = await getCompany(user.UID);
-                    return {
-                        ...company,
-                        owner: user,
-                    }
-                } catch(error) {
-                    showAlert(
-                        `Error fetching company`,
-                        `UID: ${user.UID}: `,
-                        error instanceof Error ? error.message : String(error),
-                        { type: 'error' }
-                    )
-                    return null;
-                }
-            })
-            const companyWithOwnes = await Promise.all(companyPromises)
-            // console.log("Companies with owner: \n", companyWithOwnes)
+            // const companyPromises = boUsers.map(async (user: any) => {
+            //     try {
+            //         const company = await getCompany(user.UID);
+            //         return {
+            //             ...company,
+            //             owner: user,
+            //         }
+            //     } catch(error) {
+            //         showAlert(
+            //             `Error fetching company`,
+            //             `UID: ${user.UID}: `,
+            //             error instanceof Error ? error.message : String(error),
+            //             { type: 'error' }
+            //         )
+            //         return null;
+            //     }
+            // })
+            // let companyWithOwners = await Promise.all(companyPromises)
+            // console.log("Companies with owner: \n", companyWithOwners)
             
             const transactions = await getSubscriptionTransactions();
             // console.log(transactions);
-            const fullCompaniesDataPromises = companyWithOwnes.map(async (company:any) => {
+            const fullCompaniesDataPromises = boUsers.map(async (company:any) => {
                 // Get all transactions for current company
                 const transactionsForACompany = await getSubsTransForACompany(transactions.SubscriptionDetails, company.UEN);
                 // Get latest transactions for current company
@@ -69,7 +74,6 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
                     ...company, // All data for current company
                     transactions: sortedTransactions, // Include new transactions data
                 }
-                
             })
             const fullCompaniesData = await Promise.all(fullCompaniesDataPromises)
             // console.log(`Full company data: \n`, fullCompaniesData)

@@ -28,7 +28,7 @@ const UserMgts = () => {
     const fetchBoUsersData = async () => {
         try{
             let data = await getBOUsers();
-            data = data.BOList || [];
+            data = data || [];
             console.log(data)
             setBizOwners(Array.isArray(data) ? data : []);
         } catch(error) {

@@ -97,7 +97,7 @@ const Register = () => {
     const triggerRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Stop auto refresh for form submit
         if (bizFile) {
-            setFileStatus('uploading')
+            // setFileStatus('uploading')
             const formData =  new FormData();
             formData.append('bizFile', bizFile);
     

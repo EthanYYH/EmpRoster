@@ -19,6 +19,7 @@ import SADash from "./pages/Dashboard/SADash";
 import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import UserMgts from "./pages/UserManagement/UserMgts";
 import PreviewLanding from "./SA_pages/PreviewLanding";
+import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
 
 // Pages for Busines Owner
@@ -30,7 +31,6 @@ import BOUpdateBOProfile from "./BO_pages/ViewProfile/BOUpdateBOProfile";
 import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
 import CreateOEditEmp from "./BO_components/CreateEditEmployee/CreateOEdit";
-import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 
 // Import for testing
@@ -139,6 +139,7 @@ function App() {
                       <SideMenu_t />
                       <div className="content">
                         <h1>Review & Rating</h1>
+                        <ViewRating />
                       </div>
                     </div>
                   </ProtectedRoute>
