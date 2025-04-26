@@ -4,6 +4,7 @@ import { useAlert } from '../../components/PromptAlert/AlertContext'
 import UserProfileCard from '../../components/UserProfile/UserProfile'
 import UpdateUserProfileCard from '../../components/UserProfile/UpdateUserPr'
 import EMP_MoreUserPrDetail from '../../components/UserProfile/MoreEmpPr'
+import EMP_UserPrEmployeerDetail from '../../components/UserProfile/MoreEmpPr_Employeer'
 import { USER_ROLE } from '../../controller/Variables.js'
 import UserController from '../../controller/User/UserController.js'
 
@@ -65,6 +66,7 @@ const UserProfile = () => {
                     <CgProfile className='user-profile-page-user-icon'/>
                     <UpdateUserProfileCard 
                         userData={userData}
+                        currentUser={user}
                         onDataUpdate={updateUserProfile}
                         onClose={toggleUpdateUserProfile}
                     />
@@ -83,14 +85,21 @@ const UserProfile = () => {
             </h1>
             {userData && (
                 <div className='user-profile-content'>
-                    <div className='user-profile-detail-container'>
-                        <CgProfile className='user-profile-page-user-icon'/>
-                        <UserProfileCard userData={userData}/>
-                        
+                    <div className='user-profile-content-user-infos'>
+                        <div className='user-profile-detail-container'>
+                            <CgProfile className='user-profile-page-user-icon'/>
+                            <UserProfileCard userData={userData} />
+                            
+                        </div>
+                        {user?.role === USER_ROLE[2] && (
+                        <div className="user-profile-detail-container emp-user-profile-container">
+                            <EMP_MoreUserPrDetail userData={userData}/>
+                        </div>
+                        )}
                     </div>
                     {user?.role === USER_ROLE[2] && (
-                    <div className="user-profile-detail-container emp-user-profile-container">
-                        <EMP_MoreUserPrDetail userData={userData}/>
+                    <div className="user-profile-detail-container emp-employeer-user-profile-container">
+                        <EMP_UserPrEmployeerDetail userData={userData}/>
                     </div>
                     )}
                 </div>

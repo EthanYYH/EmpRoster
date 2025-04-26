@@ -27,29 +27,28 @@ const UserProfileCard = ({ userData }: BOUserProfileProps) => {
                 <p className="main-data">{userData.fullName}</p>
             </div>
             <div className="user-profile-data nric even-row">
-                    <p className="title">NRIC</p>
-                    <p className="main-data">
-                        <div className='user-profile-nric-contain'>
-                        {!showNRIC ? (
-                            <>
-                            {hideNRIC(userData.nric.toUpperCase())}
-                            <BiSolidHide 
-                                className='hide-show-nric-icon'
-                                onClick={() => toggleShowNRIC()}
-                            />
-                            </>
-                        ) : (
-                            <>
-                            {userData.nric.toUpperCase()}
-                            <BiSolidShow 
-                                className='hide-show-nric-icon'
-                                onClick={() => toggleShowNRIC()}
-                            />
-                            </>
-                        )}
-                        </div>
-                    </p>
-                
+                <p className="title">NRIC</p>
+                <div className="main-data">
+                    <div className='user-profile-nric-contain'>
+                    {!showNRIC ? (
+                        <>
+                        {hideNRIC(userData.nric.toUpperCase())}
+                        <BiSolidHide 
+                            className='hide-show-nric-icon'
+                            onClick={() => toggleShowNRIC()}
+                        />
+                        </>
+                    ) : (
+                        <>
+                        {userData.nric.toUpperCase()}
+                        <BiSolidShow 
+                            className='hide-show-nric-icon'
+                            onClick={() => toggleShowNRIC()}
+                        />
+                        </>
+                    )}
+                    </div>
+                </div>
             </div>
             <div className="user-profile-data hpNo">
                 <p className="title">H/P NO</p>
