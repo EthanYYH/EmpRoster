@@ -53,10 +53,10 @@ const EMP_MoreUserPrDetail = ({ userData }: EmpMoreUserProfileDetailProps) => {
                 <p className="main-data">{userData.jobTitle}</p>
             </div>
             <div className="user-profile-data working-time">
-                <p className="title user-profile-title-icon">
+                <div className="title user-profile-title-icon">
                     <TiTime />
                     <p className="title-with-icon">{userData.standardWrkHrs} hrs/day</p>
-                </p>
+                </div>
                 <p className="main-data">
                     {userData.startWorkTime.split(":")[0]}:{userData.startWorkTime.split(":")[1]}&nbsp;
                     to&nbsp;

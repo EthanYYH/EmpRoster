@@ -66,6 +66,7 @@ const UserProfile = () => {
                     <CgProfile className='user-profile-page-user-icon'/>
                     <UpdateUserProfileCard 
                         userData={userData}
+                        currentUser={user}
                         onDataUpdate={updateUserProfile}
                         onClose={toggleUpdateUserProfile}
                     />

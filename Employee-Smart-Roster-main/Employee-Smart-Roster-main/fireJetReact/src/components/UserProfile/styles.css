@@ -18,8 +18,13 @@
         padding-top: 5px;
     }
 
+    .main-data {
+        width: 100%;
+    }
+
     input {
         height: 30px !important;
+        width: 100%;
     }
 }
 
@@ -75,6 +80,22 @@
     }
 }
 
+.emp-uswr-profile-other-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .no-of-leave {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .title {
+        max-width: fit-content;
+    }
+}
+
 .emp-user-profile-other-and-employeer-container {
     display: flex;
     flex-direction: row;
@@ -84,6 +105,11 @@
 .emp-uswr-profile-employeer-info {
     display: flex;
     flex-direction: column;
+
+    .user-profile-data {
+        flex-direction: row;
+        align-items: center;
+    }
 }
 
 /* Mobile (all screens below 768px) */
@@ -99,5 +125,9 @@
         border-bottom: 1px;
         border-bottom-style: dotted;
         border-bottom-color: var(--primary-background);
+    }
+
+    .emp-user-profile-other-and-employeer-container {
+        flex-direction: column;
     }
 }

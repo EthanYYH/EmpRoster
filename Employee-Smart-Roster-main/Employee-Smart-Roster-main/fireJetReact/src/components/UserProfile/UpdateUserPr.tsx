@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton'
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton'
-import { formatPhoneNumber, USER_ROLE } from '../../controller/Variables.js'
+import { formatPhoneNumber, USER_ROLE, hideNRIC } from '../../controller/Variables.js'
 import UserController from '../../controller/User/UserController.js'
 
-import { GoAlertFill, TiTick } from '../../../public/Icons.js'
+import { GoAlertFill, TiTick, BiSolidHide, BiSolidShow } from '../../../public/Icons.js'
 import './styles.css'
 import '../../../public/styles/common.css'
 
 interface BOUpdateUserProfileProps {
     userData: any
+    currentUser: any
     onDataUpdate?: (updatedData: any) => (void)
     onClose: () => void
 }
@@ -18,7 +19,7 @@ interface BOUpdateUserProfileProps {
 const { validateEmail, validatePhoneNo, boUpdateUserProfile,
         empUpdateUserProfile, } = UserController;
 
-const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUserProfileProps) => {
+const UpdateUserProfileCard = ({ userData, currentUser, onDataUpdate, onClose }: BOUpdateUserProfileProps) => {
     const { showAlert } = useAlert();
     const [ dataForUpdate, setDataForUpdate ] = useState({
         email: '',
@@ -30,6 +31,7 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
         hpNo: '',
     });
     const [ showConfirmation, setShowConfirmation ] = useState(false);
+    const [ showNRIC, setShowNRIC ] = useState(false)
 
     useEffect(() => {
         let values = { ...userData }
@@ -102,6 +104,10 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
         setShowConfirmation(!showConfirmation)
     }
 
+    function toggleShowNRIC() {
+        setShowNRIC(!showNRIC)
+    }
+
     const triggerBO_UpdateUserProfile = async() => {
         try {
             const response = await boUpdateUserProfile(userData.user_id, dataForUpdate)
@@ -120,13 +126,23 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
                     { type: 'success' }
                 );
             } else {
-                toggleConfirmUpdateProfile()
-                showAlert(
-                    "Update User Profile",
-                    `Failed to Update User Profile`,
-                    ``,
-                    { type: 'error' }
-                );
+                if (response.body === `{"message":"Duplicate entry '${dataForUpdate.email}' for key 'User.email'"}`) {
+                    toggleConfirmUpdateProfile()
+                    showAlert(
+                        "Update User Profile",
+                        `Failed to Update User Profile`,
+                        `The new email had been registered`,
+                        { type: 'error' }
+                    );
+                } else {
+                    toggleConfirmUpdateProfile()
+                    showAlert(
+                        "Update User Profile",
+                        `Failed to Update User Profile`,
+                        ``,
+                        { type: 'error' }
+                    );
+                }
             }
         } catch (error) {
             showAlert(
@@ -142,7 +158,7 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
         try {
             const response = await empUpdateUserProfile(userData.user_id, dataForUpdate)
             // console.log(response)
-            if (response.message === "hpNo , fullName , email successfully updated") {
+            if (response.message === 'Profile successfully updated.') {
                 if (onDataUpdate)
                     onDataUpdate(dataForUpdate)
     
@@ -156,13 +172,23 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
                     { type: 'success' }
                 );
             } else {
-                toggleConfirmUpdateProfile()
-                showAlert(
-                    "Update User Profile",
-                    `Failed to Update User Profile`,
-                    ``,
-                    { type: 'error' }
-                );
+                if (response.body === `{"message":"Duplicate entry '${dataForUpdate.email}' for key 'User.email'"}`) {
+                    toggleConfirmUpdateProfile()
+                    showAlert(
+                        "Update User Profile",
+                        `Failed to Update User Profile`,
+                        `The new email had been registered`,
+                        { type: 'error' }
+                    );
+                } else {
+                    toggleConfirmUpdateProfile()
+                    showAlert(
+                        "Update User Profile",
+                        `Failed to Update User Profile`,
+                        ``,
+                        { type: 'error' }
+                    );
+                }
             }
         } catch (error) {
             showAlert(
@@ -195,13 +221,13 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
                 </div>
 
                 <div className="update-user-profile-button">
-                    {userData.role === USER_ROLE[1] && (
+                    {currentUser?.role === USER_ROLE[1] && (
                         <PrimaryButton 
                             text='Confirm'
                             onClick={() => triggerBO_UpdateUserProfile()}
                         />
                     )}
-                    {userData.role === USER_ROLE[2] && (
+                    {currentUser?.role === USER_ROLE[2] && (
                         <PrimaryButton 
                             text='Confirm'
                             onClick={() => triggerEMP_UpdateUserProfile()}
@@ -256,7 +282,27 @@ const UpdateUserProfileCard = ({ userData, onDataUpdate, onClose }: BOUpdateUser
             </div>
             <div className="user-profile-data nric even-row">
                 <p className="title">NRIC</p>
-                <p className="main-data">{userData.nric.toUpperCase()}</p>
+                <div className="main-data">
+                    <div className='user-profile-nric-contain'>
+                    {!showNRIC ? (
+                        <>
+                        {hideNRIC(userData.nric.toUpperCase())}
+                        <BiSolidHide 
+                            className='hide-show-nric-icon'
+                            onClick={() => toggleShowNRIC()}
+                        />
+                        </>
+                    ) : (
+                        <>
+                        {userData.nric.toUpperCase()}
+                        <BiSolidShow 
+                            className='hide-show-nric-icon'
+                            onClick={() => toggleShowNRIC()}
+                        />
+                        </>
+                    )}
+                    </div>
+                </div>
             </div>
             <div className="user-profile-data hpNo">
                 <p className="edit-title">H/P NO</p>
