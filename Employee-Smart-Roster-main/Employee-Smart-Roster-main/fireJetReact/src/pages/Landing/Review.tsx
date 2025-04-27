@@ -22,13 +22,14 @@ const Reviews = () => {
     fetchReviews();
   }, []);
 
-  const shouldScroll = reviews.length > 5;
+  const filteredReviews = reviews.filter((review) => review.rating >= 4);
+  const shouldScroll = filteredReviews.length > 5;
 
   return (
     <div className="reviews-section">
       <h2 className="reviews-title">What Our Users Say</h2>
       <div className={`reviews-container ${shouldScroll ? 'scrolling' : ''}`}>
-        {reviews.map((review) => (
+        {filteredReviews.map((review) => (
           <div key={review.reviewID} className="review-card">
             <p className="review-text">"{review.reviewText}"</p>
             <div className="review-rating">
