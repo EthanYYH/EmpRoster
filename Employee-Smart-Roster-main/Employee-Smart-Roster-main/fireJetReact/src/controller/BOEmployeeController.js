@@ -51,6 +51,7 @@ function getSkillNameForEmp (allSkills, skillID){
 } 
 
 async function createEmployee(boUID, values, allRoles, allSkills) {
+    // console.log(values)
     const defaultPw = generateDefaultPw(values.fullName, values.hpNo, values.nric)
     const standardWrkHrs = calWrkingHrs(values.startWorkTime, values.endWorkTime)
     const role = getRoleIdForEmp(allRoles, values.roleID)
@@ -59,7 +60,7 @@ async function createEmployee(boUID, values, allRoles, allSkills) {
     
     const body = {
         business_owner_id: boUID,
-        email: values.email,
+        email: values.email.toLowerCase(),
         password: defaultPw,
         nric: values.nric,
         hpNo: cleanedHp,
@@ -77,6 +78,7 @@ async function createEmployee(boUID, values, allRoles, allSkills) {
         endWorkTime: values.endWorkTime,
         daysOfWork: values.daysOfWork,
         activeOrInactive: 1,
+        dateJoined: values.dateJoined.split(" ")[0]
     };
 
     // console.log("Sending employee data to API:", body);

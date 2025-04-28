@@ -52,7 +52,8 @@ const CreateOEditEmp = ({
         endWorkTime: '18:00',
         daysOfWork: 5,
         noOfLeave: FIRST_3_MIN_MC,
-        noOfMC: MIN_YEAR1_ANNUAL
+        noOfMC: MIN_YEAR1_ANNUAL,
+        dateJoined: new Date().toISOString().split('T')[0],
     });
 
     const fetchRolesNSkillsets = async() => {
