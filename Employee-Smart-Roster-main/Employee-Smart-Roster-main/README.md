@@ -18,6 +18,7 @@ FYP 2025-S1-12
     npm install react-router-dom@6
     npm install node-fetch@2
     npm install date-fns
+    npm install --save react-big-calendar
     ```
 3. Replace package.json and package-lock.json
 
