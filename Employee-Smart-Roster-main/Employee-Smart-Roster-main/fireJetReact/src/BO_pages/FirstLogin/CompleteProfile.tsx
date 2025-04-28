@@ -18,15 +18,11 @@ interface CompleteProfileProps {
         companyAdd: string, 
         nric: string, 
         hpNo: string, 
-        fullName: string,
-        roles: any,
-        skillsets: any
+        fullName: string
     ) => void;
 }
 
-const { setBOCompleteProfile, validateVirtualPhoneNo,
-        createSkillset, createRole,
-        checkIfRoleCreated, checkIfSkillsetCreated } = CompanyController
+const { setBOCompleteProfile, validateVirtualPhoneNo } = CompanyController
 const { validatePhoneNo, validateNRICofFIN } = UserController
 
 const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
@@ -40,10 +36,6 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
     const [errNRICFormat, seterrNRICFormat] = useState<string>('');
     const [errVirtualPhoneFormat, seterrVirtualPhoneFormat] = useState<string>('');
     const [errPhoneFormat, seterrPhoneFormat] = useState<string>('');
-    const [allRoles, setAllRoles] = useState<any>([]);
-    const [allSkills, setAllSkills] = useState<any>([]);
-    const [ newRole, setNewRole ] = useState<string>('');
-    const [ newSkillset, setNewSkillset ] = useState<string>('');
     const [showConfirmation, setShowConfirmation] = useState(false);
 
     const triggerSubmitCompleteProfile = async() => {
@@ -59,7 +51,7 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
             // console.log(response)
             if(response.message === "NRIC , hpNo , fullName , BusinessContactNo , address successfully updated"){
                 if(onDataUpdate)
-                    onDataUpdate(companyContact, companyAdd, nric, hpNo, fullName, allRoles, allSkills)
+                    onDataUpdate(companyContact, companyAdd, nric, hpNo, fullName)
 
                 showAlert(
                     "Complete Profile Successfully",
@@ -75,79 +67,6 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
             showAlert(
                 "triggerSubmitCompleteProfile",
                 "Submit Complete Profile Failed",
-                error instanceof Error ? error.message : String(error),
-                { type: 'error' }
-            );
-        }
-    }
-    // Create new role
-    const triggerCreateRole = async () => {
-        try {
-            const response = await createRole (newRole, userID)
-            // console.log(response)
-            if(response.message === "Role successfully added") {
-                const lastRoleNo = response.roleID.length - 1
-                const newRoleID = response.roleID[lastRoleNo].roleID
-                const newRoleObj = {
-                    roleName: newRole,
-                    roleID: newRoleID
-                };
-
-                setAllRoles((prevRoles: any) => [
-                    ...prevRoles, 
-                    newRoleObj
-                ]);
-
-                showAlert(
-                    'Create Role',
-                    ``,
-                    `Role: "${newRole}" Created successfully`,
-                    { type: 'success' }
-                );
-
-                setNewRole('')
-            }
-        } catch(error) {
-            showAlert(
-                'triggerCreateRole',
-                '',
-                error instanceof Error ? error.message : String(error),
-                { type: 'error' }
-            );
-        }
-    }
-
-    // Create new skillset
-    const triggerCreateSkillset = async () => {
-        try {
-            const response = await createSkillset (newSkillset, userID)
-            // console.log(response)
-            if(response.message === "Skillset added successfully") {
-                const lastSkillNo = response.skillSetID.length - 1
-                const newSkillSetID = response.skillSetID[lastSkillNo].skillSetID
-                const newSkillSetObj = {
-                    skillSetName: newSkillset,
-                    skillSetID: newSkillSetID
-                };
-
-                setAllSkills((prevSkills: any) => [
-                    ...prevSkills, 
-                    newSkillSetObj
-                ]);
-
-                showAlert(
-                    'Create Skillset',
-                    ``,
-                    `Skillset: "${newSkillset}" Created successfully`,
-                    { type: 'success' }
-                );
-
-                setNewSkillset('')
-            }
-        } catch(error) {
-            showAlert(
-                'triggerCreateSkillset',
-                '',
                 error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             );
@@ -406,42 +325,6 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
                                     <span>Valid Confirm Password</span>
                                 </span>
                             )} */}
-                        </div>
-                    </div>
-
-                    <div className="create-new-role-n-skill card">
-                        <h3>Create New Role/Skillset</h3>
-                        <div className="add-new-role">
-                            <input type='text' 
-                                name='role'
-                                placeholder='Input New Role Here...' 
-                                value={newRole}
-                                onChange={(e) => setNewRole(e.target.value)}
-                                required
-                            />
-                            <button 
-                                className="add-role-skill"
-                                onClick={() => triggerCreateRole()}
-                                disabled = {!newRole}
-                            >
-                                <FaPlusCircle/>
-                            </button>
-                        </div>
-                        <div className="add-new-skillset">
-                            <input type='text' 
-                                name='skillset'
-                                placeholder='Input New Skillset Here...' 
-                                value={newSkillset}
-                                onChange={(e) => setNewSkillset(e.target.value)}
-                                required
-                            />
-                            <button 
-                                className="add-role-skill"
-                                onClick={() => triggerCreateSkillset()}
-                                disabled = {!newSkillset}
-                            >
-                                <FaPlusCircle/>
-                            </button>
                         </div>
                     </div>
                 </div>

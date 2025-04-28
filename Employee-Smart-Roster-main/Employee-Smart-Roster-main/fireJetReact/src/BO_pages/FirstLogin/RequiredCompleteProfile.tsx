@@ -19,8 +19,6 @@ const RequiredCompleteProfile = () => {
     const [nric, setNRIC] = useState<string>('');
     const [hpNo, setHpNo] = useState<string>('');
     const [fullName, setFullName] = useState<string>('');
-    const [allRoles, setAllRoles] = useState<any>([]);
-    const [allSkills, setAllSkills] = useState<any>([]);
     const [loading, setLoading] = useState(true);
 
     const fetchCompanyProfile = async () => {
@@ -57,36 +55,12 @@ const RequiredCompleteProfile = () => {
         }
     };
 
-    const fetchRoleNSkill = async () => {
-        try {
-            // Fetch all roles attached to this company
-            let allRoles = await getCompanyRoles(user?.UID);
-            allRoles = allRoles.roleName;
-            // console.log(role)
-            setAllRoles(Array.isArray(allRoles) ? allRoles : [])
-
-            // Fetch all skillsets attached to this company
-            let allSkills = await getCompanySkillsets(user?.UID);
-            allSkills = allSkills.skillSets;
-            // console.log(skill)
-            setAllSkills(Array.isArray(allSkills) ? allSkills : [])
-        } catch (error) {
-            showAlert(
-                "fetchRoleNSkill",
-                "Fetch data error",
-                error instanceof Error ? error.message : String(error),
-                { type: 'error' }
-            )
-        }
-    };  
-
     useEffect(() => {
         const fetchData = async () => {
             if (!user?.UID) return;
     
             await fetchCompanyProfile(); // sets companyContact, companyAdd
             await fetchUserProfile();    // sets fullName, hpNo, nric
-            await fetchRoleNSkill();     // sets roles and skillsets
             setLoading(false);
         };
         fetchData();
@@ -98,12 +72,10 @@ const RequiredCompleteProfile = () => {
             && String(companyAdd).trim() !== '' 
             && String(fullName).trim() !== '' 
             && String(hpNo).trim() !== '' 
-            && String(nric).trim() !== ''
-            && allRoles.length > 0 
-            && allSkills.length > 0;
+            && String(nric).trim() !== '';
 
         setIsProfileComplete(isAllFilled);
-    }, [companyContact, companyAdd, fullName, hpNo, nric, allRoles, allSkills]);
+    }, [companyContact, companyAdd, fullName, hpNo, nric]);
     
     // Update filled data locally
     function onCompleteProfileUpdate (
@@ -112,16 +84,12 @@ const RequiredCompleteProfile = () => {
         nric: string, 
         hpNo: string, 
         fullName: string,
-        roles: any,
-        skillsets: any
     ){
         setCompanyContact(companyContact)
         setCompanyAdd(companyAdd)
         setNRIC(nric)
         setHpNo(hpNo)
         setFullName(fullName)
-        setAllRoles(roles)
-        setAllSkills(skillsets)
     }
 
     if (loading) {

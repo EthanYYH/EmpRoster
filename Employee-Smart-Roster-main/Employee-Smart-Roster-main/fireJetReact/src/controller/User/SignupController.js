@@ -3,6 +3,7 @@ import { encodeFileContent } from '../Variables.js'
 async function createRegisRequest (bizFile, email, UEN, bizName, password){
     // console.log("BizFile: ", bizFile)
     try{
+        const formattedEmail = email.toLowerCase()
         const fileName = bizFile.name;
         const fileType = bizFile.type || 'application/pdf';
         const convertFileToBase64 = await encodeFileContent(bizFile);
@@ -11,7 +12,7 @@ async function createRegisRequest (bizFile, email, UEN, bizName, password){
             fileName,
             fileType,
             fileData: convertFileToBase64,
-            email,
+            formattedEmail,
             UEN,
             bizName, 
             password
@@ -27,7 +28,6 @@ async function createRegisRequest (bizFile, email, UEN, bizName, password){
             throw new Error(errorData.message || `HTTP error status: ${response.status}`);
         }
         const data = await response.json();
-        // console.log(data);
         // console.log(data);
 
         return await data;

@@ -52,7 +52,8 @@ const CreateEditAccount = ({
         endWorkTime: '',
         daysOfWork: '',
         noOfLeave: '',
-        noOfMC: ''
+        noOfMC: '',
+        dateJoined: ''
     });
     const [ errors, setErrors ] = useState<{ 
         email?: string; 
@@ -72,6 +73,9 @@ const CreateEditAccount = ({
 
             const skillset = getSkillNameForEmp(allSkillsets, updatedValues.skillSetID)
             updatedValues.skillSetID = skillset[0].skillSetName
+        }
+        if(isCreate){
+            
         }
         setEmployeeData(updatedValues)
     }, [defaultValues])
@@ -164,7 +168,8 @@ const CreateEditAccount = ({
             'skillSetID',
             'startWorkTime',
             'endWorkTime',
-            'daysOfWork'
+            'daysOfWork',
+            'dateJoined'
         ];
         
         return requiredFields.some(field => !employeeData[field]);
@@ -315,16 +320,15 @@ const CreateEditAccount = ({
                                 <p className="title">{formatKey(key)}</p>
                             )}
 
-                            {key === 'activeOrInactive' ? (
+                            {/* {key === 'activeOrInactive' ? (
                                 <></>
                             ) : key === 'dateJoined' ? (
                                 <p className="main-data">
-                                    {convertDateToSGTime(value)[0]}&nbsp;
-                                    {convertDateToSGTime(value)[1].split(".")[0]}
+                                    {formatKey(key)}
                                 </p>
-                            ) : (
+                            ) : ( */}
                                 <p className="main-data">{String(value)}</p>
-                            )}
+                            
                         </div>
                     ))}
                 </div>
@@ -377,6 +381,18 @@ const CreateEditAccount = ({
                     </>
                 )}
             </div>
+            
+            {allRoles.length === 0 || allSkillsets.length === 0 ? (
+                <span className='warning-message warining-message-in-confirmatiom-prompt'>
+                    <div className="title">
+                        <GoAlertFill />
+                        <strong>Non-Skillset or Role: </strong> 
+                    </div>
+                    <span className='warning-message-text'>
+                        Please go to company <b>Company &gt; My Company</b>
+                    </span>
+                </span>
+            ) : null}
 
             <div className="create-employee-form">
                 <div className="create-emp-left">
@@ -505,6 +521,21 @@ const CreateEditAccount = ({
                                 name='jobTitle'
                                 placeholder='Job Title' 
                                 value={employeeData.jobTitle}
+                                onChange={(e) => handleInputChange(e)}
+                                required
+                            />
+                        </div>
+                    </div>
+                    {/* Input Employee Name */}
+                    <div className='forms-input'>
+                        <strong>
+                            Date Joined <span style={{ color: 'red' }}>*</span>
+                        </strong>
+                        <div className="fields">
+                            <input type='date' 
+                                name='dateJoined'
+                                placeholder='Job Title' 
+                                value={employeeData.dateJoined}
                                 onChange={(e) => handleInputChange(e)}
                                 required
                             />

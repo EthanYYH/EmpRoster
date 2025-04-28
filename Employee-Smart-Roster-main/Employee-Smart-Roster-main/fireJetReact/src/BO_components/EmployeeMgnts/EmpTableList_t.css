@@ -11,8 +11,8 @@
 
 .header-employee-phone,
 .body-employee-phone {
-    min-width: 100px;
-    max-width: 100px;
+    min-width: 120px;
+    max-width: 120px;
 }
 
 .header-employee-job-title,

@@ -174,7 +174,8 @@ input[type=email],
 input[type=password],
 input[type=number],
 input[type=time],
-input[type=tel]{
+input[type=tel],
+input[type=date]{
   background-color: white;
   border-style: outset;
   border-width: 2px;

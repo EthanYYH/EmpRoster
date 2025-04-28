@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
+import { formatPhoneNumber } from '../../controller/Variables.js'
 import Header from '../../components/table/Header';
 import Cell from '../../components/table/Cell';
 import { BiSolidUserDetail } from '../../../public/Icons.js';
@@ -105,7 +106,7 @@ const EMPUserList_t = ({ users, roles, skillsets, onEmpUpdate }: BOListTableProp
           <div className="App-desktop-table-row table-body" key={employee.email}>
             <Cell className="body-employee-name" text={employee.fullName} />
             <Cell className="body-employee-email" text={employee.email} />
-            <Cell className="body-employee-phone" text={employee.hpNo} />
+            <Cell className="body-employee-phone" text={formatPhoneNumber(String(employee.hpNo))} />
             <Cell className="body-employee-job-title" text={employee.jobTitle} />
             <Cell className="body-employee-role" text={returnRoleName(employee.roleID)} />
             <Cell
