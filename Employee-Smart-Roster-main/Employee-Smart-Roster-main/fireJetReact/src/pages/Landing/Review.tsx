@@ -7,7 +7,7 @@ type Review = {
   reviewID: number;
   reviewText: string;
   rating: number;
-  createdOn: string;
+  createdOn: string; // current format displayed: "yyyy-mm-dd", not the most common??
 };
 
 const Reviews = () => {
@@ -22,7 +22,13 @@ const Reviews = () => {
     fetchReviews();
   }, []);
 
-  const filteredReviews = reviews.filter((review) => review.rating >= 4);
+  const currentYear = new Date().getFullYear();
+
+  const filteredReviews = reviews.filter((review) => {
+    const reviewYear = new Date(review.createdOn).getFullYear();
+    return review.rating >= 4 && reviewYear === currentYear; //to return our current year only (2025)
+  });
+
   const shouldScroll = filteredReviews.length > 5;
 
   return (
