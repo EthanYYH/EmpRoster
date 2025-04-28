@@ -1,0 +1,6 @@
+.create-n-edit-task-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: start !important;
+    gap: 10px;
+}

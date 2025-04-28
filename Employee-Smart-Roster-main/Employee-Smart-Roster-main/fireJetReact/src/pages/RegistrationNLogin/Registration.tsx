@@ -102,7 +102,7 @@ const Register = () => {
             formData.append('bizFile', bizFile);
     
             try {
-                const response = await createRegisRequest (bizFile, email, UEN, bizName, password)
+                const response = await createRegisRequest (bizFile, email.toLowerCase(), UEN, bizName, password)
                 // console.log(response)
 
                 showAlert(

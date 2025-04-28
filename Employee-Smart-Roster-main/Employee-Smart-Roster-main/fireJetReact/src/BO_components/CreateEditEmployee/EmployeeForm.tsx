@@ -1,6 +1,5 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../AuthContext";
 import { useAlert } from "../../components/PromptAlert/AlertContext"; 
 import { formatPhoneNumber, formatNRIC, PASS_TYPE,
          FIRST_3_MIN_MC, MIN_YEAR1_ANNUAL, formatKey,
@@ -73,9 +72,6 @@ const CreateEditAccount = ({
 
             const skillset = getSkillNameForEmp(allSkillsets, updatedValues.skillSetID)
             updatedValues.skillSetID = skillset[0].skillSetName
-        }
-        if(isCreate){
-            
         }
         setEmployeeData(updatedValues)
     }, [defaultValues])
@@ -386,10 +382,10 @@ const CreateEditAccount = ({
                 <span className='warning-message warining-message-in-confirmatiom-prompt'>
                     <div className="title">
                         <GoAlertFill />
-                        <strong>Non-Skillset or Role: </strong> 
+                        <strong>Missing Skillset or Role: </strong> 
                     </div>
                     <span className='warning-message-text'>
-                        Please go to company <b>Company &gt; My Company</b>
+                        Please go to <b>Company &gt; My Company</b>
                     </span>
                 </span>
             ) : null}

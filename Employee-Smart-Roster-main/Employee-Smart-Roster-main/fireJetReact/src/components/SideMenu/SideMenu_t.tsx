@@ -132,7 +132,7 @@ export const EMP_Items = [
             {
                 name: 'mySchedule',
                 label: 'My Schedules',
-                navHref: '/timeline-management',
+                navHref: '/my-schedule',
             },
             {
             name: 'attendanceRecord',
