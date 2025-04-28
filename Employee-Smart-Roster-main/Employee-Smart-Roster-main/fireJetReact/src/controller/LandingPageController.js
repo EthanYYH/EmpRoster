@@ -226,22 +226,30 @@ const getFAQ = async () => {
     const data = await response.json();
     const realData = data.FAQList || [];
 
+    console.log("FAQ Returned:", realData);
+
     if (realData.length === 0) {
       console.warn("API returned empty FAQ list, using dummy FAQs.");
       return getDummyFAQ();
     }
 
-    return realData.map((faq) => ({
+    // 👉 First filter by isShown === 1
+    const shownFAQs = realData.filter((faq) => faq.isShown === 1);
+
+    // 👉 Then map
+    return shownFAQs.map((faq) => ({
       faqID: faq.faqID,
       question: faq.question_desc,
       answer: faq.answer,
       createdOn: new Date(faq.createdOn).toLocaleDateString(),
     }));
+
   } catch (error) {
     console.error("Failed to fetch FAQs:", error);
     return getDummyFAQ();
   }
 };
+
 
 // Dummy FAQ data
 const getDummyFAQ = () => {

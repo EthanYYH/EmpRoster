@@ -7,7 +7,7 @@ type Review = {
   reviewID: number;
   reviewText: string;
   rating: number;
-  createdOn: string;
+  createdOn: string; // current format displayed: "yyyy-mm-dd", not the most common??
 };
 
 const Reviews = () => {
@@ -22,13 +22,20 @@ const Reviews = () => {
     fetchReviews();
   }, []);
 
-  const shouldScroll = reviews.length > 5;
+  const currentYear = new Date().getFullYear();
+
+  const filteredReviews = reviews.filter((review) => {
+    const reviewYear = new Date(review.createdOn).getFullYear();
+    return review.rating >= 4 && reviewYear === currentYear; //to return our current year only (2025)
+  });
+
+  const shouldScroll = filteredReviews.length > 5;
 
   return (
     <div className="reviews-section">
       <h2 className="reviews-title">What Our Users Say</h2>
       <div className={`reviews-container ${shouldScroll ? 'scrolling' : ''}`}>
-        {reviews.map((review) => (
+        {filteredReviews.map((review) => (
           <div key={review.reviewID} className="review-card">
             <p className="review-text">"{review.reviewText}"</p>
             <div className="review-rating">
