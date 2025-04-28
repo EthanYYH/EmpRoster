@@ -4,6 +4,7 @@ async function createRegisRequest (bizFile, email, UEN, bizName, password){
     // console.log("BizFile: ", bizFile)
     try{
         const formattedEmail = email.toLowerCase()
+        // console.log(formattedEmail)
         const fileName = bizFile.name;
         const fileType = bizFile.type || 'application/pdf';
         const convertFileToBase64 = await encodeFileContent(bizFile);
@@ -12,7 +13,7 @@ async function createRegisRequest (bizFile, email, UEN, bizName, password){
             fileName,
             fileType,
             fileData: convertFileToBase64,
-            formattedEmail,
+            email: formattedEmail,
             UEN,
             bizName, 
             password
