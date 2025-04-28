@@ -41,27 +41,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
     const fetchCompaniesData = async() => {
         if(!boUsers) return; // If no boUsers return nothing
         
-        try{
-            // const companyPromises = boUsers.map(async (user: any) => {
-            //     try {
-            //         const company = await getCompany(user.UID);
-            //         return {
-            //             ...company,
-            //             owner: user,
-            //         }
-            //     } catch(error) {
-            //         showAlert(
-            //             `Error fetching company`,
-            //             `UID: ${user.UID}: `,
-            //             error instanceof Error ? error.message : String(error),
-            //             { type: 'error' }
-            //         )
-            //         return null;
-            //     }
-            // })
-            // let companyWithOwners = await Promise.all(companyPromises)
-            // console.log("Companies with owner: \n", companyWithOwners)
-            
+        try{            
             const transactions = await getSubscriptionTransactions();
             // console.log(transactions);
             const fullCompaniesDataPromises = boUsers.map(async (company:any) => {

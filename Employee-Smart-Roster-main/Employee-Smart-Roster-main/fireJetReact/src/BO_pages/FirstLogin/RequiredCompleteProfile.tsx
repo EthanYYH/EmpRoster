@@ -4,8 +4,10 @@ import { useAlert } from "../../components/PromptAlert/AlertContext";
 import { useAuth } from "../../AuthContext";
 import CompleteProfile from "./CompleteProfile";
 import CompanyController from '../../controller/CompanyController';
+import UserController from "../../controller/User/UserController";
 
-const { getCompany, getBOUserProfile } = CompanyController;
+const { getCompany, getCompanyRoles, getCompanySkillsets } = CompanyController;
+const { boGetUserProfile } = UserController;
 
 const RequiredCompleteProfile = () => {
     const { user } = useAuth();
@@ -17,6 +19,8 @@ const RequiredCompleteProfile = () => {
     const [nric, setNRIC] = useState<string>('');
     const [hpNo, setHpNo] = useState<string>('');
     const [fullName, setFullName] = useState<string>('');
+    const [allRoles, setAllRoles] = useState<any>([]);
+    const [allSkills, setAllSkills] = useState<any>([]);
     const [loading, setLoading] = useState(true);
 
     const fetchCompanyProfile = async () => {
@@ -37,7 +41,7 @@ const RequiredCompleteProfile = () => {
 
     const fetchUserProfile = async () => {
         try {
-            let profile = await getBOUserProfile(user?.UID);
+            let profile = await boGetUserProfile(user?.UID);
             profile = profile.BOProfile[0]
             // console.log("User Profile Data:", profile);
             setFullName(profile.fullName || '')
@@ -53,12 +57,36 @@ const RequiredCompleteProfile = () => {
         }
     };
 
+    const fetchRoleNSkill = async () => {
+        try {
+            // Fetch all roles attached to this company
+            let allRoles = await getCompanyRoles(user?.UID);
+            allRoles = allRoles.roleName;
+            // console.log(role)
+            setAllRoles(Array.isArray(allRoles) ? allRoles : [])
+
+            // Fetch all skillsets attached to this company
+            let allSkills = await getCompanySkillsets(user?.UID);
+            allSkills = allSkills.skillSets;
+            // console.log(skill)
+            setAllSkills(Array.isArray(allSkills) ? allSkills : [])
+        } catch (error) {
+            showAlert(
+                "fetchRoleNSkill",
+                "Fetch data error",
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            )
+        }
+    };  
+
     useEffect(() => {
         const fetchData = async () => {
             if (!user?.UID) return;
     
             await fetchCompanyProfile(); // sets companyContact, companyAdd
             await fetchUserProfile();    // sets fullName, hpNo, nric
+            await fetchRoleNSkill();     // sets roles and skillsets
             setLoading(false);
         };
         fetchData();
@@ -66,39 +94,16 @@ const RequiredCompleteProfile = () => {
     
     useEffect(() => {
         const isAllFilled =
-            String(companyContact).trim() !== '' &&
-            String(companyAdd).trim() !== '' &&
-            String(fullName).trim() !== '' &&
-            String(hpNo).trim() !== '' &&
-            String(nric).trim() !== '';
+            String(companyContact).trim() !== '' 
+            && String(companyAdd).trim() !== '' 
+            && String(fullName).trim() !== '' 
+            && String(hpNo).trim() !== '' 
+            && String(nric).trim() !== ''
+            && allRoles.length > 0 
+            && allSkills.length > 0;
 
         setIsProfileComplete(isAllFilled);
-    }, [companyContact, companyAdd, fullName, hpNo, nric]);
-
-    // const fetchData = async () => {
-    //     // console.log("User object in RequiredCompleteProfile:", user);
-    //     if (user?.UID) {
-    //         // console.log("Fetching company profile for UID:", user.UID);
-    //         await fetchCompanyProfile();
-    //         await fetchUserProfile();
-
-    //         if(companyContact !== '' 
-    //             && companyAdd !== '' 
-    //             && fullName !== '' 
-    //             && hpNo !== '' 
-    //             && nric !== ''
-    //         )
-    //             setIsProfileComplete(true)
-    //         setLoading(false);
-    //     } else {
-    //         console.log("User Not Found!!");
-    //         setLoading(false);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     fetchData();
-    // }, [user?.UID]);
+    }, [companyContact, companyAdd, fullName, hpNo, nric, allRoles, allSkills]);
     
     // Update filled data locally
     function onCompleteProfileUpdate (
@@ -106,24 +111,18 @@ const RequiredCompleteProfile = () => {
         companyAdd: string, 
         nric: string, 
         hpNo: string, 
-        fullName: string
+        fullName: string,
+        roles: any,
+        skillsets: any
     ){
         setCompanyContact(companyContact)
         setCompanyAdd(companyAdd)
         setNRIC(nric)
         setHpNo(hpNo)
         setFullName(fullName)
+        setAllRoles(roles)
+        setAllSkills(skillsets)
     }
-
-    // useEffect(() => {
-    //     if(companyContact !== '' 
-    //         && companyAdd !== '' 
-    //         && fullName !== '' 
-    //         && hpNo !== '' 
-    //         && nric !== ''
-    //     )
-    //         setIsProfileComplete(true);
-    // }, [companyContact, companyAdd, fullName, hpNo, nric])
 
     if (loading) {
         return <div>Loading user data...</div>;

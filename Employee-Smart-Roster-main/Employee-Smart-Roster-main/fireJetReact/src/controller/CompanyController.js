@@ -126,30 +126,6 @@ async function getCompanySkillsets (boID){
     }
 }
 
-async function getBOUserProfile(boID) {
-    const body = {
-        business_owner_id: boID,
-    }
-    try{
-        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/profile/view', {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        if(!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
-        }
-        const data = await response.json();
-        // console.log(data);
-
-        return await data;
-    } catch (error) {
-        // console.error(`Network error for UID ${uid}: \n`, error);
-        throw new Error(`Failed to fetch user data: ${error.message}`);
-    }
-}
-
 async function setBOCompleteProfile(boID, cContact, address, nric, hpNo, name) {
     // Remove all non-digit characters
     cContact = cContact.replace(/\D/g, '').slice(0, 8);
@@ -335,7 +311,6 @@ export default {
     getCompanyBizFile,
     getCompanyRoles,
     getCompanySkillsets,
-    getBOUserProfile,
     setBOCompleteProfile,
     handleSelectedDetail,
     handleFilterUENBizName,

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../../AuthContext'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
 import TimelineController from '../../controller/TimelineController'
-import MonthCalendar from '../../components/Timelines/MonthCalendar'
-
+// import MonthCalendar from '../../components/Timelines/MonthCalendar'
+import MonthCalendar from '../../components/Timelines/BigCalendar'
 import './TimelinesPage.css'
 import '../../../public/styles/common.css'
 
@@ -37,7 +37,15 @@ const BOTimelinesPage = () => {
         fetchTasksData();
     }, [allTasks.length]); 
 
-    
+    function removeDuplicates(arr: any[], key: string): any[] {
+        return arr.reduce((unique, item) => {
+            if (!unique.find((obj : any) => obj[key] === item[key])) {
+                unique.push(item);
+            }
+            return unique;
+        }, []);
+    }
+
     const handleDeleteTask = async (taskID: number) => {
         // console.log(taskID)
         setAllTasks((prev:any) => 
@@ -52,7 +60,7 @@ const BOTimelinesPage = () => {
             <div className="content">
                 <h1>Timeline Management</h1>
                 <MonthCalendar 
-                    tasks={allTasks} 
+                    tasks={removeDuplicates(allTasks, 'taskID')} 
                     onDelete={handleDeleteTask}
                 />
             </div>

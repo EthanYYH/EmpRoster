@@ -42,7 +42,7 @@ const MoreDetail = ({ roleID, skillID }: MoreDetailProps) => {
             allSkills = allSkills.skillSets;
             // Get skill needed
             const skill = getSkillNeededForTask(allSkills, skillID);
-            console.log(skill)
+            // console.log(skill)
             setSkillNeeded(skill)
         } catch (error) {
             showAlert(

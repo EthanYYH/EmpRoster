@@ -29,7 +29,7 @@ const UserMgts = () => {
         try{
             let data = await getBOUsers();
             data = data || [];
-            console.log(data)
+            // console.log(data)
             setBizOwners(Array.isArray(data) ? data : []);
         } catch(error) {
             showAlert(
