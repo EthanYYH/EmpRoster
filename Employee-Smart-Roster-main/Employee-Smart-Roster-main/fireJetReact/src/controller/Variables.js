@@ -34,9 +34,37 @@ export const MIN_YEAR1_ANNUAL = 7 // 1st year annual leave
 export const MIN_YEAR8_ANNUAL = 14 // 8th and after that year annual leave
 
 export function formatDateTime (isoString){
-    return new Intl.DateTimeFormat('en-US', {
-        dateStyle: 'long'
-    }).format(new Date(isoString), 'dd/MM/yyyy hh:mm tt')
+    const date = new Date(isoString);
+
+    // Set Singapore timezone
+    const sgDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Singapore' }));
+
+    const day = String(sgDate.getDate()).padStart(2, '0');
+    const month = String(sgDate.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+    const year = sgDate.getFullYear();
+
+    let hours = sgDate.getHours();
+    const minutes = String(sgDate.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12;
+    hours = hours ? hours : 12; // 0 should be 12
+
+    const formattedHours = String(hours).padStart(2, '0');
+
+    return `${day}/${month}/${year} ${formattedHours}:${minutes} ${ampm}`;
+}
+
+export function generateSGDateTimeForDateTimeInput(date) {
+    const sgDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Singapore' }));
+
+    const year = sgDate.getFullYear();
+    const month = String(sgDate.getMonth() + 1).padStart(2, '0');
+    const day = String(sgDate.getDate()).padStart(2, '0');
+    const hours = String(sgDate.getHours()).padStart(2, '0');
+    const minutes = String(sgDate.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
 export async function encodeFileContent(file) {
@@ -68,6 +96,14 @@ export function formatPhoneNumber (phone) {
     return cleaned.length > 4 
         ? `${cleaned.slice(0, 4)} ${cleaned.slice(4)}`
         : cleaned;
+}
+
+export function formatPosterCode (postCode) {
+    // Remove all non-digit characters first 
+    // and prevent user to input more than 6 number
+    const cleaned = postCode.replace(/\D/g, '').slice(0, 6);
+    // Insert a space after every 4 digits
+    return cleaned;
 }
 
 export function formatNRIC (nric) {

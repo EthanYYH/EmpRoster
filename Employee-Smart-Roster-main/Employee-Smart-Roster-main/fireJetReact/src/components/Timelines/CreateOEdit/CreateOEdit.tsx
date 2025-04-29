@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAlert } from "../../../components/PromptAlert/AlertContext";
 import { useAuth } from "../../../AuthContext";
+import { generateSGDateTimeForDateTimeInput } from "../../../controller/Variables";
 import PrimaryButton from "../../../components/PrimaryButton/PrimaryButton";
 import CreateEditTask from "./TaskForm";
 import CompanyController from "../../../controller/CompanyController";
@@ -34,12 +35,12 @@ const CreateOEditTask = ({
         allSkillsets?: any[];
     };
     const [ createTaskValues, setCreateTaskValues ] = useState({
-        title: '',
-        taskDescription: '',
+        title: '2904Create Task',
+        taskDescription: '2904 wm testing on Create Task',
         roleID: '',
         skillSetID: '',
-        startDate: new Date(),
-        endDate: new Date()
+        startDate: generateSGDateTimeForDateTimeInput(new Date()),
+        endDate: generateSGDateTimeForDateTimeInput(new Date())
     });
     const [ createTimelineValues, setCreateTimelineValues ] = useState({
         title: '',
@@ -109,7 +110,6 @@ const CreateOEditTask = ({
                 isCreate={true}
                 bo_UID={user?.UID}
                 defaultTaskValues={navState.defaultValues}
-                defaultTimelineValues={navState.defaultTimelineValues}
                 allRoles={navState.allRoles}
                 allSkillsets={navState.allSkillsets}
                 onTaskAdd={onTaskAdd}

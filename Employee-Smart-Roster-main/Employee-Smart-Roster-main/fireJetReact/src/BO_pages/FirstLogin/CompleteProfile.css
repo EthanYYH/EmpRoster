@@ -56,6 +56,12 @@
     }
 }
 
+.address-input-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
 .warining-message-in-confirmatiom-prompt {
     display: flex;
     flex-direction: column;

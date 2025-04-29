@@ -30,7 +30,7 @@ async function updateCompanyProfile (data){
     
     const body = {
         UEN: data.UEN,
-        address: data.address[0],
+        address: data.address,
         contactNo: cleaned,
     }
     try{

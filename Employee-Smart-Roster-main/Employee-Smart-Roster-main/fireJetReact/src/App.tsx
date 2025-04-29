@@ -28,6 +28,7 @@ import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BODashboard from "./BO_pages/Dashboard/Dashboard";
 import CreateOEditTask from "./components/Timelines/CreateOEdit/CreateOEdit";
 import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
+import SubsMgts from "./BO_pages/SubsManagement/SubsMgts";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
 import CreateOEditEmp from "./BO_components/CreateEditEmployee/CreateOEdit";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
@@ -185,26 +186,14 @@ function App() {
                       <BOCompanyProfile />
                     </ProtectedRoute>
                   }
-                />   
-
-                <Route
-                  path="/roles-skills-menagement"
-                  element={
-                    <ProtectedRoute>
-                      <SideMenu_t />
-                      <RoleNSkillset />
-                    </ProtectedRoute>
-                  }
                 />
                 
                 <Route
-                  path="/subscription-menagement"
+                  path="/subscription-management"
                   element={
                     <ProtectedRoute>
-                      <div className="App-content">
-                        <SideMenu_t />
-                        <h1>Subscription Management</h1>
-                      </div>
+                      <SideMenu_t />
+                      <SubsMgts />
                     </ProtectedRoute>
                   }
                 />

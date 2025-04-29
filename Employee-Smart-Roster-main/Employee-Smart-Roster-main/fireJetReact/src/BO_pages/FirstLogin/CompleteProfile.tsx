@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
-import { formatPhoneNumber, formatNRIC } from '../../controller/Variables.js';
+import { formatPhoneNumber, formatPosterCode, formatNRIC } from '../../controller/Variables.js';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton';
 import CompanyController from '../../controller/CompanyController';
@@ -30,6 +30,7 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
     const navigate = useNavigate();
     const [companyContact, setCompanyContact] = useState<string>('');
     const [companyAdd, setCompanyAdd] = useState<any>('');
+    const [posterCode, setPosterCode] = useState<any>('');
     const [nric, setNRIC] = useState<string>('');
     const [hpNo, setHpNo] = useState<string>('');
     const [fullName, setFullName] = useState<string>('');
@@ -39,11 +40,14 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
 
     const triggerSubmitCompleteProfile = async() => {
+        const fullAddress = companyAdd.trim() + ", Singapore " + posterCode
+        // console.log(fullAddress)
+
         try{
             const response = await setBOCompleteProfile(
                 userID, 
                 companyContact.trim(), 
-                companyAdd.trim(), 
+                fullAddress, 
                 nric.trim(), 
                 hpNo.trim(), 
                 fullName.trim()
@@ -91,6 +95,11 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
         seterrPhoneFormat(error)
     }
 
+    const handlePosterCode = async(posterCode: string) => {
+        const formattedPosterCode = formatPosterCode(posterCode)
+        setPosterCode(formattedPosterCode)
+    }
+
     const handleNRICInput = async(nric: string) => {
         const formattedNRIC = formatNRIC(nric);
         setNRIC(formattedNRIC)
@@ -130,7 +139,7 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
                         </div>
                         <div className="display-filled-information">
                             <p className="title">Address: </p>
-                            <p className="main-data">{companyAdd}</p>
+                            <p className="main-data">{companyAdd}, S{posterCode}</p>
                         </div>
                     </div>
                     <div className="personal-info">
@@ -209,12 +218,20 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
                         <strong>
                             Address <span style={{ color: 'red' }}>*</span>
                         </strong>
-                        <div className="fields">
-                            <input type='text' 
+                        <div className="fields address-input-fields">
+                            <textarea
+                                rows={3} 
                                 name='company-add'
                                 placeholder='Company Address' 
                                 value={companyAdd}
                                 onChange={(e) => setCompanyAdd(e.target.value)}
+                                required
+                            />
+                            <input type='text' 
+                                name='poster-code'
+                                placeholder='123456' 
+                                value={posterCode}
+                                onChange={(e) => handlePosterCode(e.target.value)}
                                 required
                             />
                             {/* {!companyAdd && (
@@ -339,6 +356,7 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
                             !nric ||
                             !hpNo ||
                             !fullName ||
+                            !posterCode ||
                             !!errVirtualPhoneFormat ||
                             !!errPhoneFormat ||
                             !!errNRICFormat

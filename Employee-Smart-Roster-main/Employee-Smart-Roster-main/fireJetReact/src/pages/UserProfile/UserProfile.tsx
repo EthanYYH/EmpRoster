@@ -16,7 +16,7 @@ const { boGetUserProfile, empGetUserProfile } = UserController
 const UserProfile = () => {
     const { user } = useAuth()
     const { showAlert } = useAlert()
-    const [ userData, setUserData ] = useState<any>()
+    const [ userData, setUserData ] = useState<any[]>([])
     const [ showUpdateUserProfile, setShowUpdateUserProfile ] = useState(false)
 
     const fetchUserProfile = async() => {

@@ -1,0 +1,86 @@
+.sub-management-header {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: start;
+    align-items: center;
+}
+
+.view-subs-plan-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--primary-background);
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: var(--light-color-text);
+    border-radius: 20px;
+}
+
+.view-subs-plan-button:hover {
+    background-color: white;
+    color: var(--primary-background);
+    border-width: 2px;
+    border-color: var(--primary-background);
+}
+
+/* Styling for Subscription Plans */
+.subscription-plan-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    border-style: outset;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    border-color: var(--primary-background);
+
+    .subs-plan-container {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+.subs-plan-detail {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    justify-content: start;
+    background-color: var(--side-menu-hover-background);
+    border-radius: 10px;
+    color: var(--light-color-text);
+
+    h4 {
+        color: var(--light-color-text);
+        font-weight: bold;
+        padding-bottom: 5px;
+        border-bottom-width: 2px;
+        border-bottom-color: white;
+    }
+
+    .main-data {
+        margin-top: 5px;
+    }
+}
+
+.subs-plan-detail:hover {
+    cursor: pointer;
+    background-color: white;
+    border-width: 2px;
+    border-color: var(--side-menu-hover-background);
+    color: var(--primary-text);
+
+    h4 {
+        color: var(--h3);
+        border-bottom-color: var(--side-menu-hover-background);
+    }
+}

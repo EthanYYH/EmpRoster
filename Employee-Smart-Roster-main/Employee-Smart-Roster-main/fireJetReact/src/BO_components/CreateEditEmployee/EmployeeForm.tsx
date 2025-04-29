@@ -328,8 +328,6 @@ const CreateEditAccount = ({
                         </div>
                     ))}
                 </div>
-                
-                {/* Display values */}
                 <div className="btns-grp">
                     {isCreate ? ( // Create new emp
                         <PrimaryButton 

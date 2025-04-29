@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
-import { formatPhoneNumber } from '../../controller/Variables.js';
+import { formatPhoneNumber, formatPosterCode } from '../../controller/Variables.js';
 import CompanyController from '../../controller/CompanyController.js';
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton';
@@ -29,13 +29,23 @@ const EditCompanyProfile = ({ companyData, onClose, onUpdate }: EditCompanyPrPro
     });
     const [ contactErr, setContactErr ] = useState<string>('');
     const [ promptConfirmUpdateCompPr, setPromptConfirmUpdateCompPr ] = useState(false)
+    const [ posterCode, setPosterCode ] = useState<string>('');
 
     // Set default value for company profile data
     useEffect(() => {
-        setCompanyInfo(companyData);
+        const defaultValue = { ...companyData };
+        defaultValue.contactNo = formatPhoneNumber(String(companyData.contactNo));
+
+        const fullAddress = defaultValue.address.split(", Singapore")
+        // console.log(fullAddress)
+        defaultValue.address = fullAddress[0].trim()
+        setCompanyInfo(defaultValue);
+        setPosterCode(fullAddress[1].trim());
     }, [companyData])
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleInputChange = (event: React.ChangeEvent<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >) => {
         const { name, value } = event.target;
         // console.log(event)
         if (name === 'contactNo'){
@@ -53,6 +63,12 @@ const EditCompanyProfile = ({ companyData, onClose, onUpdate }: EditCompanyPrPro
         }
     }
 
+    const handlePosterCode = async(posterCode: string) => {
+        const formattedPosterCode = formatPosterCode(posterCode)
+        setPosterCode(formattedPosterCode)
+    }
+    
+
     function triggerPhoneValidation(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         // Format the phone number with spaces
         const formattedNumber = formatPhoneNumber(event.target.value);
@@ -69,16 +85,11 @@ const EditCompanyProfile = ({ companyData, onClose, onUpdate }: EditCompanyPrPro
 
     //  Update Company Profile
     const triggerEditComPr = async() => {
-        // Preproccessing -> If contact number is not change.
-        if(companyInfo.contactNo === companyData.contactNo) {
-            const formattedNumber = formatPhoneNumber(String(companyInfo.contactNo))
-            setCompanyInfo((prevData: any) => ({
-                ...prevData,
-                contactNo: formattedNumber,
-            }))
-        }
+        const dataUpdate = { ...companyInfo }
+        dataUpdate.address = companyInfo.address + ", Singapore " + posterCode
+    
         try {
-            const response = await updateCompanyProfile(companyInfo)
+            const response = await updateCompanyProfile(dataUpdate)
             // console.log(response)
 
             if(response.message === 'Company details successfully updated') {
@@ -109,12 +120,12 @@ const EditCompanyProfile = ({ companyData, onClose, onUpdate }: EditCompanyPrPro
 
                 <div className="confirm-company-info-data">
                     <p className="title">Address</p>
-                    <p className="main-data">{companyInfo.address}</p>
+                    <p className="main-data">{companyInfo.address}, S{posterCode}</p>
                 </div>
 
                 <div className="confirm-company-info-data">
                     <p className="title">Contact No</p>
-                    <p className="main-data">{companyInfo.contactNo}</p>
+                    <p className="main-data">{formatPhoneNumber(String(companyInfo.contactNo))}</p>
                 </div>
 
                 <div className="confirm-update-company-profile-button-grp">
@@ -144,12 +155,20 @@ const EditCompanyProfile = ({ companyData, onClose, onUpdate }: EditCompanyPrPro
                     <strong>
                         Address <span style={{ color: 'red' }}>*</span>
                     </strong>
-                    <div className="fields">
-                        <input type='text' 
+                    <div className="fields address-input-fields">
+                        <textarea
+                            rows={3} 
                             name='address'
-                            placeholder='Company address' 
+                            placeholder='Company Address' 
                             value={companyInfo.address}
                             onChange={(e) => handleInputChange(e)}
+                            required
+                        />
+                        <input type='text' 
+                            name='poster-code'
+                            placeholder='123456' 
+                            value={posterCode}
+                            onChange={(e) => handlePosterCode(e.target.value)}
                             required
                         />
                     </div>
@@ -183,7 +202,11 @@ const EditCompanyProfile = ({ companyData, onClose, onUpdate }: EditCompanyPrPro
                 <PrimaryButton
                     text='Update'
                     onClick={togglePromptConfirmUpdateCompPr}
-                    disabled = {!companyInfo.address || !companyInfo.contactNo}
+                    disabled = {
+                        !companyInfo.address || 
+                        !companyInfo.contactNo ||
+                        !posterCode
+                    }
                 />
             </div>
         </div>

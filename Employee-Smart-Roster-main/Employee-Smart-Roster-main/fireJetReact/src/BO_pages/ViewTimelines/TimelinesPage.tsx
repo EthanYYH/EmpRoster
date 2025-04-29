@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../AuthContext'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
-import { useNavigate } from 'react-router-dom'
 import TimelineController from '../../controller/TimelineController'
-import PrimaryButton from '../../components/PrimaryButton/PrimaryButton'
 import CreateOEditTask from '../../components/Timelines/CreateOEdit/CreateOEdit'
 // import MonthCalendar from '../../components/Timelines/MonthCalendar'
 import MonthCalendar from '../../components/Timelines/BigCalendar'
@@ -14,7 +12,6 @@ const { getTimelines } = TimelineController
 
 const BOTimelinesPage = () => {
     const { user } = useAuth();
-    const navigate = useNavigate();
     // console.log("BOTimelinesPage: \n", user)
     const { showAlert } = useAlert();
     const [ allTasks, setAllTasks ] = useState<any>([]);
@@ -22,8 +19,8 @@ const BOTimelinesPage = () => {
     const fetchTasksData = async () => {
         try {
             let data = await getTimelines(user?.UID)
-            data = data.sortedTimeline;
-            // console.log(data)
+            // data = data.sortedTimeline;
+            console.log(Array.isArray(data) ? data : [])
 
             setAllTasks(Array.isArray(data) ? data : []);
 
@@ -51,6 +48,7 @@ const BOTimelinesPage = () => {
     }
 
     function handleNewTaskAdd(newTask: any) {
+        const task = 
         setAllTasks((prevData: any[]) => {
             const updated = [...prevData, newTask];
             // console.log("Updated employees array:", updated);
