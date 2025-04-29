@@ -56,9 +56,9 @@ function handleFilterSubsStatus (companies, status) {
 }
 
 // Business owner view subs transaction
-async function boGetSubscriptionTransactions (company_ID) {
+async function boGetSubscriptionTransactions (uen) {
     const body = {
-        cID: company_ID
+        UEN: uen
     };
 
     try{

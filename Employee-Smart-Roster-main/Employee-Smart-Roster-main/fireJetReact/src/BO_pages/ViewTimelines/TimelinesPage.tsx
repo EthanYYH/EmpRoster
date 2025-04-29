@@ -19,8 +19,8 @@ const BOTimelinesPage = () => {
     const fetchTasksData = async () => {
         try {
             let data = await getTimelines(user?.UID)
-            // data = data.sortedTimeline;
-            console.log(Array.isArray(data) ? data : [])
+            data = data.sortedTimeline;
+            // console.log(Array.isArray(data) ? data : [])
 
             setAllTasks(Array.isArray(data) ? data : []);
 

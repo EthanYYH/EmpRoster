@@ -4,29 +4,36 @@ import { useAlert } from '../../components/PromptAlert/AlertContext'
 import SubsPlan from '../../BO_components/SubsPlan/SubsPlan'
 import PrimaryButton from '../../components/PrimaryButton/PrimaryButton'
 import SubscribtionController from '../../controller/SubscribtionController'
+import CompanyController from '../../controller/CompanyController'
 
 import { FaChevronCircleDown, FaChevronCircleUp } from '../../../public/Icons.js'
 import './SubsMgts.css'
 import '../../../public/styles/common.css'
 
 const { boGetSubscriptionTransactions } = SubscribtionController
+const { getCompany } = CompanyController
 
 const SubsMgts = () => {
     const { showAlert } = useAlert();
     const { user } = useAuth();
     const [ subsTrans, setSubsTrans ] = useState<any[]>([]);
+    const [ company, setCompany ] = useState<any>();
     const [ showSubsPlan, setShowSubsPlan ] = useState(false)
 
     const fetchBoSubsTransaction = async() => {
         try {
-            let data = await boGetSubscriptionTransactions(user?.UID);
+            let company = await getCompany(user?.UID)
+            // console.log(company)
+            setCompany(company)
+
+            let data = await boGetSubscriptionTransactions(company.UEN);
             console.log(data)
 
         } catch(error) {
 
         }
     }
-    // useEffect(() => {fetchBoSubsTransaction()}, [user])
+    useEffect(() => {fetchBoSubsTransaction()}, [user])
 
     function toggleShowSubsPlan() {
         setShowSubsPlan(!showSubsPlan)
@@ -53,6 +60,7 @@ const SubsMgts = () => {
                 <SubsPlan 
                     displaySubsPlans={true}
                     user={user}
+                    company={company}
                 />}
         </div>
     )

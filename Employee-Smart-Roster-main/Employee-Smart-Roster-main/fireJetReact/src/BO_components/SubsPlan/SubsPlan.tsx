@@ -4,7 +4,6 @@ import PrimaryButton from '../../components/PrimaryButton/PrimaryButton'
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton'
 import SubscribtionController from '../../controller/SubscribtionController'
 import UserController from '../../controller/User/UserController'
-import CompanyController from '../../controller/CompanyController'
 
 import '../../BO_pages/SubsManagement/SubsMgts.css'
 import '../../../public/styles/common.css'
@@ -12,18 +11,17 @@ import '../../../public/styles/common.css'
 interface SubsPlansProps {
     displaySubsPlans: boolean;
     currentPlan?: any;
+    company: any;
     user: any;
 }
 
 const { getSubsPlans, makeSubsPayment } = SubscribtionController
 const { boGetUserProfile } = UserController
-const { getCompany } = CompanyController
 
-const SubsPlan = ({ displaySubsPlans = false, user}: SubsPlansProps) => {
+const SubsPlan = ({ displaySubsPlans = false, user, company}: SubsPlansProps) => {
     const { showAlert } = useAlert();
     const [ allSubsPlans, setAllSubsPlans ] = useState<any[]>([]);
     const [ thisUser, setThisUser ] = useState<any>();
-    const [ company, setCompany ] = useState<any>();
     const [ selectedPlan, setSelectedPlan ] = useState<any>();
     const [ showConfirmation, setShowConfirmation ] = useState(false);
 
@@ -38,10 +36,6 @@ const SubsPlan = ({ displaySubsPlans = false, user}: SubsPlansProps) => {
             boProfile = boProfile.BOProfile
             // console.log(boProfile[0])
             setThisUser(boProfile[0])
-            
-            let company = await getCompany(user.UID)
-            // console.log(company)
-            setCompany(company)
         } catch (error) {
             showAlert(
                 "fetchSubsPlans",
@@ -111,7 +105,7 @@ const SubsPlan = ({ displaySubsPlans = false, user}: SubsPlansProps) => {
 
     return (
         <>
-        {allSubsPlans && company && thisUser && (
+        {(allSubsPlans && company && thisUser) ? (
             <div className='subscription-plan-container'>
                 <h3 className='App-header'>Subscription Plans</h3>
                 <div className="subs-plan-container">
@@ -127,7 +121,7 @@ const SubsPlan = ({ displaySubsPlans = false, user}: SubsPlansProps) => {
                     ))}
                 </div>
             </div>
-        )}
+        ):(<p>Loading...</p>)}
         </>
     )
 }
