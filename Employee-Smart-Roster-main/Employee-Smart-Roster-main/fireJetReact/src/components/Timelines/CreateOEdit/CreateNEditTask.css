@@ -1,0 +1,27 @@
+.create-n-edit-task-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: start !important;
+    gap: 10px;
+}
+
+.create-n-edit-task-form-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.create-n-edit-task-form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    width: 50%;
+    padding: 10px;
+    padding-top: 0px;
+}
+
+.create-task-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}

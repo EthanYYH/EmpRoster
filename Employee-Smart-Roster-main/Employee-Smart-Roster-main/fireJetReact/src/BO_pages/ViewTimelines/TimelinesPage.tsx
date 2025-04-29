@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../../AuthContext'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
 import TimelineController from '../../controller/TimelineController'
+import CreateOEditTask from '../../components/Timelines/CreateOEdit/CreateOEdit'
 // import MonthCalendar from '../../components/Timelines/MonthCalendar'
 import MonthCalendar from '../../components/Timelines/BigCalendar'
 import './TimelinesPage.css'
@@ -18,8 +19,8 @@ const BOTimelinesPage = () => {
     const fetchTasksData = async () => {
         try {
             let data = await getTimelines(user?.UID)
-            data = data.sortedTimeline;
-            // console.log(data)
+            // data = data.sortedTimeline;
+            console.log(Array.isArray(data) ? data : [])
 
             setAllTasks(Array.isArray(data) ? data : []);
 
@@ -46,6 +47,15 @@ const BOTimelinesPage = () => {
         }, []);
     }
 
+    function handleNewTaskAdd(newTask: any) {
+        const task = 
+        setAllTasks((prevData: any[]) => {
+            const updated = [...prevData, newTask];
+            // console.log("Updated employees array:", updated);
+            return updated;
+        });
+    }
+
     const handleDeleteTask = async (taskID: number) => {
         // console.log(taskID)
         setAllTasks((prev:any) => 
@@ -58,7 +68,13 @@ const BOTimelinesPage = () => {
         <div className="App-content">
             {/* BO Side Menu here */}
             <div className="content">
-                <h1>Timeline Management</h1>
+                <div className="timeline-header">
+                    <h1>Timeline Management</h1>
+                    <CreateOEditTask 
+                        isCreate={true}
+                        onTaskAdd={handleNewTaskAdd}
+                    />
+                </div>
                 <MonthCalendar 
                     tasks={removeDuplicates(allTasks, 'taskID')} 
                     onDelete={handleDeleteTask}

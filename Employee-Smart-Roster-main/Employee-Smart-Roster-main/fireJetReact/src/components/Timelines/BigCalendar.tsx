@@ -25,6 +25,7 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({
   const defaultDate = new Date();
   const [ selectedTask, setSelectedTask ] = useState<any[]>([]);
   const [ showTaskDetail, setShowTaskDetail ] = useState(false);
+  
 
   const events = useMemo(() => (
     tasks.map(task => ({
@@ -126,7 +127,7 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({
       <div className="calendar-container">
         <Calendar
           localizer={mLocalizer}
-          events={events}
+          backgroundEvents={events}
           startAccessor="start"
           endAccessor="end"
           defaultDate={defaultDate}

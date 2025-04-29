@@ -32,7 +32,7 @@ const UserProfileCard = ({ userData }: BOUserProfileProps) => {
                     <div className='user-profile-nric-contain'>
                     {!showNRIC ? (
                         <>
-                        {hideNRIC(userData.nric.toUpperCase())}
+                        {hideNRIC(String(userData.nric))}
                         <BiSolidHide 
                             className='hide-show-nric-icon'
                             onClick={() => toggleShowNRIC()}
@@ -40,7 +40,7 @@ const UserProfileCard = ({ userData }: BOUserProfileProps) => {
                         </>
                     ) : (
                         <>
-                        {userData.nric.toUpperCase()}
+                        {userData.nric}
                         <BiSolidShow 
                             className='hide-show-nric-icon'
                             onClick={() => toggleShowNRIC()}

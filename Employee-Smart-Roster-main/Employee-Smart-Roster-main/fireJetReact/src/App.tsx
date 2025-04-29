@@ -26,9 +26,9 @@ import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
 import RequiredCompleteProfile from "./BO_pages/FirstLogin/RequiredCompleteProfile";
 import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
 import BODashboard from "./BO_pages/Dashboard/Dashboard";
-import BOViewProfile from "./BO_pages/ViewProfile/ViewProfile";
-import BOUpdateBOProfile from "./BO_pages/ViewProfile/BOUpdateBOProfile";
+import CreateOEditTask from "./components/Timelines/CreateOEdit/CreateOEdit";
 import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
+import SubsMgts from "./BO_pages/SubsManagement/SubsMgts";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
 import CreateOEditEmp from "./BO_components/CreateEditEmployee/CreateOEdit";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
@@ -186,26 +186,14 @@ function App() {
                       <BOCompanyProfile />
                     </ProtectedRoute>
                   }
-                />   
-
-                <Route
-                  path="/roles-skills-menagement"
-                  element={
-                    <ProtectedRoute>
-                      <SideMenu_t />
-                      <RoleNSkillset />
-                    </ProtectedRoute>
-                  }
                 />
                 
                 <Route
-                  path="/subscription-menagement"
+                  path="/subscription-management"
                   element={
                     <ProtectedRoute>
-                      <div className="App-content">
-                        <SideMenu_t />
-                        <h1>Subscription Management</h1>
-                      </div>
+                      <SideMenu_t />
+                      <SubsMgts />
                     </ProtectedRoute>
                   }
                 />
@@ -216,6 +204,30 @@ function App() {
                     <ProtectedRoute>
                       <SideMenu_t />
                       <BOTimelinesPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/create-new-task"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <CreateOEditTask 
+                        isCreate={true}
+                      />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/edit-task"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <CreateOEditTask 
+                        isCreate={false}
+                      />
                     </ProtectedRoute>
                   }
                 />

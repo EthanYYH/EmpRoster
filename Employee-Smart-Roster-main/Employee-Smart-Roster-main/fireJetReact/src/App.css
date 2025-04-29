@@ -175,7 +175,8 @@ input[type=password],
 input[type=number],
 input[type=time],
 input[type=tel],
-input[type=date]{
+input[type=date],
+input[type=datetime-local] {
   background-color: white;
   border-style: outset;
   border-width: 2px;
@@ -190,6 +191,15 @@ input[type=date]{
 input[type=file] {
   margin-top: 0.5px;
   height: 36.5px;
+}
+
+textarea {
+  background-color: white;
+  border-style: outset;
+  border-width: 2px;
+  border-color: var(--purple-color-text);
+  border-radius: 8px;
+  padding: 5px;
 }
 
 /* Radio Button Group Setup */

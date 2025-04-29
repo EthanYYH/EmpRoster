@@ -33,31 +33,37 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
     const [ allCompanies, setAllCompanies ] = useState<any>([])
     const [ companies, setCompanies ] = useState<any>([]);  // Data to Display
 
-    async function sleep(ms: number): Promise<void> {
-        return new Promise(
-            (resolve) => setTimeout(resolve, ms));
-    }
-
     const fetchCompaniesData = async() => {
         if(!boUsers) return; // If no boUsers return nothing
         
         try{            
-            const transactions = await getSubscriptionTransactions();
+            let transactions = await getSubscriptionTransactions();
+            transactions = Array.isArray(transactions) ? transactions : []
             // console.log(transactions);
-            const fullCompaniesDataPromises = boUsers.map(async (company:any) => {
-                // Get all transactions for current company
-                const transactionsForACompany = await getSubsTransForACompany(transactions.SubscriptionDetails, company.UEN);
-                // Get latest transactions for current company
-                const sortedTransactions = await getSortedSubsTransactions(transactionsForACompany)
-                // console.log(sortedTransactions) // Debug line
-                return{
-                    ...company, // All data for current company
-                    transactions: sortedTransactions, // Include new transactions data
-                }
-            })
-            const fullCompaniesData = await Promise.all(fullCompaniesDataPromises)
-            // console.log(`Full company data: \n`, fullCompaniesData)
-            setAllCompanies(Array.isArray(fullCompaniesData) ? fullCompaniesData : [])
+
+            if (transactions.length > 0){
+                const fullCompaniesDataPromises = boUsers.map(async (company:any) => {
+                    // Get all transactions for current company
+                    const transactionsForACompany = await getSubsTransForACompany(transactions.SubscriptionDetails, company.UEN);
+                    // Get latest transactions for current company
+                    const sortedTransactions = await getSortedSubsTransactions(transactionsForACompany)
+                    // console.log(sortedTransactions) // Debug line
+                    return{
+                        ...company, // All data for current company
+                        transactions: sortedTransactions, // Include new transactions data
+                    }
+                })
+                // console.log(fullCompaniesDataPromises)
+                const fullCompaniesData = await Promise.all(fullCompaniesDataPromises)
+                // console.log(`Full company data: \n`, fullCompaniesData)
+                setAllCompanies(Array.isArray(fullCompaniesData) ? fullCompaniesData : [])
+            } else {
+                const boData = boUsers.map((company:any) => ({
+                    ...company,
+                    transactions: []
+                }));
+                setAllCompanies(boData)
+            }
             
         } catch(error) {
             setCompanies([]);

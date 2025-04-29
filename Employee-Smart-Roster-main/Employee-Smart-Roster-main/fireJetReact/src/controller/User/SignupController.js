@@ -3,7 +3,6 @@ import { encodeFileContent } from '../Variables.js'
 async function createRegisRequest (bizFile, email, UEN, bizName, password){
     // console.log("BizFile: ", bizFile)
     try{
-        const formattedEmail = email.toLowerCase()
         // console.log(formattedEmail)
         const fileName = bizFile.name;
         const fileType = bizFile.type || 'application/pdf';
@@ -13,7 +12,7 @@ async function createRegisRequest (bizFile, email, UEN, bizName, password){
             fileName,
             fileType,
             fileData: convertFileToBase64,
-            email: formattedEmail,
+            email,
             UEN,
             bizName, 
             password

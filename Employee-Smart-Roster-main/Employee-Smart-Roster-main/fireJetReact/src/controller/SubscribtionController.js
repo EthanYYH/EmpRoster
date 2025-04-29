@@ -1,32 +1,4 @@
-function getSubscriptions (){
-    const data = [
-        { 
-            subsPlanID: 1,
-            subscription_name:"Free",
-            subscription_plan_description: "With all function but limited to 2 Employees only",
-            price: 0,
-            noOfEmps: 2,
-            createdAt: "2024-11-15T08:23:45",
-        },
-        { 
-            subsPlanID: 2,
-            subscription_name:"Basic",
-            subscription_plan_description: "With all function but limited to 20 Employees only",
-            price: 20,
-            noOfEmps: 20,
-            createdAt: "2024-09-03T14:56:12",
-        }, 
-        { 
-            subsPlanID: 3,
-            subscription_name:"Advance",
-            subscription_plan_description: "With all function,\n$20 + $3 after 20 employees",
-            price: 20, // every employees after 20 (+ $3)
-            noOfEmps: '', // Empty mean unlimited
-            createdAt: "2024-12-22T17:34:09",
-        },
-    ]
-    return data;
-}
+import { HITPAY_API } from "../dbURL";
 
 // return subscription transactions for each company
 async function getSubscriptionTransactions () {
@@ -35,7 +7,7 @@ async function getSubscriptionTransactions () {
     };
 
     try{
-        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/company/subscription/view', {
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/subscriptiontransaction/view', {
             method: 'GET',
             body: JSON.stringify(),
             headers: { 'Content-Type': 'application/json' }
@@ -83,10 +55,113 @@ function handleFilterSubsStatus (companies, status) {
     return filteredData;
 }
 
+// Business owner view subs transaction
+async function boGetSubscriptionTransactions (company_ID) {
+    const body = {
+        cID: company_ID
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/subscriptiontransaction/view', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to fetch company data: ${error.message}`);
+    }
+}
+
+// Get All Subscription Plan
+async function getSubsPlans () {
+    const body = {
+        
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/subscriptionplan/view', {
+            method: 'GET',
+            body: JSON.stringify(),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to fetch company data: ${error.message}`);
+    }
+}
+// Hitpay Create Payment Request => /v1/payment-requests
+async function makeSubsPayment (subPlan, email, name, companyDetail) {
+    const fullAddress = companyDetail.address.split(", Singapore")
+    const addressLine1 = fullAddress[0].trim()
+    const postCode = fullAddress[1].trim()
+
+    const body = {
+        allow_repeated_payments: false,
+        add_admin_fee: false,
+        send_email: false,
+        send_sms: true,
+        generate_qr: false,
+        amount: subPlan.price,
+        currency: 'SGD',
+        payment_methods: ["paynow_online"],
+        email: email,
+        phone: '',
+        address: {
+            line1: addressLine1,
+            country: "Singapore",
+            postal_code: postCode,
+            state: "Singapore",
+            city: "Singapore"
+        },
+        name: name
+    };
+    // console.log(JSON.stringify(body))
+    try{
+        const response = await fetch('https://api.sandbox.hit-pay.com/v1/payment-requests', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {
+                'X-BUSINESS-API-KEY': {HITPAY_API},
+                'Content-Type': 'application/json'
+            },
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for UID ${uid}: \n`, error);
+        throw new Error(`Failed to fetch company data: ${error.message}`);
+    }
+}
+
 export default {
-    getSubscriptions,
     getSubscriptionTransactions,
     getSubsTransForACompany,
     getSortedSubsTransactions,
     handleFilterSubsStatus,
+    boGetSubscriptionTransactions,
+    getSubsPlans,
+    makeSubsPayment
 }
