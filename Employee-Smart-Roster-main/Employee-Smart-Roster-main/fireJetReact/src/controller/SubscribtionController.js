@@ -1,5 +1,3 @@
-import { HITPAY_API } from "../dbURL";
-
 // return subscription transactions for each company
 async function getSubscriptionTransactions () {
     const body = {
@@ -107,40 +105,26 @@ async function getSubsPlans () {
     }
 }
 // Hitpay Create Payment Request => /v1/payment-requests
-async function makeSubsPayment (subPlan, email, name, companyDetail) {
+async function makeSubsPayment (subPlan, ref, price, email, name, companyDetail) {
     const fullAddress = companyDetail.address.split(", Singapore")
     const addressLine1 = fullAddress[0].trim()
     const postCode = fullAddress[1].trim()
 
     const body = {
-        allow_repeated_payments: false,
-        add_admin_fee: false,
-        send_email: false,
-        send_sms: true,
-        generate_qr: false,
-        amount: subPlan.price,
-        currency: 'SGD',
-        payment_methods: ["paynow_online"],
+        amount: price,
+        reference: ref,
         email: email,
-        phone: '',
         address: {
             line1: addressLine1,
-            country: "Singapore",
-            postal_code: postCode,
-            state: "Singapore",
-            city: "Singapore"
-        },
-        name: name
+            postal_code: postCode
+        }
     };
     // console.log(JSON.stringify(body))
     try{
-        const response = await fetch('https://api.sandbox.hit-pay.com/v1/payment-requests', {
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/create-order/payment-requests', {
             method: 'POST',
             body: JSON.stringify(body),
-            headers: {
-                'X-BUSINESS-API-KEY': {HITPAY_API},
-                'Content-Type': 'application/json'
-            },
+            headers: {'Content-Type': 'application/json'},
         });
         if(!response.ok) {
             const errorData = await response.json();

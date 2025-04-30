@@ -1,4 +1,4 @@
-import "./Cell.css";
+import "./index.css";
 import "../../../public/styles/common.css";
 
 export default function Cell({ className = "", text = "Text" }: CellProps) {

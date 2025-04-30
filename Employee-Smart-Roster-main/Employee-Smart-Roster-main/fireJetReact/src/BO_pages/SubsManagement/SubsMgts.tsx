@@ -27,10 +27,18 @@ const SubsMgts = () => {
             setCompany(company)
 
             let data = await boGetSubscriptionTransactions(company.UEN);
-            console.log(data)
+            data = data.BOSubscribedPlan;
+            data = Array.isArray(data) ? data : [];
+            // console.log(data)
+            setSubsTrans(data)
 
         } catch(error) {
-
+            showAlert(
+                "fetchBoSubsTransaction",
+                "Fetch data error",
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            )   
         }
     }
     useEffect(() => {fetchBoSubsTransaction()}, [user])

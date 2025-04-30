@@ -1,27 +1,27 @@
 // EmployeeMgntController.js
 async function getEmployeeList(business_owner_id) {
-const body = {
-  business_owner_id: business_owner_id
-};
+    const body = {
+      business_owner_id: business_owner_id
+    };
 
-try{
-    const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/employee/view', {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' }
-    });
-    if(!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/company/employee/view', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+          console.error(`Network error for UID ${uid}: \n`, error);
+          throw new Error(`Failed to fetch employee data: ${error.message}`);
     }
-    const data = await response.json();
-    // console.log(data);
-
-    return await data;
-  } catch(error) {
-      console.error(`Network error for UID ${uid}: \n`, error);
-      throw new Error(`Failed to fetch employee data: ${error.message}`);
-  }
 }
 
 function handleFilterEmpAccStatus(allEmployees, accStatus) {

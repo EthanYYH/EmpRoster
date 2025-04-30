@@ -4,6 +4,7 @@ import PrimaryButton from '../../components/PrimaryButton/PrimaryButton'
 import SecondaryButton from '../../components/SecondaryButton/SecondaryButton'
 import SubscribtionController from '../../controller/SubscribtionController'
 import UserController from '../../controller/User/UserController'
+import EmployeeMgntController from '../../controller/BOEmpMgntProfile/EmployeeMgntController'
 
 import '../../BO_pages/SubsManagement/SubsMgts.css'
 import '../../../public/styles/common.css'
@@ -17,6 +18,7 @@ interface SubsPlansProps {
 
 const { getSubsPlans, makeSubsPayment } = SubscribtionController
 const { boGetUserProfile } = UserController
+const { getEmployeeList } = EmployeeMgntController
 
 const SubsPlan = ({ displaySubsPlans = false, user, company}: SubsPlansProps) => {
     const { showAlert } = useAlert();
@@ -54,15 +56,42 @@ const SubsPlan = ({ displaySubsPlans = false, user, company}: SubsPlansProps) =>
     }
 
     const triggerMakePayment = async() => {
+        let paymentAmount = 0
         try {
-            const response = await makeSubsPayment(
-                selectedPlan, user.email, thisUser.fullName, company
-            )
-            console.log(response)
+            let employees = await getEmployeeList(user?.UID)
+            console.log(employees)
+            if (employees.message === "Employee list retrieved successfully") {
+                employees = employees.employeeList
+                employees = employees.filter((employee:any) => {
+                    return employee.activeOrInactive === 1
+                })
+                // console.log(employees)
+                if(employees.length > 0)
+                    paymentAmount = selectedPlan.price * employees.length;
+            } else {
+                employees = []
+                showAlert(
+                    "No Subscription Required",
+                    "No Employee Added: No meet the subscription criteria",
+                    `No charge will be processed (Amount: SGD ${paymentAmount}.00)`,
+                    { type: 'info' }
+                )
+            }
+            
+            // const response = await makeSubsPayment(
+            //     selectedPlan, user.email, thisUser.fullName, company
+            // )
+            // console.log(response)
 
         } catch(error) {
-
+            showAlert(
+                "triggerMakePayment",
+                "Fetch employee data error",
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            ) 
         }
+        console.log("Payment amount: ", paymentAmount)
     }
 
     if (showConfirmation && selectedPlan) return (
