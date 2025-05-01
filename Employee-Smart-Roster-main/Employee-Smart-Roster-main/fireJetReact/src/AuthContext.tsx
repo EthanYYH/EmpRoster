@@ -5,6 +5,7 @@ interface User {
     email: string;
     role: string;
     lastOnline?: string; // Optional based on your needs
+    isSubsExp?: number; // receive 0 or 1
 }
 
 interface AuthContextType {

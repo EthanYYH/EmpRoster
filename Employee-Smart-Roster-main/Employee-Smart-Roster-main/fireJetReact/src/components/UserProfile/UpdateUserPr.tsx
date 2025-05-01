@@ -269,7 +269,7 @@ const UpdateUserProfileCard = ({ userData, currentUser, onDataUpdate, onClose }:
                 </p>
             </div>
             <div className="user-profile-data fullname">
-                <p className="title">FULLNAME</p>
+                <p className="edit-title">FULLNAME</p>
                 <p className="main-data">
                     <input type='text' 
                         name='fullName'

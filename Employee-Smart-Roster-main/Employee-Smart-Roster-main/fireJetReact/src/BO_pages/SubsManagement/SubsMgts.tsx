@@ -10,20 +10,39 @@ import SubscribtionController from '../../controller/SubscribtionController'
 import CompanyController from '../../controller/CompanyController'
 
 import { GrSchedules } from "react-icons/gr";
-import { FaChevronCircleDown, FaChevronCircleUp, FaRegListAlt } from '../../../public/Icons.js'
+import { FaChevronCircleDown, FaChevronCircleUp, FaRegListAlt,
+         FaCircle } from '../../../public/Icons.js'
 import './SubsMgts.css'
 import '../../../public/styles/common.css'
 
-const { boGetSubscriptionTransactions, getSortedSubsTransactions } = SubscribtionController
+const { getSubsPlans, boGetSubscriptionTransactions, getActivatedPlan } = SubscribtionController
 const { getCompany } = CompanyController
 
 const SubsMgts = () => {
     const { showAlert } = useAlert();
     const { user } = useAuth();
+    const [ allSubsPlans, setAllSubsPlans ] = useState<any[]>([]);
     const [ subsTrans, setSubsTrans ] = useState<any>([]);
     const [ onSubs, setOnSubs ] = useState<any>()
     const [ company, setCompany ] = useState<any>();
     const [ showSubsPlan, setShowSubsPlan ] = useState(false)
+
+    const fetchSubsPlans = async() => {
+        try {
+            let data = await getSubsPlans();
+            data = data.SubscriptionPlan
+            // console.log(data)
+            setAllSubsPlans(data)
+        } catch (error) {
+            showAlert(
+                "fetchSubsPlans",
+                "Fetch data error",
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            )   
+        }
+    }
+    useEffect(() => { fetchSubsPlans() }, [user])
 
     const fetchBoSubsTransaction = async() => {
         try {
@@ -33,27 +52,19 @@ const SubsMgts = () => {
 
             let data = await boGetSubscriptionTransactions(company.UEN);
             data = data.BOSubscribedPlan || [];
-            
+
             if (data.length > 0) {
-                data = await getSortedSubsTransactions(data);
-                // console.log("Before filter out the free plan: \n", data)
-                if (data[0].subscription_name === 'Free' && data[0].startDate >= new Date()) {
-                    setOnSubs(data[1])
-                } else { // 
-                    data = data.filter((transaction: any) => {
-                        return transaction.subscription_name !== 'Free' 
-                                // && transaction.subsStatus === SUB_STATUS[0]
-                    })
-                    // let onSubsPlan = data[0]
-                    // onSubsPlan = {
-                    //     ...onSubsPlan,
-                    //     startDate: data[0].startDate,
-                    //     endDate: data[data.length-1].endDate
-                    // }
-                    setOnSubs(data[0])
-                    // console.log(data)
-                    setSubsTrans(Array.isArray(data) ? data : [])
-                }
+                let subs = await getActivatedPlan (data[0].cID)
+                subs = subs.BOCurrentSubscribedPlan || [];
+                console.log(subs);
+                setOnSubs(subs)
+
+                // Filter out the free plan
+                data = data.filter((transaction: any) => {
+                    return transaction.subscription_name !== 'Free'
+                })
+                // console.log(data)
+                setSubsTrans(data)
             }
         } catch(error) {
             showAlert(
@@ -97,7 +108,8 @@ const SubsMgts = () => {
             </div>
             {showSubsPlan && 
                 <SubsPlan 
-                    displaySubsPlans={true}
+                    displaySubsPlans={allSubsPlans}
+                    allTransactions={subsTrans}
                     onSubsPlans={onSubs}
                     user={user}
                     company={company}
@@ -107,7 +119,12 @@ const SubsMgts = () => {
             {/* Display Subscriping Plan */}
             {onSubs && (
             <div className="subscribed-plan-container card">
-                <h3>Subscribed Plan: {onSubs.subscription_name}</h3>
+                <div className='subscribed-plan-title'>
+                    <h3>Subscribed Plan: {onSubs.subscription_name}</h3>
+                    {onSubs.subscription_name !== 'Free' && 
+                        <FaCircle className={`subscribed-plan-title-icon`} />
+                    }
+                </div>
                 <div className="subscribed-plan-data plan-description even-row">
                     <p className="title"><FaRegListAlt /></p>
                     <p className="main-data">{onSubs.subscription_plan_description}</p>
@@ -117,8 +134,8 @@ const SubsMgts = () => {
                     <div className="subscribed-plan-data plan-description">
                         <p className="title"><GrSchedules /></p>
                         <p className="main-data">
-                            {formatDateTime(String(onSubs.startDate))} ~&nbsp;
-                            {formatDateTime(String(onSubs.endDate))}
+                            {String(onSubs.startDate).split("T")[0]} ~&nbsp;
+                            {String(onSubs.endDate).split("T")[0]}
                         </p>
                     </div>
                     </>

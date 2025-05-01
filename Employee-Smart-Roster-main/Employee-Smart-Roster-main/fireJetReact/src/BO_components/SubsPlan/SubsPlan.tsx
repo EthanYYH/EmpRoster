@@ -10,7 +10,8 @@ import '../../BO_pages/SubsManagement/SubsMgts.css'
 import '../../../public/styles/common.css'
 
 interface SubsPlansProps {
-    displaySubsPlans: boolean;
+    displaySubsPlans: any;
+    allTransactions: any;
     onSubsPlans: any;
     currentPlan?: any;
     company: any;
@@ -21,31 +22,15 @@ interface SubsPlansProps {
 const { getSubsPlans, makeSubsPayment, cancelSubscription } = SubscribtionController
 
 const SubsPlan = ({ 
-    displaySubsPlans = false, onSubsPlans, user, company, updateCancelSubs
+    displaySubsPlans, allTransactions, onSubsPlans, 
+    user, company, updateCancelSubs
 }: SubsPlansProps) => {
+    // console.log(onSubsPlans)
     const { showAlert } = useAlert();
-    const [ allSubsPlans, setAllSubsPlans ] = useState<any[]>([]);
+    const [ allSubsPlans, setAllSubsPlans ] = useState<any>(displaySubsPlans);
     const [ selectedPlan, setSelectedPlan ] = useState<any>();
-    const [ employeeLength, setEmployeeLength ] = useState<number>(0);
     const [ reasonOfUnsubscribe, setReasonOfUnsubscribe ] = useState<string>('')
     const [ showConfirmation, setShowConfirmation ] = useState(false);
-
-    const fetchSubsPlans = async() => {
-        try {
-            let data = await getSubsPlans();
-            data = data.SubscriptionPlan
-            // console.log(data)
-            setAllSubsPlans(data)
-        } catch (error) {
-            showAlert(
-                "fetchSubsPlans",
-                "Fetch data error",
-                error instanceof Error ? error.message : String(error),
-                { type: 'error' }
-            )   
-        }
-    }
-    useEffect(() => { fetchSubsPlans() }, [displaySubsPlans, user])
 
     // Prompt user confirmation for update
     function toggleConfirmation (plan: any) {
@@ -59,9 +44,9 @@ const SubsPlan = ({
             const ref = today + company.UEN
             const response = await makeSubsPayment(
                 ref, selectedPlan.price, user.email, company, 
-                onSubsPlans.cID, selectedPlan.subscription_plan_id
+                onSubsPlans.cID, selectedPlan.subsPlanID
             )
-            console.log(response)
+            // console.log(response)
         } catch(error) {
             showAlert(
                 "triggerMakePayment",
@@ -129,12 +114,6 @@ const SubsPlan = ({
                     </h3>
                     <span>{selectedPlan.subscription_plan_description}</span>
                     </>
-                )}
-                {selectedPlan.subscription_name === 'Basic Plan' && employeeLength > 20 && (
-                    <span className='subs-plan-warning-message-text'>
-                        <GoAlertFill />
-                        All employees beyond the first 20 will be suspended.
-                    </span>
                 )}
                 <div className="btns-grp">
                     {selectedPlan.price === "0.00" ? (

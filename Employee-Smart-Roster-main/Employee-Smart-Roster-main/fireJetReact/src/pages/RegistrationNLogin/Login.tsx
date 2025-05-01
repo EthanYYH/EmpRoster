@@ -40,15 +40,15 @@ export default function Login() {
           const data = await SubmitLogin(values);
           // console.log("Response: \n", data);
           if (data.responseCode === 200) {
-            console.log('Login successful:', data);
+            // console.log('Login successful:', data);
             login(data);
             if (data.role === "System Admin") {
               
               navigate('/admin-dashboard');
             }
             else if (data.role === "Business Owner") {
-              if(data.lastOnline === null) // If first time login
-                navigate('/roles-skills-menagement')
+              if(data.isSubsExp === 1) // Subscription plan is expired
+                navigate('/subscription-management')
               else
                 navigate('/business-dashboard');
             }
