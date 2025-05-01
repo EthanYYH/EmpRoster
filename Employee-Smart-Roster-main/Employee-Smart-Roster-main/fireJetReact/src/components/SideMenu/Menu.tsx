@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FaChevronCircleDown, FaChevronCircleUp } from '../../../public/Icons.js';
 import "./menu.css";
 
@@ -24,6 +24,7 @@ interface MenuProps {
 
 const Menu = ({ menuItems, responsive = 'desktop' }: MenuProps) => {
     const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
+    const navigate = useNavigate();
     const location = useLocation();
     const isOnPreviewLanding = location.pathname.includes('preview-landing-page');
 
@@ -97,8 +98,9 @@ const Menu = ({ menuItems, responsive = 'desktop' }: MenuProps) => {
                                         <li 
                                             className={`sub-navHref-hover ${location.pathname === subItem.navHref ? 'active' : ''}`}
                                             key={subItem.name}
+                                            onClick={() => navigate(subItem.navHref)}
                                         >
-                                            <a href={subItem.navHref}>{subItem.label}</a>
+                                            {subItem.label}
                                         </li>
                                     ))}
                                 </ul>

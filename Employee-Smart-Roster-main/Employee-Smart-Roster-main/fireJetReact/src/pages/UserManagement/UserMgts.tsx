@@ -24,6 +24,7 @@ const UserMgts = () => {
     const [ employees, setEmployees ] = useState<any>([]);
     const [ roles, setRoles ] = useState<any>([]);
     const [ skills, setSkillsets ] = useState<any>([]);
+    const [ activatedEmp, setActivatedEmp ] = useState<number>(0);
 
     const fetchBoUsersData = async () => {
         try{
@@ -45,16 +46,24 @@ const UserMgts = () => {
         try{
             let data = await getEmployeeList(user?.UID);
             data = data.employeeList || [];
-            setEmployees(Array.isArray(data) ? data : []);
+            setEmployees(data);
+            if (data.length > 0){
+                const empLength = data.filter((data: any) => {
+                    return data.activeOrInactive === 1
+                })
+                // console.log(empLength.length)
+                setActivatedEmp(empLength.length)
+                // setActivatedEmp(5)
+            }
 
             let roles = await getCompanyRoles(user?.UID);
-            roles = roles.roleName
-            setRoles(Array.isArray(roles) ? roles : [])
+            roles = roles.roleName || [];
+            setRoles(roles)
 
             let skillsets = await getCompanySkillsets(user?.UID);
-            skillsets = skillsets.skillSets
+            skillsets = skillsets.skillSets || [];
             // console.log(skillsets)
-            setSkillsets(Array.isArray(skillsets) ? skillsets : [])
+            setSkillsets(skillsets)
 
         } catch(error) {
             showAlert(
@@ -108,6 +117,7 @@ const UserMgts = () => {
                     <CreateOEditEmp 
                         isCreate={true}
                         onEmpAdd={handleNewEmpAdd}
+                        empLength={activatedEmp}
                     />
                 </div>
                 {employees.length === 0 ? (

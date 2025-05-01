@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../AuthContext'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
+import { SUB_STATUS } from '../../controller/Variables'
 import SubsPlan from '../../BO_components/SubsPlan/SubsPlan'
 import SubsTransactions_t from '../../BO_components/SubsPlan/SubTrans_t'
 import SubsTransactions_m from '../../BO_components/SubsPlan/SubTrans_m'
@@ -10,14 +11,12 @@ import CompanyController from '../../controller/CompanyController'
 
 import { GrSchedules } from "react-icons/gr";
 import { FaChevronCircleDown, FaChevronCircleUp, FaRegListAlt,
-         FaCircle } from '../../../public/Icons.js'
+         FaCircle, IoRefreshCircleOutline, FiRefreshCw } from '../../../public/Icons.js'
 import './SubsMgts.css'
 import '../../../public/styles/common.css'
 
 const { getSubsPlans, boGetSubscriptionTransactions, getActivatedPlan } = SubscribtionController
 const { getCompany } = CompanyController
-
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const SubsMgts = () => {
     const { showAlert } = useAlert();
@@ -28,14 +27,6 @@ const SubsMgts = () => {
     const [ onSubs, setOnSubs ] = useState<any>()
     const [ company, setCompany ] = useState<any>();
     const [ showSubsPlan, setShowSubsPlan ] = useState(false)
-
-    useEffect(() => {
-        const loadWithDelay = async () => {
-          await sleep(2000); // Sleep 2 seconds
-          setIsLoading(false);
-        };
-        loadWithDelay();
-    }, []);
 
     const fetchSubsPlans = async() => {
         try {
@@ -66,7 +57,7 @@ const SubsMgts = () => {
             if (data.length > 0) {
                 let subs = await getActivatedPlan (data[0].cID)
                 subs = subs.BOCurrentSubscribedPlan || [];
-                console.log(subs);
+                // console.log(subs);
                 setOnSubs(subs)
 
                 // Filter out the free plan
@@ -90,19 +81,25 @@ const SubsMgts = () => {
     function toggleShowSubsPlan() {
         setShowSubsPlan(!showSubsPlan)
     }
-
+    // Cancel Subscription update locally
     function handleSubsUpdate (updatedData: any) {
         const updatedItem = subsTrans.map((data:any) => 
             data.subsTransID === updatedData.subsTransID
             ? updatedData
             : data
-          )
-          setSubsTrans(updatedItem);
-          setOnSubs(updatedData)
+        )
+        setSubsTrans(updatedItem);
+    }
+    // Add new transaction locally
+    function handleNewSubsTrans(newTrans: any) {
+        const data = [
+            ...subsTrans,
+            newTrans
+        ]
+        // console.log("add subscription transaction\n", data)
+        setSubsTrans(data);
     }
 
-    if(isLoading) return "Page is Loading..."
-    
     return (
         <div className='content'>
             <div className='sub-management-header'>
@@ -126,6 +123,7 @@ const SubsMgts = () => {
                     user={user}
                     company={company}
                     updateCancelSubs={handleSubsUpdate}
+                    addNewTrans={handleNewSubsTrans}
                 />
             }
             {/* Display Subscriping Plan */}
@@ -133,9 +131,25 @@ const SubsMgts = () => {
             <div className="subscribed-plan-container card">
                 <div className='subscribed-plan-title'>
                     <h3>Subscribed Plan: {onSubs.subscription_name}</h3>
-                    {onSubs.subscription_name !== 'Free' && 
-                        <FaCircle className={`subscribed-plan-title-icon`} />
-                    }
+                    <div className="view-subs-plan-btn-grps">
+                        <FiRefreshCw 
+                            className='icons view-subs-plan-icon'
+                            onClick={() => {window.location.reload();}}
+                        />
+                        {onSubs.subscription_name !== 'Free' && 
+                            <FaCircle className={`subscribed-plan-title-icon
+                                ${
+                                    onSubs.subsStatus === SUB_STATUS[0]
+                                      ? 'pending'
+                                      : onSubs.subsStatus === SUB_STATUS[4]
+                                      || onSubs.subsStatus === SUB_STATUS[3]
+                                      || onSubs.subsStatus === SUB_STATUS[2]
+                                      ? 'expired'
+                                      : ''
+                                  }
+                                `} />
+                        }
+                    </div>
                 </div>
                 <div className="subscribed-plan-data plan-description even-row">
                     <p className="title"><FaRegListAlt /></p>

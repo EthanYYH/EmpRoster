@@ -17,20 +17,23 @@ interface SubsPlansProps {
     company: any;
     user: any;
     updateCancelSubs?: (updatedData: any) => void;
+    addNewTrans?: (newData: any) => void
 }
 
-const { getSubsPlans, makeSubsPayment, cancelSubscription } = SubscribtionController
+const { makeSubsPayment, cancelSubscription } = SubscribtionController
 
 const SubsPlan = ({ 
     displaySubsPlans, allTransactions, onSubsPlans, 
-    user, company, updateCancelSubs
+    user, company, updateCancelSubs, addNewTrans
 }: SubsPlansProps) => {
     // console.log(onSubsPlans)
     const { showAlert } = useAlert();
     const [ allSubsPlans, setAllSubsPlans ] = useState<any>(displaySubsPlans);
     const [ selectedPlan, setSelectedPlan ] = useState<any>();
+    const now = new Date()
     const [ reasonOfUnsubscribe, setReasonOfUnsubscribe ] = useState<string>('')
     const [ showConfirmation, setShowConfirmation ] = useState(false);
+    const [ allowedPay, setAllowedPay ] = useState(true);
 
     // Prompt user confirmation for update
     function toggleConfirmation (plan: any) {
@@ -38,30 +41,47 @@ const SubsPlan = ({
         setShowConfirmation(!showConfirmation)
     }
 
-    const generateReference = () => {
-        const now = new Date();
-      
+    function generateReference() {
         // Format: YYYYMMDD-HHMMSS
         const timestamp = now.toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
-      
         // Add randomness: 6-char alphanumeric
         const randomStr = Math.random().toString(36).slice(2, 8).toUpperCase();
-      
         return `REF-${timestamp}-${randomStr}_${allTransactions.length + 1}`;
     };
+
+    const isAbleToPay = () => {
+        const start = new Date(onSubsPlans.startDate); // e.g. "2025-04-15T00:00:00.000Z"
+        const end = new Date(onSubsPlans.endDate);     // e.g. "2025-05-15T00:00:00.000Z"
+        // console.log(`start: ${start} \n end: ${end}`)
+        
+        if (now < start || now > end) {
+            setAllowedPay(true);  // Allow payment outside the subscription period
+        } else {
+            setAllowedPay(false); // Block during the subscription period
+        }
+    }
+    useEffect(() => {
+        if(onSubsPlans.subscription_name !== 'Free')
+            isAbleToPay()
+    }, [onSubsPlans])
 
     const triggerCreatePaymentRequest = async() => {
         try {
             const ref = generateReference()
             // console.log(ref)
-            const response = await makeSubsPayment(
-                ref, selectedPlan.price, user.email, company, 
-                onSubsPlans.cID, selectedPlan.subsPlanID
-            )
-            // console.log(response)
-            if (response.payment_url !== ''){
-                toggleConfirmation([])
-                window.open(response.payment_url)
+            if(allowedPay){
+                const response = await makeSubsPayment(
+                    ref, selectedPlan.price, user.email, company, 
+                    onSubsPlans.cID, selectedPlan.subsPlanID
+                )
+                // console.log(response)
+                if (response.payment_url !== ''){
+                    toggleConfirmation([])
+                    window.open(response.payment_url)
+
+                    if(addNewTrans)
+                        addNewTrans(response.rows[0])
+                }
             }
         } catch(error) {
             showAlert(
@@ -141,6 +161,7 @@ const SubsPlan = ({
                     ) : (
                         <PrimaryButton 
                             text="Confirm" 
+                            disabled={!allowedPay}
                             onClick={() => triggerCreatePaymentRequest()}
                         />
                     )}

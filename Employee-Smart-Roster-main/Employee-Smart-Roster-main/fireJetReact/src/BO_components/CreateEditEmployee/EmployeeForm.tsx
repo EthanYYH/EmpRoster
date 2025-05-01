@@ -15,10 +15,11 @@ import "../../../public/styles/common.css";
 
 interface CreateOrEditEmpProps {
     isCreate: boolean;
-    bo_UID: any;
+    currentUser: any;
     defaultValues: any;
     allRoles: any;
     allSkillsets: any;
+    empLength?: number;
     onEmpAdd?: (newEmp: any) => void;
     onEmpUpdate?: (updatedEmpData: any) => void;
     onCloseDetail?: () => void
@@ -30,9 +31,10 @@ const { validateEndWorkTime, createEmployee, editEmployee,
         getRoleNameForEmp, getSkillNameForEmp } = BOEmployeeController
 
 const CreateEditAccount = ({
-    isCreate, bo_UID, defaultValues, 
-    allRoles, allSkillsets, onEmpUpdate, 
-    onEmpAdd, onCloseDetail, onClose}: CreateOrEditEmpProps) => {
+    isCreate, currentUser, defaultValues, 
+    allRoles, allSkillsets, empLength = 0,
+    onEmpUpdate, onEmpAdd, onCloseDetail, 
+    onClose}: CreateOrEditEmpProps) => {
     // console.log("Default Value", defaultValues)
     const navigate = useNavigate();
     const { showAlert } = useAlert();
@@ -183,9 +185,19 @@ const CreateEditAccount = ({
         return validValues.some(field => errors[field]);
     }
 
+    function allowedToAddEmp() {
+        const isSubsExp = 1
+        // If the subscription plan is expired or is in free plan
+        // if(isSubsExp === 1 && empLength === 5){
+        if(currentUser?.isSubsExp === 1 && empLength === 5){
+            return false
+        }
+        return true
+    }
+
     const triggerCreateEmpAcc = async() => {
         try{
-            const response = await createEmployee(bo_UID, employeeData, allRoles, allSkillsets)
+            const response = await createEmployee(currentUser?.UID, employeeData, allRoles, allSkillsets)
             // console.log(response)
             if(response.response.message === "Employee added successfully"){
                 showAlert(
@@ -226,7 +238,7 @@ const CreateEditAccount = ({
 
     const triggerUpdateEmpAcc = async() => {
         try{
-            const response = await editEmployee(bo_UID, defaultValues, employeeData, allRoles, allSkillsets)
+            const response = await editEmployee(currentUser?.UID, defaultValues, employeeData, allRoles, allSkillsets)
             // console.log(response)
             if(response.response.message === "Employee updated successfully"){
                 showAlert(
@@ -329,12 +341,30 @@ const CreateEditAccount = ({
                     ))}
                 </div>
                 <div className="btns-grp">
-                    {isCreate ? ( // Create new emp
+                    {!allowedToAddEmp() && (
+                        <div className="error-reach-user-limit-container">
+                            <span className='error-message'>
+                                <GoAlertFill /> 
+                                <span className='error-message-text error-reach-user-limit'>
+                                    Free plan limit (5 employees)
+                                </span>
+                            </span>  
+                            <button
+                                className="error-message error-reach-user-limit-button"
+                                onClick={() => navigate("/subscription-management")}
+                            >
+                                Upgrade Plan
+                            </button>
+                        </div>
+                    )}
+                    {allowedToAddEmp() && isCreate && ( // Create new emp
                         <PrimaryButton 
                             text="Confirm" 
+                            disabled={!allowedToAddEmp()}
                             onClick={() => triggerCreateEmpAcc()}
                         />
-                    ) : ( // Edit emp
+                    )}
+                    {!isCreate && ( // Edit emp
                         <PrimaryButton 
                             text="Confirm" 
                             onClick={() => triggerUpdateEmpAcc()}

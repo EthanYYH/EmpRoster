@@ -79,6 +79,32 @@
     text-align: center;
 }
 
+.error-reach-user-limit-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    width: fit-content;
+    gap: 10px !important;
+
+    .error-reach-user-limit {
+        width: auto;
+        max-width: none !important;
+    }
+
+    .error-reach-user-limit-button {
+        padding: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 5px;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+    .error-reach-user-limit-button:hover {
+        background-color: var(--error);
+        color: var(--light-color-text);
+    }
+}
+
 /* Mobile (all screens below 768px) */
 @media only screen and (max-width: 768px) {
     .create-employee-form {

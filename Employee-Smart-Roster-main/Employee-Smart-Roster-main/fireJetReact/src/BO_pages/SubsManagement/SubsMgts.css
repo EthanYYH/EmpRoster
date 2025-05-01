@@ -26,6 +26,7 @@
     border-color: var(--primary-background);
 }
 
+
 /* Styling for Subscription Plans */
 .subscription-plan-container {
     display: flex;
@@ -118,12 +119,30 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+.view-subs-plan-btn-grps {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: end;
+    align-items: center;
 
     .subscribed-plan-title-icon {
         margin-left: 5px;
         margin-right: 5px;
         font-size: 13px;
         color: var(--success);
+    }
+    .subscribed-plan-title-icon.pending {
+        color:var(--warning);
+    }
+    .subscribed-plan-title-icon.expired {
+        color:var(--error);
+    }
+
+    .view-subs-plan-icon {
+        font-size: 20px;
     }
 }
 
@@ -145,5 +164,10 @@
 
     .subscription-plan-container .subs-plan-container {
         flex-direction: column;
+    }
+
+    
+    .view-subs-plan-icon {
+        align-self: flex-start !important;
     }
 }
