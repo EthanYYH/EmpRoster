@@ -60,7 +60,7 @@ function handleFilterSkill (employees, skillID) {
 }
 
 function handleFilterPassType (employees, passType) {
-  console.log(passType)
+  // console.log(passType)
   const filteredData = employees.filter((employee) => {
       const passMatch = employee.resStatusPassType || '';
       return passMatch === '' || passMatch === passType;

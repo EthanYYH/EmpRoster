@@ -14,6 +14,7 @@ import "../../../public/styles/common.css";
 interface employeeProps {
     isCreate: boolean
     selectedEmpValues?: any;
+    empLength?: number;
     onEmpAdd?: (newEmp: any) => void;
     onEmpUpdate?: (updatedEmpData: any) => void;
     onCloseDetail?: () => void
@@ -22,7 +23,7 @@ interface employeeProps {
 const { getCompanyRoles, getCompanySkillsets } = CompanyController;
 
 const CreateOEditEmp = ({ 
-    isCreate, selectedEmpValues, 
+    isCreate, selectedEmpValues, empLength,
     onEmpAdd, onEmpUpdate , onCloseDetail
 }: employeeProps) => {
     // const [ isCreate, setIsCreate ] = useState(true)
@@ -34,6 +35,7 @@ const CreateOEditEmp = ({
         defaultValues?: any;
         allRoles?: any[];
         allSkillsets?: any[];
+        empLength?: number;
     };
     const [ allRoles, setAllRoles ] = useState<any>([]);
     const [ allSkillsets, setAllSkillsets ] = useState<any>([]);
@@ -97,7 +99,8 @@ const CreateOEditEmp = ({
                 state: {
                     defaultValues: createEmpValues,
                     allRoles,
-                    allSkillsets
+                    allSkillsets,
+                    empLength
                 }
             })
 
@@ -117,10 +120,11 @@ const CreateOEditEmp = ({
         return (
             <CreateEditAccount
                 isCreate={true}
-                bo_UID={user?.UID}
+                currentUser={user}
                 defaultValues={navState.defaultValues}
                 allRoles={navState.allRoles}
                 allSkillsets={navState.allSkillsets}
+                empLength={navState.empLength}
                 onEmpAdd={onEmpAdd}
                 onClose={() => navigate(-1)}
             />
@@ -131,7 +135,7 @@ const CreateOEditEmp = ({
         return (
             <CreateEditAccount
                 isCreate={false}
-                bo_UID={user?.UID}
+                currentUser={user}
                 defaultValues={navState.defaultValues}
                 allRoles={navState.allRoles}
                 allSkillsets={navState.allSkillsets}
@@ -154,10 +158,11 @@ const CreateOEditEmp = ({
                     <div className="App-popup" onClick={() => toggleShowEmpForm()}>
                         <CreateEditAccount 
                             isCreate = {isCreate}
-                            bo_UID={user?.UID}
+                            currentUser={user}
                             defaultValues={createEmpValues}
                             allRoles={allRoles}
                             allSkillsets={allSkillsets}
+                            empLength={empLength}
                             onEmpAdd={onEmpAdd}
                             onClose={() => toggleShowEmpForm()}
                         />
@@ -174,7 +179,7 @@ const CreateOEditEmp = ({
                     <div className="App-popup" onClick={() => toggleShowEmpForm()}>
                         <CreateEditAccount 
                             isCreate = {isCreate}
-                            bo_UID={user?.UID}
+                            currentUser={user}
                             defaultValues={selectedEmpValues}
                             allRoles={allRoles}
                             allSkillsets={allSkillsets}
