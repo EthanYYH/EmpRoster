@@ -38,15 +38,31 @@ const SubsPlan = ({
         setShowConfirmation(!showConfirmation)
     }
 
+    const generateReference = () => {
+        const now = new Date();
+      
+        // Format: YYYYMMDD-HHMMSS
+        const timestamp = now.toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+      
+        // Add randomness: 6-char alphanumeric
+        const randomStr = Math.random().toString(36).slice(2, 8).toUpperCase();
+      
+        return `REF-${timestamp}-${randomStr}_${allTransactions.length + 1}`;
+    };
+
     const triggerCreatePaymentRequest = async() => {
         try {
-            const today = generateSGDateTimeForPaymentRequestRef(new Date ())
-            const ref = today + company.UEN
+            const ref = generateReference()
+            // console.log(ref)
             const response = await makeSubsPayment(
                 ref, selectedPlan.price, user.email, company, 
                 onSubsPlans.cID, selectedPlan.subsPlanID
             )
             // console.log(response)
+            if (response.payment_url !== ''){
+                toggleConfirmation([])
+                window.open(response.payment_url)
+            }
         } catch(error) {
             showAlert(
                 "triggerMakePayment",
