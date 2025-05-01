@@ -1,5 +1,5 @@
 import { LuLogOut } from "react-icons/lu";
-import { CgProfile } from "react-icons/cg";
+import { CgProfile, CgMoreAlt } from "react-icons/cg";
 import { GoAlertFill } from "react-icons/go";
 import { BiSolidUserDetail,
          BiSolidHide,
@@ -69,4 +69,5 @@ export {
     HiOutlineCalendarDateRange, // Date icon
     BiSolidHide, // Hided string icon
     BiSolidShow, // Showed string icon
+    CgMoreAlt, // See More
 };

@@ -86,7 +86,7 @@ const EditCompanyProfile = ({ companyData, onClose, onUpdate }: EditCompanyPrPro
     //  Update Company Profile
     const triggerEditComPr = async() => {
         const dataUpdate = { ...companyInfo }
-        dataUpdate.address = companyInfo.address + ", Singapore " + posterCode
+        dataUpdate.address = companyInfo.address.toUpperCase() + ", Singapore " + posterCode
     
         try {
             const response = await updateCompanyProfile(dataUpdate)

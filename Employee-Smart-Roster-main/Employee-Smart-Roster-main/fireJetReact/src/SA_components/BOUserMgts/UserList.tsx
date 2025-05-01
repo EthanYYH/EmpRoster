@@ -12,8 +12,7 @@ import '../../../public/styles/common.css';
 // import functions needed from UserController
 const { handleUserAccStatusFilter, } = UserController;
 // import functions needed from CompanyController
-const { getCompany,
-        handleFilterUENBizName, } = CompanyController;
+const { handleFilterUENBizName, } = CompanyController;
 // import functions needed from SubscribtionController
 const { getSubscriptionTransactions, 
         getSubsTransForACompany,

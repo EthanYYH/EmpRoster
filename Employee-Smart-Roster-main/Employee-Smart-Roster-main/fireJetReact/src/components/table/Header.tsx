@@ -1,4 +1,4 @@
-import "./Header.css";
+import "./index.css";
 import "../../../public/styles/common.css";
 
 export default function Header({ className = "", text = "Text" }: HeaderProps) {

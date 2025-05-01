@@ -127,7 +127,7 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({
       <div className="calendar-container">
         <Calendar
           localizer={mLocalizer}
-          backgroundEvents={events}
+          events={events}
           startAccessor="start"
           endAccessor="end"
           defaultDate={defaultDate}

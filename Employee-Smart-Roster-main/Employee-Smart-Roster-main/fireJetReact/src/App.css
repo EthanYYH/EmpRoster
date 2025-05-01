@@ -202,6 +202,27 @@ textarea {
   padding: 5px;
 }
 
+/* Dropdown */
+select {
+  background-color: white;
+  height: 36.5px;
+  border-width: 2px;
+  border-color: var(--purple-color-text);
+  border-radius: 8px;
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+option {
+  color: var(--side-menu-background);
+}
+
+option:checked {
+  background-color: var(--primary-background);
+  color: var(--light-color-text);
+}
+
 /* Radio Button Group Setup */
 .radio-button-group {
   display: flex;
@@ -283,25 +304,6 @@ textarea {
   }
 }
 
-/* Dropdown */
-select {
-  background-color: white;
-  height: 36.5px;
-  border-width: 2px;
-  border-color: var(--purple-color-text);
-  border-radius: 8px;
-  width: 100%;
-}
-
-option {
-  color: var(--side-menu-background);
-}
-
-option:checked {
-  background-color: var(--primary-background);
-  color: var(--light-color-text);
-}
-
 .icons {
   font-size: 30px;
   color: var(--side-menu-background);
@@ -376,7 +378,6 @@ option:checked {
   flex-direction: column;
   gap: 10px;
   height: fit-content;
-  padding: 10px;
 }
 
 .App-mobile-responsive-table-card {
@@ -407,18 +408,25 @@ option:checked {
     display: flex;
     flex-direction: column;
     height: fit-content;
-    gap: 10px;
+    gap: 5px;
 
     .App-mobile-responsive-table-card-data-detail {
       display: flex;
       flex-direction: row;
       justify-content: start;
       gap: 10px;
+      padding-left: 5px;
+      padding-right: 5px;
+      border-radius: 5px;
 
       .App-mobile-responsive-table-card-data-title {
-        width: 120px;
+        min-width: 120px;
+        max-width: 120px;
         font-weight: bold;
       }
+    }
+    .even-row {
+      background-color: var(--light-color-text);
     }
   }
 }

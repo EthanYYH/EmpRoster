@@ -92,7 +92,7 @@ const UserMgts = () => {
               <div className="content">
                 <h1>Business Owner Management</h1>
                 {bizOwners.length === 0 ? (
-                    <div>Loading user list...</div>
+                    <div>No User Registered...</div>
                 ) : (
                     <BOUserList boUsers={bizOwners} />
                 )}
@@ -111,7 +111,7 @@ const UserMgts = () => {
                     />
                 </div>
                 {employees.length === 0 ? (
-                    <div>Loading your employee list...</div>
+                    <div>No Employee Added...</div>
                 ) : (
                     <EmpList 
                         empUsers={employees} 

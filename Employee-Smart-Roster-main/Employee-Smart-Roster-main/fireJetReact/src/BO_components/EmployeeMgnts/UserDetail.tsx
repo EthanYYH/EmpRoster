@@ -29,14 +29,14 @@ const UserDetail = ({ user, role, skillset, onClose, onEmpUpdate }: UserDetailPr
   const { showAlert } = useAlert();
   const [ suspend, setSuspend ] = useState(false);
 
-  const handleSuspendUser = async () => {
+  const handleSuspendUser = async (isActive: number) => {
     try {
-      const response = await inactiveOrActiveEmployee(user.user_id, 0)
+      const response = await inactiveOrActiveEmployee(user.user_id, isActive)
       // console.log(response)
       if (response.message === 'Employee status updated successfully') {
         const updatedUser = {
           ...user,
-          activeOrInactive: 0,
+          activeOrInactive: isActive,
         };
 
         if (onEmpUpdate) 
@@ -82,10 +82,16 @@ const UserDetail = ({ user, role, skillset, onClose, onEmpUpdate }: UserDetailPr
           </div>
           <p>{user.email}</p>
           <div className="btns-grp">
-            <PrimaryButton 
-              text="Confirm" 
-              onClick={handleSuspendUser}
-            />
+          { user.activeOrInactive === 1 
+              ? <PrimaryButton 
+                  text="Confirm" 
+                  onClick={() => handleSuspendUser(0)}
+                />
+              : <PrimaryButton 
+                  text="Confirm" 
+                  onClick={() => handleSuspendUser(1)}
+                /> }
+            
             <SecondaryButton 
               text="Cancel" 
               onClick={handleCancelSuspend}

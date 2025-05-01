@@ -17,7 +17,7 @@ export const YEAR_CHANGE = ['prevYear', 'nextYear'];
 export const USER_ROLE = ['System Admin', 'Business Owner', 'Employee']
 export const TASK_STATUS = ['Not Started', 'In Progress', 'Completed'];
 export const REG_STATUS = ["Pending", "Approved", "Rejected"];
-export const SUB_STATUS = ['Subscribed', 'Pending Payment', 'Unsubscribed', 'Cancelled Subscription'];
+export const SUB_STATUS = ["Pending", "Completed", "Failed", "Cancelled", "Expired"];
 export const PASS_TYPE = ['Singapore Citizen/PR', 'Employment Pass', 'S Pass', 'Work Permit', 'Other Work Pass'];
 export const IS_ACC_SUSPENDED = ['Activated', 'Suspended'];
 
@@ -65,6 +65,18 @@ export function generateSGDateTimeForDateTimeInput(date) {
     const minutes = String(sgDate.getMinutes()).padStart(2, '0');
 
     return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+export function generateSGDateTimeForPaymentRequestRef(date) {
+    const sgDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Singapore' }));
+
+    const year = sgDate.getFullYear();
+    const month = String(sgDate.getMonth() + 1).padStart(2, '0');
+    const day = String(sgDate.getDate()).padStart(2, '0');
+    const hours = String(sgDate.getHours()).padStart(2, '0');
+    const minutes = String(sgDate.getMinutes()).padStart(2, '0');
+
+    return `${year}${month}${day}${hours}${minutes}`;
 }
 
 export async function encodeFileContent(file) {
