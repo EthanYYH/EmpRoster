@@ -131,7 +131,7 @@ async function getSubsPlans () {
 }
 // Hitpay Create Payment Request => /v1/payment-requests
 async function makeSubsPayment (ref, price, email, companyDetail, cID, plan_id) {
-    // console.log(companyDetail)
+    // console.log(plan_id)
     const fullAddress = companyDetail.address.split(", Singapore")
     const addressLine1 = fullAddress[0].trim()
     const postCode = fullAddress[1].trim()
@@ -163,7 +163,31 @@ async function makeSubsPayment (ref, price, email, companyDetail, cID, plan_id) 
 
         return await data;
     } catch(error) {
-        throw new Error(`Failed to fetch create payment request: ${error.message}`);
+        throw new Error(`Failed to create payment request: ${error.message}`);
+    }
+}
+
+async function getActivatedPlan (company_Id) {
+    const body = {
+        cID: company_Id
+    };
+    // console.log(JSON.stringify(body))
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/subscriptiontransaction/current-subscription', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: {'Content-Type': 'application/json'},
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        throw new Error(`Failed to cancel subscription plan: ${error.message}`);
     }
 }
 
@@ -199,6 +223,7 @@ export default {
     mergePremiumSubscriptions,
     handleFilterSubsStatus,
     boGetSubscriptionTransactions,
+    getActivatedPlan,
     getSubsPlans,
     makeSubsPayment,
     cancelSubscription

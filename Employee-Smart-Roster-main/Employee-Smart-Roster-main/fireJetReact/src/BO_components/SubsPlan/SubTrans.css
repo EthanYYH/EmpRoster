@@ -1,24 +1,30 @@
-.header-subtransaction-subsPlans,
-.body-subtransaction-subsPlans {
-    min-width: 120px;
-    max-width: 120px;
+.header-subtransaction-ref,
+.body-subtransaction-ref {
+    min-width: 100px;
+    max-width: 100px;
 }
 
+.header-subtransaction-subsPlans,
+.body-subtransaction-subsPlans,
+.header-subtransaction-price,
+.body-subtransaction-price,
+.header-subtransaction-subsStatus,
+.body-subtransaction-subsStatus,
 .header-subtransaction-start,
 .body-subtransaction-start,
 .header-subtransaction-end,
 .body-subtransaction-end {
-    min-width: 140px;
-    max-width: 140px;
-}
-
-.header-subtransaction-subsStatus,
-.body-subtransaction-subsStatus {
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 120px;
+    max-width: 120px;
 }
 
 .header-subtransaction-reason,
 .body-subtransaction-reason {
     min-width: auto;
+}
+
+.subs-transaction-title {
+    justify-content: start;
+    align-items: end;
+    gap: 10px;
 }

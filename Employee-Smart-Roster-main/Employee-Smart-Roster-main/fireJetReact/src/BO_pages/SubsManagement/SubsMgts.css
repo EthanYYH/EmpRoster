@@ -109,6 +109,24 @@
     border-radius: 7px;
 }
 
+.subscribed-plan-container {
+    max-width: 500px;
+}
+
+.subscribed-plan-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .subscribed-plan-title-icon {
+        margin-left: 5px;
+        margin-right: 5px;
+        font-size: 13px;
+        color: var(--success);
+    }
+}
+
 /* Tablet (769px-1023px) */
 @media only screen and (min-width: 769px) and (max-width: 1023px) {
     .sub-management-header {
