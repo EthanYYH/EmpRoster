@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../AuthContext'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
-import { formatDateTime, SUB_STATUS } from '../../controller/Variables'
 import SubsPlan from '../../BO_components/SubsPlan/SubsPlan'
 import SubsTransactions_t from '../../BO_components/SubsPlan/SubTrans_t'
 import SubsTransactions_m from '../../BO_components/SubsPlan/SubTrans_m'
@@ -18,14 +17,25 @@ import '../../../public/styles/common.css'
 const { getSubsPlans, boGetSubscriptionTransactions, getActivatedPlan } = SubscribtionController
 const { getCompany } = CompanyController
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 const SubsMgts = () => {
     const { showAlert } = useAlert();
     const { user } = useAuth();
+    const [ isLoading, setIsLoading ] = useState(true);
     const [ allSubsPlans, setAllSubsPlans ] = useState<any[]>([]);
     const [ subsTrans, setSubsTrans ] = useState<any>([]);
     const [ onSubs, setOnSubs ] = useState<any>()
     const [ company, setCompany ] = useState<any>();
     const [ showSubsPlan, setShowSubsPlan ] = useState(false)
+
+    useEffect(() => {
+        const loadWithDelay = async () => {
+          await sleep(2000); // Sleep 2 seconds
+          setIsLoading(false);
+        };
+        loadWithDelay();
+    }, []);
 
     const fetchSubsPlans = async() => {
         try {
@@ -91,6 +101,8 @@ const SubsMgts = () => {
           setOnSubs(updatedData)
     }
 
+    if(isLoading) return "Page is Loading..."
+    
     return (
         <div className='content'>
             <div className='sub-management-header'>
