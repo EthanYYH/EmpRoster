@@ -40,7 +40,7 @@ const CompleteProfile = ({ userID, onDataUpdate }: CompleteProfileProps) => {
     const [showConfirmation, setShowConfirmation] = useState(false);
 
     const triggerSubmitCompleteProfile = async() => {
-        const fullAddress = companyAdd.trim() + ", Singapore " + posterCode
+        const fullAddress = companyAdd.trim().toUpperCase() + ", Singapore " + posterCode
         // console.log(fullAddress)
 
         try{

@@ -1,0 +1,24 @@
+.header-subtransaction-subsPlans,
+.body-subtransaction-subsPlans {
+    min-width: 120px;
+    max-width: 120px;
+}
+
+.header-subtransaction-start,
+.body-subtransaction-start,
+.header-subtransaction-end,
+.body-subtransaction-end {
+    min-width: 140px;
+    max-width: 140px;
+}
+
+.header-subtransaction-subsStatus,
+.body-subtransaction-subsStatus {
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.header-subtransaction-reason,
+.body-subtransaction-reason {
+    min-width: auto;
+}
