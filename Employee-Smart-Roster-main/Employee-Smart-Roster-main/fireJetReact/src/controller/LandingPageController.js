@@ -20,8 +20,9 @@ const getHeading = async () => {
     const data = await response.json();
     console.log("Data:", data);
     const realData = data.ReviewAndRatingList || [];
+    console.log("Heading: ",realData)
 
-    if (realData.length === 1) {
+    if (realData.length === 0) {
       console.warn("API returned empty list, using dummy data.");
       return getDummyHeading();
     }
@@ -110,8 +111,9 @@ const getReview = async () => {
 
     const data = await response.json();
     const realData = data.ReviewAndRatingList || [];
+    console.log("Review Data fetched: ", realData)
 
-    if (realData.length === 1) {
+    if (realData.length === 0) {
       console.warn("API returned empty review list, using dummy reviews.");
       return getDummyReviews();
     }
@@ -211,6 +213,8 @@ const getFAQ = async () => {
   try {
     const response = await fetch(
       "https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/faq/view",
+      
+      
       {
         method: "GET",
         headers: {

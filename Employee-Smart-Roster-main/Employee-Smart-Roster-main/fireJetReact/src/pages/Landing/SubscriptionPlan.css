@@ -69,6 +69,43 @@
   margin-top: 10px;
 }
 
+/* Make the table span full width of card */
+.plan-card table {
+  margin-top: 3vh;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Optional: add some padding for breathing room */
+.plan-card table td {
+  padding: 4px 8px;
+  vertical-align: middle;
+}
+
+/* Left-align only the feature column (2nd <td>) */
+.plan-card table td:nth-child(2) {
+  text-align: left;
+}
+
+/* Target the check icon inside your feature table */
+.plan-card table td svg {
+  color: #8BC34A;  /* light green */
+}
+
+.divider-icon {
+  width: 100%;
+  text-align: center;
+  color: #ccc;
+  margin: 16px 0;
+}
+.divider-icon svg {
+  width: 50%;
+  height: 1px;
+}
+
+
+
+
 /* Mobile View */
 @media (max-width: 768px) {
   .plans-list {
