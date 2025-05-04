@@ -168,6 +168,32 @@ h4 {
   color: #61dafb;
 }
 
+/* Menu Tabs and Tab setup */
+.react-tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 0px;
+  padding: 0px;
+  border-bottom-style: outset;
+  border-bottom-color: var(--primary-background);
+  border-bottom-width: 2px;
+}
+
+.react-tabs__tab {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  margin-bottom: 2px;
+}
+
+.react-tabs__tab:hover {
+  background-color: var(--hover-background);
+}
+
+.react-tabs__tab--selected {
+  background-color: var(--hover-background) !important;
+}
+
 /* Set input text field css */
 input[type=text], 
 input[type=email],

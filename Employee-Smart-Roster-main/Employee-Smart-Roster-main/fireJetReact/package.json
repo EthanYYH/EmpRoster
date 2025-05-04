@@ -16,6 +16,7 @@
     "@syncfusion/ej2-react-schedule": "^29.1.37",
     "axios": "^1.8.4",
     "date-fns": "^4.1.0",
+    "flowbite-react": "^0.11.7",
     "node-fetch": "^2.7.0",
     "prop-types": "^15.8.1",
     "react-big-calendar": "^1.18.0",
@@ -23,6 +24,7 @@
     "react-external-link": "^2.5.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^6.30.0",
+    "react-tabs": "^6.1.0",
     "recharts": "^2.15.2"
   },
   "scripts": {
