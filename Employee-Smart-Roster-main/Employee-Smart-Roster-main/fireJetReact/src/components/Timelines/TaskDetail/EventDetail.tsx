@@ -3,7 +3,7 @@ import { useAlert  } from '../../../components/PromptAlert/AlertContext';
 import PrimaryButton from '../../../components/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../../components/SecondaryButton/SecondaryButton';
 import MoreDetail from './MoreDetail';
-import { TASK_STATUS } from '../../../controller/Variables.js';
+import { TASK_STATUS,formatDateTime, formatDisplayDateTime } from '../../../controller/Variables.js';
 import AllocatedStaffDetail from './AlloctedStaffDetail';
 import TimelineController from '../../../controller/TimelineController.js';
 import UserController from '../../../controller/User/UserController.js';
@@ -25,6 +25,7 @@ const { boGetTaskDetail, deleteTaskDetail } = TimelineController;
 const { empGetUserProfile } = UserController;
 
 const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
+    // console.log(task)
     const { showAlert } = useAlert()
     const [ taskDetail, setTaskDetail ] = useState<any>([])
     const [ showDeleteTask, setShowDeleteTask ] = useState(false)
@@ -38,21 +39,19 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
         try {
             let taskDetail = await boGetTaskDetail(task.taskID);
             taskDetail = taskDetail.taskDetails
-            
+            // console.log(taskDetail)
+
             // Convert task allocated time to Singapore time
-            const allocatedTime = new Date(taskDetail[0].createdOn);
-            allocatedTime.setHours(allocatedTime.getHours() - 2);
-            taskDetail[0].createdOn = new Date(allocatedTime).toISOString().split('T');
+            const allocatedTime = taskDetail[0].createdAt;
+            taskDetail[0].createdAt = formatDateTime(allocatedTime).split(' ')
             
             // Convert task start time to Singapore time
-            const startTime = new Date(taskDetail[0].startDate);
-            startTime.setHours(startTime.getHours() - 2);
-            taskDetail[0].startDate = new Date(startTime).toISOString().split('T');
+            const startTime = taskDetail[0].startDate;
+            taskDetail[0].startDate = formatDisplayDateTime(startTime).split(' ')
             
             // Convert task start time to Singapore time
-            const endTime = new Date(taskDetail[0].endDate);
-            endTime.setHours(startTime.getHours() - 2);
-            taskDetail[0].endDate = new Date(endTime).toISOString().split('T');
+            const endTime = taskDetail[0].endDate;
+            taskDetail[0].endDate = formatDisplayDateTime(endTime).split(' ')
 
             // console.log(taskDetail[0])
             setTaskDetail(taskDetail[0]);
@@ -207,16 +206,16 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
                         </div>
                     </div>
                     
-                    {taskDetail?.createdOn?.length === 2 && (
+                    {taskDetail?.createdAt?.length === 2 && (
                     <div className="allocated-date-detail">
                         <p className="title">Allocated Date:</p>
                         <div className="event-detail-date-display">
                             <HiMiniViewfinderCircle className='App-popup-content-icon'/>
-                            <p className="main-data">{taskDetail.createdOn[0]}</p>
+                            <p className="main-data">{taskDetail.createdAt[0]}</p>
                         </div>
                         <div className="event-detail-time-display">
                             <TiTime className='App-popup-content-icon'/>
-                            <p className="main-data">{taskDetail.createdOn[1].split('.')[0]}</p>
+                            <p className="main-data">{taskDetail.createdAt[1].split('.')[0]}</p>
                         </div>
                     </div>
                     )}

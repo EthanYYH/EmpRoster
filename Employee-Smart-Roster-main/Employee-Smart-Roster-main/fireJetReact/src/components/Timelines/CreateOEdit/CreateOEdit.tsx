@@ -13,14 +13,13 @@ import "../../../../public/styles/common.css"
 interface TaskProps {
     isCreate: boolean;
     selectedTask?: any;
-    onTaskAdd?: (newTask: any) => void;
     onTaskUpdate?: (updateTask: any) => void;
 }
 
 const { getCompanyRoles, getCompanySkillsets } = CompanyController;
 
 const CreateOEditTask = ({
-    isCreate, selectedTask, onTaskAdd, onTaskUpdate
+    isCreate, selectedTask, onTaskUpdate
 } : TaskProps) => {
     const { user } = useAuth();
     const { showAlert } = useAlert();
@@ -35,8 +34,8 @@ const CreateOEditTask = ({
         allSkillsets?: any[];
     };
     const [ createTaskValues, setCreateTaskValues ] = useState({
-        title: '0405Create Task',
-        taskDescription: '0405 wm testing on Create Task',
+        title: '0505Create Task',
+        taskDescription: '0505 wm testing on Create Task',
         roleID: '',
         skillSetID: '',
         startDate: generateSGDateTimeForDateTimeInput(new Date()),
@@ -45,8 +44,8 @@ const CreateOEditTask = ({
     });
     const [ createTimelineValues, setCreateTimelineValues ] = useState({
         timelineID: '',
-        title: '0405',
-        timeLineDescription: '0405_WM Create Timeline Test',
+        title: '0505',
+        timeLineDescription: '0505_WM Create Timeline Test',
     })
 
     const fetchRolesNSkillsets = async() => {
@@ -115,7 +114,6 @@ const CreateOEditTask = ({
                 defaultTimelineValues={navState.defaultTimelineValues}
                 allRoles={navState.allRoles}
                 allSkillsets={navState.allSkillsets}
-                onTaskAdd={onTaskAdd}
             />
         );
     }

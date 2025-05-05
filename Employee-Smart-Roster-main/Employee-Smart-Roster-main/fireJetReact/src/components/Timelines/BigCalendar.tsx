@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import moment from 'moment';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import EventDetail from './TaskDetail/EventDetail';
-import { TASK_STATUS, formatDateTime } from '../../controller/Variables.js';
+import { TASK_STATUS } from '../../controller/Variables.js';
 import { FaChevronCircleLeft, FaChevronCircleRight } from '../../../public/Icons.js'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -14,13 +14,11 @@ interface ContinuousCalendarProps {
   tasks: any[];
   onUpdate?: (updatedData: any) => void;
   onDelete?: (deletedTaskId: number) => void;
-  onClick?: (_day:number, _month: number, _year: number) => void;
 }
-const MonthCalendar: React.FC<ContinuousCalendarProps> = ({ 
+const MonthCalendar = ({ 
   tasks=[], 
   onUpdate,
-  onDelete,
-  onClick }) => {
+  onDelete, } : ContinuousCalendarProps) => {
   // console.log(tasks)
   const defaultDate = new Date();
   const [ selectedTask, setSelectedTask ] = useState<any[]>([]);
@@ -31,12 +29,12 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({
     tasks.map(task => ({
       ...task,
       title: task.title,
-      start: new Date(task.startDate.toLocaleString('en-US', { timeZone: 'Asia/Singapore' })),
-      end: new Date(task.endDate.toLocaleString('en-US', { timeZone: 'Asia/Singapore' })),
+      start: task.startDate,
+      end: task.endDate,
       allDay: true // Set to true if these are all-day events
     }))
   ), [tasks]);
-
+  // console.log(tasks)
   function triggerSelectedTask(task: any[]) {
       setSelectedTask(task);
       setShowTaskDetail(true);

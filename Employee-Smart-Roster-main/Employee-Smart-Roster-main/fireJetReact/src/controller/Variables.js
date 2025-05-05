@@ -1,5 +1,3 @@
-import { format } from 'date-fns';
-
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s]+$/
 export const PW_PATTERN = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/
 export const COMPANY_PHONE_PATTERN = /^[6]\d{7}$/ // Valid singapore virtual number starting with 6
@@ -33,6 +31,22 @@ export const FIRST_6_MIN_MC = 14 // 1st 6 month Outpatient sick leave
 export const MIN_YEAR1_ANNUAL = 7 // 1st year annual leave
 export const MIN_YEAR8_ANNUAL = 14 // 8th and after that year annual leave
 
+// Format Local date time to display
+export function formatDisplayDateTime(isoString) {
+    const dateTime = isoString.split('T')
+    // 2025-05-08T21:09:00.000Z
+    const date = dateTime[0].split('-');
+    let time = dateTime[1].split('.')[0];
+    time = time.split(':')
+
+    const ampm = time[0] >= 12 ? 'PM' : 'AM';
+
+    time[0] = time[0] % 12;
+    time[0] = time[0] === 0 ? 12 : time[0]; // handle midnight
+
+    return `${date[2]}/${date[1]}/${date[0]} ${time[0]}:${time[1]}${ampm}`;
+}
+// Convert and format date time to Singapore local date time format
 export function formatDateTime (isoString){
     const date = new Date(isoString);
 
@@ -52,7 +66,7 @@ export function formatDateTime (isoString){
 
     const formattedHours = String(hours).padStart(2, '0');
 
-    return `${day}/${month}/${year} ${formattedHours}:${minutes} ${ampm}`;
+    return `${day}/${month}/${year} ${formattedHours}:${minutes}${ampm}`;
 }
 
 export function generateSGDateTimeForDateTimeInput(date) {
@@ -152,4 +166,13 @@ export function formatKey(key) {
     return key
         .replace(/([A-Z])/g, ' $1')   // insert space before capital letters
         .replace(/^./, str => str.toUpperCase()); // capitalize first letter
+}
+
+export function removeDuplicates(arr, key) {
+    return arr.reduce((unique, item) => {
+        if (!unique.find((obj ) => obj[key] === item[key])) {
+            unique.push(item);
+        }
+        return unique;
+    }, []);
 }

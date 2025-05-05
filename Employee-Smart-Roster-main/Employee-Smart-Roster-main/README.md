@@ -21,6 +21,8 @@ FYP 2025-S1-12
     npm install --save react-big-calendar
     npm i flowbite-react
     npm i react-tabs
+    npm install date-fns date-fns-tz
+    npm i mobiscroll-react
     ```
 3. Replace package.json and package-lock.json
 

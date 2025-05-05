@@ -81,6 +81,14 @@
     align-items: baseline;
 }
 
+.role-skill-title {
+  font-weight: bold;
+  border-bottom: 2px;
+  border-bottom-style: dotted;
+  border-bottom-color: var(--side-menu-background);
+  padding-bottom: 5px;
+}
+
 /* See Allocated Staff Detail Content (invisible by default) */
 .allocated-staff-info {
     position: relative;

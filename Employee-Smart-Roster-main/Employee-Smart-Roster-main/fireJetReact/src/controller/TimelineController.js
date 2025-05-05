@@ -29,8 +29,8 @@ async function createNewTimeline (userID, values) {
 
 function getTimelineSelected (allTimelines, timelineID){
     // console.log(allTimelines, timelineID)
-    const selectedTimeline = allTimelines.filter((timeline) => 
-        timeline.timeLineID === timelineID
+    const selectedTimeline = allTimelines.find((timeline) => 
+        timeline.timeLineID === Number(timelineID)
     )
     // console.log(selectedTimeline)
     return selectedTimeline
@@ -116,13 +116,17 @@ async function boGetTaskDetail (taskID) {
 
 // Create Task
 async function createTask (boID, values, timelineID) {
-    // console.log(values)
+    // console.log(timelineID)
     const startDateTime = values.startDate.split("T")
     const start = startDateTime.join(" ")
     const endDateTime = values.endDate.split("T")
     const end = endDateTime.join(" ")
     // console.log("Start time: ", start)
     // console.log("End time: ", end)
+
+    if(timelineID === '') {
+        timelineID = null
+    }
 
     const body = {
         business_owner_id: boID,
@@ -137,7 +141,7 @@ async function createTask (boID, values, timelineID) {
     };
 
     try{
-        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/timeline/task/allocation/add', {
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/timeline/task/add', {
             method: 'POST',
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' }

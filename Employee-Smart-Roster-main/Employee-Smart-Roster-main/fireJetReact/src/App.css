@@ -401,6 +401,96 @@ option:checked {
   background-color: var(--secondary-background);
 }
 
+/* Multi-select dropdown styles */
+.multiselect-dropdown-container {
+  border: 2px solid var(--table-odd-row);
+  border-radius: 8px;
+  padding: 10px;
+  background: white;
+  height: fit-content;
+}
+
+.dropdown-header {
+  display: flex;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.dropdown-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.selected-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+  min-height: 32px;
+  justify-content: start;
+  align-items: center;
+
+  .selected-tag {
+    background-color: var(--light-color-text);
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .remove-tag {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .remove-tag:hover {
+    color: var(--error);
+  }
+
+  .no-selected {
+    color: var(--side-menu-background);
+    font-weight: 525;
+  }
+}
+
+.dropdown-options {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1.5px solid var(--light-color-text);
+  border-radius: 4px;
+}
+
+.option {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.option:hover,
+.option.selected {
+  background-color: var(--light-color-text);
+}
+
+.option.matched {
+  border-left: 3px solid var(--success);
+}
+
+.matched-badge {
+  background-color: var(--success);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
 /* Others */
 .icons {
   font-size: 30px;

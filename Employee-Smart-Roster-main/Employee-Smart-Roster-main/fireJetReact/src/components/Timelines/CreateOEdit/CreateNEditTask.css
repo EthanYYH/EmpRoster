@@ -5,19 +5,51 @@
     gap: 10px;
 }
 
+.create-n-edit-task-form-container {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+
+    .create-n-edit-task-form-content,
+    .task-assignation-detail-container {
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+        width: 50%;
+        padding: 10px;
+        padding-top: 0px;
+    }
+    .task-assignation-detail-container {
+        border-left: 2px;
+        border-left-style: outset;
+        border-left-color: var(--primary-background);
+    }
+    .task-assignation-detail-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        gap: 13px;
+
+        .btn-grp {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+
+            span {
+                margin: 5px;
+                color: var(--error);
+                font-size: 15px;
+            }
+        }
+    }
+}
+
 .create-n-edit-task-form-checkbox-container {
     display: flex;
     flex-direction: row;
     gap: 20px;
-}
-
-.create-n-edit-task-form-content {
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
-    width: 50%;
-    padding: 10px;
-    padding-top: 0px;
 }
 
 .create-task-button {
@@ -46,3 +78,15 @@
     flex-direction: column;
     gap: 10px;
 }
+
+.select-available-timeline-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.create-new-timeline-icon:hover {
+    color: var(--side-menu-background);
+    cursor: pointer;
+}
+

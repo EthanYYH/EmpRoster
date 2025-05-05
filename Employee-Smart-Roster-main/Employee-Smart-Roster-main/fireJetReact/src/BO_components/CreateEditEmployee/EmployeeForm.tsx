@@ -626,6 +626,7 @@ const CreateEditAccount = ({
                             name='endWorkTime'
                             value={employeeData.endWorkTime}
                             onChange={(e) => triggerIsStartTimeBeforeEndTime(e)}
+                            min={employeeData.startWorkTime}
                             required
                         />
                         {errors.endWorkTime && (

@@ -5,9 +5,10 @@ import { useAlert } from '../../../components/PromptAlert/AlertContext.js';
 import CompanyController from '../../../controller/CompanyController.js';
 import TimelineController from '../../../controller/TimelineController';
 
+import { VscDebugBreakpointData, } from '../../../../public/Icons.js'
+import './EventDetail.css'
 import './MoreInfor.css'
 import '../../../../public/styles/common.css'
-import { VscDebugBreakpointData, } from '../../../../public/Icons.js'
 
 interface MoreDetailProps {
     roleID: number;
@@ -60,7 +61,7 @@ const MoreDetail = ({ roleID, skillID }: MoreDetailProps) => {
         <div className='role-and-skill-needed-content'>
             {roleNeeded?.length === 1 && (
             <div className="role-needed">
-                <p className="title">Role Needed</p>
+                <p className="role-skill-title">Role Needed</p>
                 <div className="role-needed-data">
                     <VscDebugBreakpointData className='App-popup-content-icon'/>
                     <p className='main-data'>{roleNeeded[0].roleName}</p>
@@ -69,7 +70,7 @@ const MoreDetail = ({ roleID, skillID }: MoreDetailProps) => {
             )}
             {skillNeeded?.length === 1 && (
             <div className="skill-needed">
-                <p className="title">Skill Needed</p>
+                <p className="role-skill-title">Skill Needed</p>
                 <div className="skill-needed-data">
                     <VscDebugBreakpointData className='App-popup-content-icon'/>
                     <p className='main-data'>{skillNeeded[0].skillSetName}</p>
