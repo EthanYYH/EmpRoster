@@ -71,7 +71,7 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
 
     const fetchAllocatedStaffDetail = async () => {// Get allocated staff detail
         let staff = await empGetUserProfile(taskDetail.user_id);
-        staff = staff.employeeProfile
+        staff = staff.employeeProfile || []
         // console.log(staff[0])
         setAllocatedStaff(staff[0])
     }

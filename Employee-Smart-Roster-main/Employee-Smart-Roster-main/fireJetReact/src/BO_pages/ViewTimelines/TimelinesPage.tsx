@@ -3,12 +3,12 @@ import { useAuth } from '../../AuthContext'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
 import TimelineController from '../../controller/TimelineController'
 import CreateOEditTask from '../../components/Timelines/CreateOEdit/CreateOEdit'
-// import MonthCalendar from '../../components/Timelines/MonthCalendar'
+// import MonthCalendar from '../../components/Timelines/NotUsed/MonthCalendar'
 import MonthCalendar from '../../components/Timelines/BigCalendar'
 import './TimelinesPage.css'
 import '../../../public/styles/common.css'
 
-const { getTimelines } = TimelineController
+const { getAllTasks } = TimelineController
 
 const BOTimelinesPage = () => {
     const { user } = useAuth();
@@ -18,12 +18,10 @@ const BOTimelinesPage = () => {
 
     const fetchTasksData = async () => {
         try {
-            let data = await getTimelines(user?.UID)
-            data = data.sortedTimeline;
-            // console.log(Array.isArray(data) ? data : [])
-
-            setAllTasks(Array.isArray(data) ? data : []);
-
+            let data = await getAllTasks(user?.UID)
+            data = data.sortedTimeline || [];
+            // console.log(data)
+            setAllTasks(data);
         } catch(error) {
             showAlert(
                 "fetchTasksData",
@@ -48,7 +46,6 @@ const BOTimelinesPage = () => {
     }
 
     function handleNewTaskAdd(newTask: any) {
-        const task = 
         setAllTasks((prevData: any[]) => {
             const updated = [...prevData, newTask];
             // console.log("Updated employees array:", updated);

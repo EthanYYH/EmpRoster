@@ -291,7 +291,7 @@ option:checked {
     border-radius: 50%;
     opacity: var(--side-menu-transparency);
   }
-  
+
   /* On mouse-over, add a grey background color */
   .App-radio-option:hover input ~ .checkmark {
     background-color: #ccc;
@@ -330,6 +330,78 @@ option:checked {
   }
 }
 
+/* Custom Checkbox */
+.checkbox-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: start;
+  align-items: start;
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  /* Hide the browser's default checkbox */
+  input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+  }
+  /* Create a custom checkbox */
+  .checkmark {
+      height: 15px;
+      width: 15px;
+      position: absolute;
+      top: 3px;
+      left: 0;
+      background-color: white;
+      border-style: outset;
+      border-color: var(--side-menu-hover-background);
+      border-width: 1.5px;
+      border-radius: 4.5px;
+      align-self: center;
+  }
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+  }
+  /* Style the checkmark/indicator */
+  .checkmark:after {
+      left: 4.5px;
+      top: 0.8px;
+      width: 5px;
+      height: 10px;
+      border: solid var(--light-color-text);
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+  }
+  /* Show the checkmark when checked */
+  input:checked ~ .checkmark:after {
+      display: block;
+  }
+  /* When the checkbox is checked, add a blue background */
+  input:checked ~ .checkmark {
+      background-color: var(--side-menu-hover-background);
+  }
+}
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+  background-color: var(--secondary-background);
+}
+
+/* Others */
 .icons {
   font-size: 30px;
   color: var(--side-menu-background);

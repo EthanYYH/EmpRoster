@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../../components/PromptAlert/AlertContext";
 import { formatKey, formatDateTime } from "../../../controller/Variables";
+import TimelineForm from "./TimelineForm";
 import PrimaryButton from "../../../components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../../components/SecondaryButton/SecondaryButton";
 import BOEmployeeController from "../../../controller/BOEmployeeController";
@@ -15,40 +16,47 @@ interface CreateOEditTaskProps {
     isCreate: boolean;
     bo_UID: any;
     defaultTaskValues: any;
+    defaultTimelineValues?: any;
     allRoles: any;
     allSkillsets: any;
     onTaskAdd?: (newTask: any) => void;
     onTaskUpdate?: (updateTask: any) => void;
 }
 
-const INPUT_TYPE = ['Task', 'Timeline']
 const { getRoleIdForEmp, getSkillIdForEmp } = BOEmployeeController;
-const { createTask } = TimelineController;
+const { createTask, handleTaskAutoAllocation } = TimelineController;
 
 const CreateEditTask = ({ 
-    isCreate, bo_UID, defaultTaskValues,
+    isCreate, bo_UID, defaultTaskValues, defaultTimelineValues,
     allRoles, allSkillsets, onTaskAdd, onTaskUpdate
 } : CreateOEditTaskProps) => {
     const navigate = useNavigate();
     const { showAlert } = useAlert();
     const [ showConfirmation, setShowConfirmation ] = useState(false);
+    const [ isHavingTimeline, setIsHavingTimeline ] = useState(false);
     const [ taskValues, setTaskValues ] = useState({
         title: '',
         taskDescription: '',
         roleID: '',
         skillSetID: '',
         startDate: '',
-        endDate: ''
+        endDate: '',
+        noOfEmp: '',
     });
+    const [ timelineValues, setTimelineValues ] = useState({
+        timelineID: '',
+        title: '',
+        timeLineDescription: '',
+    })
     useEffect(() => {
         setTaskValues(defaultTaskValues)
-    }, [defaultTaskValues])
+        setTimelineValues(defaultTimelineValues)
+    }, [defaultTaskValues, defaultTimelineValues])
 
     const handleInputChange = (event: React.ChangeEvent<
         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >) => {
         const { name, value } = event.target;
-        
         setTaskValues((prevData) => ({
             ...prevData,
             [name]: value,
@@ -63,7 +71,8 @@ const CreateEditTask = ({
             'roleID',
             'skillSetID',
             'startDate',
-            'endDate'
+            'endDate',
+            'noOfEmp'
         ];
         return requiredFields.some(field => !taskValues[field]);
     };
@@ -81,10 +90,13 @@ const CreateEditTask = ({
         taskValues.skillSetID = skillSetID[0].skillSetID
 
         try {
-            const response = await createTask (bo_UID, taskValues)
-            console.log(response)
+            let response = await createTask (bo_UID, taskValues, timelineValues.timelineID)
+            response = JSON.parse(response.body)
+            // console.log(response)
 
-            if(response.message === "Task successfully created"){
+            if(response.message === "Auto-allocation process completed."){
+                const allocationRes = await handleTaskAutoAllocation(bo_UID);
+                console.log(allocationRes)
                 showAlert(
                     "Task Created Successfully",
                     `${taskValues.title}`,
@@ -95,9 +107,7 @@ const CreateEditTask = ({
                 if(onTaskAdd)
                     onTaskAdd(taskValues)
 
-                else{
-                    toggleConfirmation()
-                }
+                toggleConfirmation()
             }
         } catch (error) {
             showAlert(
@@ -109,6 +119,10 @@ const CreateEditTask = ({
         }
     }
 
+    function handleTimelineValueChange (newTimelineValue: any) {
+        setTimelineValues(newTimelineValue)
+    }
+
     if(showConfirmation) return (
         <div className="App-popup" onClick={toggleConfirmation}>
             <div className="App-popup-prompt-content confirm-create-edit-emp-completion" onClick={(e) => e.stopPropagation()}>
@@ -118,8 +132,15 @@ const CreateEditTask = ({
                     ):("Confirm The Updated Task Information")}  
                 </h3>
                 <div className="all-create-employee-data">
+                    {isHavingTimeline && (
+                        <div className="create-employee-confirmation-detail odd-row">
+                            <p className="title">Timeline Title</p>
+                            <p className="main-data">{timelineValues.title}</p>
+                        </div>
+                    )}
                     {Object.entries(taskValues).map(([key, value], index) => (
-                        <div className={`create-employee-confirmation-detail 
+                        <div key={`task-value-${key}-${index}`}
+                            className={`create-employee-confirmation-detail 
                                         ${index % 2 === 1 ? 'odd-row' : ''}`}>
                             {key === 'roleID' ? ( // If current key is roleID
                                 <p className="title">Role</p>
@@ -175,7 +196,23 @@ const CreateEditTask = ({
             </div>
             <div className="create-n-edit-task-form-container">
                 <div className="create-n-edit-task-form-content">
-                    {/* <h3>Timeline Information</h3> */}
+                    <div className="create-or-view-timeline-info">
+                        <label className="checkbox-container">
+                            Include in project timeline
+                            <input 
+                                type="checkbox" 
+                                checked={isHavingTimeline} 
+                                onChange={(e) => setIsHavingTimeline(e.target.checked)}/>
+                            <span className="checkmark"></span>
+                        </label>
+                        {isHavingTimeline && (
+                            <TimelineForm 
+                                defaultValues={timelineValues}
+                                bo_UID={bo_UID}
+                                newTimelineValue={handleTimelineValueChange}
+                            />
+                        )}
+                    </div>
                     {/* Input Task Title */}
                     <div className='forms-input'>
                         <strong>
@@ -267,6 +304,21 @@ const CreateEditTask = ({
                         />
                     </div>
                     <div className="create-task-button">
+                        {/* Number of Employee */}
+                        <div className='forms-input'>
+                            <strong>
+                                No.of Employee <span style={{ color: 'red' }}>*</span>
+                            </strong>
+                            <input type='number' 
+                                name='noOfEmp'
+                                placeholder='No of employee needed' 
+                                value={taskValues.noOfEmp}
+                                onChange={(e) => handleInputChange(e)}
+                                min={1}
+                                className="no-of-emp-input"
+                                required
+                            />
+                        </div>
                         <PrimaryButton 
                             text="Create Task"
                             onClick={() => toggleConfirmation()}

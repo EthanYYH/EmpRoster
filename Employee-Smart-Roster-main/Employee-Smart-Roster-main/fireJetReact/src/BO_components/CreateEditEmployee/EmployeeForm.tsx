@@ -312,7 +312,8 @@ const CreateEditAccount = ({
 
                 <div className="all-create-employee-data">
                     {Object.entries(employeeData).map(([key, value], index) => (
-                        <div className={`create-employee-confirmation-detail 
+                        <div key={`task-value-${key}-${index}`}
+                            className={`create-employee-confirmation-detail 
                                         ${index % 2 === 1 ? 'odd-row' : ''}`}>
                             {key === 'roleID' ? ( // If current key is roleID
                                 <p className="title">Role</p>

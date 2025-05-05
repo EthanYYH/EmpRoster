@@ -73,19 +73,16 @@ const PPnToSAgreement = ({ isCheck }: PPnToSAgreementProps) => {
                     onScroll={() => setIsPrivacyPolicyScrolled(handleScroll(privacyPolicyRef))}
                 >
                     <PrivacyPolicy />
-                    <div className="is-agree-legal-agreement">
+                    <label className="checkbox-container">
+                        I agree to the Privacy Policy
                         <input 
                             type="checkbox" 
-                            id="privacyCheckbox" 
-                            name="privacyAgreement" 
                             disabled={!isPrivacyPolicyScrolled}
-                            checked={isPrivacyPolicyAgreed}
+                            checked={isPrivacyPolicyAgreed} 
                             onChange={(e) => setIsPrivacyPolicyAgreed(e.target.checked)}
                         />
-                        <label htmlFor="privacyCheckbox" className="cursor-pointer">
-                            I agree to the Privacy Policy
-                        </label>
-                    </div>
+                        <span className="checkmark"></span>
+                    </label>
                 </div>
             </div>
     
@@ -97,18 +94,16 @@ const PPnToSAgreement = ({ isCheck }: PPnToSAgreementProps) => {
                     onScroll={() => setIsTermsScrolled(handleScroll(termsRef))}
                 >
                     <TermsOfService />
-                    <div className="is-agree-legal-agreement">
+                    <label className="checkbox-container">
+                        I agree to the Terms of Service
                         <input 
                             type="checkbox" 
-                            id="termsCheckbox" 
                             disabled={!isTermsScrolled}
-                            checked={isToSAgreed}
+                            checked={isToSAgreed} 
                             onChange={(e) => setIsToSAgreed(e.target.checked)}
                         />
-                        <label htmlFor="privacyCheckbox" className="cursor-pointer">
-                            I agree to the Terms of Service
-                        </label>
-                    </div>
+                        <span className="checkmark"></span>
+                    </label>
                 </div>
             </div>
     

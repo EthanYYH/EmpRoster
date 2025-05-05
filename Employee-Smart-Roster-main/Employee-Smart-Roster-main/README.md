@@ -19,6 +19,7 @@ FYP 2025-S1-12
     npm install node-fetch@2
     npm install date-fns
     npm install --save react-big-calendar
+    npm i flowbite-react
     npm i react-tabs
     ```
 3. Replace package.json and package-lock.json

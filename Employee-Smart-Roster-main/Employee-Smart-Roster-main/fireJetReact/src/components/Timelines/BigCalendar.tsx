@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import moment from 'moment';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import EventDetail from './TaskDetail/EventDetail';
-import { TASK_STATUS } from '../../controller/Variables.js';
+import { TASK_STATUS, formatDateTime } from '../../controller/Variables.js';
 import { FaChevronCircleLeft, FaChevronCircleRight } from '../../../public/Icons.js'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -31,8 +31,8 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({
     tasks.map(task => ({
       ...task,
       title: task.title,
-      start: new Date(task.startDate),
-      end: new Date(task.endDate),
+      start: new Date(task.startDate.toLocaleString('en-US', { timeZone: 'Asia/Singapore' })),
+      end: new Date(task.endDate.toLocaleString('en-US', { timeZone: 'Asia/Singapore' })),
       allDay: true // Set to true if these are all-day events
     }))
   ), [tasks]);
@@ -51,22 +51,23 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({
   const CustomToolbar = (toolbar: any) => {
     return (
       <div className="rbc-toolbar">
-        <span className="rbc-btn-group">
-          <button onClick={() => toolbar.onNavigate('TODAY')}>Today</button>
+        <span className="today-month-select-btn">
+          <span className="rbc-btn-group">
+            <button onClick={() => toolbar.onNavigate('TODAY')}>Today</button>
+          </span>
+          
+          <span className="rbc-btn-group">
+            <button className='icon-button'
+              onClick={() => toolbar.onNavigate('PREV')}>
+              <FaChevronCircleLeft />
+            </button>
+            <span className="rbc-toolbar-label"><strong>{toolbar.label}</strong></span>
+            <button  className='icon-button'
+              onClick={() => toolbar.onNavigate('NEXT')}>
+              <FaChevronCircleRight />
+            </button>
+          </span>
         </span>
-        
-        <span className="rbc-btn-group">
-          <button className='icon-button'
-            onClick={() => toolbar.onNavigate('PREV')}>
-            <FaChevronCircleLeft />
-          </button>
-          <span className="rbc-toolbar-label"><strong>{toolbar.label}</strong></span>
-          <button  className='icon-button'
-            onClick={() => toolbar.onNavigate('NEXT')}>
-            <FaChevronCircleRight />
-          </button>
-        </span>
-        
         <span className="rbc-btn-group">
           <button 
             className={toolbar.view === Views.MONTH ? 'rbc-active' : ''}
@@ -85,12 +86,6 @@ const MonthCalendar: React.FC<ContinuousCalendarProps> = ({
             onClick={() => toolbar.onView(Views.DAY)}
           >
             Day
-          </button>
-          <button 
-            className={toolbar.view === Views.AGENDA ? 'rbc-active' : ''}
-            onClick={() => toolbar.onView(Views.AGENDA)}
-          >
-            Agenda
           </button>
         </span>
       </div>
