@@ -168,6 +168,32 @@ h4 {
   color: #61dafb;
 }
 
+/* Menu Tabs and Tab setup */
+.react-tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  gap: 0px;
+  padding: 0px;
+  border-bottom-style: outset;
+  border-bottom-color: var(--primary-background);
+  border-bottom-width: 2px;
+}
+
+.react-tabs__tab {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  margin-bottom: 2px;
+}
+
+.react-tabs__tab:hover {
+  background-color: var(--hover-background);
+}
+
+.react-tabs__tab--selected {
+  background-color: var(--hover-background) !important;
+}
+
 /* Set input text field css */
 input[type=text], 
 input[type=email],
@@ -176,7 +202,8 @@ input[type=number],
 input[type=time],
 input[type=tel],
 input[type=date],
-input[type=datetime-local] {
+input[type=datetime-local],
+select {
   background-color: white;
   border-style: outset;
   border-width: 2px;
@@ -186,6 +213,19 @@ input[type=datetime-local] {
   height: 36.5px;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+input[type=text]:disabled, 
+input[type=email]:disabled,
+input[type=password]:disabled,
+input[type=number]:disabled,
+input[type=time]:disabled,
+input[type=tel]:disabled,
+input[type=date]:disabled,
+input[type=datetime-local]:disabled,
+textarea:disabled,
+select:disabled {
+  border-color: var(--light-color-text);
 }
 
 input[type=file] {
@@ -202,18 +242,9 @@ textarea {
   padding: 5px;
 }
 
-/* Dropdown */
-select {
-  background-color: white;
-  height: 36.5px;
-  border-width: 2px;
-  border-color: var(--purple-color-text);
-  border-radius: 8px;
-  width: 100%;
-  padding-left: 5px;
-  padding-right: 5px;
-}
 
+
+/* Dropdown option*/
 option {
   color: var(--side-menu-background);
 }
@@ -265,7 +296,7 @@ option:checked {
     border-radius: 50%;
     opacity: var(--side-menu-transparency);
   }
-  
+
   /* On mouse-over, add a grey background color */
   .App-radio-option:hover input ~ .checkmark {
     background-color: #ccc;
@@ -304,6 +335,171 @@ option:checked {
   }
 }
 
+/* Custom Checkbox */
+.checkbox-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: start;
+  align-items: start;
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  /* Hide the browser's default checkbox */
+  input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+  }
+  input:disabled {
+    color: var(--light-color-text);
+  }
+  /* Create a custom checkbox */
+  .checkmark {
+      height: 15px;
+      width: 15px;
+      position: absolute;
+      top: 3px;
+      left: 0;
+      background-color: white;
+      border-style: outset;
+      border-color: var(--side-menu-hover-background);
+      border-width: 1.5px;
+      border-radius: 4.5px;
+      align-self: center;
+  }
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+  }
+  /* Style the checkmark/indicator */
+  .checkmark:after {
+      left: 4.5px;
+      top: 0.8px;
+      width: 5px;
+      height: 10px;
+      border: solid var(--light-color-text);
+      border-width: 0 3px 3px 0;
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotate(45deg);
+  }
+  /* Show the checkmark when checked */
+  input:checked ~ .checkmark:after {
+      display: block;
+  }
+  /* When the checkbox is checked, add a blue background */
+  input:checked ~ .checkmark {
+      background-color: var(--side-menu-hover-background);
+  }
+}
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+  background-color: var(--secondary-background);
+}
+
+/* Multi-select dropdown styles */
+.multiselect-dropdown-container {
+  border: 2px solid var(--table-odd-row);
+  border-radius: 8px;
+  padding: 10px;
+  background: white;
+  height: fit-content;
+}
+
+.dropdown-header {
+  display: flex;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.dropdown-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.selected-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+  min-height: 32px;
+  justify-content: start;
+  align-items: center;
+
+  .selected-tag {
+    background-color: var(--light-color-text);
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .remove-tag {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .remove-tag:hover {
+    color: var(--error);
+  }
+
+  .no-selected {
+    color: var(--side-menu-background);
+    font-weight: 525;
+  }
+}
+
+.dropdown-options {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1.5px solid var(--light-color-text);
+  border-radius: 4px;
+}
+
+.option {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.option:hover,
+.option.selected {
+  background-color: var(--light-color-text);
+}
+
+.option.matched {
+  border-left: 3px solid var(--success);
+}
+
+.matched-badge {
+  background-color: var(--success);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+/* Others */
 .icons {
   font-size: 30px;
   color: var(--side-menu-background);

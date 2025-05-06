@@ -12,23 +12,33 @@
     }
 }
 
-.task-allocation-detail-title {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    
-    .task-allocated-status {
-        color: var(--info);
-    }
+.allocated-staff-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  gap: 15px;
+}
 
-    .task-allocated-status.in-progress {
-        color: var(--warning);
-    }
+.allocated-staff-container-title {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: start;
+  align-items: center;
+  width: auto;
 
-    .task-allocated-status.completed {
-        color: var(--success);
-    }
+  .task-allocated-status {
+    color: var(--info);
+  }
+  
+  .task-allocated-status.in-progress {
+    color: var(--warning);
+  }
+  
+  .task-allocated-status.completed {
+    color: var(--success);
+  }  
 }
 
 .allocated-date-detail {
@@ -81,6 +91,14 @@
     align-items: baseline;
 }
 
+.role-skill-title {
+  font-weight: bold;
+  border-bottom: 2px;
+  border-bottom-style: dotted;
+  border-bottom-color: var(--side-menu-background);
+  padding-bottom: 5px;
+}
+
 /* See Allocated Staff Detail Content (invisible by default) */
 .allocated-staff-info {
     position: relative;
@@ -95,6 +113,7 @@
     align-items: center;
     gap: 5px;
     cursor: pointer;
+
 }
 
 .allocated-staff-detail-content {
@@ -151,7 +170,22 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
-    gap: 3px;
+    gap: 10px;
+
+    .allocated-staff-title {
+      padding-bottom: 2px;
+      border-bottom: 2px;
+      border-bottom-style: dotted;
+      border-bottom-color: var(--side-menu-background);
+    }
+
+    .allocated-staff-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      justify-content: start;
+      align-items: center;
+    }
 
     .allocated-staff-contact-no, .allocated-staff-email {
         padding-left: 5px;
@@ -161,6 +195,23 @@
         align-items: center;
         gap: 5px;
     }
+
+    .allocation-date-detail-container {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      justify-content: start;
+      padding: 5px;
+      padding-left: 8px;
+      padding-right: 8px;
+      border-radius: 5px;
+      background-color: var(--side-menu-background);
+      color: var(--light-color-text);
+
+      .title {
+        font-weight: bold;
+      }
+    }
   }
 
 /* See More Task Detail Content (invisible by default) */
@@ -168,7 +219,7 @@
     position: relative;
     display: inline-block;
     width: auto;
-  }
+}
 
 .see-more-task-detail-content {
     display: none;
@@ -243,6 +294,11 @@
   }
 
 @media only screen and (max-width: 768px) {
+    .allocated-staff-container {
+      flex-direction: column;
+      gap: 0px;
+    }
+
     /* See allocated staff detail content setup */
     .allocated-staff-detail-content {
         position: fixed;

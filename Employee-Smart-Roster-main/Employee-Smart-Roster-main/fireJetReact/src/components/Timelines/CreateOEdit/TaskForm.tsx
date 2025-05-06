@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAlert } from "../../../components/PromptAlert/AlertContext";
-import { formatKey, formatDateTime } from "../../../controller/Variables";
+import { formatKey, formatDateTime, generateSGDateTimeForDateTimeInput } from "../../../controller/Variables";
+import TimelineForm from "./TimelineForm";
 import PrimaryButton from "../../../components/PrimaryButton/PrimaryButton";
 import SecondaryButton from "../../../components/SecondaryButton/SecondaryButton";
 import BOEmployeeController from "../../../controller/BOEmployeeController";
 import TimelineController from "../../../controller/TimelineController";
+import EmployeeMgntController from "../../../controller/BOEmpMgntProfile/EmployeeMgntController";
 
 import { IoArrowBack } from '../../../../public/Icons.js'
 import "./CreateNEditTask.css"
@@ -15,40 +17,56 @@ interface CreateOEditTaskProps {
     isCreate: boolean;
     bo_UID: any;
     defaultTaskValues: any;
+    defaultTimelineValues?: any;
     allRoles: any;
     allSkillsets: any;
-    onTaskAdd?: (newTask: any) => void;
     onTaskUpdate?: (updateTask: any) => void;
 }
 
-const INPUT_TYPE = ['Task', 'Timeline']
+interface TaskAssignationInfoProps {
+    bo_UID: number;
+    assignedTask: any;
+    roleID: number;
+    skillSetID: number;
+}
+
 const { getRoleIdForEmp, getSkillIdForEmp } = BOEmployeeController;
-const { createTask } = TimelineController;
+const { createTask, handleTaskAutoAllocation } = TimelineController;
+const { getEmployeeList, handleFilterRole, handleFilterSkill } = EmployeeMgntController
 
 const CreateEditTask = ({ 
-    isCreate, bo_UID, defaultTaskValues,
-    allRoles, allSkillsets, onTaskAdd, onTaskUpdate
+    isCreate, bo_UID, defaultTaskValues, defaultTimelineValues,
+    allRoles, allSkillsets, onTaskUpdate
 } : CreateOEditTaskProps) => {
     const navigate = useNavigate();
     const { showAlert } = useAlert();
     const [ showConfirmation, setShowConfirmation ] = useState(false);
+    const [ isHavingTimeline, setIsHavingTimeline ] = useState(false);
+    const [ isTaskAssigned, setIsTaskAssigned ] = useState(false);
+    const [ assignedTask, setAssignedTask ] = useState<any>([])
     const [ taskValues, setTaskValues ] = useState({
         title: '',
         taskDescription: '',
         roleID: '',
         skillSetID: '',
         startDate: '',
-        endDate: ''
+        endDate: '',
+        noOfEmp: '',
     });
+    const [ timelineValues, setTimelineValues ] = useState({
+        timeLineID: '',
+        title: '',
+        timeLineDescription: '',
+    })
     useEffect(() => {
         setTaskValues(defaultTaskValues)
-    }, [defaultTaskValues])
+        setTimelineValues(defaultTimelineValues)
+    }, [defaultTaskValues, defaultTimelineValues])
 
     const handleInputChange = (event: React.ChangeEvent<
         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >) => {
         const { name, value } = event.target;
-        
         setTaskValues((prevData) => ({
             ...prevData,
             [name]: value,
@@ -63,7 +81,8 @@ const CreateEditTask = ({
             'roleID',
             'skillSetID',
             'startDate',
-            'endDate'
+            'endDate',
+            'noOfEmp'
         ];
         return requiredFields.some(field => !taskValues[field]);
     };
@@ -80,23 +99,47 @@ const CreateEditTask = ({
         const skillSetID = getSkillIdForEmp(allSkillsets, taskValues.skillSetID)
         taskValues.skillSetID = skillSetID[0].skillSetID
 
+        let timelineID = timelineValues.timeLineID
+        if(!isHavingTimeline)
+            timelineID = ''
+
         try {
-            const response = await createTask (bo_UID, taskValues)
-            console.log(response)
+            let response = await createTask (bo_UID, taskValues, timelineID)
+            // response = JSON.parse(response.body)
+            // console.log("Create Task: ", response)
 
             if(response.message === "Task successfully created"){
                 showAlert(
                     "Task Created Successfully",
                     `${taskValues.title}`,
-                    ``,
+                    `Auto Task Allocation is In Progress`,
                     { type: 'success' }
                 );
-
-                if(onTaskAdd)
-                    onTaskAdd(taskValues)
-
-                else{
-                    toggleConfirmation()
+                
+                toggleConfirmation()
+                // Start task allocation
+                let allocationRes = await handleTaskAutoAllocation(bo_UID);
+                allocationRes = JSON.parse(allocationRes.body)
+                console.log("Tasks Allocation: ", allocationRes)
+                if(allocationRes.message === "Auto-allocation process completed."){
+                    let allAllocatedTasks = allocationRes.assignedTasks || [];
+                    if(allAllocatedTasks) {
+                        allAllocatedTasks = allAllocatedTasks.filter((task: any) => {
+                            return task.taskID === response.TaskIDCreated
+                        })
+                        console.log("Filtered task allocation: ", allAllocatedTasks)
+                        setAssignedTask(allAllocatedTasks)
+                        setIsTaskAssigned(true) // Set assignation completed
+                    }
+                    else {
+                        setIsTaskAssigned(true) // Set assignation completed
+                        showAlert(
+                            "Task Allocation Failed",
+                            `No Employee Available Matched to The Need`,
+                            ``,
+                            { type: 'info' }
+                        )
+                    } 
                 }
             }
         } catch (error) {
@@ -109,6 +152,10 @@ const CreateEditTask = ({
         }
     }
 
+    function handleTimelineValueChange (newTimelineValue: any) {
+        setTimelineValues(newTimelineValue)
+    }
+
     if(showConfirmation) return (
         <div className="App-popup" onClick={toggleConfirmation}>
             <div className="App-popup-prompt-content confirm-create-edit-emp-completion" onClick={(e) => e.stopPropagation()}>
@@ -118,8 +165,15 @@ const CreateEditTask = ({
                     ):("Confirm The Updated Task Information")}  
                 </h3>
                 <div className="all-create-employee-data">
+                    {isHavingTimeline && (
+                        <div className="create-employee-confirmation-detail odd-row">
+                            <p className="title">Timeline Title</p>
+                            <p className="main-data">{timelineValues.title}</p>
+                        </div>
+                    )}
                     {Object.entries(taskValues).map(([key, value], index) => (
-                        <div className={`create-employee-confirmation-detail 
+                        <div key={`task-value-${key}-${index}`}
+                            className={`create-employee-confirmation-detail 
                                         ${index % 2 === 1 ? 'odd-row' : ''}`}>
                             {key === 'roleID' ? ( // If current key is roleID
                                 <p className="title">Role</p>
@@ -175,7 +229,24 @@ const CreateEditTask = ({
             </div>
             <div className="create-n-edit-task-form-container">
                 <div className="create-n-edit-task-form-content">
-                    {/* <h3>Timeline Information</h3> */}
+                    <div className="create-or-view-timeline-info">
+                        <label className="checkbox-container">
+                            Include in project timeline
+                            <input 
+                                type="checkbox" 
+                                checked={isHavingTimeline} 
+                                disabled={isTaskAssigned}
+                                onChange={(e) => setIsHavingTimeline(e.target.checked)}/>
+                            <span className="checkmark"></span>
+                        </label>
+                        {isHavingTimeline && (
+                            <TimelineForm 
+                                defaultValues={timelineValues}
+                                bo_UID={bo_UID}
+                                newTimelineValue={handleTimelineValueChange}
+                            />
+                        )}
+                    </div>
                     {/* Input Task Title */}
                     <div className='forms-input'>
                         <strong>
@@ -186,6 +257,7 @@ const CreateEditTask = ({
                             placeholder='Task Title' 
                             value={taskValues.title}
                             onChange={(e) => handleInputChange(e)}
+                            disabled={isTaskAssigned}
                             required
                         />
                     </div>
@@ -199,6 +271,7 @@ const CreateEditTask = ({
                             placeholder='Task Description' 
                             value={taskValues.taskDescription}
                             onChange={(e) => handleInputChange(e)}
+                            disabled={isTaskAssigned}
                             required
                         />
                     </div>
@@ -213,6 +286,7 @@ const CreateEditTask = ({
                                 name="roleID"
                                 value={taskValues.roleID}
                                 onChange={(e) => handleInputChange(e)}
+                                disabled={isTaskAssigned}
                             >
                                 {allRoles.map((role:any) => (
                                 <option key={role.roleID} value={role.roleName}>
@@ -232,6 +306,7 @@ const CreateEditTask = ({
                             name="skillSetID"
                             value={taskValues.skillSetID}
                             onChange={(e) => handleInputChange(e)}
+                            disabled={isTaskAssigned}
                         >
                             {allSkillsets.map((skill:any) => (
                             <option key={skill.skillSetID} value={skill.skillSetName}>
@@ -250,6 +325,8 @@ const CreateEditTask = ({
                             placeholder='Task Description' 
                             value={taskValues.startDate}
                             onChange={(e) => handleInputChange(e)}
+                            min={generateSGDateTimeForDateTimeInput(new Date)}
+                            disabled={isTaskAssigned}
                             required
                         />
                     </div>
@@ -263,17 +340,214 @@ const CreateEditTask = ({
                             placeholder='Task Description' 
                             value={taskValues.endDate}
                             onChange={(e) => handleInputChange(e)}
+                            min={taskValues.startDate}
+                            disabled={isTaskAssigned}
                             required
                         />
                     </div>
                     <div className="create-task-button">
+                        {/* Number of Employee */}
+                        <div className='forms-input'>
+                            <strong>
+                                No.of Employee <span style={{ color: 'red' }}>*</span>
+                            </strong>
+                            <input type='number' 
+                                name='noOfEmp'
+                                placeholder='No of employee needed' 
+                                value={taskValues.noOfEmp}
+                                onChange={(e) => handleInputChange(e)}
+                                min={1}
+                                max={3}
+                                className="no-of-emp-input"
+                                disabled={isTaskAssigned}
+                                required
+                            />
+                        </div>
                         <PrimaryButton 
                             text="Create Task"
                             onClick={() => toggleConfirmation()}
-                            disabled={isTaskIncomplete()}
+                            disabled={isTaskIncomplete() || isTaskAssigned}
                         />
                     </div>
                 </div>
+                {isTaskAssigned && assignedTask && (
+                    <div className="task-assignation-detail-container">
+                        <TaskAssignationInfo 
+                            bo_UID={bo_UID} 
+                            assignedTask={assignedTask}
+                            roleID={Number(taskValues.roleID)}
+                            skillSetID={Number(taskValues.skillSetID)}
+                        />
+                    </div>
+                )}
+            </div>
+        </div>
+    )
+}
+
+const TaskAssignationInfo = ({
+    bo_UID, assignedTask, roleID, skillSetID
+} : TaskAssignationInfoProps) => {
+    // console.log(assignedTask)
+    const navigate = useNavigate()
+    const { showAlert } = useAlert()
+    const [ allEmployees, setAllEmployees ] = useState<any>([])
+    const [ selectedEmp, setSelectedEmp ] = useState<any>([])
+    
+    const fetchAllEmployee = async() => {
+        try {
+            let employees = await getEmployeeList(bo_UID)
+            employees = employees.employeeList
+            // console.log(employees)
+            // Find employee matched role and skillset needed
+            const employeeMatchedRole = handleFilterRole(employees, roleID) || [];
+            const employeeMatchedSkill = handleFilterSkill(employeeMatchedRole, skillSetID) || [];
+            
+            let allEmployees = employeeMatchedSkill
+            // If filtered employee length > 1
+            if(employeeMatchedSkill.length > 0 && assignedTask.length > 0){
+                const initialSelection = assignedTask.map((task:any) => ({
+                    ...employees.find((emp:any) => emp.user_id === task.assignedTo)
+                }))
+                // console.log(initialSelection)
+                setSelectedEmp(initialSelection)
+                // Merge and remove duplicates
+                allEmployees = [
+                    ...initialSelection,
+                    ...employeeMatchedSkill
+                ].filter((emp, index, self) => 
+                    index === self.findIndex(e => e.user_id === emp.user_id)
+                )
+            }
+            // console.log(allEmployees)
+            setAllEmployees(allEmployees)
+        } catch(error) {
+            showAlert(
+                "fetchAllEmployee",
+                `Failed to Fetch Employee Detail`,
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            );
+        }
+    }
+    useEffect(() => { fetchAllEmployee() }, [bo_UID, assignedTask])
+
+    const toggleEmployeeSelection = (employee: any) => {
+        setSelectedEmp((prev:any) => {
+            const isSelected = prev.some((emp:any) => emp.user_id === employee.user_id);
+            if (isSelected) {
+                return prev.filter((emp:any) => emp.user_id !== employee.user_id);
+            } else {
+                return [...prev, employee];
+            }
+        });
+    };
+
+    const selectAllMatched = () => {
+        const matchedEmployees = allEmployees.filter((emp:any) => 
+            emp.roleID === roleID && emp.skillSetID === skillSetID
+        );
+        setSelectedEmp(matchedEmployees);
+    };
+
+    const clearAllSelections = () => {
+        setSelectedEmp([]);
+    };
+
+    const triggerSubmitConfirmAllocation = async() => {
+        try {
+            // Update task API here
+            navigate(-1)
+        } catch(error) {
+            showAlert(
+                "triggerSubmitConfirmAllocation",
+                `Failed to Update Allocation Confirmation`,
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            );
+        }
+    }
+
+    return (
+        <div className="task-assignation-detail-content">
+            {/* Employee Dropdown */}
+            <div className='forms-input'>
+                <strong>
+                    Allocated To
+                </strong>
+                {/* Multi-select dropdown container */}
+                <div className="multiselect-dropdown-container">
+                    {/* Dropdown header with search and buttons */}
+                    <div className="dropdown-header">
+                        <input 
+                            type="text" 
+                            placeholder="Search employees..."
+                        />
+                        <div className="dropdown-buttons">
+                            <PrimaryButton
+                                text="Select All Matched"
+                                onClick={() => selectAllMatched()}
+                            />
+                            <SecondaryButton 
+                                text="Clear All"
+                                onClick={() => clearAllSelections()}
+                            />
+                        </div>
+                    </div>
+                    
+                    {/* Selected items display */}
+                    <div className="selected-items">
+                        {selectedEmp.map((employee:any) => (
+                            <span key={employee.user_id} className="selected-tag">
+                                {employee.fullName}
+                                <span 
+                                    className="remove-tag"
+                                    onClick={() => toggleEmployeeSelection(employee)}
+                                >
+                                    ×
+                                </span>
+                            </span>
+                        ))}
+                        <span className="no-selected">{selectedEmp.length}</span>
+                    </div>
+                    
+                    {/* Dropdown options */}
+                    <div className="dropdown-options">
+                        {allEmployees.map((employee:any) => {
+                            const isSelected = selectedEmp.some(
+                                (emp:any) => emp.user_id === employee.user_id
+                            );
+                            const isMatched = employee.roleID === roleID && 
+                                            employee.skillSetID === skillSetID;
+                            
+                            return (
+                                <div 
+                                    key={employee.user_id}
+                                    className={`option ${isSelected ? 'selected' : ''} ${isMatched ? 'matched' : ''}`}
+                                    onClick={() => toggleEmployeeSelection(employee)}
+                                >
+                                    <input 
+                                        type="checkbox" 
+                                        checked={isSelected}
+                                        readOnly
+                                    />
+                                    <span className="employee-name">
+                                        {employee.fullName}
+                                        {isMatched && <span className="matched-badge">Matched</span>}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+            <div className="btn-grp">
+                <span>The auto allocation is auto saved even you exit this page</span>
+                <PrimaryButton 
+                    text="Confirm Allocation"
+                    disabled={selectedEmp.length === 0}
+                    onClick={() => triggerSubmitConfirmAllocation()}
+                />
             </div>
         </div>
     )
