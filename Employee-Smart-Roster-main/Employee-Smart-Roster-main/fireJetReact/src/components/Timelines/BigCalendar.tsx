@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import moment from 'moment';
+import moment from 'moment'
+import 'moment-timezone'
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import EventDetail from './TaskDetail/EventDetail';
 import { TASK_STATUS } from '../../controller/Variables.js';
@@ -9,7 +10,12 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './TimelineCalendar.css';
 import '../../../public/styles/common.css';
 
-const mLocalizer = momentLocalizer(moment);
+// Set the Singapore time zone you want to use
+moment.tz.setDefault('Asia/Singapore')
+// Setup the localizer by providing the moment Object
+// to the correct localizer.
+const localizer = momentLocalizer(moment) // or globalizeLocalizer
+
 interface ContinuousCalendarProps {
   tasks: any[];
   onUpdate?: (updatedData: any) => void;
@@ -24,17 +30,23 @@ const MonthCalendar = ({
   const [ selectedTask, setSelectedTask ] = useState<any[]>([]);
   const [ showTaskDetail, setShowTaskDetail ] = useState(false);
   
-
   const events = useMemo(() => (
-    tasks.map(task => ({
-      ...task,
-      title: task.title,
-      start: task.startDate,
-      end: task.endDate,
-      allDay: true // Set to true if these are all-day events
-    }))
+    tasks.map(task => {
+      // Convert Singapore-time-marked-as-UTC to actual local time
+      const start = new Date(task.startDate.split(".")[0]);
+      const end = new Date(task.endDate.split(".")[0]);
+      
+      return {
+        ...task,
+        title: task.title,
+        startDate: start,
+        endDate: end,
+        allDay: false,
+      };
+    })
   ), [tasks]);
-  // console.log(tasks)
+  console.log(events)
+
   function triggerSelectedTask(task: any[]) {
       setSelectedTask(task);
       setShowTaskDetail(true);
@@ -95,7 +107,15 @@ const MonthCalendar = ({
     return (
       <div className="custom-event">
         <strong>{event.title}</strong>
-        {event.fullName && <div className="event-resource">{event.fullName}</div>}
+        {event.fullName.length > 1 ? (
+          <>
+          {event.fullName.map((name:any) => (
+            <div className="event-resource">{name || 'Unassigned'}</div>
+          ))}
+          </>
+        ) : (
+          <div className="event-resource">{event.fullName || 'Unassigned'}</div>
+        )}
       </div>
     );
   };
@@ -118,25 +138,26 @@ const MonthCalendar = ({
   return (
     <div className="timeline-management-container">
       <div className="calendar-container">
-        <Calendar
-          localizer={mLocalizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          defaultDate={defaultDate}
-          views={views}
-          defaultView={Views.MONTH}
-          components={CustomComponents}
-          onSelectEvent={triggerSelectedTask}
-          eventPropGetter={(event: any) => ({
-              className: `event-style ${
-                          event.status === TASK_STATUS[1] ? 'in-progress' :
-                          event.status === TASK_STATUS[2] ? 'completed' :
-                          ''
-                        }`
-          })}
-          doShowMoreDrillDown={false}
-        />
+      <Calendar
+        localizer={localizer}
+        events={events}
+        startAccessor="startDate"
+        endAccessor="endDate"
+        defaultDate={defaultDate}
+        views={views}
+        defaultView={Views.MONTH}
+        components={CustomComponents}
+        onSelectEvent={triggerSelectedTask}
+        eventPropGetter={(event: any) => ({
+          className: `event-style ${
+            event.status === TASK_STATUS[1] ? 'in-progress' :
+            event.status === TASK_STATUS[2] ? 'completed' :
+            ''
+          }`
+        })}
+        // doShowMoreDrillDown={false}
+        // timezone="Asia/Singapore"
+      />
       </div>
 
       {showTaskDetail && selectedTask && (

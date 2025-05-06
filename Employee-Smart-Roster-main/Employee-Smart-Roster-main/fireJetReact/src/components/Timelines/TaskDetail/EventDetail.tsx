@@ -8,8 +8,7 @@ import AllocatedStaffDetail from './AlloctedStaffDetail';
 import TimelineController from '../../../controller/TimelineController.js';
 import UserController from '../../../controller/User/UserController.js';
 import { IoClose, CgProfile, FaCircle, TbTarget, FaClipboardList,
-         TbTargetArrow, FaRegListAlt, VscDebugBreakpointData,
-         HiMiniViewfinderCircle, TiTime } from '../../../../public/Icons.js';
+         TbTargetArrow, HiMiniViewfinderCircle, TiTime } from '../../../../public/Icons.js';
 
 import './EventDetail.css'
 import '../../../../public/styles/common.css'
@@ -22,11 +21,11 @@ interface EventDetailProps {
 }
 
 const { boGetTaskDetail, deleteTaskDetail } = TimelineController;
-const { empGetUserProfile } = UserController;
 
 const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
     // console.log(task)
     const { showAlert } = useAlert()
+    const [ allTaskDetail, setAllTaskDetail ] = useState<any>([])
     const [ taskDetail, setTaskDetail ] = useState<any>([])
     const [ showDeleteTask, setShowDeleteTask ] = useState(false)
     const [ showSeeMoreDetail, setShowSeeMoreDetail ] = useState(false)
@@ -38,23 +37,21 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
     const fetchTaskDetail = async () => {
         try {
             let taskDetail = await boGetTaskDetail(task.taskID);
-            taskDetail = taskDetail.taskDetails
+            setAllTaskDetail(taskDetail.taskDetails)
+            console.log(taskDetail)
+            taskDetail = taskDetail.taskDetails[0] || []
             // console.log(taskDetail)
-
-            // Convert task allocated time to Singapore time
-            const allocatedTime = taskDetail[0].createdAt;
-            taskDetail[0].createdAt = formatDateTime(allocatedTime).split(' ')
             
             // Convert task start time to Singapore time
-            const startTime = taskDetail[0].startDate;
-            taskDetail[0].startDate = formatDisplayDateTime(startTime).split(' ')
+            const startTime = taskDetail.startDate;
+            taskDetail.startDate = formatDisplayDateTime(startTime).split(' ')
             
             // Convert task start time to Singapore time
-            const endTime = taskDetail[0].endDate;
-            taskDetail[0].endDate = formatDisplayDateTime(endTime).split(' ')
+            const endTime = taskDetail.endDate;
+            taskDetail.endDate = formatDisplayDateTime(endTime).split(' ')
 
-            // console.log(taskDetail[0])
-            setTaskDetail(taskDetail[0]);
+            // console.log(taskDetail)
+            setTaskDetail(taskDetail);
         } catch (error) {
             showAlert(
                 "fetchTaskDetail",
@@ -66,22 +63,13 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
     };
 
     useEffect(() => { fetchTaskDetail() }, [task])
-    // useEffect(() => { console.log(taskDetail) }, [task])
-
-    const fetchAllocatedStaffDetail = async () => {// Get allocated staff detail
-        let staff = await empGetUserProfile(taskDetail.user_id);
-        staff = staff.employeeProfile || []
-        // console.log(staff[0])
-        setAllocatedStaff(staff[0])
-    }
-    useEffect(() => {fetchAllocatedStaffDetail()}, [taskDetail])
 
     // Close allocated staff detail when clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-        if (triggerCloseAllocatedDetailOutsite.current && !triggerCloseAllocatedDetailOutsite.current.contains(event.target as Node)) {
-            setShowAllocatedDetail(false);
-        }
+            if (triggerCloseAllocatedDetailOutsite.current && !triggerCloseAllocatedDetailOutsite.current.contains(event.target as Node)) {
+                setShowAllocatedDetail(false);
+            }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
@@ -90,7 +78,16 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
         };
     }, []);
     
-    function toggleShowAllocationDetail () {
+    function toggleShowAllocationDetail (
+        email:string, allocatedTime: string, hpNo: number, jobTitle: string
+    ) {
+        // console.log(allocatedTime)
+        setAllocatedStaff({
+            jobTitle: jobTitle,
+            email: email,
+            hpNo: hpNo, 
+            allocatedTime: formatDisplayDateTime(allocatedTime).split(' ')
+        })
         setShowAllocatedDetail(!showAllocatedDetail)
     }
     // useEffect(() => {console.log(showAllocatedDetail)}, [showAllocatedDetail])
@@ -181,23 +178,42 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
                 </div>
 
                 <div className="task-allocation-detail">
-                    <div className="task-allocation-detail-title">
-                        <h3>Task Allocation's Detail</h3>
-                        <FaCircle 
-                            className={`task-allocated-status
-                                        ${taskDetail.status === TASK_STATUS[1] ? 'in-progress' : ''}
-                                        ${taskDetail.status === TASK_STATUS[2] ? 'completed' : ''}`}
-                        />
-                    </div>
+                    <h3>Task Allocation's Detail</h3>
                     <div className={`allocated-staff-info ${showAllocatedDetail ? 'active' : ''}`}
                         ref={triggerCloseAllocatedDetailOutsite}
                     >
-                        <div 
-                            className="allocated-staff-detail-title"
-                            onClick={toggleShowAllocationDetail}
-                        >
+                        <div className="allocated-staff-detail-title">
                             <CgProfile className='App-popup-content-icon'/>
-                            <p>{task.fullName}</p>
+                            {allTaskDetail.length > 1 ? (
+                                <div className='allocated-staff-container'>
+                                {allTaskDetail.map((detail: any, index: number) => (
+                                    <p onClick={() => toggleShowAllocationDetail(
+                                            detail.email, detail.createdOn, 
+                                            detail.hpNo, detail.jobTitle
+                                        )}
+                                        className='allocated-staff-container-title'
+                                    >
+                                        {detail.fullName}
+                                        <FaCircle 
+                                            className={`task-allocated-status
+                                                        ${detail.status === TASK_STATUS[1] ? 'in-progress' : ''}
+                                                        ${detail.status === TASK_STATUS[2] ? 'completed' : ''}`}
+                                        />
+                                        {/* {index < allTaskDetail.length - 1 && ","} */}
+                                    </p>
+                                ))}
+                                </div>
+                                ) : (
+                                    <p onClick={() => toggleShowAllocationDetail(
+                                            taskDetail.email, taskDetail.createdOn, 
+                                            taskDetail.hpNo, taskDetail.jobTitle
+                                        )}
+                                        className='allocated-staff-container-title'
+                                    >
+                                        {taskDetail.fullName || "Unassigned"}
+                                    </p>
+                                )}
+                            
                         </div>
                         <div className="allocated-staff-detail-content">
                             <AllocatedStaffDetail
@@ -205,20 +221,6 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
                             />
                         </div>
                     </div>
-                    
-                    {taskDetail?.createdAt?.length === 2 && (
-                    <div className="allocated-date-detail">
-                        <p className="title">Allocated Date:</p>
-                        <div className="event-detail-date-display">
-                            <HiMiniViewfinderCircle className='App-popup-content-icon'/>
-                            <p className="main-data">{taskDetail.createdAt[0]}</p>
-                        </div>
-                        <div className="event-detail-time-display">
-                            <TiTime className='App-popup-content-icon'/>
-                            <p className="main-data">{taskDetail.createdAt[1].split('.')[0]}</p>
-                        </div>
-                    </div>
-                    )}
                 </div>
 
                 <div className="task-detail-information">

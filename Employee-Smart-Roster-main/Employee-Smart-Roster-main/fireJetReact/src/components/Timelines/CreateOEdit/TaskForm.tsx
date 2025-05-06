@@ -120,15 +120,15 @@ const CreateEditTask = ({
                 // Start task allocation
                 let allocationRes = await handleTaskAutoAllocation(bo_UID);
                 allocationRes = JSON.parse(allocationRes.body)
-                // console.log("Task Allocation: ", allocationRes)
+                console.log("Tasks Allocation: ", allocationRes)
                 if(allocationRes.message === "Auto-allocation process completed."){
-                    const allAllocatedTasks = allocationRes.assignedTasks || [];
-                    let taskAssignedDetail = allAllocatedTasks.find((task: any) => 
-                        task.taskID === response.TaskIDCreated
-                    )
-                    if(taskAssignedDetail) {
-                        // console.log("Task allocation detail: ", taskAssignedDetail)
-                        setAssignedTask(taskAssignedDetail)
+                    let allAllocatedTasks = allocationRes.assignedTasks || [];
+                    if(allAllocatedTasks) {
+                        allAllocatedTasks = allAllocatedTasks.filter((task: any) => {
+                            return task.taskID === response.TaskIDCreated
+                        })
+                        console.log("Filtered task allocation: ", allAllocatedTasks)
+                        setAssignedTask(allAllocatedTasks)
                         setIsTaskAssigned(true) // Set assignation completed
                     }
                     else {
@@ -235,6 +235,7 @@ const CreateEditTask = ({
                             <input 
                                 type="checkbox" 
                                 checked={isHavingTimeline} 
+                                disabled={isTaskAssigned}
                                 onChange={(e) => setIsHavingTimeline(e.target.checked)}/>
                             <span className="checkmark"></span>
                         </label>
@@ -256,6 +257,7 @@ const CreateEditTask = ({
                             placeholder='Task Title' 
                             value={taskValues.title}
                             onChange={(e) => handleInputChange(e)}
+                            disabled={isTaskAssigned}
                             required
                         />
                     </div>
@@ -269,6 +271,7 @@ const CreateEditTask = ({
                             placeholder='Task Description' 
                             value={taskValues.taskDescription}
                             onChange={(e) => handleInputChange(e)}
+                            disabled={isTaskAssigned}
                             required
                         />
                     </div>
@@ -283,6 +286,7 @@ const CreateEditTask = ({
                                 name="roleID"
                                 value={taskValues.roleID}
                                 onChange={(e) => handleInputChange(e)}
+                                disabled={isTaskAssigned}
                             >
                                 {allRoles.map((role:any) => (
                                 <option key={role.roleID} value={role.roleName}>
@@ -302,6 +306,7 @@ const CreateEditTask = ({
                             name="skillSetID"
                             value={taskValues.skillSetID}
                             onChange={(e) => handleInputChange(e)}
+                            disabled={isTaskAssigned}
                         >
                             {allSkillsets.map((skill:any) => (
                             <option key={skill.skillSetID} value={skill.skillSetName}>
@@ -321,6 +326,7 @@ const CreateEditTask = ({
                             value={taskValues.startDate}
                             onChange={(e) => handleInputChange(e)}
                             min={generateSGDateTimeForDateTimeInput(new Date)}
+                            disabled={isTaskAssigned}
                             required
                         />
                     </div>
@@ -335,6 +341,7 @@ const CreateEditTask = ({
                             value={taskValues.endDate}
                             onChange={(e) => handleInputChange(e)}
                             min={taskValues.startDate}
+                            disabled={isTaskAssigned}
                             required
                         />
                     </div>
@@ -350,7 +357,9 @@ const CreateEditTask = ({
                                 value={taskValues.noOfEmp}
                                 onChange={(e) => handleInputChange(e)}
                                 min={1}
+                                max={3}
                                 className="no-of-emp-input"
+                                disabled={isTaskAssigned}
                                 required
                             />
                         </div>
@@ -361,7 +370,7 @@ const CreateEditTask = ({
                         />
                     </div>
                 </div>
-                {isTaskAssigned && assignedTask.length > 0 && (
+                {isTaskAssigned && assignedTask && (
                     <div className="task-assignation-detail-container">
                         <TaskAssignationInfo 
                             bo_UID={bo_UID} 
@@ -380,6 +389,7 @@ const TaskAssignationInfo = ({
     bo_UID, assignedTask, roleID, skillSetID
 } : TaskAssignationInfoProps) => {
     // console.log(assignedTask)
+    const navigate = useNavigate()
     const { showAlert } = useAlert()
     const [ allEmployees, setAllEmployees ] = useState<any>([])
     const [ selectedEmp, setSelectedEmp ] = useState<any>([])
@@ -395,18 +405,12 @@ const TaskAssignationInfo = ({
             
             let allEmployees = employeeMatchedSkill
             // If filtered employee length > 1
-            if(employeeMatchedSkill.length > 0 && assignedTask > 0){
+            if(employeeMatchedSkill.length > 0 && assignedTask.length > 0){
                 const initialSelection = assignedTask.map((task:any) => ({
-                    ...employees.find((emp:any) => emp.user_id === task.assignedTo),
-                    // Preserve assigned task data if employee not found
-                    ...(!employees.find((emp:any) => emp.user_id === task.assignedTo) && {
-                        user_id: task.assignedTo,
-                        fullName: task.fullName,
-                        roleID: task.roleID,
-                        skillSetID: task.skillSetID
-                    })
+                    ...employees.find((emp:any) => emp.user_id === task.assignedTo)
                 }))
-                console.log(initialSelection)
+                // console.log(initialSelection)
+                setSelectedEmp(initialSelection)
                 // Merge and remove duplicates
                 allEmployees = [
                     ...initialSelection,
@@ -451,7 +455,17 @@ const TaskAssignationInfo = ({
     };
 
     const triggerSubmitConfirmAllocation = async() => {
-
+        try {
+            // Update task API here
+            navigate(-1)
+        } catch(error) {
+            showAlert(
+                "triggerSubmitConfirmAllocation",
+                `Failed to Update Allocation Confirmation`,
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            );
+        }
     }
 
     return (
@@ -531,6 +545,7 @@ const TaskAssignationInfo = ({
                 <span>The auto allocation is auto saved even you exit this page</span>
                 <PrimaryButton 
                     text="Confirm Allocation"
+                    disabled={selectedEmp.length === 0}
                     onClick={() => triggerSubmitConfirmAllocation()}
                 />
             </div>

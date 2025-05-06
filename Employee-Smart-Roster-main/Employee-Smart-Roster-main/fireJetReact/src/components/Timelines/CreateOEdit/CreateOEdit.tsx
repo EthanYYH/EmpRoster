@@ -34,8 +34,8 @@ const CreateOEditTask = ({
         allSkillsets?: any[];
     };
     const [ createTaskValues, setCreateTaskValues ] = useState({
-        title: '0505Create Task',
-        taskDescription: '0505 wm testing on Create Task',
+        title: '0506 Create Task',
+        taskDescription: '0506 wm testing on Create Task',
         roleID: '',
         skillSetID: '',
         startDate: generateSGDateTimeForDateTimeInput(new Date()),
@@ -44,8 +44,8 @@ const CreateOEditTask = ({
     });
     const [ createTimelineValues, setCreateTimelineValues ] = useState({
         timelineID: '',
-        title: '0505',
-        timeLineDescription: '0505_WM Create Timeline Test',
+        title: '0506',
+        timeLineDescription: '0506_WM Create Timeline Test',
     })
 
     const fetchRolesNSkillsets = async() => {

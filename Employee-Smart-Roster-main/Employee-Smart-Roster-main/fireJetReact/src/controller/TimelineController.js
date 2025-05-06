@@ -117,12 +117,15 @@ async function boGetTaskDetail (taskID) {
 // Create Task
 async function createTask (boID, values, timelineID) {
     // console.log(timelineID)
+    // const start = new Date(values.startDate).toISOString();
+    // const end = new Date(values.endDate).toISOString()
     const startDateTime = values.startDate.split("T")
     const start = startDateTime.join(" ")
     const endDateTime = values.endDate.split("T")
     const end = endDateTime.join(" ")
     // console.log("Start time: ", start)
     // console.log("End time: ", end)
+    // console.log(values.noOfEmp)
 
     if(timelineID === '') {
         timelineID = null
@@ -186,6 +189,32 @@ async function handleTaskAutoAllocation(boUID) {
     }
 }
 
+// edit task
+async function handleUpdateTask(user_id, taskAllocationID, taskName) {
+    const body = {
+        user_id: user_id,
+        taskAllocationID: taskAllocationID
+    };
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/timeline/task/allocation/reassign', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Failed to re-allocate employee to task ${taskName}: \n`, error);
+        throw new Error(`Failed to re-allocate employee to task ${taskName}: ${error.message}`);
+    }
+}
+
 // return delete tasks's detail for BO
 async function deleteTaskDetail (taskID) {
     const body = {
@@ -207,8 +236,8 @@ async function deleteTaskDetail (taskID) {
 
         return await data;
     } catch(error) {
-        console.error(`Network error for UID ${uid}: \n`, error);
-        throw new Error(`Failed to fetch company data: ${error.message}`);
+        console.error(`Failed to delete task ${taskID}: \n`, error);
+        throw new Error(`Failed to delete task ${taskID}: ${error.message}`);
     }
 }
 

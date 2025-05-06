@@ -151,9 +151,15 @@
 }
 
 /* Agenda view styling */
+.rbc-event-content .custom-event {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
 .rbc-agenda-event-cell .custom-event {
     display: flex;
     flex-direction: column;
+    /* justify-content: start; */
     align-items: start;
     gap: 0px;
     width: 100%;
@@ -187,9 +193,12 @@
 }
 
 .event-resource {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    width: fit-content;
+    justify-content: start;
     font-size: 0.8em;
-    margin-top: 3px;
-    opacity: 0.8;
 }
 
 .timeline-management-container .event-style {

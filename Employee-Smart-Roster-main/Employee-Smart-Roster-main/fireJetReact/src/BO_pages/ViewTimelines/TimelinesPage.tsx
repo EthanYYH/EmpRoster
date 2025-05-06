@@ -57,7 +57,7 @@ const BOTimelinesPage = () => {
                     />
                 </div>
                 <MonthCalendar 
-                    tasks={removeDuplicates(allTasks, 'taskID')} 
+                    tasks={allTasks} 
                     onDelete={handleDeleteTask}
                 />
             </div>
