@@ -189,8 +189,8 @@ async function handleTaskAutoAllocation(boUID) {
     }
 }
 
-// edit task
-async function handleUpdateTask(user_id, taskAllocationID, taskName) {
+// Manual Reassign Employee to Task
+async function handleManualUpdateTaskAllocation(user_id, taskAllocationID, taskName) {
     const body = {
         user_id: user_id,
         taskAllocationID: taskAllocationID
@@ -212,6 +212,33 @@ async function handleUpdateTask(user_id, taskAllocationID, taskName) {
     } catch(error) {
         console.error(`Failed to re-allocate employee to task ${taskName}: \n`, error);
         throw new Error(`Failed to re-allocate employee to task ${taskName}: ${error.message}`);
+    }
+}
+
+async function getAvailableEmployees (roleID, skillSetID, boID) {
+    const body = {
+        roleID: roleID,
+        skillSetID: skillSetID,
+        business_owner_id: boID
+    };
+
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/employee/available/view', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Failed to delete task ${taskID}: \n`, error);
+        throw new Error(`Failed to delete task ${taskID}: ${error.message}`);
     }
 }
 
@@ -291,6 +318,8 @@ export default {
     boGetTaskDetail,
     createTask, 
     handleTaskAutoAllocation,
+    handleManualUpdateTaskAllocation,
+    getAvailableEmployees,
     deleteTaskDetail, 
     getTaskDetail,
     getRoleNeededForTask,
