@@ -37,21 +37,24 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
     const fetchTaskDetail = async () => {
         try {
             let taskDetail = await boGetTaskDetail(task.taskID);
-            setAllTaskDetail(taskDetail.taskDetails)
-            console.log(taskDetail)
-            taskDetail = taskDetail.taskDetails[0] || []
             // console.log(taskDetail)
-            
-            // Convert task start time to Singapore time
-            const startTime = taskDetail.startDate;
-            taskDetail.startDate = formatDisplayDateTime(startTime).split(' ')
-            
-            // Convert task start time to Singapore time
-            const endTime = taskDetail.endDate;
-            taskDetail.endDate = formatDisplayDateTime(endTime).split(' ')
+            if(taskDetail.message === "Task details successfully retrieved"){
+                setAllTaskDetail(taskDetail.taskDetails || []) // Store all task detail 
 
-            // console.log(taskDetail)
-            setTaskDetail(taskDetail);
+                taskDetail = taskDetail.taskDetails[0] || []
+                // console.log(taskDetail)
+                
+                // Convert task start time to Singapore time
+                const startTime = taskDetail.startDate;
+                taskDetail.startDate = formatDisplayDateTime(startTime).split(' ')
+                
+                // Convert task start time to Singapore time
+                const endTime = taskDetail.endDate;
+                taskDetail.endDate = formatDisplayDateTime(endTime).split(' ')
+
+                // console.log(taskDetail)
+                setTaskDetail(taskDetail);
+            }
         } catch (error) {
             showAlert(
                 "fetchTaskDetail",
@@ -177,6 +180,10 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
                     <IoClose className='icons' onClick={onClose}/>
                 </div>
 
+                {taskDetail.timelineID && (
+                    <></>
+                )}
+
                 <div className="task-allocation-detail">
                     <h3>Task Allocation's Detail</h3>
                     <div className={`allocated-staff-info ${showAllocatedDetail ? 'active' : ''}`}
@@ -211,6 +218,11 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
                                         className='allocated-staff-container-title'
                                     >
                                         {taskDetail.fullName || "Unassigned"}
+                                        <FaCircle 
+                                            className={`task-allocated-status
+                                                        ${taskDetail.status === TASK_STATUS[1] ? 'in-progress' : ''}
+                                                        ${taskDetail.status === TASK_STATUS[2] ? 'completed' : ''}`}
+                                        />
                                     </p>
                                 )}
                             

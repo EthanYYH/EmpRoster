@@ -45,7 +45,7 @@ const MonthCalendar = ({
       };
     })
   ), [tasks]);
-  console.log(events)
+  // console.log(events)
 
   function triggerSelectedTask(task: any[]) {
       setSelectedTask(task);

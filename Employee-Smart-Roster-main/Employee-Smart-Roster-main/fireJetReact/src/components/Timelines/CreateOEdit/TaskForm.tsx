@@ -99,9 +99,6 @@ const CreateEditTask = ({
         taskValues.skillSetID = skillSetID[0].skillSetID
 
         let timelineID = timelineValues.timeLineID
-        if(!isHavingTimeline)
-            timelineID = ''
-
         try {
             let response = await createTask (bo_UID, taskValues, timelineID)
             // response = JSON.parse(response.body)
@@ -151,8 +148,8 @@ const CreateEditTask = ({
         }
     }
 
-    function handleTimelineValueChange (newTimelineValue: any) {
-        setTimelineValues(newTimelineValue)
+    function handleTimelineValueChange (timelineValue: any) {
+        setTimelineValues(timelineValue)
     }
 
     if(showConfirmation) return (
@@ -238,8 +235,9 @@ const CreateEditTask = ({
                                 onChange={(e) => setIsHavingTimeline(e.target.checked)}/>
                             <span className="checkmark"></span>
                         </label>
-                        {isHavingTimeline && (
+                        {isHavingTimeline && isCreate && (
                             <TimelineForm 
+                                isCreateTask={true}
                                 defaultValues={timelineValues}
                                 bo_UID={bo_UID}
                                 newTimelineValue={handleTimelineValueChange}

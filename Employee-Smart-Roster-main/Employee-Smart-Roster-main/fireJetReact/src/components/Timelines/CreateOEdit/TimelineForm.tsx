@@ -8,14 +8,17 @@ import './CreateNEditTask.css'
 import '../../../../public/styles/common.css'
 
 interface TimelineFormProps {
+    isCreateTask: boolean;
     defaultValues: any;
     bo_UID: any;
-    newTimelineValue: (newValus: any) => void;
+    newTimelineValue: (timelineValue: any) => void;
 }
 
 const { createNewTimeline, getTimelines, getTimelineSelected } = TimelineController
 
-const TimelineForm = ({ defaultValues, bo_UID, newTimelineValue }: TimelineFormProps) => {
+const TimelineForm = ({ 
+    isCreateTask, defaultValues, bo_UID, newTimelineValue
+}: TimelineFormProps) => {
     // console.log(bo_UID)
     const { showAlert } = useAlert()
     const [ isCreateTimeline, setIsCreateTimeline ] = useState(false)
@@ -25,9 +28,27 @@ const TimelineForm = ({ defaultValues, bo_UID, newTimelineValue }: TimelineFormP
         title: '',
         timeLineDescription: '',
     })
-    useEffect(() => {
-        setTimelineValues(defaultValues)
-    }, [defaultValues])
+    useEffect(() => { 
+        timelineDefaultSetup() 
+    }, [isCreateTask, allTimelines.length])
+    // Set default timeline setup
+    function timelineDefaultSetup() {
+        if(isCreateTask) {
+            if(allTimelines.length > 0) {
+                const initialTimeline = allTimelines[0];
+                const value = {
+                    timeLineID: initialTimeline.timeLineID,
+                    title: initialTimeline.title,
+                    timeLineDescription: initialTimeline.timeLineDescription,
+                };
+                setTimelineValues(value);
+                if(newTimelineValue)
+                    newTimelineValue(value)
+            }
+        } else {
+            setTimelineValues(defaultValues);
+        }
+    }
 
     const handleInputChange = (event: React.ChangeEvent<
         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -46,10 +67,10 @@ const TimelineForm = ({ defaultValues, bo_UID, newTimelineValue }: TimelineFormP
                 response = response.timeline || [];
                 // console.log(response)
                 setAllTimelines(response)
-                if(response.length > 0)
+                if(response.length > 0) {
                     setTimelineValues(response[0]) //Set 1st selected timeline
+                }
             }
-            
         } catch(error) {
             showAlert(
                 "triggerFetchAllTimelines",
@@ -66,11 +87,14 @@ const TimelineForm = ({ defaultValues, bo_UID, newTimelineValue }: TimelineFormP
         const timelineMatch = getTimelineSelected(allTimelines, timeLineID)
         // console.log(timelineMatch)
         if (timelineMatch) {
-            setTimelineValues({
+            const value = {
                 timeLineID: timelineMatch.timeLineID,
                 title: timelineMatch.title,
                 timeLineDescription: timelineMatch.timeLineDescription,
-            })
+            }
+            setTimelineValues(value)
+            if(newTimelineValue)
+                newTimelineValue(value)
         }
     }
 
@@ -93,7 +117,7 @@ const TimelineForm = ({ defaultValues, bo_UID, newTimelineValue }: TimelineFormP
                     title: newData.title,
                     timeLineDescription: newData.timeLineDescription,
                 })
-                toggleIsCreateTimeline()
+                toggleisCreateTimeline()
             }
         } catch(error) {
             showAlert(
@@ -105,18 +129,18 @@ const TimelineForm = ({ defaultValues, bo_UID, newTimelineValue }: TimelineFormP
         }
     }
 
-    function toggleIsCreateTimeline() {
+    function toggleisCreateTimeline() {
         setIsCreateTimeline(!isCreateTimeline)
     }
 
     if(isCreateTimeline) return (
-        <div className="App-popup" onClick={toggleIsCreateTimeline}>
+        <div className="App-popup" onClick={toggleisCreateTimeline}>
             <div className='App-popup-content' onClick={(e) => e.stopPropagation()}>
                 <div className='App-header'>
                     <h1>Create New Timeline</h1>
                     <IoClose 
                         className="icons"
-                        onClick={toggleIsCreateTimeline}
+                        onClick={toggleisCreateTimeline}
                     />
                 </div>
                 <div className="App-popup-main-content">
@@ -165,12 +189,13 @@ const TimelineForm = ({ defaultValues, bo_UID, newTimelineValue }: TimelineFormP
                     Select Available Timeline 
                     <FaPlusCircle 
                         className="create-new-timeline-icon"
-                        onClick={toggleIsCreateTimeline}
+                        onClick={toggleisCreateTimeline}
                     />
                 </strong>
                 <div className="fields">
                     {/* Timeline dropdown */}
                     <select 
+                        id="selectTimeline"
                         name="timelineValue"
                         value={timelineValue.timeLineID}
                         onChange={(e) => handleSelectedTimeline(e.target.value)}
