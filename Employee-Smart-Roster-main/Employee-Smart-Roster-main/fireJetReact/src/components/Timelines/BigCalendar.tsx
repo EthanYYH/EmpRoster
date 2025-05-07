@@ -155,8 +155,6 @@ const MonthCalendar = ({
             ''
           }`
         })}
-        // doShowMoreDrillDown={false}
-        // timezone="Asia/Singapore"
       />
       </div>
 

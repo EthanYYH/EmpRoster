@@ -10,6 +10,7 @@ interface BOUserProfileProps {
 }
 
 const UserProfileCard = ({ userData }: BOUserProfileProps) => {
+    // console.log(userData)
     const [ showNRIC, setShowNRIC ] = useState(false)
 
     function toggleShowNRIC() {

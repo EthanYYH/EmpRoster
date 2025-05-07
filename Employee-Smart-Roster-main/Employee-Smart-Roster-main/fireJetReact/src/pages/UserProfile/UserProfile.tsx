@@ -19,25 +19,32 @@ const UserProfile = () => {
     const [ userData, setUserData ] = useState<any[]>([])
     const [ showUpdateUserProfile, setShowUpdateUserProfile ] = useState(false)
 
-    const fetchUserProfile = async() => {
+    const fetchBOUserProfile = async() => {
         try {
-            if(user?.role === USER_ROLE[1]) {
-                let boUserData = await boGetUserProfile(user?.UID)
-                boUserData = boUserData.BOProfile
-                // console.log(boUserData[0])
-                setUserData(boUserData[0])
+            let boUserData = await boGetUserProfile(user?.UID)
+            boUserData = boUserData.BOProfile
+            // console.log(boUserData[0])
+            setUserData(boUserData[0])
+        } catch (error) {
+            showAlert(
+                "fetchUserProfile",
+                "Fetch data error",
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            )
+        }
+    }
+    const fetchEMPUserProfile = async() => {
+        // console.log("In employee user profile")
+        try {
+            const empUserData = await empGetUserProfile(user?.UID)
+            // console.log(empUserData)
+            const combinedData = {
+                ...empUserData.employeeProfile[0], 
+                ...empUserData.emailnric[0]
             }
-
-            if(user?.role === USER_ROLE[2]) {
-                const empUserData = await empGetUserProfile(user?.UID)
-                // console.log(empUserData)
-                const combinedData = {
-                    ...empUserData.employeeProfile[0], 
-                    ...empUserData.emailnric[0]
-                }
-                // console.log(combinedData)
-                setUserData(combinedData)
-            }
+            // console.log(combinedData)
+            setUserData(combinedData)
 
         } catch (error) {
             showAlert(
@@ -48,7 +55,15 @@ const UserProfile = () => {
             )
         }
     }
-    useEffect(() => {fetchUserProfile()}, [user])
+    useEffect(() => { 
+        if(user?.role === USER_ROLE[1])
+            fetchBOUserProfile() 
+        
+        else if(user?.role === USER_ROLE[2])
+            fetchEMPUserProfile();
+
+        else return;
+    }, [user?.role])
 
     function toggleUpdateUserProfile() {
         setShowUpdateUserProfile(!showUpdateUserProfile)
@@ -91,17 +106,17 @@ const UserProfile = () => {
                             <UserProfileCard userData={userData} />
                             
                         </div>
-                        {user?.role === USER_ROLE[2] && (
+                        {user?.role === USER_ROLE[2] ? (
                         <div className="user-profile-detail-container emp-user-profile-container">
                             <EMP_MoreUserPrDetail userData={userData}/>
                         </div>
-                        )}
+                        ):(<></>)}
                     </div>
-                    {user?.role === USER_ROLE[2] && (
+                    {user?.role === USER_ROLE[2] ? (
                     <div className="user-profile-detail-container emp-employeer-user-profile-container">
                         <EMP_UserPrEmployeerDetail userData={userData}/>
                     </div>
-                    )}
+                    ):(<></>)}
                 </div>
             )}
         </div>
