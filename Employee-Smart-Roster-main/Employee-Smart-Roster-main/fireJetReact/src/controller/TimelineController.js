@@ -62,6 +62,31 @@ async function getTimelines (boUID) {
     }
 }
 
+async function getAllTasksInATimeline(boUID, timelineID) {
+    const body = {
+        business_owner_id: boUID,
+        timelineID: timelineID
+    };
+    try{
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/business-owner/group-task-to-timeline', {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+
+        return await data;
+    } catch(error) {
+        console.error(`Network error for fetch tasks in ${timelineID}: \n`, error);
+        throw new Error(`Failed to fetch tasks in ${timelineID}: ${error.message}`);
+    }
+}
+
 // return all tasks
 async function getAllTasks (boID) {
     const body = {
@@ -314,6 +339,7 @@ export default {
     createNewTimeline, 
     getTimelines,
     getTimelineSelected,
+    getAllTasksInATimeline,
     getAllTasks, 
     boGetTaskDetail,
     createTask, 

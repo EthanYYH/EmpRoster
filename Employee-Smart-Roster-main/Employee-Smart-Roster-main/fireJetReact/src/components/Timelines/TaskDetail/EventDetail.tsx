@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAlert  } from '../../../components/PromptAlert/AlertContext';
 import { useAuth } from '../../../AuthContext';
+import AllTasksInTimeline from '../../../BO_pages/ViewTimelines/AllTasksInTimeline';
 import PrimaryButton from '../../../components/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../../components/SecondaryButton/SecondaryButton';
 import MoreDetail from './MoreDetail';
@@ -20,12 +22,14 @@ interface EventDetailProps {
     onClose?: () => void;
 }
 
-const { boGetTaskDetail, deleteTaskDetail, getTimelines } = TimelineController;
+const { boGetTaskDetail, deleteTaskDetail, getTimelines, getTimelineSelected } = TimelineController;
 
 const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
     // console.log(task)
     const { showAlert } = useAlert()
     const { user } = useAuth()
+    const navigate = useNavigate()
+    const [ containedTimeline, setContainedTimeline ] = useState<any>([])
     const [ allTaskDetail, setAllTaskDetail ] = useState<any>([])
     const [ taskDetail, setTaskDetail ] = useState<any>([])
     const [ showDeleteTask, setShowDeleteTask ] = useState(false)
@@ -73,7 +77,9 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
             if (response.message === 'Timeline retrieved successfully.'){
                 response = response.timeline || [];
                 // console.log(response)
-                
+                const timeline = await getTimelineSelected(response, taskDetail.timelineID)
+                // console.log(timeline)
+                setContainedTimeline(timeline)
             }
         } catch(error) {
             showAlert(
@@ -194,6 +200,14 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
         </div>
     )
 
+    function redirectToTimelineTasksDetail() {
+        navigate('/timeline-tasks-list', {
+            state: {
+                timeline: containedTimeline
+            }
+        })
+    }
+
     return(
         <div className="App-popup" onClick={onClose}>
             <div className='App-popup-content' onClick={(e) => e.stopPropagation()}>
@@ -202,10 +216,13 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
                     <IoClose className='icons' onClick={onClose}/>
                 </div>
 
-                {taskDetail.timelineID && (
-                    <div className='task-detail-contained-timeline'>
-                        <p className='title'>Project: </p>
-                        <p className='main-data'>{}</p>
+                {containedTimeline && (
+                    <div 
+                        className='task-detail-contained-timeline'
+                        onClick={redirectToTimelineTasksDetail}
+                    >
+                        <p className='title'>Timeline: </p>
+                        <p className='main-data'>{containedTimeline.title}</p>
                     </div>
                 )}
 

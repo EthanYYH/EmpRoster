@@ -32,6 +32,7 @@ import SubsMgts from "./BO_pages/SubsManagement/SubsMgts";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
 import CreateOEditEmp from "./BO_components/CreateEditEmployee/CreateOEdit";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
+import AllTasksInTimeline from "./BO_pages/ViewTimelines/AllTasksInTimeline";
 
 // Import for testing
 import "./App.css";
@@ -216,6 +217,16 @@ function App() {
                       <CreateOEditTask 
                         isCreate={true}
                       />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/timeline-tasks-list"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <AllTasksInTimeline />
                     </ProtectedRoute>
                   }
                 />

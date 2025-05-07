@@ -48,7 +48,6 @@ const BOTimelinesPage = () => {
     
     return (
         <div className="App-content">
-            {/* BO Side Menu here */}
             <div className="content">
                 <div className="timeline-header">
                     <h1>Timeline Management</h1>

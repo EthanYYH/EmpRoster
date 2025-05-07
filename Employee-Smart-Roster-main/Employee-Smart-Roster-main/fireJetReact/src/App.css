@@ -168,6 +168,83 @@ h4 {
   color: #61dafb;
 }
 
+/* Timeline Structure for App */
+.App-timeline {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  position: relative;
+  padding-left: 40px;
+}
+
+.App-timeline-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.App-timeline-line {
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #e0e0e0;
+}
+
+/* Timeline Items */
+.App-timeline-item {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.App-timeline-point {
+  position: absolute;
+  left: -40px;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--side-menu-hover-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.App-timeline-icon {
+  color: var(--light-color-text);
+  font-size: 14px;
+}
+
+/* Timeline Content */
+.App-timeline-content {
+  padding: 15px;
+  background-color: white;
+  border: 1.5px solid var(--light-color-text);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.App-timeline-time {
+  font-size: 12px;
+  color: var(--secondary-text);
+  margin-bottom: 5px;
+}
+
+.App-timeline-task-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin: 5px 0;
+}
+
+.App-timeline-task-description {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.4;
+}
+
 /* Menu Tabs and Tab setup */
 .react-tabs {
   display: flex;
