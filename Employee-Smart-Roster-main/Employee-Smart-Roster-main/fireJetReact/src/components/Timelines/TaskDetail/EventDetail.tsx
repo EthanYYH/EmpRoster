@@ -89,7 +89,7 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
             jobTitle: jobTitle,
             email: email,
             hpNo: hpNo, 
-            allocatedTime: formatDisplayDateTime(allocatedTime).split(' ')
+            allocatedTime: formatDateTime(allocatedTime).split(' ')
         })
         setShowAllocatedDetail(!showAllocatedDetail)
     }

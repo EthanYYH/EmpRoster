@@ -22,21 +22,24 @@ const EMP_UserPrEmployeerDetail = ({ userData }: EmpMoreUserProfileDetailProps) 
 
     const fetchEmployeerInfo = async() => {
         try {
-            const company = await getCompany(userData.business_owner_id);
+            const company = await getCompany(Number(userData.business_owner_id));
             // console.log("Employed By (Company): ", company)
-            const businessOwner = await boGetUserProfile(userData.business_owner_id);
-            // console.log("Employed By (Employeer): ", businessOwner)
+            let businessOwner = await boGetUserProfile(userData.business_owner_id);
+            businessOwner = businessOwner.BOProfile || []
+            // console.log("Employed By (Employeer): ", businessOwner[0])
 
-            const combinedData = {
-                company: company, 
-                owner: businessOwner.BOProfile[0]
+            if(company && businessOwner){
+                const combinedData = {
+                    company: company, 
+                    owner: businessOwner[0]
+                }
+                setEmployeerInfo(combinedData)
             }
-            // console.log(combinedData)
-            setEmployeerInfo(combinedData)
+            
 
         } catch (error) {
             showAlert(
-                "fetchRole",
+                "fetchEmployeerInfo",
                 "Fetch data error",
                 error instanceof Error ? error.message : String(error),
                 { type: 'error' }
@@ -54,19 +57,19 @@ const EMP_UserPrEmployeerDetail = ({ userData }: EmpMoreUserProfileDetailProps) 
                     <div className='emp-uswr-profile-employeer-info'>
                         <h3>Employed By: {employeerInfo.company?.bizName}</h3>
                         <div className="user-profile-data employeer-name even-row">
-                            <p className="title"><CgProfile /></p>
+                            <p className="icon-title"><CgProfile /></p>
                             <p className="main-data">{employeerInfo.owner?.fullName}</p>
                         </div>
                         <div className="user-profile-data company-email">
-                            <p className="title"><MdOutlineMailOutline /></p>
+                            <p className="icon-title"><MdOutlineMailOutline /></p>
                             <p className="main-data">{employeerInfo.owner?.email}</p>
                         </div>
                         <div className="user-profile-data company-contact even-row">
-                            <p className="title"><GiRotaryPhone /></p>
+                            <p className="icon-title"><GiRotaryPhone /></p>
                             <p className="main-data">{employeerInfo.company?.contactNo}</p>
                         </div>
                         <div className="user-profile-data company-address">
-                            <p className="title"><MdOutlineLocationOn /></p>
+                            <p className="icon-title"><MdOutlineLocationOn /></p>
                             <p className="main-data">{employeerInfo.company?.address}</p>
                         </div>
                     </div>
