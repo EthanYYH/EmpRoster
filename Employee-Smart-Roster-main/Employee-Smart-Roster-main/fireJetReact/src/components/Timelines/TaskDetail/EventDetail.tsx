@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAlert  } from '../../../components/PromptAlert/AlertContext';
+import { useAuth } from '../../../AuthContext';
 import PrimaryButton from '../../../components/PrimaryButton/PrimaryButton';
 import SecondaryButton from '../../../components/SecondaryButton/SecondaryButton';
 import MoreDetail from './MoreDetail';
 import { TASK_STATUS,formatDateTime, formatDisplayDateTime } from '../../../controller/Variables.js';
 import AllocatedStaffDetail from './AlloctedStaffDetail';
 import TimelineController from '../../../controller/TimelineController.js';
-import UserController from '../../../controller/User/UserController.js';
 import { IoClose, CgProfile, FaCircle, TbTarget, FaClipboardList,
-         TbTargetArrow, HiMiniViewfinderCircle, TiTime } from '../../../../public/Icons.js';
+         TbTargetArrow, TiTime } from '../../../../public/Icons.js';
 
 import './EventDetail.css'
 import '../../../../public/styles/common.css'
@@ -20,11 +20,12 @@ interface EventDetailProps {
     onClose?: () => void;
 }
 
-const { boGetTaskDetail, deleteTaskDetail } = TimelineController;
+const { boGetTaskDetail, deleteTaskDetail, getTimelines } = TimelineController;
 
 const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
     // console.log(task)
     const { showAlert } = useAlert()
+    const { user } = useAuth()
     const [ allTaskDetail, setAllTaskDetail ] = useState<any>([])
     const [ taskDetail, setTaskDetail ] = useState<any>([])
     const [ showDeleteTask, setShowDeleteTask ] = useState(false)
@@ -64,8 +65,29 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
             )
         }
     };
-
     useEffect(() => { fetchTaskDetail() }, [task])
+
+    const fetchAllTimelines = async() => {
+        try {
+            let response = await getTimelines(user?.UID);
+            if (response.message === 'Timeline retrieved successfully.'){
+                response = response.timeline || [];
+                // console.log(response)
+                
+            }
+        } catch(error) {
+            showAlert(
+                "fetchAllTimelines",
+                "Fetch data error",
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            )
+        }
+    }
+    // Auto trigger if having 
+    useEffect(() => {
+        fetchAllTimelines()
+    }, [taskDetail.timelineID])
 
     // Close allocated staff detail when clicking outside
     useEffect(() => {
@@ -181,7 +203,10 @@ const EventDetail = ({task, onUpdate, onDelete, onClose}: EventDetailProps) => {
                 </div>
 
                 {taskDetail.timelineID && (
-                    <></>
+                    <div className='task-detail-contained-timeline'>
+                        <p className='title'>Project: </p>
+                        <p className='main-data'>{}</p>
+                    </div>
                 )}
 
                 <div className="task-allocation-detail">
