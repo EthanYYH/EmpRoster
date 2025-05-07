@@ -2,12 +2,12 @@ import { useAuth } from '../../AuthContext';
 import { useEffect, useState } from 'react';
 import { useAlert } from '../../components/PromptAlert/AlertContext';
 import { USER_ROLE } from '../../controller/Variables.js';
-import EmpList from '../../BO_components/EmployeeMgnts/EmpList';
-import BOUserList from '../../SA_components/BOUserMgts/UserList';
-import UserController from '../../controller/User/UserController';
-import CompanyController from '../../controller/CompanyController';
-import EmployeeMgntController from '../../controller/BOEmpMgntProfile/EmployeeMgntController.js';
-import CreateOEditEmp from '../../BO_components/CreateEditEmployee/CreateOEdit';
+import EmpList from '../../BO_components/EmployeeMgnts/EmpList'
+import BOUserList from '../../SA_components/BOUserMgts/UserList'
+import UserController from '../../controller/User/UserController'
+import CompanyController from '../../controller/CompanyController'
+import EmployeeMgntController from '../../controller/BOEmpMgntProfile/EmployeeMgntController.js'
+import CreateOEditEmp from '../../BO_components/CreateEditEmployee/CreateOEdit'
 
 import './UserMgts.css'
 import "../../../public/styles/common.css"

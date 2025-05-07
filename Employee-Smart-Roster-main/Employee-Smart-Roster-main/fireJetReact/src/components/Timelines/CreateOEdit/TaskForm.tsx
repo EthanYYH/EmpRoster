@@ -72,7 +72,7 @@ const CreateEditTask = ({
         }));
     };
 
-    // Check if create/edit form
+    // Check if create/edit form all filled
     const isTaskIncomplete = () => {
         const requiredFields: (keyof typeof taskValues)[] = [
             'title',
@@ -382,7 +382,7 @@ const CreateEditTask = ({
         </div>
     )
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////
 const TaskAssignationInfo = ({
     bo_UID, assignedTask, roleID, skillSetID, taskValues
 } : TaskAssignationInfoProps) => {

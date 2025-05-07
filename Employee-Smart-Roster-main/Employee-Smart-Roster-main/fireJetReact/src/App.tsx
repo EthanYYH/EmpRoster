@@ -13,6 +13,7 @@ import Navbar from "./components/NavBar/NavBar";
 import GuestLanding from './pages/Landing/LandingPage';
 import SideMenu_t from "./components/SideMenu/SideMenu_t";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import ReportIssues from "./pages/ReportIssues/ReportIssues";
 
 // Pages for System Admin
 import SADash from "./pages/Dashboard/SADash";
@@ -61,7 +62,7 @@ function App() {
               {/* <Route path="/reset-pw/:email/:token" element={<ResetPassword />} /> */}
               <Route path="/reset-pw" element={<ReqResetEmail />} />
               <Route path="/login" element={<Login />} />
-              
+              {/* Both System Admin and BO */}
               <Route
                 path="/users-management"
                 element={
@@ -72,6 +73,7 @@ function App() {
                 }
               />
 
+              {/* Route for User Profile */}
               <Route
                 path="/user-profile"
                 element={
@@ -82,6 +84,16 @@ function App() {
                 }
               />
 
+              {/* Report issues page */}
+              <Route
+                path="/report-issues"
+                element={
+                  <ProtectedRoute>
+                    <SideMenu_t />
+                    <ReportIssues />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Route for System Admin Pages */}
               <Route
@@ -105,20 +117,6 @@ function App() {
               />
 
               <Route
-                path="/issues-reported"
-                element={
-                  <ProtectedRoute>
-                    <div className="App-content">
-                      <SideMenu_t />
-                      <div className="content">
-                        <h1>ISSUES LOG</h1>
-                      </div>
-                    </div>
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
                 path="/video-management"
                 element={
                   <ProtectedRoute>
@@ -128,6 +126,16 @@ function App() {
                         <h1>Demo Video Management</h1>
                       </div>
                     </div>
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/issues-reported"
+                element={
+                  <ProtectedRoute>
+                    <SideMenu_t />
+                    <ReportIssues />
                   </ProtectedRoute>
                 }
               />
@@ -301,17 +309,6 @@ function App() {
                   }
                 />
 
-                <Route
-                  path="/report-issues"
-                  element={
-                    <ProtectedRoute>
-                      <div className="App-content">
-                        <SideMenu_t />
-                        <h1>Report Issues</h1>
-                      </div>
-                    </ProtectedRoute>
-                  }
-                />
               </Route>
               
               {/* Route for Employee pages */}
