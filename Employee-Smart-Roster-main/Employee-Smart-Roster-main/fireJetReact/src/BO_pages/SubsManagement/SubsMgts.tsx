@@ -15,7 +15,7 @@ import { FaChevronCircleDown, FaChevronCircleUp, FaRegListAlt,
 import './SubsMgts.css'
 import '../../../public/styles/common.css'
 
-const { getSubsPlans, boGetSubscriptionTransactions, getActivatedPlan } = SubscribtionController
+const { getSubsPlans, boGetSubscribedPlan, getActivatedPlan } = SubscribtionController
 const { getCompany } = CompanyController
 
 const SubsMgts = () => {
@@ -51,7 +51,7 @@ const SubsMgts = () => {
             // console.log(company)
             setCompany(company)
 
-            let data = await boGetSubscriptionTransactions(company.UEN);
+            let data = await boGetSubscribedPlan(company.UEN);
             data = data.BOSubscribedPlan || [];
 
             if (data.length > 0) {

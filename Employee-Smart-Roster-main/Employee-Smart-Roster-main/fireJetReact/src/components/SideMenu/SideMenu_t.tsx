@@ -25,6 +25,11 @@ export const SA_Items = [
                 name: 'userRegReq',
                 label: 'Registration Request Management',
                 navHref: '/registration-req-management',
+            },
+            {
+                name: 'subsTrans',
+                label: 'View Subscription Transactions',
+                navHref: '/view-subs-transactions',
             }
         ]
     },

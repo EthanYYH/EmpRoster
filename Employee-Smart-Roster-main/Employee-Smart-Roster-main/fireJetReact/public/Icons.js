@@ -5,8 +5,7 @@ import { BiSolidUserDetail,
          BiSolidHide,
          BiSolidShow } from "react-icons/bi";
 import { IoClose, 
-         IoArrowBack, 
-         IoRefreshCircleOutline } from "react-icons/io5";
+         IoArrowBack } from "react-icons/io5";
 import { FaFilePdf, 
          FaInfoCircle, 
          FaPlusCircle,

@@ -14,7 +14,7 @@ const { handleUserAccStatusFilter, } = UserController;
 // import functions needed from CompanyController
 const { handleFilterUENBizName, } = CompanyController;
 // import functions needed from SubscribtionController
-const { getSubscriptionTransactions, 
+const { saGetSubscriptionTransactions, 
         getSubsTransForACompany,
         getSortedSubsTransactions,
         handleFilterSubsStatus, } = SubscribtionController;
@@ -36,7 +36,7 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
         if(!boUsers) return; // If no boUsers return nothing
         
         try{            
-            let transactions = await getSubscriptionTransactions();
+            let transactions = await saGetSubscriptionTransactions();
             transactions = transactions.SubscriptionDetails || []
             // console.log(transactions);
 

@@ -19,6 +19,7 @@ import UserMgts from "./pages/UserManagement/UserMgts";
 // Pages for System Admin
 import SADash from "./SA_pages/Dashboard/SADash";
 import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
+import SubsTransactions from "./SA_pages/SubsTrans/SubsTrans";
 import VideoMgt from "./SA_pages/VideoMgt/VideoMgt";
 import PreviewLanding from "./SA_pages/PreviewLanding";
 import ViewRating from "./SA_pages/RegisRequest/ViewRating";
@@ -49,12 +50,7 @@ function App() {
     <AlertProvider>
     <AuthProvider>
       <div className="App">
-        <Router
-          future={{
-            v7_startTransition: true,
-            v7_relativeSplatPath: true
-          }}
-        >
+        <Router>
           {/* Display navigation bar only when 
               user is not in the following page */}
           <Navbar />
@@ -118,6 +114,16 @@ function App() {
                   <ProtectedRoute>
                     <SideMenu_t />
                     <RegisRequests />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/view-subs-transactions"
+                element={
+                  <ProtectedRoute>
+                    <SideMenu_t />
+                    <SubsTransactions />
                   </ProtectedRoute>
                 }
               />
