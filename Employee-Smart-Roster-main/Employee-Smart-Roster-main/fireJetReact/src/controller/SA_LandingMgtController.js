@@ -1,4 +1,5 @@
-import { encodeFileContent, readFileAsArrayBuffer, arrayBufferToBase64 } from "./Variables";
+import { encodeVideoFileContent } from '../controller/Variables.js'
+import fs from 'fs';
 
 async function uploadLandingVideo(video, videoName) {
     const fileName = video.name
@@ -31,14 +32,12 @@ async function uploadLandingVideo(video, videoName) {
         }
         const data = await response.json();
         // console.log(data);
-        const uploadUrl = data.uploadUrl //Initialize Pre-signed url
-        
-        // Step 2: upload file to s3 using pre-signed URL
-        // const fileData = fs.readFileSync(filePath);
+        const uploadUrl = data.uploadUrl; //pre-signed URL
+        // console.log(fileData)
         const uploadResponse = await fetch(uploadUrl, {
             method: 'PUT',
             headers: {
-                'Content-Type': fileType,
+                'Content-Type': fileType
             },
             body: video,
         });
@@ -47,9 +46,6 @@ async function uploadLandingVideo(video, videoName) {
             console.error('Error uploading file:', uploadResponse.statusText);
             return;
         }
-
-        // console.log('File uploaded successfully!');
-        return await data // Spread any additional fields from the API response
     } catch (error) {
         throw new Error(`Failed to upload video: ${error.message}`);
     }
@@ -71,21 +67,12 @@ async function getDemoVideo(fileName) {
             const errorData = await response.json();
             throw new Error(errorData.message || `Error getting pre-signed URL: ${data}`);
         }
-        const downloadResponse = await fetch(presignedUrl);
-
-        if (!downloadResponse.ok) {
-            console.error('Error downloading file:', downloadResponse.statusText);
-            return;
-        }
-
-        //  Save the downloaded file locally if you want , but you should be directly displaying it on frontend side.
-        const videoBlob = await downloadResponse.blob();
-        const videoUrl = URL.createObjectURL(videoBlob);
-        return {
-            videoUrl,  // URL for video element src
-            fileName,
-            blob: videoBlob  // Optional: if you need the Blob object
-        };
+        const data = await response.json();
+        // console.log(data)
+        // Step 2: Get the pre-signed URL from the response
+        const presignedUrl = data.presignedUrl;
+        // const downloadResponse = await fetch(presignedUrl);
+        return presignedUrl;
 
     } catch(error) {
         // console.error(`Failed to register: \n`, error);

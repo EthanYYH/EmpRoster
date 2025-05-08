@@ -112,23 +112,18 @@ export async function encodeFileContent(file) {
     });
 }
 
-// Video processor
-export async function readFileAsArrayBuffer(file) {
+export async function encodeVideoFileContent(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
+
+        reader.onload = () => {
+            // reader.result looks like: "data:application/pdf;base64,..."
+            resolve(reader.result);
+        };
+
         reader.onerror = reject;
-        reader.readAsArrayBuffer(file);
+        reader.readAsDataURL(file);
     });
-}
-// Convert Video ArrayBuffer to base64
-export function arrayBufferToBase64(buffer) {
-    let binary = '';
-    const bytes = new Uint8Array(buffer);
-    for (let i = 0; i < bytes.byteLength; i++) {
-        binary += String.fromCharCode(bytes[i]);
-    }
-    return window.btoa(binary);
 }
 
 export function convertDateToSGTime (timeStamp) {

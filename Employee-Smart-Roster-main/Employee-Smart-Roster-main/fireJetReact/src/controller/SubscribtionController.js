@@ -1,5 +1,5 @@
 // return subscription transactions for each company
-async function getSubscriptionTransactions () {
+async function saGetSubscriptionTransactions () {
     const body = {
 
     };
@@ -81,7 +81,7 @@ function handleFilterSubsStatus (companies, status) {
 }
 
 // Business owner view subs transaction
-async function boGetSubscriptionTransactions (uen) {
+async function boGetSubscribedPlan (uen) {
     const body = {
         UEN: uen
     };
@@ -216,15 +216,25 @@ async function cancelSubscription (subsTransID, reasonOfCancel) {
     }
 }
 
+function filterTransactionsBaseOnPlan (allTrans, subscribedPlan) {
+    // console.log(allTrans)
+    const filteredData = allTrans.filter((trans) => {
+        return trans.subsPlanID === subscribedPlan
+    })
+    // console.log(filteredData)
+    return filteredData
+}
+
 export default {
-    getSubscriptionTransactions,
+    saGetSubscriptionTransactions,
     getSubsTransForACompany,
     getSortedSubsTransactions,
     mergePremiumSubscriptions,
     handleFilterSubsStatus,
-    boGetSubscriptionTransactions,
+    boGetSubscribedPlan,
     getActivatedPlan,
     getSubsPlans,
     makeSubsPayment,
-    cancelSubscription
+    cancelSubscription,
+    filterTransactionsBaseOnPlan
 }

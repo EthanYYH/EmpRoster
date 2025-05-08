@@ -25,10 +25,10 @@ const AllVideos = ({videos, updatePreviewVideo, updateLandingVideo}: AllVideoPro
                         <h4>{video.title}</h4>
                         {video.isShown === 0 && (
                             <div className="btns-grp">
-                                {/* <BiSolidShow 
+                                <BiSolidShow 
                                     className='view-video-icons'
                                     onClick={() => updatePreviewVideo(video.video_link)}
-                                /> */}
+                                />
                                 <PrimaryButton 
                                     text='Display on Landing'
                                     onClick={() => updateLandingVideo(video.video_link)}

@@ -1,0 +1,32 @@
+.header-subtransaction-REF,
+.cell-subtransaction-REF {
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.header-subtransaction-UEN,
+.cell-subtransaction-UEN,
+.header-subtransaction-startDate,
+.cell-subtransaction-startDate,
+.header-subtransaction-endDate,
+.cell-subtransaction-endDate {
+    min-width: 120px;
+    max-width: 120px;
+}
+
+.header-subtransaction-bizName,
+.cell-subtransaction-bizName {
+    max-width: 1fr;
+}
+
+.header-subtransaction-subsStatus,
+.cell-subtransaction-subsStatus {
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.header-subtransaction-reason,
+.cell-subtransaction-reason {
+    min-width: 150px;
+    max-width: 150px;
+}

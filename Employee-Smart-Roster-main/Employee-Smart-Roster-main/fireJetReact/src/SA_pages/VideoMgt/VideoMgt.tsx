@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
-import PrimaryButton from '../../components/PrimaryButton/PrimaryButton'
 import SA_LandingMgtController from '../../controller/SA_LandingMgtController'
 import FileUploadResult from '../../components/FileUploadStatus/FileUploadStatus'
 import AllVideos from './components/VideosList'
@@ -17,7 +16,7 @@ const VideoMgt: React.FC = () => {
     const { showAlert } = useAlert();
     const [ newVideoTitle, setNewVideoTitle ] = useState<string>('')
     const [ uploadedDemoVideo, setUploadedDemoVideo ] = useState<File | null>(null);
-    const [ videoPreview, setVideoPreview ] = useState<any>('')
+    const [ videoPreview, setVideoPreview ] = useState<string>('')
     const [ fileStatus, setFileStatus ] = useState<
         'initial' | 'uploading' | 'success' | 'fail'
     >('initial');
@@ -34,8 +33,9 @@ const VideoMgt: React.FC = () => {
 
                 // Get video shown in landing page as default preview video
                 const defaultPreview = filterIsShownVideo(response, 1)
-                console.log(defaultPreview)
-                setVideoPreview(defaultPreview)
+                // console.log(defaultPreview)
+                // if(defaultPreview)
+                    // triggerSelectVideo(defaultPreview.video_link)
             }
         } catch(error) {
             showAlert(
@@ -61,8 +61,11 @@ const VideoMgt: React.FC = () => {
     const triggerUploadVideo = async() => {
         if (uploadedDemoVideo) {
             try {
-                const response = await uploadLandingVideo(uploadedDemoVideo, newVideoTitle)
-                console.log(response)
+                setFileStatus('uploading')
+                await uploadLandingVideo(uploadedDemoVideo, newVideoTitle)
+                setFileStatus('success');
+                setUploadedDemoVideo(null);
+                setNewVideoTitle('');
             } catch(error) {
                 setFileStatus('fail');
                 showAlert(
@@ -79,27 +82,19 @@ const VideoMgt: React.FC = () => {
     const triggerSelectVideo = async(videoLink: string) => {
         try {
             let response = await getDemoVideo(videoLink)
-            // console.log(response)
-            // if (response.message === 'Succesfully retrieved video list'){
-            //     response = response.VideoList
-            //     // console.log(response)
-            //     setSelectedVideoName(response)
-            // }
+            console.log("Presigned URL: ", response)
+            if(response)
+                setVideoPreview(response)
         } catch(error) {
             showAlert(
-                'fetchVideos',
-                'Failed to Fetch All Uploaded Video',
+                'triggerSelectVideo',
+                'Failed to Change Selected Video',
                 error instanceof Error ? error.message : String(error),
                 { type: 'error' }
             )
         }
     }
-
-    // Update video for preview
-    const triggerChangePreview = async(videoLink: string) => {
-        setVideoPreview(videoLink)
-    }
-
+    // console.log(videoPreview)
 
     return(
         <div className="App-content">
@@ -145,14 +140,16 @@ const VideoMgt: React.FC = () => {
 
                 {allVideos.length > 0 ?(
                     <div className="uploaded-video-container">
-                        
                         <video className='default-preview-video' autoPlay muted playsInline>
-                            <source src={videoSrc} type="video/mp4" />
-                            Your browser does not support the video tag.
+                        {videoPreview ? (
+                            <source src={videoPreview} type="video/mp4" />
+                        ):(
+                            <p>No Preview Available...</p>
+                        )}
                         </video>
                         <AllVideos 
                             videos={allVideos}
-                            updatePreviewVideo={triggerChangePreview}
+                            updatePreviewVideo={triggerSelectVideo}
                             updateLandingVideo={triggerSelectVideo}
                         /> 
                     </div>
