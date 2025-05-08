@@ -34,14 +34,14 @@ import { HiMiniViewfinderCircle,
 import { RxHamburgerMenu } from "react-icons/rx";
 import { HiOutlineIdentification } from "react-icons/hi";
 import { FiRefreshCw } from "react-icons/fi";
+import { FaUpload } from "react-icons/fa6";
 
 export {
     LuLogOut,   // Logout icon
     RxHamburgerMenu, // Hamburger Menu icon
     CgProfile,  // Profile icon
     BiSolidUserDetail, // User details icon
-    IoRefreshCircleOutline, // Refresh
-    FiRefreshCw,
+    FiRefreshCw, // Refresh icon
     IoClose, // Close popup icons
     IoArrowBack, // Go back to previous page icons
     FaFilePdf,  // PDF icon
@@ -74,5 +74,6 @@ export {
     HiOutlineCalendarDateRange, // Date icon
     BiSolidHide, // Hided string icon
     BiSolidShow, // Showed string icon
-    CgMoreAlt, // See More
+    CgMoreAlt, // See More icon
+    FaUpload, // Upload icon
 };

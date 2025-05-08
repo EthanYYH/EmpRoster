@@ -13,11 +13,13 @@ import Navbar from "./components/NavBar/NavBar";
 import GuestLanding from './pages/Landing/LandingPage';
 import SideMenu_t from "./components/SideMenu/SideMenu_t";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import ReportIssues from "./pages/ReportIssues/ReportIssues";
+import UserMgts from "./pages/UserManagement/UserMgts";
 
 // Pages for System Admin
 import SADash from "./pages/Dashboard/SADash";
 import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
-import UserMgts from "./pages/UserManagement/UserMgts";
+import VideoMgt from "./SA_pages/VideoMgt/VideoMgt";
 import PreviewLanding from "./SA_pages/PreviewLanding";
 import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
@@ -32,6 +34,7 @@ import SubsMgts from "./BO_pages/SubsManagement/SubsMgts";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
 import CreateOEditEmp from "./BO_components/CreateEditEmployee/CreateOEdit";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
+import AllTasksInTimeline from "./BO_pages/ViewTimelines/AllTasksInTimeline";
 
 // Import for testing
 import "./App.css";
@@ -60,7 +63,7 @@ function App() {
               {/* <Route path="/reset-pw/:email/:token" element={<ResetPassword />} /> */}
               <Route path="/reset-pw" element={<ReqResetEmail />} />
               <Route path="/login" element={<Login />} />
-              
+              {/* Both System Admin and BO */}
               <Route
                 path="/users-management"
                 element={
@@ -71,6 +74,7 @@ function App() {
                 }
               />
 
+              {/* Route for User Profile */}
               <Route
                 path="/user-profile"
                 element={
@@ -81,6 +85,16 @@ function App() {
                 }
               />
 
+              {/* Report issues page */}
+              <Route
+                path="/report-issues"
+                element={
+                  <ProtectedRoute>
+                    <SideMenu_t />
+                    <ReportIssues />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Route for System Admin Pages */}
               <Route
@@ -104,29 +118,21 @@ function App() {
               />
 
               <Route
-                path="/issues-reported"
+                path="/video-management"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
                       <SideMenu_t />
-                      <div className="content">
-                        <h1>ISSUES LOG</h1>
-                      </div>
-                    </div>
+                      <VideoMgt />
                   </ProtectedRoute>
                 }
               />
 
               <Route
-                path="/video-management"
+                path="/issues-reported"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
-                      <SideMenu_t />
-                      <div className="content">
-                        <h1>Demo Video Management</h1>
-                      </div>
-                    </div>
+                    <SideMenu_t />
+                    <ReportIssues />
                   </ProtectedRoute>
                 }
               />
@@ -221,6 +227,16 @@ function App() {
                 />
 
                 <Route
+                  path="/timeline-tasks-list"
+                  element={
+                    <ProtectedRoute>
+                      <SideMenu_t />
+                      <AllTasksInTimeline />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
                   path="/edit-task"
                   element={
                     <ProtectedRoute>
@@ -290,17 +306,6 @@ function App() {
                   }
                 />
 
-                <Route
-                  path="/report-issues"
-                  element={
-                    <ProtectedRoute>
-                      <div className="App-content">
-                        <SideMenu_t />
-                        <h1>Report Issues</h1>
-                      </div>
-                    </ProtectedRoute>
-                  }
-                />
               </Route>
               
               {/* Route for Employee pages */}

@@ -18,6 +18,8 @@ export const REG_STATUS = ["Pending", "Approved", "Rejected"];
 export const SUB_STATUS = ["Pending", "Completed", "Failed", "Cancelled", "Expired"];
 export const PASS_TYPE = ['Singapore Citizen/PR', 'Employment Pass', 'S Pass', 'Work Permit', 'Other Work Pass'];
 export const IS_ACC_SUSPENDED = ['Activated', 'Suspended'];
+export const ISSUES_CATEGORY = ['Schedule Management', 'Attendance', 'Resources Allocation', 'Employee Management', 'Company Profile', 'Leave and MC Management']
+export const ISSUES_LOG_STATUS = ['Pending Response', 'In Progress', 'Pending User', 'Response Resolved'];
 
 // SG MOM Rules: last update on 20 Apr 2025
 // MC: https://www.mom.gov.sg/employment-practices/leave/sick-leave/eligibility-and-entitlement
@@ -46,7 +48,7 @@ export function formatDisplayDateTime(isoString) {
 
     return `${date[2]}/${date[1]}/${date[0]} ${time[0]}:${time[1]}${ampm}`;
 }
-// Convert and format date time to Singapore local date time format
+// Format local ISO String date time to DD/MM/YYYY HH:mmtt
 export function formatDateTime (isoString){
     const date = new Date(isoString);
 
@@ -69,6 +71,7 @@ export function formatDateTime (isoString){
     return `${day}/${month}/${year} ${formattedHours}:${minutes}${ampm}`;
 }
 
+// convert ISO String to Local datetime in YYYY-MM-DDTHH:mm
 export function generateSGDateTimeForDateTimeInput(date) {
     const sgDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Singapore' }));
 
@@ -93,6 +96,7 @@ export function generateSGDateTimeForPaymentRequestRef(date) {
     return `${year}${month}${day}${hours}${minutes}`;
 }
 
+// PDF processor
 export async function encodeFileContent(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -106,6 +110,25 @@ export async function encodeFileContent(file) {
         reader.onerror = reject;
         reader.readAsDataURL(file);
     });
+}
+
+// Video processor
+export async function readFileAsArrayBuffer(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+    });
+}
+// Convert Video ArrayBuffer to base64
+export function arrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
 }
 
 export function convertDateToSGTime (timeStamp) {

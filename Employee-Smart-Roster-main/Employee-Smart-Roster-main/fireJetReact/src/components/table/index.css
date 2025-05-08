@@ -3,9 +3,8 @@
     border-bottom-style: outset;
     border-bottom-width: 3px;
     border-bottom-color: var(--popup-background);
-    background-color: #2B0F57;
+    background-color: var(--side-menu-background);
     height: auto;
-    opacity: 30%;
 }
 
 .table-header-text {

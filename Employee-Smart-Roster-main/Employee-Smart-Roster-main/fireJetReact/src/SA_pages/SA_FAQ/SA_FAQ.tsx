@@ -51,7 +51,7 @@ const FAQManagement = () => {
         currentFAQ.isShown,
         currentFAQ.createdOn
       );
-      console.log(response)
+      // console.log(response)
       
       refetch();
       closeViewModal();

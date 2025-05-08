@@ -12,12 +12,36 @@
     }
 }
 
-.allocated-staff-container {
+.allocated-staff-container,
+.task-detail-contained-timeline {
   display: flex;
   flex-direction: row;
   justify-content: start;
   align-items: start;
   gap: 15px;
+}
+
+.task-detail-contained-timeline {
+  gap: 5px;
+  background-color: var(--side-menu-background);
+  padding: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 8px;
+  color: var(--light-color-text);
+
+  .title {
+    font-weight: bold;
+  }
+}
+
+.task-detail-contained-timeline:hover {
+  background-color: var(--main-page-background);
+  border-style: solid;
+  color: var(--primary-text);
+  border-width: 2px;
+  border-color: var(--side-menu-background);
+  cursor: pointer;
 }
 
 .allocated-staff-container-title {
