@@ -3,7 +3,7 @@ import { useAlert } from '../../components/PromptAlert/AlertContext'
 import { useAuth } from '../../AuthContext'
 import { formatPhoneNumber } from '../../controller/Variables.js'
 import CompanyController from '../../controller/CompanyController'
-import EditCompanyProfile from '../../BO_components/CompanyProfile/EditCompanyPr'
+import EditCompanyProfile from './components/EditCompanyPr'
 
 import { FaRegBuilding } from "react-icons/fa";
 import { FaFilePdf, FaRegEdit, 

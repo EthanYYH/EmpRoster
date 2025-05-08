@@ -30,3 +30,8 @@ Frontend
 ```
 npx vite
 ```
+
+# REMOVE ALL PACKAGE IF NEEDED
+```
+Remove-Item -Recurse -Force node_modules, package-lock.json, .vite
+```
