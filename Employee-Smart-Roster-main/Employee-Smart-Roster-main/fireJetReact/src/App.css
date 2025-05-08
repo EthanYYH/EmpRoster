@@ -134,6 +134,7 @@ h4 {
       }
 
       .App-popup-content-icon {
+        min-width: 15px;
         font-size: 20px;
         color: var(--primary-background);
       }

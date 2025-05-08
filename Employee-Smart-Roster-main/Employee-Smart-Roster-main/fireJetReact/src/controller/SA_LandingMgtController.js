@@ -107,16 +107,44 @@ async function getAllUploadedVideos() {
 }
 
 // 1 is shown, 0 isn't shown
-async function filterIsShownVideo (allVideos, isShown) {
+function filterIsShownVideo (allVideos, isShown) {
     const filteredData = allVideos.filter((video) => {
         return video.isShown === isShown
     })
     return filteredData
 }
 
+
+async function setVideoDisplayOnLanding(videoID) {
+    try{
+        const body = {
+            videoID: videoID
+        };
+
+        const response = await fetch('https://e27fn45lod.execute-api.ap-southeast-2.amazonaws.com/dev/systemadmin/video/selectedvideo', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if(!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `HTTP error status: ${response.status}`);
+        }
+        const data = await response.json();
+        // console.log(data);
+        return await data;
+
+    } catch(error) {
+        // console.error(`Failed to register: \n`, error);
+        throw new Error(`Failed to get videos: ${error.message}`);
+    }
+}
+
+
 export default { 
     uploadLandingVideo,
     getDemoVideo,
     getAllUploadedVideos,
-    filterIsShownVideo
+    filterIsShownVideo,
+    setVideoDisplayOnLanding
 }

@@ -8,7 +8,7 @@ import '../../../../public/styles/common.css'
 interface AllVideoProps {
     videos: any;
     updatePreviewVideo: (videoLink: string) => void
-    updateLandingVideo: (videoLink: string) => void
+    updateLandingVideo: (videoId: number, videoLink: string) => void
 }
 
 const AllVideos = ({videos, updatePreviewVideo, updateLandingVideo}: AllVideoProps) => {
@@ -23,18 +23,21 @@ const AllVideos = ({videos, updatePreviewVideo, updateLandingVideo}: AllVideoPro
                 <div className="App-mobile-responsive-table-card">
                     <div className="App-mobile-responsive-table-card-data-detail uploaded-demo-video-list-item">
                         <h4>{video.title}</h4>
-                        {video.isShown === 0 && (
-                            <div className="btns-grp">
-                                <BiSolidShow 
-                                    className='view-video-icons'
-                                    onClick={() => updatePreviewVideo(video.video_link)}
-                                />
+                        <div className="btns-grp">
+                            <BiSolidShow 
+                                className='view-video-icons'
+                                onClick={() => updatePreviewVideo(video.video_link)}
+                            />
+                            {video.isShown === 0 ? (
                                 <PrimaryButton 
                                     text='Display on Landing'
-                                    onClick={() => updateLandingVideo(video.video_link)}
+                                    onClick={() => updateLandingVideo(video.videoID, video.video_link)}
                                 />
-                            </div>
-                        )}
+                                    
+                            ):(
+                                <p>Displayed in Landing</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

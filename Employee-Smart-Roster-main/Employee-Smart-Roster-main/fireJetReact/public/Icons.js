@@ -22,7 +22,9 @@ import { GiRotaryPhone } from "react-icons/gi";
 import { MdContactPhone, 
          MdOutlineMailOutline,
          MdOutlineLocationOn,
-         MdDeleteForever } from "react-icons/md";
+         MdDeleteForever,
+         MdViewTimeline,
+         MdAttachMoney } from "react-icons/md";
 import { RiUserReceived2Fill } from "react-icons/ri";
 import { IoIosWarning } from "react-icons/io";
 import { TiTick, TiTime } from "react-icons/ti";
@@ -75,4 +77,6 @@ export {
     BiSolidShow, // Showed string icon
     CgMoreAlt, // See More icon
     FaUpload, // Upload icon
+    MdViewTimeline, // Timeline period (from x to y date)
+    MdAttachMoney, // Dollar sign
 };

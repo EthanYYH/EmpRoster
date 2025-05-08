@@ -225,6 +225,30 @@ function filterTransactionsBaseOnPlan (allTrans, subscribedPlan) {
     return filteredData
 }
 
+function handleFilterPaymentStatus(allTrans, filterStatus){
+    // console.log(allTrans)
+    const filteredData = allTrans.filter((trans) => {
+        const DEFAULT_STATUS = 'Completed';
+        const status = trans.subsStatus || DEFAULT_STATUS;
+        return status === '' || status === filterStatus;
+    });
+    return filteredData;
+}
+
+function handleFilterTransactionsByString(allTrans, filterString){
+    // console.log(allTrans)
+    const filteredData = allTrans.filter((trans) => {
+        const search = filterString.trim().toLowerCase();
+        if(!search) return true;
+
+        const uenMatch = trans.UEN.toLowerCase().includes(search);
+        const bizNameMatch = trans.bizName.toLowerCase().includes(search);
+        const refMatch = trans.reference_number.toLowerCase().includes(search);
+        return uenMatch || bizNameMatch || refMatch;
+    })
+    return filteredData;
+}
+
 export default {
     saGetSubscriptionTransactions,
     getSubsTransForACompany,
@@ -236,5 +260,7 @@ export default {
     getSubsPlans,
     makeSubsPayment,
     cancelSubscription,
-    filterTransactionsBaseOnPlan
+    filterTransactionsBaseOnPlan,
+    handleFilterPaymentStatus,
+    handleFilterTransactionsByString
 }
