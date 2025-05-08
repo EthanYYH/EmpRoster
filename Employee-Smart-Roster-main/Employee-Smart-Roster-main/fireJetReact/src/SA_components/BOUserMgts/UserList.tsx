@@ -37,13 +37,13 @@ const BOUserList = ({boUsers = []}: BOListProps) => {
         
         try{            
             let transactions = await getSubscriptionTransactions();
-            transactions = Array.isArray(transactions) ? transactions : []
+            transactions = transactions.SubscriptionDetails || []
             // console.log(transactions);
 
             if (transactions.length > 0){
                 const fullCompaniesDataPromises = boUsers.map(async (company:any) => {
                     // Get all transactions for current company
-                    const transactionsForACompany = await getSubsTransForACompany(transactions.SubscriptionDetails, company.UEN);
+                    const transactionsForACompany = await getSubsTransForACompany(transactions, company.UEN);
                     // Get latest transactions for current company
                     const sortedTransactions = await getSortedSubsTransactions(transactionsForACompany)
                     // console.log(sortedTransactions) // Debug line

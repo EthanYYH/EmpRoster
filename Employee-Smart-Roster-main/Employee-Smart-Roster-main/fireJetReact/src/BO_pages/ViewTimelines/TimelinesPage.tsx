@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../AuthContext'
 import { useAlert } from '../../components/PromptAlert/AlertContext'
-import { removeDuplicates } from '../../controller/Variables'
 import TimelineController from '../../controller/TimelineController'
 import CreateOEditTask from '../../components/Timelines/CreateOEdit/CreateOEdit'
 // import MonthCalendar from '../../components/Timelines/NotUsed/MonthCalendar'

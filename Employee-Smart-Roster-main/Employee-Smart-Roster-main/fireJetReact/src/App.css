@@ -307,7 +307,7 @@ select:disabled {
 
 input[type=file] {
   margin-top: 0.5px;
-  height: 36.5px;
+  /* height: 30px; */
 }
 
 textarea {
@@ -658,10 +658,10 @@ option:checked {
   flex-direction: column;
   width: 100;
   padding: 10px;
-  border-style: solid;
-  border-width: 3px;
-  border-color: var(--primary-background);
+  border-top: 1px solid var(--side-menu-hover-background);
+  border-left: 1px solid var(--side-menu-hover-background);
   border-radius: 10px;
+  box-shadow: 5px 3px var(--side-menu-background);
   gap: 5px;
   background-color: white;
   height: fit-content;

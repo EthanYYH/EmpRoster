@@ -21,5 +21,4 @@ button:hover {
     flex-direction: column;
     gap: 10px;
     height: fit-content;
-    padding: 10px;
 }

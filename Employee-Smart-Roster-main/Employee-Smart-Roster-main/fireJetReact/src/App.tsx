@@ -14,11 +14,12 @@ import GuestLanding from './pages/Landing/LandingPage';
 import SideMenu_t from "./components/SideMenu/SideMenu_t";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import ReportIssues from "./pages/ReportIssues/ReportIssues";
+import UserMgts from "./pages/UserManagement/UserMgts";
 
 // Pages for System Admin
 import SADash from "./pages/Dashboard/SADash";
 import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
-import UserMgts from "./pages/UserManagement/UserMgts";
+import VideoMgt from "./SA_pages/VideoMgt/VideoMgt";
 import PreviewLanding from "./SA_pages/PreviewLanding";
 import ViewRating from "./SA_pages/RegisRequest/ViewRating";
 import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
@@ -120,12 +121,8 @@ function App() {
                 path="/video-management"
                 element={
                   <ProtectedRoute>
-                    <div className="App-content">
                       <SideMenu_t />
-                      <div className="content">
-                        <h1>Demo Video Management</h1>
-                      </div>
-                    </div>
+                      <VideoMgt />
                   </ProtectedRoute>
                 }
               />

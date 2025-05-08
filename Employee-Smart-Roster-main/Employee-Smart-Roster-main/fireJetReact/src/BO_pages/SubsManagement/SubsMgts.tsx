@@ -11,7 +11,7 @@ import CompanyController from '../../controller/CompanyController'
 
 import { GrSchedules } from "react-icons/gr";
 import { FaChevronCircleDown, FaChevronCircleUp, FaRegListAlt,
-         FaCircle, IoRefreshCircleOutline, FiRefreshCw } from '../../../public/Icons.js'
+         FaCircle, FiRefreshCw } from '../../../public/Icons.js'
 import './SubsMgts.css'
 import '../../../public/styles/common.css'
 
