@@ -180,7 +180,7 @@ const FAQManagement = () => {
       {/* FAQ Listing Section */}
       <div className="main-contents">
         <div className="App-desktop-responsive-table">
-          {loading ? (
+          {faqs ? (
             <div>Loading FAQs...</div>
           ) : error ? (
             <div>Error loading FAQs: {(error as Error)?.message || 'Unknown error'}</div>

@@ -9,9 +9,8 @@ import './VideoMgt.css'
 import '../../../public/styles/common.css'
 
 const { uploadLandingVideo, getDemoVideo, getAllUploadedVideos,
-        filterIsShownVideo } = SA_LandingMgtController
+        filterIsShownVideo, setVideoDisplayOnLanding } = SA_LandingMgtController
 
-const videoSrc = '../../../public/assets/TestDemo.mp4'
 const VideoMgt: React.FC = () => {
     const { showAlert } = useAlert();
     const [ newVideoTitle, setNewVideoTitle ] = useState<string>('')
@@ -34,8 +33,8 @@ const VideoMgt: React.FC = () => {
                 // Get video shown in landing page as default preview video
                 const defaultPreview = filterIsShownVideo(response, 1)
                 // console.log(defaultPreview)
-                // if(defaultPreview)
-                    // triggerSelectVideo(defaultPreview.video_link)
+                if(defaultPreview)
+                    triggerSelectVideo(defaultPreview[0].video_link)
             }
         } catch(error) {
             showAlert(
@@ -66,6 +65,7 @@ const VideoMgt: React.FC = () => {
                 setFileStatus('success');
                 setUploadedDemoVideo(null);
                 setNewVideoTitle('');
+                fetchVideos(); // re-fetch video
             } catch(error) {
                 setFileStatus('fail');
                 showAlert(
@@ -95,6 +95,35 @@ const VideoMgt: React.FC = () => {
         }
     }
     // console.log(videoPreview)
+
+    // Trigger selected video
+    const triggerChangeVideoDisplayOnLanding = async(videoId: number, videoLink: string) => {
+        try {
+            let response = await setVideoDisplayOnLanding(videoId)
+            // console.log("Change Landing: ", response)
+            updateDisplayStatus(videoId)
+            if(response.message === 'Succesfully selected video.'){
+                triggerSelectVideo(videoLink)
+            }
+        } catch(error) {
+            showAlert(
+                'triggerChangeVideoDisplayOnLanding',
+                'Failed to Change Selected Video to Display in Landing',
+                error instanceof Error ? error.message : String(error),
+                { type: 'error' }
+            )
+        }
+    }
+
+    // Update display status locally
+    function updateDisplayStatus(videoId: number) {
+        const updatedData = allVideos.map((video: any) => 
+            video.videoID === videoId 
+            ? { ...video, isShown: 1}
+            : { ...video, isShown: 0}
+        )
+        setAllVideos(updatedData)
+    }
 
     return(
         <div className="App-content">
@@ -150,7 +179,7 @@ const VideoMgt: React.FC = () => {
                         <AllVideos 
                             videos={allVideos}
                             updatePreviewVideo={triggerSelectVideo}
-                            updateLandingVideo={triggerSelectVideo}
+                            updateLandingVideo={triggerChangeVideoDisplayOnLanding}
                         /> 
                     </div>
                     

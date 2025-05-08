@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAlert } from "../../components/PromptAlert/AlertContext";
+import { REG_STATUS } from '../../controller/Variables'
 import RegisReq from "./components/RegisReq";
 import RegisReq_m from './components/RegisReq_m';
 import RegisReqTitle from './components/Title';
@@ -13,12 +14,10 @@ const { getRegistrationRequests,
         handleFilterRegsStatus, 
         handleFilterRegReqUENBizName, } = RegisReqController;
 
-const RegStatus = ["Pending", "Approved", "Rejected"];
-
 const RegisRequests = () => {
     const { showAlert } = useAlert();
     const [ allRegisRequest, setAllRegisRequest ] = useState<any>([]);
-    const [ filterStatus, setFilterStatus ] = useState(RegStatus[0]); // Default display by pending
+    const [ filterStatus, setFilterStatus ] = useState(REG_STATUS[0]); // Default display by pending
     const [ filterUENOBizName, setFilterUENOBizName ] = useState('');   // Default empty
     const [ filteredRegisRequest, setFilteredRegisRequest ] = useState<any>([]);
 
@@ -60,7 +59,7 @@ const RegisRequests = () => {
             );
         }
     }
-    // Auto trigger when filter status change
+    // Auto trigger when filter status, uen bizName and allRegisRequest change
     useEffect(() => { triggerFilterRegReq(); }, [
         filterStatus, 
         filterUENOBizName,
@@ -93,7 +92,7 @@ const RegisRequests = () => {
                             setFilterStatus(e.target.value);
                         }}
                     >
-                        {RegStatus.map(status => (
+                        {REG_STATUS.map(status => (
                             <option key={status} value={status}>
                                 {status}
                             </option>
