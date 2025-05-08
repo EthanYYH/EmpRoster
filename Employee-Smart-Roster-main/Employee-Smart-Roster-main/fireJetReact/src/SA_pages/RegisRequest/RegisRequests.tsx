@@ -1,9 +1,9 @@
-import RegisReq from "../../SA_components/Registration_Request/RegisReq.js";
 import { useState, useEffect } from "react";
 import { useAlert } from "../../components/PromptAlert/AlertContext";
+import RegisReq from "./components/RegisReq";
+import RegisReq_m from './components/RegisReq_m';
+import RegisReqTitle from './components/Title';
 import RegisReqController from "../../controller/RegisReqController";
-import RegisReq_m from '../../SA_components/Registration_Request/RegisReq_m';
-import RegisReqTitle from '../../SA_components/Registration_Request/Title';
 
 import "./RegisRequests.css"
 import "../../../public/styles/common.css";

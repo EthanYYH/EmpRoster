@@ -17,7 +17,7 @@ import ReportIssues from "./pages/ReportIssues/ReportIssues";
 import UserMgts from "./pages/UserManagement/UserMgts";
 
 // Pages for System Admin
-import SADash from "./pages/Dashboard/SADash";
+import SADash from "./SA_pages/Dashboard/SADash";
 import RegisRequests from "./SA_pages/RegisRequest/RegisRequests";
 import VideoMgt from "./SA_pages/VideoMgt/VideoMgt";
 import PreviewLanding from "./SA_pages/PreviewLanding";
@@ -26,13 +26,13 @@ import FAQManagement from "./SA_pages/SA_FAQ/SA_FAQ";
 
 // Pages for Busines Owner
 import RequiredCompleteProfile from "./BO_pages/FirstLogin/RequiredCompleteProfile";
-import RoleNSkillset from "./BO_pages/RoleNSkillsets/RoleNSkillset";
+import RoleNSkillset from "./BO_pages/Not Used/RoleNSkillsets/RoleNSkillset";
 import BODashboard from "./BO_pages/Dashboard/Dashboard";
-import CreateOEditTask from "./components/Timelines/CreateOEdit/CreateOEdit";
+import CreateOEditTask from "./BO_pages/ViewTimelines/components/CreateOEdit/CreateOEdit";
 import BOCompanyProfile from "./BO_pages/CompanyProfile/CompanyProfile";
 import SubsMgts from "./BO_pages/SubsManagement/SubsMgts";
 import BOLeaveManagement from "./BO_pages/LeaveManagement/LeaveManagement";
-import CreateOEditEmp from "./BO_components/CreateEditEmployee/CreateOEdit";
+import CreateOEditEmp from "./pages/UserManagement/BO_CreateOEditEmp/CreateOEdit";
 import BOTimelinesPage from "./BO_pages/ViewTimelines/TimelinesPage";
 import AllTasksInTimeline from "./BO_pages/ViewTimelines/AllTasksInTimeline";
 
@@ -49,7 +49,12 @@ function App() {
     <AlertProvider>
     <AuthProvider>
       <div className="App">
-        <Router>
+        <Router
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true
+          }}
+        >
           {/* Display navigation bar only when 
               user is not in the following page */}
           <Navbar />
