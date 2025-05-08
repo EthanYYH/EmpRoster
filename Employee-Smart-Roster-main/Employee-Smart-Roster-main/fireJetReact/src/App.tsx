@@ -5,6 +5,7 @@ import { AlertProvider } from "./components/PromptAlert/AlertContext";
 import Alert from "./components/PromptAlert/Alert";
 
 // Pages or Component for general use
+import EmpRosterChat from "./components/chatBox/ChatBox";
 import Login from "./pages/RegistrationNLogin/Login";  // Import Login component
 import Register from "./pages/RegistrationNLogin/Registration";
 import ResetPassword from "./pages/RegistrationNLogin/ResetPW";
@@ -350,6 +351,7 @@ function App() {
         </Router>
       </div>
     </AuthProvider>
+    <EmpRosterChat />
     <Alert />
     </AlertProvider>
   );
