@@ -5,6 +5,7 @@ declare module 'react-simple-chatbot' {
       steps: Array<Step>;
       headerTitle?: string;
       recognitionEnable?: boolean;
+      hideHeader?: boolean;
       // Add other props you use here
     }
   
