@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useAlert } from "../../components/PromptAlert/AlertContext";
 import ChatBot from 'react-simple-chatbot';
 import SAFAQController from "../../controller/SAFAQController";
-import { FaTimes, FaComment } from "react-icons/fa";
+
+import { BsChatLeftDotsFill } from "react-icons/bs";
+import { IoClose, FiRefreshCw } from '../../../public/Icons.js'
+import './ChatBox.css'
+import '../../../public/styles/common.css'
 
 // API call handler
 const { handleSubmitQuesToChatBox } = SAFAQController;
@@ -10,7 +14,7 @@ const { handleSubmitQuesToChatBox } = SAFAQController;
 // Custom component to fetch and display API answer
 const ApiResponse = ({ previousStep, triggerNextStep }: any) => {
     const { showAlert } = useAlert();
-    const [ answer, setAnswer ] = useState("Loading...");
+    const [ answer, setAnswer ] = useState("Let me check for you...");
 
     const triggerSendQuestion = async() => {
         try {
@@ -35,6 +39,25 @@ const ApiResponse = ({ previousStep, triggerNextStep }: any) => {
     return <div>{answer}</div>;
 };
 
+const CustomHeader = ({ toggleChat, resetChat }: { 
+    toggleChat: () => void, 
+    resetChat: () => void 
+}) => (
+    <div className="custom-chat-header">
+        <span>EmpRoster Assistant</span>
+        <div className="custom-chat-header-btns-grp">
+            <FiRefreshCw 
+                className="chatbot-header-btn" 
+                onClick={resetChat}
+            />
+            <IoClose 
+                className="chatbot-header-close-box" 
+                onClick={toggleChat} 
+            />
+        </div>
+    </div>
+);
+
 const EmpRosterChat = () => {
     const [ showChat, setShowChat ] = useState(false);
     const [ chatKey, setChatKey ] = useState(0);
@@ -42,12 +65,7 @@ const EmpRosterChat = () => {
     const steps = [
         {
             id: '1',
-            message: 'Welcome to EmpRoster. We are from FYP-25-S1-12 (^_^)',
-            trigger: '2',
-        },
-        {
-            id: '2',
-            message: 'What can I help you?',
+            message: `Welcome to EmpRoster. We are from FYP-25-S1-12. What can I help you? (^_^)`,
             trigger: 'user_input',
         },
         {
@@ -94,29 +112,32 @@ const EmpRosterChat = () => {
             <button 
                 className={`chatbot-toggle ${showChat ? 'open' : ''}`}
                 onClick={toggleShowChatBox}
-                aria-label="Chat with EmpRoster Assistant"
             >
-                {showChat ? <FaTimes /> : <FaComment />}
+                {!showChat  
+                    ? <BsChatLeftDotsFill className="chatbot-toggle-icon"/> 
+                    : <></>
+                }
             </button>
         );
     }
 
     return (
-        <>
-        <ChatBot
-            key={chatKey} // key is use to force reload the chatbox
-            steps={steps}
-            headerTitle="EmpRoster Assistant"
-            recognitionEnable={true}
-        />
-        <button 
-            className="chatbot-reset-btn" 
-            onClick={resetChat}
-        >
-            Restart Chat
-        </button>
-        </>
-        
+        <div className="custom-chat-container">
+            {/* Your custom header */}
+            <CustomHeader 
+                toggleChat={() => toggleShowChatBox()}
+                resetChat={() => resetChat()}
+            />
+            
+            {/* The actual chatbot */}
+            <ChatBot
+                key={chatKey}
+                steps={steps}
+                hideHeader={true}
+                recognitionEnable={true}
+
+            />
+        </div>
     );
 }
 
